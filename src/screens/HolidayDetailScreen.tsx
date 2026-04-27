@@ -2,25 +2,14 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import { MessageCircle, Users, Copy, Check, BookOpen, Lightbulb, AlertTriangle, Calendar } from 'lucide-react'
 import { useState } from 'react'
-import { getHolidayById, RELIGION_LABELS } from '@/data/holidays'
+import { getHolidayById } from '@/data/holidays'
+import type { TranslationKey } from '@/i18n'
 import { PageHeader } from '@/components/Navigation'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { copyToClipboard } from '@/services/communicationService'
+import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B', '#FF8E53'], ['#4ECDC4', '#2196F3'], ['#A855F7', '#6366F1'],
-  ['#F59E0B', '#EF4444'], ['#10B981', '#059669'], ['#3B82F6', '#0EA5E9'],
-  ['#EC4899', '#8B5CF6'], ['#F97316', '#FBBF24'],
-]
-function getAvatarGradient(name: string) {
-  const hash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
-function getInitials(name: string) {
-  return name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-}
 function hexToRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
@@ -89,7 +78,7 @@ export function HolidayDetailScreen() {
                 className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold text-white"
                 style={{ background: 'rgba(255,255,255,0.25)' }}
               >
-                {RELIGION_LABELS[holiday.religion]}
+                {t(`religion_${holiday.religion}` as TranslationKey)}
               </span>
               {holiday.type === 'major' && (
                 <span

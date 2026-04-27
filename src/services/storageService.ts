@@ -1,5 +1,5 @@
 import { APP_CONFIG } from '@/config/appConfig'
-import type { Contact, Group, GreetingDraft, AppSettings, PremiumState, ThemeId, Language, GreetingTone } from '@/types'
+import type { Contact, Group, GreetingDraft, AppSettings, PremiumState, ThemeId, Language, GreetingTone, CommunicationChannel } from '@/types'
 
 const K = APP_CONFIG.storageKeys
 
@@ -7,7 +7,8 @@ function get<T>(key: string): T | null {
   try {
     const raw = localStorage.getItem(key)
     return raw ? (JSON.parse(raw) as T) : null
-  } catch {
+  } catch (err) {
+    console.warn(`[storageService] Failed to parse localStorage key "${key}". Returning null. Error:`, err)
     return null
   }
 }
@@ -136,6 +137,50 @@ export function deactivatePremium(): void {
   setPremium({ isPremium: false })
 }
 
+// SECURITY NOTE (MVP): These codes are visible in the compiled JS bundle.
+// This is acceptable for demo/MVP. For production: validate server-side or store as SHA-256 hashes.
+// Valid coupon codes → months of premium
+const VALID_COUPONS: Record<string, number> = {
+  NEVERMISS1: 1,
+  WELCOME2025: 1,
+  ISRAEL30: 1,
+}
+
+export function getUsedCoupons(): string[] {
+  return get<string[]>(APP_CONFIG.storageKeys.usedCoupons) ?? []
+}
+
+export function redeemCoupon(code: string): { success: boolean; error: string | null } {
+  const normalized = code.trim().toUpperCase()
+  const months = VALID_COUPONS[normalized]
+  if (!months) return { success: false, error: 'invalid' }
+  const used = getUsedCoupons()
+  if (used.includes(normalized)) return { success: false, error: 'already_used' }
+  // Mark used
+  set(APP_CONFIG.storageKeys.usedCoupons, [...used, normalized])
+  // Activate premium with expiry
+  const expiresAt = new Date()
+  expiresAt.setMonth(expiresAt.getMonth() + months)
+  setPremium({
+    isPremium: true,
+    activatedAt: new Date().toISOString(),
+    plan: 'coupon',
+    expiresAt: expiresAt.toISOString(),
+    couponCode: normalized,
+  })
+  return { success: true, error: null }
+}
+
+export function checkAndExpirePremium(): PremiumState {
+  const state = getPremiumState()
+  if (state.isPremium && state.expiresAt && new Date(state.expiresAt) < new Date()) {
+    const expired: PremiumState = { isPremium: false }
+    setPremium(expired)
+    return expired
+  }
+  return state
+}
+
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 export function isOnboardingDone(): boolean {
@@ -151,6 +196,21 @@ export function markOnboardingDone(): void {
 export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 }
+
+// ─── Last used channel ────────────────────────────────────────────────────────
+
+export function getLastUsedChannel(contactId: string): CommunicationChannel | null {
+  const map = get<Record<string, CommunicationChannel>>(APP_CONFIG.storageKeys.lastChannels)
+  return map?.[contactId] ?? null
+}
+
+export function saveLastUsedChannel(contactId: string, channel: CommunicationChannel): void {
+  const map = get<Record<string, CommunicationChannel>>(APP_CONFIG.storageKeys.lastChannels) ?? {}
+  map[contactId] = channel
+  set(APP_CONFIG.storageKeys.lastChannels, map)
+}
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
 
 export function clearAllData(): void {
   Object.values(K).forEach(key => remove(key))

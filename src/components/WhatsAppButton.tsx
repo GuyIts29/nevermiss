@@ -4,6 +4,7 @@ import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
 import { openWhatsApp } from '@/services/communicationService'
 import { useT } from '@/context/LanguageContext'
+import type { MediaAttachment } from '@/types'
 
 interface WhatsAppButtonProps {
   phone: string
@@ -11,9 +12,10 @@ interface WhatsAppButtonProps {
   contactName: string
   size?: 'sm' | 'md' | 'lg'
   fullWidth?: boolean
+  media?: MediaAttachment | null
 }
 
-export function WhatsAppButton({ phone, message, contactName, size = 'md', fullWidth }: WhatsAppButtonProps) {
+export function WhatsAppButton({ phone, message, contactName, size = 'md', fullWidth, media }: WhatsAppButtonProps) {
   const [showWarning, setShowWarning] = useState(false)
   const t = useT()
 
@@ -86,6 +88,26 @@ export function WhatsAppButton({ phone, message, contactName, size = 'md', fullW
               {t('whatsapp_preview')}
             </p>
             <div className="p-3 rounded-[var(--border-radius)] bg-[var(--color-surface-2)] border border-[var(--color-border)]">
+              {media && (
+                <div className="mb-3 space-y-2">
+                  {media.type === 'image' ? (
+                    <img src={media.dataUrl} alt="attachment" className="w-full max-h-40 object-cover rounded-lg" />
+                  ) : (
+                    <audio controls src={media.dataUrl} className="w-full" />
+                  )}
+                  <a
+                    href={media.dataUrl}
+                    download={media.fileName ?? (media.type === 'image' ? 'greeting.jpg' : 'greeting.webm')}
+                    className="flex items-center justify-center gap-2 w-full py-2 rounded-lg text-sm font-medium"
+                    style={{ background: 'var(--color-surface-2)', color: 'var(--color-text-secondary)' }}
+                  >
+                    ⬇️ {t('media_save_device')}
+                  </a>
+                  <p className="text-xs text-center px-2" style={{ color: 'var(--color-text-muted)' }}>
+                    {t('media_whatsapp_hint')}
+                  </p>
+                </div>
+              )}
               <p className="text-sm text-[var(--color-text-primary)] whitespace-pre-wrap line-clamp-4 leading-relaxed">
                 {message}
               </p>

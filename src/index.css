@@ -175,6 +175,11 @@ html, body {
   transform: translateY(0) scale(0.99);
 }
 
+.card-interactive:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .card-gradient {
   background: linear-gradient(145deg, var(--color-surface) 0%, var(--color-surface-2) 100%);
 }

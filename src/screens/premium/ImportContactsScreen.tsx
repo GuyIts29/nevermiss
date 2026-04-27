@@ -6,7 +6,6 @@ import { useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Select } from '@/components/ui/Select'
 import { parseCSV, autoDetectColumns, processImport } from '@/services/importService'
 import type { ImportPreview, ImportColumn } from '@/types'
 import { clsx } from 'clsx'
@@ -98,16 +97,18 @@ export function ImportContactsScreen() {
   const [result, setResult] = useState<{ imported: number; skipped: number; errors: string[] } | null>(null)
   const [step, setStep] = useState<Step>('upload')
   const [dragging, setDragging] = useState(false)
+  const [importError, setImportError] = useState<string | null>(null)
 
   const handleFile = async (f: File) => {
     setFile(f)
+    setImportError(null)
     try {
       const prev = await parseCSV(f)
       setPreview(prev)
       setColumns(autoDetectColumns(prev.headers))
       setStep('map')
     } catch (e) {
-      console.error(e)
+      setImportError(e instanceof Error ? e.message : 'Failed to parse file')
     }
   }
 
@@ -123,13 +124,14 @@ export function ImportContactsScreen() {
   const handleImport = async () => {
     if (!file) return
     setImporting(true)
+    setImportError(null)
     try {
       const res = await processImport(file, columns)
       res.contacts.forEach(c => addContact(c))
       setResult({ imported: res.imported, skipped: res.skipped, errors: res.errors })
       setStep('done')
     } catch (e) {
-      console.error(e)
+      setImportError(e instanceof Error ? e.message : 'Import failed — please try again')
     }
     setImporting(false)
   }
@@ -152,6 +154,17 @@ export function ImportContactsScreen() {
             {t('import_privacy')}
           </p>
         </div>
+
+        {/* Error banner */}
+        {importError && (
+          <div
+            className="flex items-center gap-2.5 p-3 rounded-[var(--border-radius)]"
+            style={{ background: '#FEF2F2', border: '1px solid #FECACA' }}
+          >
+            <AlertCircle size={16} className="text-red-500 shrink-0" />
+            <p className="text-xs text-red-700">{importError}</p>
+          </div>
+        )}
 
         {step === 'upload' && (
           <div
@@ -279,7 +292,7 @@ export function ImportContactsScreen() {
                   <tbody>
                     {preview.rows.map((row, i) => (
                       <tr
-                        key={i}
+                        key={`row-${i}`}
                         className="border-b border-[var(--color-border)] last:border-0"
                         style={i % 2 === 0 ? {} : { background: 'var(--color-surface-2)' }}
                       >
@@ -363,8 +376,8 @@ export function ImportContactsScreen() {
                   <p className="text-sm font-semibold text-amber-600">{t('import_warnings')}</p>
                 </div>
                 <ul className="space-y-1">
-                  {result.errors.slice(0, 5).map((e, i) => (
-                    <li key={i} className="text-xs text-[var(--color-text-muted)]">{e}</li>
+                  {result.errors.slice(0, 5).map((e) => (
+                    <li key={e} className="text-xs text-[var(--color-text-muted)]">{e}</li>
                   ))}
                 </ul>
               </Card>

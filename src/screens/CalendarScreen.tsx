@@ -8,6 +8,7 @@ import { HOLIDAYS, RELIGION_LABELS, RELIGION_COLORS } from '@/data/holidays'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import type { Religion } from '@/types'
+import type { TranslationKey } from '@/i18n'
 import { clsx } from 'clsx'
 
 const ALL_RELIGIONS = Object.keys(RELIGION_LABELS) as Religion[]
@@ -45,11 +46,12 @@ export function CalendarScreen() {
         right={
           <button
             onClick={() => setShowFilter(f => !f)}
-            className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors relative"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors relative"
+            aria-label="Filter by religion"
           >
             <Filter size={16} className="text-[var(--color-text-muted)]" />
             {filterReligion !== 'all' && (
-              <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-[var(--color-primary)]" />
+              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--color-primary)]" />
             )}
           </button>
         }
@@ -89,7 +91,7 @@ export function CalendarScreen() {
                     : undefined
                   }
                 >
-                  {RELIGION_LABELS[r]}
+                  {t(`religion_${r}` as TranslationKey)}
                 </button>
               ))}
             </div>
@@ -100,7 +102,8 @@ export function CalendarScreen() {
         <div className="flex items-center justify-between">
           <button
             onClick={() => { setCurrentMonth(subMonths(currentMonth, 1)); setSelectedDate(null) }}
-            className="p-2 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            aria-label="Previous month"
           >
             <ChevronLeft size={18} className="text-[var(--color-text-secondary)]" />
           </button>
@@ -120,7 +123,8 @@ export function CalendarScreen() {
 
           <button
             onClick={() => { setCurrentMonth(addMonths(currentMonth, 1)); setSelectedDate(null) }}
-            className="p-2 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            aria-label="Next month"
           >
             <ChevronRight size={18} className="text-[var(--color-text-secondary)]" />
           </button>
@@ -130,8 +134,8 @@ export function CalendarScreen() {
         <div className="card !p-3">
           {/* Day headers */}
           <div className="grid grid-cols-7 mb-1">
-            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-              <div key={i} className="text-center text-xs font-medium text-[var(--color-text-muted)] py-1">{d}</div>
+            {(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const).map(d => (
+              <div key={d} className="text-center text-xs font-medium text-[var(--color-text-muted)] py-1">{d[0]}</div>
             ))}
           </div>
 
@@ -167,9 +171,9 @@ export function CalendarScreen() {
                   {format(day, 'd')}
                   {dayHolidays.length > 0 && (
                     <div className="flex gap-0.5 absolute bottom-0.5">
-                      {dayHolidays.slice(0, 3).map((h, i) => (
+                      {dayHolidays.slice(0, 3).map((h) => (
                         <div
-                          key={i}
+                          key={h.id}
                           className="w-1 h-1 rounded-full"
                           style={{ backgroundColor: isSelected ? 'rgba(255,255,255,0.8)' : h.color }}
                         />

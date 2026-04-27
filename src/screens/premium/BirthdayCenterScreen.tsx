@@ -5,23 +5,9 @@ import { format } from 'date-fns'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
-import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import type { Contact } from '@/types'
-
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B','#FF8E53'],['#4ECDC4','#2196F3'],['#A855F7','#6366F1'],
-  ['#F59E0B','#EF4444'],['#10B981','#059669'],['#3B82F6','#0EA5E9'],
-  ['#EC4899','#8B5CF6'],['#F97316','#FBBF24'],
-]
-function getAvatarGradient(name: string) {
-  const hash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
-function getInitials(name: string) {
-  return name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-}
+import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 
 function getBirthdayInfo(birthday: string) {
   const today = new Date()
@@ -173,12 +159,12 @@ export function BirthdayCenterScreen() {
 }
 
 function BirthdayCard({
-  contact, daysUntil, turningAge, birthdayDate, onGreet,
+  contact, daysUntil, birthdayDate, onGreet,
   wishLabel, turningLabel, inDaysLabel, animClass,
 }: {
   contact: Contact
   daysUntil: number
-  turningAge: number
+  turningAge?: number
   birthdayDate: Date
   onGreet: () => void
   wishLabel: string

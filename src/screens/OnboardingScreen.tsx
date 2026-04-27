@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Heart, Calendar, Users, Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import { ChevronRight, Heart, PartyPopper, Building2, Sparkles } from 'lucide-react'
 import { markOnboardingDone } from '@/services/storageService'
 import { useTheme } from '@/context/ThemeContext'
 import { useT } from '@/context/LanguageContext'
 import { APP_CONFIG } from '@/config/appConfig'
 
-const SLIDE_ICONS = [Heart, Calendar, Users, Sparkles]
-const SLIDE_EMOJIS = ['💌', '🌍', '🤝', '✨']
+const SLIDE_ICONS = [Heart, PartyPopper, Building2, Sparkles]
+const SLIDE_EMOJIS = ['💌', '🎉', '👥', '✨']
 const SLIDE_COLORS = ['#E11D48', '#2563EB', '#16A34A', '#7C3AED']
 const SLIDE_COLORS_SECONDARY = ['#F43F5E', '#3B82F6', '#22C55E', '#A855F7']
 

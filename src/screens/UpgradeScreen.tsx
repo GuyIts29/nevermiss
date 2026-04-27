@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Crown, Check, Unlock, X,
   Users, Group, Cake, FileUp,
   Sparkles, BarChart2, Building2,
-  Layers, Palette, Headphones,
+  Layers, Palette, Headphones, Tag,
 } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
@@ -11,38 +12,51 @@ import { PageHeader } from '@/components/Navigation'
 import { Button } from '@/components/ui/Button'
 import { APP_CONFIG } from '@/config/appConfig'
 
-const FREE_FEATURES = [
-  'Up to 20 contacts',
-  'Up to 2 groups',
-  'Basic greeting templates',
-  'Holiday calendar',
-  'Cultural holiday database',
-  'WhatsApp integration',
-]
-
 interface PremiumFeatureItem {
   label: string
   icon: React.ReactNode
   color: string
 }
 
-const PREMIUM_FEATURES: PremiumFeatureItem[] = [
-  { label: 'Unlimited contacts', icon: <Users size={13} />, color: '#3B82F6' },
-  { label: 'Unlimited groups', icon: <Group size={13} />, color: '#8B5CF6' },
-  { label: 'Birthday tracking & greetings', icon: <Cake size={13} />, color: '#EC4899' },
-  { label: 'Contact import (CSV / Excel)', icon: <FileUp size={13} />, color: '#10B981' },
-  { label: 'Advanced greeting templates (VIP, formal, business)', icon: <Sparkles size={13} />, color: '#F59E0B' },
-  { label: 'Full relationship insights', icon: <BarChart2 size={13} />, color: '#0EA5E9' },
-  { label: 'Internal organization mode', icon: <Building2 size={13} />, color: '#6366F1' },
-  { label: 'Department & team filtering', icon: <Layers size={13} />, color: '#F97316' },
-  { label: 'Custom theme designer', icon: <Palette size={13} />, color: '#A855F7' },
-  { label: 'Priority support', icon: <Headphones size={13} />, color: '#14B8A6' },
-]
-
 export function UpgradeScreen() {
   const navigate = useNavigate()
-  const { isPremium, activatePremium, deactivatePremium } = useApp()
+  const { isPremium, activatePremium, deactivatePremium, redeemCoupon } = useApp()
   const t = useT()
+
+  const FREE_FEATURES = [
+    t('upgrade_free_1'),
+    t('upgrade_free_2'),
+    t('upgrade_free_3'),
+    t('upgrade_free_4'),
+    t('upgrade_free_5'),
+    t('upgrade_free_6'),
+  ]
+
+  const PREMIUM_FEATURES: PremiumFeatureItem[] = [
+    { label: t('upgrade_prem_1'), icon: <Users size={13} />, color: '#3B82F6' },
+    { label: t('upgrade_prem_2'), icon: <Group size={13} />, color: '#8B5CF6' },
+    { label: t('upgrade_prem_3'), icon: <Cake size={13} />, color: '#EC4899' },
+    { label: t('upgrade_prem_4'), icon: <FileUp size={13} />, color: '#10B981' },
+    { label: t('upgrade_prem_5'), icon: <Sparkles size={13} />, color: '#F59E0B' },
+    { label: t('upgrade_prem_6'), icon: <BarChart2 size={13} />, color: '#0EA5E9' },
+    { label: t('upgrade_prem_7'), icon: <Building2 size={13} />, color: '#6366F1' },
+    { label: t('upgrade_prem_8'), icon: <Layers size={13} />, color: '#F97316' },
+    { label: t('upgrade_prem_9'), icon: <Palette size={13} />, color: '#A855F7' },
+    { label: t('upgrade_prem_10'), icon: <Headphones size={13} />, color: '#14B8A6' },
+  ]
+
+  const [showCoupon, setShowCoupon] = useState(false)
+  const [couponInput, setCouponInput] = useState('')
+  const [couponStatus, setCouponStatus] = useState<'idle' | 'success' | 'error_invalid' | 'error_used'>('idle')
+  const [isRedeeming, setIsRedeeming] = useState(false)
+
+  const handleRedeem = () => {
+    if (!couponInput.trim() || isRedeeming) return
+    setIsRedeeming(true)
+    const result = redeemCoupon(couponInput.trim())
+    setIsRedeeming(false)
+    setCouponStatus(result.success ? 'success' : result.error === 'already_used' ? 'error_used' : 'error_invalid')
+  }
 
   return (
     <div className="screen-container">
@@ -91,11 +105,11 @@ export function UpgradeScreen() {
               ))}
               <li className="flex items-start gap-1.5 text-xs text-[var(--color-text-muted)] line-through">
                 <X size={11} className="text-red-400 mt-0.5 shrink-0" />
-                Birthdays
+                {t('upgrade_free_locked_birthdays')}
               </li>
               <li className="flex items-start gap-1.5 text-xs text-[var(--color-text-muted)] line-through">
                 <X size={11} className="text-red-400 mt-0.5 shrink-0" />
-                Import
+                {t('upgrade_free_locked_import')}
               </li>
             </ul>
           </div>
@@ -113,7 +127,7 @@ export function UpgradeScreen() {
               className="absolute -top-0 -right-0 px-2 py-0.5 text-[9px] font-bold text-white rounded-bl-lg"
               style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)' }}
             >
-              MOST POPULAR
+              {t('upgrade_most_popular')}
             </div>
 
             <div className="flex items-center gap-1.5 mb-2.5">
@@ -157,10 +171,10 @@ export function UpgradeScreen() {
         {/* Privacy */}
         <div className="p-3 bg-[var(--color-surface-2)] rounded-[var(--border-radius)] text-center">
           <p className="text-xs text-[var(--color-text-muted)]">
-            🔒 Privacy-first · All data stored locally on your device · No tracking · No ads
+            {t('upgrade_privacy_note')}
           </p>
           <p className="text-xs text-[var(--color-text-muted)] mt-1">
-            ⚠️ This app <strong>never sends messages automatically</strong>
+            {t('upgrade_no_auto_send')}
           </p>
         </div>
 
@@ -168,6 +182,59 @@ export function UpgradeScreen() {
         <div className="space-y-2">
           {!isPremium ? (
             <>
+              {/* Coupon Section */}
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => { setShowCoupon(v => !v); setCouponStatus('idle') }}
+                  className="flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors mx-auto"
+                >
+                  <Tag size={13} />
+                  {t('coupon_have_coupon')}
+                  <span className="text-xs">{showCoupon ? '▲' : '▼'}</span>
+                </button>
+
+                {showCoupon && (
+                  <div className="space-y-2 animate-slide-up">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={couponInput}
+                        onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponStatus('idle') }}
+                        onKeyDown={e => e.key === 'Enter' && handleRedeem()}
+                        placeholder={t('coupon_enter')}
+                        className="flex-1 px-3 py-2 rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)] text-sm font-mono tracking-widest uppercase placeholder:font-sans placeholder:tracking-normal"
+                        maxLength={20}
+                        disabled={couponStatus === 'success'}
+                      />
+                      <button
+                        onClick={handleRedeem}
+                        disabled={!couponInput.trim() || isRedeeming || couponStatus === 'success'}
+                        className="px-4 py-2 rounded-[var(--border-radius)] text-white text-sm font-bold disabled:opacity-50 transition-opacity"
+                        style={{ background: 'linear-gradient(135deg, #F59E0B, #F97316)' }}
+                      >
+                        {isRedeeming ? '...' : t('coupon_redeem')}
+                      </button>
+                    </div>
+
+                    {couponStatus === 'success' && (
+                      <div className="p-3 rounded-[var(--border-radius)] text-center animate-slide-up"
+                        style={{ background: 'linear-gradient(135deg, #D1FAE5, #A7F3D0)', border: '1px solid #34D399' }}>
+                        <p className="text-sm font-bold text-green-700">{t('coupon_success')}</p>
+                      </div>
+                    )}
+                    {(couponStatus === 'error_invalid' || couponStatus === 'error_used') && (
+                      <div className="p-3 rounded-[var(--border-radius)] text-center animate-slide-up"
+                        style={{ background: '#FEF2F2', border: '1px solid #FCA5A5' }}>
+                        <p className="text-sm font-semibold text-red-600">
+                          {couponStatus === 'error_used' ? t('coupon_error_used') : t('coupon_error_invalid')}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={activatePremium}
                 className="w-full h-14 rounded-[var(--border-radius)] text-white font-bold text-lg flex items-center justify-center gap-2.5 shadow-lg hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all"

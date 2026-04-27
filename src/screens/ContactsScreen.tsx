@@ -188,7 +188,7 @@ export function ContactsScreen() {
 
         {/* Import prompt (premium) */}
         {!isPremium && contacts.length === 0 && (
-          <PremiumFeaturePrompt feature="Import Contacts from CSV/Excel" />
+          <PremiumFeaturePrompt feature={t('premium_feat_import')} />
         )}
       </div>
 

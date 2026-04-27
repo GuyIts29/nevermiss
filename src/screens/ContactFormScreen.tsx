@@ -14,35 +14,13 @@ import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
 import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion } from '@/types'
 import { RELIGION_LABELS } from '@/data/holidays'
-
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B', '#FF8E53'],
-  ['#4ECDC4', '#2196F3'],
-  ['#A855F7', '#6366F1'],
-  ['#F59E0B', '#EF4444'],
-  ['#10B981', '#059669'],
-  ['#3B82F6', '#0EA5E9'],
-  ['#EC4899', '#8B5CF6'],
-  ['#F97316', '#FBBF24'],
-]
+import type { TranslationKey } from '@/i18n'
+import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 
 const AVATAR_SOLID_COLORS = [
   '#FF6B6B', '#4ECDC4', '#A855F7', '#F59E0B',
   '#10B981', '#3B82F6', '#EC4899', '#F97316',
 ]
-
-function getAvatarGradient(name: string): string {
-  if (!name.trim()) return 'linear-gradient(135deg, #94A3B8, #64748B)'
-  const hash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
-
-function getInitials(name: string): string {
-  return name.trim()
-    ? name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-    : '?'
-}
 
 interface SectionHeaderProps {
   icon: React.ElementType
@@ -74,25 +52,26 @@ export function ContactFormScreen() {
   const existing = id ? contacts.find(c => c.id === id) : undefined
   const isNew = !existing
 
-  const defaultColor = AVATAR_SOLID_COLORS[Math.floor(Math.random() * AVATAR_SOLID_COLORS.length)]
-
-  const [form, setForm] = useState<Partial<Contact>>({
-    name: existing?.name ?? '',
-    phone: existing?.phone ?? '',
-    language: existing?.language ?? 'english',
-    relationshipType: existing?.relationshipType ?? 'friend',
-    religion: existing?.religion ?? undefined,
-    notes: existing?.notes ?? '',
-    lastContactDate: existing?.lastContactDate ?? '',
-    importanceLevel: existing?.importanceLevel ?? 'normal',
-    interactionFrequency: existing?.interactionFrequency ?? 'monthly',
-    contactType: existing?.contactType ?? 'external',
-    avatarColor: existing?.avatarColor ?? defaultColor,
-    birthday: existing?.birthday ?? '',
-    email: existing?.email ?? '',
-    department: existing?.department ?? '',
-    role: existing?.role ?? '',
-    team: existing?.team ?? '',
+  const [form, setForm] = useState<Partial<Contact>>(() => {
+    const defaultColor = AVATAR_SOLID_COLORS[Math.floor(Math.random() * AVATAR_SOLID_COLORS.length)]
+    return {
+      name: existing?.name ?? '',
+      phone: existing?.phone ?? '',
+      language: existing?.language ?? 'english',
+      relationshipType: existing?.relationshipType ?? 'friend',
+      religion: existing?.religion ?? undefined,
+      notes: existing?.notes ?? '',
+      lastContactDate: existing?.lastContactDate ?? '',
+      importanceLevel: existing?.importanceLevel ?? 'normal',
+      interactionFrequency: existing?.interactionFrequency ?? 'monthly',
+      contactType: existing?.contactType ?? 'external',
+      avatarColor: existing?.avatarColor ?? defaultColor,
+      birthday: existing?.birthday ?? '',
+      email: existing?.email ?? '',
+      department: existing?.department ?? '',
+      role: existing?.role ?? '',
+      team: existing?.team ?? '',
+    }
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [saving, setSaving] = useState(false)
@@ -296,7 +275,7 @@ export function ContactFormScreen() {
             onChange={e => set('religion', e.target.value as Religion || undefined)}
             options={[
               { value: '', label: t('contactForm_notSpecified') },
-              ...Object.entries(RELIGION_LABELS).map(([v, l]) => ({ value: v, label: l })),
+              ...Object.keys(RELIGION_LABELS).map(v => ({ value: v, label: t(`religion_${v}` as TranslationKey) })),
             ]}
           />
         </div>
@@ -374,7 +353,7 @@ export function ContactFormScreen() {
             />
           </div>
         ) : (
-          <PremiumFeaturePrompt feature="Birthday, Email, Department & Role" />
+          <PremiumFeaturePrompt feature={t('premium_feat_birthday_fields')} />
         )}
 
         {/* Notes */}

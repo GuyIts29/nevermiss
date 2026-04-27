@@ -133,6 +133,15 @@ export interface Group {
 
 // ─── Greeting Types ───────────────────────────────────────────────────────────
 
+export interface MediaAttachment {
+  type: 'image' | 'audio'
+  dataUrl: string        // base64 data URL (e.g. "data:image/jpeg;base64,...")
+  mimeType: string       // e.g. "image/jpeg", "audio/webm"
+  fileName?: string
+  durationSeconds?: number  // for audio only
+  sizeBytes?: number
+}
+
 export type GreetingTone = 'business' | 'friendly' | 'formal' | 'internal' | 'vip'
 
 export interface GreetingTemplate {
@@ -156,6 +165,7 @@ export interface GreetingDraft {
   status: 'draft' | 'sent'
   createdAt: string
   sentAt?: string
+  media?: MediaAttachment
 }
 
 // ─── Relationship Intelligence ────────────────────────────────────────────────
@@ -241,7 +251,9 @@ export interface AppSettings {
 export interface PremiumState {
   isPremium: boolean
   activatedAt?: string
-  plan?: 'monthly' | 'annual'
+  plan?: 'monthly' | 'annual' | 'coupon'
+  expiresAt?: string | null   // ISO date string; null = never expires
+  couponCode?: string | null  // which coupon was used
 }
 
 // ─── Import Types ─────────────────────────────────────────────────────────────
@@ -270,10 +282,12 @@ export interface ImportResult {
 
 export type CommunicationChannel =
   | 'whatsapp'
+  | 'sms'
+  | 'email'
   | 'copy'
+  | 'share'
   | 'slack'
   | 'teams'
-  | 'email'
 
 export interface CommunicationAction {
   channel: CommunicationChannel

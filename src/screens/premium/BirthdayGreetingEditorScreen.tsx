@@ -1,31 +1,17 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Wand2, Copy, Check, RefreshCw } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { generateBirthdayGreeting } from '@/services/greetingService'
 import { copyToClipboard } from '@/services/communicationService'
 import type { GreetingTone, Language } from '@/types'
-
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B','#FF8E53'],['#4ECDC4','#2196F3'],['#A855F7','#6366F1'],
-  ['#F59E0B','#EF4444'],['#10B981','#059669'],['#3B82F6','#0EA5E9'],
-  ['#EC4899','#8B5CF6'],['#F97316','#FBBF24'],
-]
-function getAvatarGradient(name: string) {
-  const hash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
-function getInitials(name: string) {
-  return name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-}
+import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 
 interface TierOption {
   value: GreetingTone
@@ -42,7 +28,6 @@ const BIRTHDAY_TIERS: TierOption[] = [
 
 export function BirthdayGreetingEditorScreen() {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
   const { contacts } = useApp()
 
   const contact = contacts.find(c => c.id === id)
@@ -60,6 +45,7 @@ export function BirthdayGreetingEditorScreen() {
 
   useEffect(() => {
     if (contact) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguage(contact.language)
       generate()
     }

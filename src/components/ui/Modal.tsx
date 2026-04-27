@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { X } from 'lucide-react'
 import { clsx } from 'clsx'
 
@@ -21,13 +21,42 @@ const sizeMap = {
   full: 'max-w-full m-4',
 }
 
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+
 export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose, footer, danger }: ModalProps) {
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const previousFocus = useRef<Element | null>(null)
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) onClose()
+    if (!isOpen) return
+
+    previousFocus.current = document.activeElement
+
+    const frame = requestAnimationFrame(() => {
+      const first = sheetRef.current?.querySelector<HTMLElement>(FOCUSABLE)
+      first?.focus()
+    })
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { onClose(); return }
+      if (e.key !== 'Tab') return
+      const focusable = Array.from(sheetRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? [])
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
     }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
+
+    window.addEventListener('keydown', onKey)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('keydown', onKey)
+      ;(previousFocus.current as HTMLElement | null)?.focus()
+    }
   }, [isOpen, onClose])
 
   if (!isOpen) return null
@@ -48,6 +77,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose
 
       {/* Sheet */}
       <div
+        ref={sheetRef}
         className={clsx(
           'relative bg-[var(--color-surface)] w-full sm:rounded-[var(--border-radius-lg)]',
           'rounded-t-[var(--border-radius-lg)]',

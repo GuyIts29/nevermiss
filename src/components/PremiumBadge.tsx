@@ -2,6 +2,7 @@ import { Crown, Lock } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { Badge } from './ui/Badge'
 import { useApp } from '@/context/AppContext'
+import { useT } from '@/context/LanguageContext'
 
 interface PremiumBadgeProps {
   size?: 'sm' | 'md'
@@ -11,6 +12,7 @@ interface PremiumBadgeProps {
 export function PremiumBadge({ size = 'sm', showLabel = true }: PremiumBadgeProps) {
   const { isPremium } = useApp()
   const navigate = useNavigate()
+  const t = useT()
 
   if (!isPremium) {
     return (
@@ -20,7 +22,7 @@ export function PremiumBadge({ size = 'sm', showLabel = true }: PremiumBadgeProp
         style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)' }}
       >
         <Crown size={size === 'sm' ? 10 : 12} />
-        {showLabel && 'Upgrade'}
+        {showLabel && t('upgrade')}
       </button>
     )
   }
@@ -28,7 +30,7 @@ export function PremiumBadge({ size = 'sm', showLabel = true }: PremiumBadgeProp
   return (
     <Badge variant="premium" size={size}>
       <Crown size={10} />
-      {showLabel && 'Premium'}
+      {showLabel && t('premium')}
     </Badge>
   )
 }
@@ -46,6 +48,7 @@ export function PremiumGate({ children, fallback }: PremiumGateProps) {
 
 export function PremiumFeaturePrompt({ feature }: { feature: string }) {
   const navigate = useNavigate()
+  const t = useT()
   return (
     <div
       className="rounded-[var(--border-radius-lg)] overflow-hidden cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-transform"
@@ -61,7 +64,7 @@ export function PremiumFeaturePrompt({ feature }: { feature: string }) {
           <Crown size={16} className="text-white" />
         </div>
         <div className="flex-1">
-          <p className="text-sm font-bold text-white leading-tight">Premium Feature</p>
+          <p className="text-sm font-bold text-white leading-tight">{t('premium_feature_label')}</p>
           <p className="text-xs text-white/80 leading-tight">{feature}</p>
         </div>
         <Lock size={14} className="text-white/70 shrink-0" />
@@ -71,13 +74,13 @@ export function PremiumFeaturePrompt({ feature }: { feature: string }) {
         className="px-4 py-3 flex items-center justify-between"
         style={{ background: 'linear-gradient(135deg, #FEF3C7, #FFEDD5)' }}
       >
-        <p className="text-xs text-amber-700 font-medium">Unlock this and many more features</p>
+        <p className="text-xs text-amber-700 font-medium">{t('premium_unlock_cta')}</p>
         <span
           className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-white shrink-0"
           style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)' }}
         >
           <Crown size={10} />
-          Upgrade
+          {t('upgrade')}
         </span>
       </div>
     </div>

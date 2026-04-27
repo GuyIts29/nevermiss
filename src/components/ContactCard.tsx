@@ -1,6 +1,8 @@
+import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MessageCircle, Crown, Building2 } from 'lucide-react'
 import type { Contact, RelationshipScore } from '@/types'
+import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 
 interface ContactCardProps {
   contact: Contact
@@ -9,30 +11,7 @@ interface ContactCardProps {
   staggerIndex?: number
 }
 
-function getInitials(name: string): string {
-  return name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-}
-
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B', '#FF8E53'],
-  ['#4ECDC4', '#2196F3'],
-  ['#A855F7', '#6366F1'],
-  ['#F59E0B', '#EF4444'],
-  ['#10B981', '#059669'],
-  ['#3B82F6', '#0EA5E9'],
-  ['#EC4899', '#8B5CF6'],
-  ['#F97316', '#FBBF24'],
-  ['#06B6D4', '#3B82F6'],
-  ['#84CC16', '#10B981'],
-]
-
-function getAvatarGradient(name: string): string {
-  const hash = name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
-
-export function ContactCard({ contact, score, onClick, staggerIndex }: ContactCardProps) {
+export const ContactCard = memo(function ContactCard({ contact, score, onClick, staggerIndex }: ContactCardProps) {
   const navigate = useNavigate()
   const handleClick = onClick ?? (() => navigate(`/contacts/${contact.id}`))
 
@@ -60,8 +39,9 @@ export function ContactCard({ contact, score, onClick, staggerIndex }: ContactCa
     : 'animate-slide-up'
 
   return (
-    <div
-      className={`card card-interactive flex items-center gap-3 ${staggerClass}`}
+    <button
+      type="button"
+      className={`card card-interactive flex items-center gap-3 w-full text-left ${staggerClass}`}
       style={{
         borderLeft: `3px solid ${urgencyColor}`,
         background: urgencyGlow !== 'transparent'
@@ -130,6 +110,6 @@ export function ContactCard({ contact, score, onClick, staggerIndex }: ContactCa
           <MessageCircle size={13} className="text-green-500" />
         )}
       </div>
-    </div>
+    </button>
   )
-}
+})

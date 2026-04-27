@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Wand2, Copy, Check, RefreshCw, Save, ChevronDown, Pen } from 'lucide-react'
+import { Wand2, Copy, Check, RefreshCw, Save, ChevronDown, Pen, Send } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -8,18 +8,18 @@ import { PageHeader } from '@/components/Navigation'
 import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
-import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { MediaAttachmentPicker } from '@/components/MediaAttachmentPicker'
+import { ChannelPicker } from '@/components/ChannelPicker'
 import { generateGreeting } from '@/services/greetingService'
-import { copyToClipboard } from '@/services/communicationService'
+import { copyToClipboard, CHANNEL_ICONS } from '@/services/communicationService'
 import { getHolidayById } from '@/data/holidays'
-import { generateId } from '@/services/storageService'
-import type { GreetingTone, Language } from '@/types'
+import { generateId, getLastUsedChannel } from '@/services/storageService'
+import type { GreetingTone, Language, MediaAttachment } from '@/types'
 
 interface Tier {
   value: GreetingTone
   emoji: string
-  label: string
-  labelHe: string
+  labelKey: 'greeting_tier_casual' | 'greeting_tier_professional' | 'greeting_tier_vip'
   desc: string
   color: string
   premium?: boolean
@@ -29,29 +29,55 @@ const TIERS: Tier[] = [
   {
     value: 'friendly',
     emoji: '😊',
-    label: 'Casual',
-    labelHe: 'ידידותי',
+    labelKey: 'greeting_tier_casual',
     desc: 'Warm & personal',
     color: '#10B981',
   },
   {
     value: 'business',
     emoji: '💼',
-    label: 'Professional',
-    labelHe: 'מקצועי',
+    labelKey: 'greeting_tier_professional',
     desc: 'Polished & clear',
     color: '#3B82F6',
   },
   {
     value: 'vip',
     emoji: '👑',
-    label: 'VIP',
-    labelHe: 'VIP',
+    labelKey: 'greeting_tier_vip',
     desc: 'Elevated & bespoke',
     color: '#F59E0B',
     premium: true,
   },
 ]
+
+function SendButton({
+  contactId,
+  onClick,
+  theme,
+  t,
+}: {
+  contactId: string
+  onClick: () => void
+  theme: { primary: string; secondary: string }
+  t: (key: import('@/i18n').TranslationKey) => string
+}) {
+  const lastChannel = getLastUsedChannel(contactId)
+  const icon = lastChannel ? CHANNEL_ICONS[lastChannel] : null
+  const label = lastChannel
+    ? `${icon} ${lastChannel === 'whatsapp' ? 'WhatsApp' : lastChannel === 'sms' ? 'SMS' : lastChannel === 'email' ? 'Email' : lastChannel === 'copy' ? t('channel_copy') : t('channel_share')}`
+    : t('channel_picker_title')
+
+  return (
+    <button
+      onClick={onClick}
+      className="w-full h-12 rounded-[var(--border-radius)] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:opacity-90 active:scale-[0.99] transition-all"
+      style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
+    >
+      <Send size={15} />
+      {label}
+    </button>
+  )
+}
 
 function CharCount({ count, max = 500 }: { count: number; max?: number }) {
   const pct = count / max
@@ -82,9 +108,11 @@ export function GreetingEditorScreen() {
   const [signature, setSignature] = useState('')
   const [showSignature, setShowSignature] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [mediaAttachment, setMediaAttachment] = useState<MediaAttachment | null>(null)
   const [copied, setCopied] = useState(false)
   const [saved, setSaved] = useState(false)
   const [celebrating, setCelebrating] = useState(false)
+  const [showChannelPicker, setShowChannelPicker] = useState(false)
 
   const selectedContact = contacts.find(c => c.id === selectedContactId)
   const selectedHoliday = getHolidayById(selectedHolidayId)
@@ -102,12 +130,14 @@ export function GreetingEditorScreen() {
       language,
     })
     setMessage(text)
+    setMediaAttachment(null)
     setSaved(false)
     setCopied(false)
   }
 
   useEffect(() => {
     if (selectedContact) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguage(selectedContact.language)
       if (selectedContact.contactType === 'internal') setTone('internal')
       else if (selectedContact.importanceLevel === 'vip') setTone('vip')
@@ -120,6 +150,7 @@ export function GreetingEditorScreen() {
   }, [selectedContact])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (selectedContact && !message) generate()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedContactId, selectedHolidayId])
@@ -192,7 +223,7 @@ export function GreetingEditorScreen() {
 
         {/* Tier selector */}
         <div>
-          <p className="section-title mb-2">Greeting Tier</p>
+          <p className="section-title mb-2">{t('greeting_tier')}</p>
           <div className="flex gap-2">
             {TIERS.map(tier => {
               const active = tone === tier.value
@@ -219,7 +250,7 @@ export function GreetingEditorScreen() {
                     className="text-xs font-bold"
                     style={{ color: active ? tier.color : 'var(--color-text-secondary)' }}
                   >
-                    {isHebrew ? tier.labelHe : tier.label}
+                    {t(tier.labelKey)}
                   </span>
                   <span className="text-[10px] text-[var(--color-text-muted)] text-center leading-tight">
                     {tier.desc}
@@ -260,7 +291,7 @@ export function GreetingEditorScreen() {
               size={14}
               style={{ transform: showAdvanced ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
             />
-            Advanced tone options
+            {t('greeting_advanced_tone')}
           </button>
 
           {showAdvanced && (
@@ -307,11 +338,11 @@ export function GreetingEditorScreen() {
                 <div className="flex items-center gap-2">
                   <span className="text-base">{activeTier.emoji}</span>
                   <span className="text-xs font-bold" style={{ color: activeTier.color }}>
-                    {isHebrew ? activeTier.labelHe : activeTier.label} Greeting
+                    {t(activeTier.labelKey)} {t('greeting_greeting')}
                   </span>
                   {selectedContact && (
                     <span className="text-xs text-[var(--color-text-muted)]">
-                      · for {selectedContact.name.split(' ')[0]}
+                      · {t('greeting_for')} {selectedContact.name.split(' ')[0]}
                     </span>
                   )}
                 </div>
@@ -349,7 +380,7 @@ export function GreetingEditorScreen() {
                     onClick={() => setShowSignature(v => !v)}
                   >
                     <Pen size={11} />
-                    {showSignature ? 'Hide signature' : 'Add signature'}
+                    {showSignature ? t('greeting_hide_signature') : t('greeting_add_signature')}
                   </button>
                   <CharCount count={fullMessage.length} />
                 </div>
@@ -364,7 +395,7 @@ export function GreetingEditorScreen() {
                     />
                     {signature && (
                       <p className="text-xs text-[var(--color-text-muted)] mt-1 italic">
-                        Will append: "– {signature}"
+                        {t('greeting_signature_append', { sig: signature })}
                       </p>
                     )}
                   </div>
@@ -372,9 +403,18 @@ export function GreetingEditorScreen() {
               </div>
             </div>
 
+            {/* Media Attachment */}
+            <div className="space-y-2">
+              <MediaAttachmentPicker
+                value={mediaAttachment}
+                onChange={setMediaAttachment}
+                isPremium={isPremium}
+              />
+            </div>
+
             {/* Live preview */}
             <div>
-              <p className="section-title mb-2">Live Preview</p>
+              <p className="section-title mb-2">{t('greeting_live_preview')}</p>
               <div
                 className="rounded-[var(--border-radius-lg)] p-3"
                 style={{ background: `linear-gradient(135deg, ${theme.primary}10, ${theme.secondary}06)` }}
@@ -404,14 +444,23 @@ export function GreetingEditorScreen() {
 
             {/* Action buttons */}
             <div className="space-y-2">
-              {selectedContact?.phone && (
-                <WhatsAppButton
-                  phone={selectedContact.phone}
-                  message={fullMessage}
-                  contactName={selectedContact.name}
-                  fullWidth
-                  size="lg"
-                />
+              {selectedContact && (
+                <>
+                  <SendButton
+                    contactId={selectedContact.id}
+                    onClick={() => setShowChannelPicker(true)}
+                    theme={theme}
+                    t={t}
+                  />
+                  {showChannelPicker && (
+                    <ChannelPicker
+                      contact={selectedContact}
+                      message={fullMessage}
+                      media={mediaAttachment}
+                      onClose={() => setShowChannelPicker(false)}
+                    />
+                  )}
+                </>
               )}
               <div className="grid grid-cols-2 gap-2">
                 <Button

@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react'
 import { format, formatDistanceToNow } from 'date-fns'
 import { Edit, MessageCircle, Calendar, Clock, Crown, Building2, Gift, Phone, Mail } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
@@ -11,27 +12,10 @@ import { Badge } from '@/components/ui/Badge'
 import { HolidayCard } from '@/components/HolidayCard'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { calculateRelationshipScore } from '@/core/scoringSystem'
-import { HOLIDAYS, RELIGION_LABELS } from '@/data/holidays'
+import { HOLIDAYS } from '@/data/holidays'
+import type { TranslationKey } from '@/i18n'
 import { generateGreeting } from '@/services/greetingService'
-
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B', '#FF8E53'],
-  ['#4ECDC4', '#2196F3'],
-  ['#A855F7', '#6366F1'],
-  ['#F59E0B', '#EF4444'],
-  ['#10B981', '#059669'],
-  ['#3B82F6', '#0EA5E9'],
-  ['#EC4899', '#8B5CF6'],
-  ['#F97316', '#FBBF24'],
-  ['#06B6D4', '#3B82F6'],
-  ['#84CC16', '#10B981'],
-]
-
-function getAvatarGradient(name: string): string {
-  const hash = name.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
+import { getAvatarGradient } from '@/utils/avatarUtils'
 
 export function ContactDetailScreen() {
   const { id } = useParams<{ id: string }>()
@@ -39,6 +23,8 @@ export function ContactDetailScreen() {
   const { contacts, updateContact, isPremium } = useApp()
   const t = useT()
   const { theme } = useTheme()
+  // Capture current timestamp once per mount via useState initializer (avoids impure Date.now() in render)
+  const [nowMs] = useState<number>(() => Date.now())
 
   const contact = contacts.find(c => c.id === id)
   if (!contact) {
@@ -51,10 +37,9 @@ export function ContactDetailScreen() {
       </div>
     )
   }
-
   const score = calculateRelationshipScore(contact, HOLIDAYS)
   const relatedHolidays = HOLIDAYS.filter(h => {
-    const days = (new Date(h.date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    const days = (new Date(h.date).getTime() - nowMs) / (1000 * 60 * 60 * 24)
     return h.religion === contact.religion && days >= 0 && days <= 60
   })
 
@@ -128,7 +113,7 @@ export function ContactDetailScreen() {
               </p>
               {contact.religion && (
                 <p className="text-xs text-white/60 mt-0.5">
-                  {RELIGION_LABELS[contact.religion]}
+                  {t(`religion_${contact.religion}` as TranslationKey)}
                 </p>
               )}
             </div>

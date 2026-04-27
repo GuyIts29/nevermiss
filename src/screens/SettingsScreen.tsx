@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, Sparkles, Globe, Check } from 'lucide-react'
+import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, Sparkles, Globe, Check, Calendar, Bell } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useTheme } from '@/context/ThemeContext'
 import { useLang, useT } from '@/context/LanguageContext'
@@ -8,18 +8,33 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
 import { THEME_LIST } from '@/data/themes'
+import type { TranslationKey } from '@/i18n'
 import { APP_CONFIG } from '@/config/appConfig'
 import { useState } from 'react'
 import { clearAllData } from '@/services/storageService'
+import { requestPermission, notificationPermission } from '@/services/notificationService'
 
 export function SettingsScreen() {
   const navigate = useNavigate()
-  const { isPremium, deactivatePremium } = useApp()
+  const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings } = useApp()
   const { theme, themeId, setTheme } = useTheme()
   const { lang, setLang } = useLang()
   const t = useT()
   const [showClearConfirm, setShowClearConfirm] = useState(false)
   const [cleared, setCleared] = useState(false)
+  const [notifBlocked, setNotifBlocked] = useState(false)
+
+  const handleNotifToggle = async () => {
+    if (settings.notificationsEnabled) {
+      saveSettings({ notificationsEnabled: false })
+      return
+    }
+    const perm = notificationPermission()
+    if (perm === 'denied') { setNotifBlocked(true); return }
+    const granted = await requestPermission()
+    if (granted) saveSettings({ notificationsEnabled: true })
+    else setNotifBlocked(true)
+  }
 
   const handleClearData = () => {
     clearAllData()
@@ -44,9 +59,9 @@ export function SettingsScreen() {
             {t('settings_uiLanguage')}
           </h3>
           <Card>
-            {/* Pill toggle for language */}
-            <div className="flex gap-0 p-1 bg-[var(--color-surface-2)] rounded-[var(--border-radius)] relative">
-              {/* Active indicator slide */}
+            {/* Pill toggle — always LTR so button order never flips */}
+            <div dir="ltr" className="flex gap-0 p-1 bg-[var(--color-surface-2)] rounded-[var(--border-radius)] relative">
+              {/* Active indicator: physical `left` so transition is clean regardless of document dir */}
               <div
                 className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-[calc(var(--border-radius)-2px)] transition-all duration-300 shadow-sm"
                 style={{
@@ -69,6 +84,41 @@ export function SettingsScreen() {
                 🇮🇱 עברית
               </button>
             </div>
+          </Card>
+        </section>
+
+        {/* Notifications section */}
+        <section>
+          <h3 className="section-title mb-2 flex items-center gap-1.5">
+            <span
+              className="w-4 h-4 rounded flex items-center justify-center"
+              style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
+            >
+              <Bell size={10} color="white" />
+            </span>
+            {t('notif_settings_title')}
+          </h3>
+          <Card>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-[var(--color-text-primary)]">{t('notif_settings_title')}</p>
+                <p className="text-xs text-[var(--color-text-muted)] mt-0.5">{t('notif_settings_desc')}</p>
+              </div>
+              <button
+                onClick={handleNotifToggle}
+                aria-label={t('notif_settings_title')}
+                className="relative w-11 h-6 rounded-full transition-colors shrink-0"
+                style={{ background: settings.notificationsEnabled ? theme.primary : 'var(--color-border)' }}
+              >
+                <span
+                  className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform"
+                  style={{ transform: settings.notificationsEnabled ? 'translateX(20px)' : 'translateX(0)' }}
+                />
+              </button>
+            </div>
+            {notifBlocked && (
+              <p className="text-xs text-red-500 mt-2">{t('notif_blocked')}</p>
+            )}
           </Card>
         </section>
 
@@ -119,7 +169,7 @@ export function SettingsScreen() {
                       className="p-1.5 text-center"
                       style={{ backgroundColor: th.surface, color: th.textPrimary }}
                     >
-                      <p className="text-xs font-semibold truncate">{th.name}</p>
+                      <p className="text-xs font-semibold truncate">{t(`theme_${th.id}` as TranslationKey)}</p>
                     </div>
                   </button>
                 )
@@ -162,6 +212,18 @@ export function SettingsScreen() {
                   </div>
                 </div>
                 <div className="p-3">
+                  {premiumExpiresAt && (
+                    <div className="flex items-center gap-2 mt-2 px-1">
+                      <Calendar size={13} className="text-[var(--color-text-muted)] shrink-0" />
+                      <p className="text-xs text-[var(--color-text-muted)]">
+                        {t('coupon_active_until', {
+                          date: new Date(premiumExpiresAt).toLocaleDateString(undefined, {
+                            day: 'numeric', month: 'long', year: 'numeric'
+                          })
+                        })}
+                      </p>
+                    </div>
+                  )}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -248,7 +310,7 @@ export function SettingsScreen() {
             {APP_CONFIG.appName} v{APP_CONFIG.appVersion} · Build {APP_CONFIG.buildNumber}
           </p>
           <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
-            Released {APP_CONFIG.releaseDate} · Privacy-first
+            {t('settings_released', { date: APP_CONFIG.releaseDate })}
           </p>
         </div>
 

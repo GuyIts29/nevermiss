@@ -52,6 +52,8 @@ export const APP_CONFIG = {
     premium: 'nm_premium',
     onboarding: 'nm_onboarding_done',
     lastSeenVersion: 'nm_last_version',
+    usedCoupons: 'nm_used_coupons',
+    lastChannels: 'nm_last_channels',
   },
 
   // Domain suggestions

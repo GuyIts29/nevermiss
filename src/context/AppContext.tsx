@@ -1,10 +1,12 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
 import type { Contact, Group, GreetingDraft, AppSettings, PremiumState } from '@/types'
 import * as storage from '@/services/storageService'
 import { HOLIDAYS } from '@/data/holidays'
 import type { Holiday } from '@/types'
 import { buildDashboardData } from '@/core/relationshipEngine'
 import type { DashboardData } from '@/types'
+
+const LIMITS = { free: { contacts: 20, groups: 2 } }
 
 interface AppContextValue {
   // Contacts
@@ -35,6 +37,8 @@ interface AppContextValue {
   isPremium: boolean
   canAddContact: boolean
   canAddGroup: boolean
+  redeemCoupon: (code: string) => { success: boolean; error: string | null }
+  premiumExpiresAt: string | null | undefined
 
   // Holidays
   holidays: Holiday[]
@@ -51,21 +55,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [groups, setGroups] = useState<Group[]>(() => storage.getGroups())
   const [drafts, setDrafts] = useState<GreetingDraft[]>(() => storage.getDrafts())
   const [settings, setSettings] = useState<AppSettings>(() => storage.getSettings())
-  const [premium, setPremium] = useState<PremiumState>(() => storage.getPremiumState())
-  const [dashboardData, setDashboardData] = useState<DashboardData>(() =>
-    buildDashboardData(storage.getContacts(), HOLIDAYS)
-  )
+  const [premium, setPremium] = useState<PremiumState>(() => storage.checkAndExpirePremium())
 
   const isPremium = premium.isPremium
-  const { limits } = { limits: { free: { contacts: 20, groups: 2 } } }
-  const canAddContact = isPremium || contacts.length < limits.free.contacts
-  const canAddGroup = isPremium || groups.length < limits.free.groups
+  const canAddContact = isPremium || contacts.length < LIMITS.free.contacts
+  const canAddGroup = isPremium || groups.length < LIMITS.free.groups
 
-  const refreshDashboard = useCallback(() => {
-    setDashboardData(buildDashboardData(contacts, HOLIDAYS))
-  }, [contacts])
-
-  useEffect(() => { refreshDashboard() }, [refreshDashboard])
+  const dashboardData = useMemo(() => buildDashboardData(contacts, HOLIDAYS), [contacts])
+  const refreshDashboard = useCallback(() => {/* data is derived — no manual refresh needed */}, [])
 
   const addContact = useCallback((c: Contact) => {
     storage.addContact(c)
@@ -122,22 +119,42 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setPremium(storage.getPremiumState())
   }, [])
 
+  const redeemCouponFn = useCallback((code: string) => {
+    const result = storage.redeemCoupon(code)
+    if (result.success) setPremium(storage.getPremiumState())
+    return result
+  }, [])
+
+  const contextValue = useMemo<AppContextValue>(() => ({
+    contacts, addContact, updateContact, deleteContact,
+    groups, addGroup, updateGroup, deleteGroup,
+    drafts, saveDraft, deleteDraft,
+    settings, saveSettings: updateSettings,
+    premium, activatePremium: activatePremiumFn, deactivatePremium: deactivatePremiumFn,
+    isPremium, canAddContact, canAddGroup,
+    redeemCoupon: redeemCouponFn,
+    premiumExpiresAt: premium.expiresAt,
+    holidays: HOLIDAYS,
+    dashboardData, refreshDashboard,
+  }), [
+    contacts, addContact, updateContact, deleteContact,
+    groups, addGroup, updateGroup, deleteGroup,
+    drafts, saveDraft, deleteDraft,
+    settings, updateSettings,
+    premium, activatePremiumFn, deactivatePremiumFn,
+    isPremium, canAddContact, canAddGroup,
+    redeemCouponFn,
+    dashboardData, refreshDashboard,
+  ])
+
   return (
-    <AppContext.Provider value={{
-      contacts, addContact, updateContact, deleteContact,
-      groups, addGroup, updateGroup, deleteGroup,
-      drafts, saveDraft, deleteDraft,
-      settings, saveSettings: updateSettings,
-      premium, activatePremium: activatePremiumFn, deactivatePremium: deactivatePremiumFn,
-      isPremium, canAddContact, canAddGroup,
-      holidays: HOLIDAYS,
-      dashboardData, refreshDashboard,
-    }}>
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useApp(): AppContextValue {
   const ctx = useContext(AppContext)
   if (!ctx) throw new Error('useApp must be used inside AppProvider')

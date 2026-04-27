@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Users, Calendar, Edit, Trash2 } from 'lucide-react'
+import { Plus, Users, Calendar, Edit, Trash2, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import { PageHeader } from '@/components/Navigation'
-import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
@@ -28,6 +27,8 @@ export function GroupsScreen() {
   const [form, setForm] = useState({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0] })
   const [showDelete, setShowDelete] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [selectedHolidayIds, setSelectedHolidayIds] = useState<string[]>([])
+  const [holidaySearch, setHolidaySearch] = useState('')
 
   const atLimit = !canAddGroup
   const freeRemaining = APP_CONFIG.limits.free.groups - groups.length
@@ -36,18 +37,22 @@ export function GroupsScreen() {
     if (group) {
       setEditingGroup(group)
       setForm({ name: group.name, description: group.description ?? '', color: group.color, emoji: group.emoji })
+      setSelectedHolidayIds(group.holidayIds ?? [])
     } else {
       setEditingGroup(null)
       setForm({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0] })
+      setSelectedHolidayIds([])
     }
+    setHolidaySearch('')
     setShowForm(true)
   }
 
   const handleSave = () => {
     if (!form.name.trim()) return
     const now = new Date().toISOString()
+    const resolvedHolidayIds = isPremium ? selectedHolidayIds : (editingGroup?.holidayIds ?? [])
     if (editingGroup) {
-      updateGroup({ ...editingGroup, ...form, updatedAt: now })
+      updateGroup({ ...editingGroup, ...form, holidayIds: resolvedHolidayIds, updatedAt: now })
     } else {
       addGroup({
         id: generateId(),
@@ -56,7 +61,7 @@ export function GroupsScreen() {
         color: form.color,
         emoji: form.emoji,
         contactIds: [],
-        holidayIds: [],
+        holidayIds: resolvedHolidayIds,
         createdAt: now,
         updatedAt: now,
       })
@@ -114,7 +119,7 @@ export function GroupsScreen() {
                 onClick: () => openForm(),
               } : undefined}
             />
-            {!isPremium && <PremiumFeaturePrompt feature="Unlimited Groups" />}
+            {!isPremium && <PremiumFeaturePrompt feature={t('premium_feat_unlimited_groups')} />}
           </>
         ) : (
           <div className="space-y-2">
@@ -217,7 +222,7 @@ export function GroupsScreen() {
         )}
 
         {!isPremium && groups.length > 0 && (
-          <PremiumFeaturePrompt feature="Unlimited Groups" />
+          <PremiumFeaturePrompt feature={t('premium_feat_unlimited_groups')} />
         )}
       </div>
 
@@ -283,6 +288,64 @@ export function GroupsScreen() {
             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
             placeholder={t('groups_descriptionPlaceholder')}
           />
+
+          {/* Holiday Assignment */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-base">📅</span>
+              <p className="font-semibold text-sm">{t('group_holidays')}</p>
+              {!isPremium && <Crown size={13} className="text-amber-500" />}
+            </div>
+            {!isPremium ? (
+              <p className="text-xs text-[var(--color-text-muted)] italic">
+                {t('group_holidays_hint')} — Premium only
+              </p>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-xs text-[var(--color-text-muted)]">{t('group_holidays_hint')}</p>
+                <input
+                  type="text"
+                  placeholder="Search holidays..."
+                  value={holidaySearch}
+                  onChange={e => setHolidaySearch(e.target.value)}
+                  className="w-full px-3 py-1.5 text-sm rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)]"
+                />
+                <div className="max-h-48 overflow-y-auto space-y-1 rounded-[var(--border-radius)] border border-[var(--color-border)] p-1">
+                  {holidays
+                    .filter(h => h.name.toLowerCase().includes(holidaySearch.toLowerCase()))
+                    .map(h => {
+                      const selected = selectedHolidayIds.includes(h.id)
+                      return (
+                        <button
+                          key={h.id}
+                          type="button"
+                          onClick={() => setSelectedHolidayIds(prev =>
+                            selected ? prev.filter(id => id !== h.id) : [...prev, h.id]
+                          )}
+                          className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-left text-sm transition-colors"
+                          style={selected ? { background: h.color + '22', border: `1px solid ${h.color}44` } : {}}
+                        >
+                          <div
+                            className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 ${selected ? 'bg-[var(--color-primary)]' : 'border-[var(--color-border)]'}`}
+                            style={selected ? { borderColor: 'var(--color-primary)', background: 'var(--color-primary)' } : {}}
+                          >
+                            {selected && <span className="text-white text-[10px]">✓</span>}
+                          </div>
+                          <span className="text-base leading-none">{h.emoji}</span>
+                          <span className="flex-1 truncate">{h.name}</span>
+                          <span className="text-[10px] text-[var(--color-text-muted)] shrink-0">{h.religion}</span>
+                        </button>
+                      )
+                    })}
+                </div>
+                {selectedHolidayIds.length > 0 && (
+                  <p className="text-xs text-[var(--color-primary)]">
+                    {selectedHolidayIds.length} holiday{selectedHolidayIds.length !== 1 ? 's' : ''} selected
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </Modal>
 

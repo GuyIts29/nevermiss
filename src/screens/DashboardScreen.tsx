@@ -1,5 +1,6 @@
+import { useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Crown, Zap, Calendar, Users, RefreshCw, Gift, Bell, Star } from 'lucide-react'
+import { Plus, Crown, Zap, Calendar, Users, RefreshCw, Bell, Star } from 'lucide-react'
 import { format, differenceInDays } from 'date-fns'
 import { useApp } from '@/context/AppContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -12,25 +13,9 @@ import { HolidayCard } from '@/components/HolidayCard'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { APP_CONFIG } from '@/config/appConfig'
 
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B', '#FF8E53'], ['#4ECDC4', '#2196F3'], ['#A855F7', '#6366F1'],
-  ['#F59E0B', '#EF4444'], ['#10B981', '#059669'], ['#3B82F6', '#0EA5E9'],
-  ['#EC4899', '#8B5CF6'], ['#F97316', '#FBBF24'],
-]
-
-function getAvatarGradient(name: string) {
-  const hash = name.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  const [a, b] = AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length]
-  return `linear-gradient(135deg, ${a}, ${b})`
-}
-
-function getInitials(name: string) {
-  return name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
-}
-
 export function DashboardScreen() {
   const navigate = useNavigate()
-  const { contacts, dashboardData, isPremium, refreshDashboard } = useApp()
+  const { contacts, groups, holidays, dashboardData, isPremium, refreshDashboard } = useApp()
   const { theme } = useTheme()
   const t = useT()
   const now = new Date()
@@ -47,8 +32,50 @@ export function DashboardScreen() {
   const nextHoliday = dashboardData.upcomingHolidays[0]
   const daysToNext = nextHoliday ? differenceInDays(new Date(nextHoliday.date), now) : null
 
-  const highlightHoliday = todayHoliday ?? tomorrowHoliday
   const hasTodayHighlights = (isPremium && dashboardData.todayBirthdays.length > 0) || !!todayHoliday
+
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const touchStartY = useRef(0)
+  const [pullDistance, setPullDistance] = useState(0)
+  const PULL_THRESHOLD = 64
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if ((scrollRef.current?.scrollTop ?? 0) > 0) return
+    const dy = e.touches[0].clientY - touchStartY.current
+    if (dy > 0) setPullDistance(Math.min(dy, PULL_THRESHOLD + 16))
+  }
+
+  const handleTouchEnd = () => {
+    if (pullDistance >= PULL_THRESHOLD) refreshDashboard()
+    setPullDistance(0)
+  }
+
+  const groupHolidayAlerts = useMemo(() => {
+    if (!isPremium) return []
+    const today = new Date()
+    const cutoff = new Date(today.getTime() + 14 * 86_400_000)
+    const results: { holiday: typeof holidays[0]; group: typeof groups[0]; groupContacts: typeof contacts; daysUntil: number }[] = []
+    for (const group of groups) {
+      if (!group.holidayIds?.length) continue
+      const groupContacts = contacts.filter(c => group.contactIds.includes(c.id))
+      if (!groupContacts.length) continue
+      for (const hid of group.holidayIds) {
+        const holiday = holidays.find(h => h.id === hid)
+        if (!holiday) continue
+        const hDate = new Date(holiday.date)
+        hDate.setFullYear(today.getFullYear())
+        if (hDate < today) hDate.setFullYear(today.getFullYear() + 1)
+        if (hDate > cutoff) continue
+        const daysUntil = Math.ceil((hDate.getTime() - today.getTime()) / 86_400_000)
+        results.push({ holiday, group, groupContacts, daysUntil })
+      }
+    }
+    return results.sort((a, b) => a.daysUntil - b.daysUntil)
+  }, [isPremium, groups, contacts, holidays])
 
   return (
     <div className="screen-container">
@@ -56,29 +83,40 @@ export function DashboardScreen() {
         title={APP_CONFIG.appName}
         subtitle={format(now, 'EEEE, MMMM d')}
         right={
-          <div className="flex items-center gap-2">
+          !isPremium ? (
             <button
-              onClick={refreshDashboard}
-              className="p-1.5 rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
-              aria-label="Refresh"
+              onClick={() => navigate('/upgrade')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm"
+              style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)', color: '#fff' }}
             >
-              <RefreshCw size={15} className="text-[var(--color-text-muted)]" />
+              <Crown size={10} />
+              {t('upgrade')}
             </button>
-            {!isPremium && (
-              <button
-                onClick={() => navigate('/upgrade')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm"
-                style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)', color: '#fff' }}
-              >
-                <Crown size={10} />
-                {t('upgrade')}
-              </button>
-            )}
-          </div>
+          ) : undefined
         }
       />
 
-      <div className="page-content space-y-5">
+      <div
+        ref={scrollRef}
+        className="page-content space-y-5"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Pull-to-refresh indicator */}
+        {pullDistance > 0 && (
+          <div
+            className="flex items-center justify-center gap-2 text-xs text-[var(--color-text-muted)] transition-all"
+            style={{ height: pullDistance, opacity: pullDistance / PULL_THRESHOLD }}
+          >
+            <RefreshCw
+              size={14}
+              className={pullDistance >= PULL_THRESHOLD ? 'animate-spin' : ''}
+              style={{ transform: `rotate(${(pullDistance / PULL_THRESHOLD) * 180}deg)` }}
+            />
+            <span>{pullDistance >= PULL_THRESHOLD ? t('dashboard_release_refresh') : t('dashboard_pull_refresh')}</span>
+          </div>
+        )}
 
         {/* Welcome hero banner */}
         <div
@@ -105,7 +143,11 @@ export function DashboardScreen() {
                 <span className="text-lg">{nextHoliday.emoji}</span>
                 <p className="text-white/85 text-sm font-medium">
                   {nextHoliday.name}
-                  {daysToNext === 0 ? ' — Today! 🎉' : daysToNext === 1 ? ' — Tomorrow!' : ` in ${daysToNext} days`}
+                  {daysToNext === 0
+                    ? ` ${t('dashboard_holiday_today_suffix')}`
+                    : daysToNext === 1
+                      ? ` ${t('dashboard_holiday_tomorrow_suffix')}`
+                      : ` ${t('dashboard_holiday_in_suffix', { n: daysToNext })}`}
                 </p>
               </div>
             )}
@@ -117,7 +159,7 @@ export function DashboardScreen() {
           <section className="animate-slide-up">
             <div className="flex items-center gap-1.5 mb-2">
               <Star size={14} className="text-amber-500" />
-              <h3 className="section-title">Today's Highlights</h3>
+              <h3 className="section-title">{t('dashboard_today_highlights')}</h3>
             </div>
             <div className="space-y-2">
               {todayHoliday && (
@@ -131,8 +173,8 @@ export function DashboardScreen() {
                 >
                   <span className="text-2xl animate-float">{todayHoliday.emoji}</span>
                   <div className="flex-1">
-                    <p className="font-bold text-sm text-[var(--color-text-primary)]">{todayHoliday.name} is Today!</p>
-                    <p className="text-xs text-[var(--color-text-muted)]">Tap to send greetings to your contacts</p>
+                    <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_holiday_is_today', { name: todayHoliday.name })}</p>
+                    <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_holiday_tap')}</p>
                   </div>
                 </div>
               )}
@@ -148,13 +190,50 @@ export function DashboardScreen() {
                 >
                   <span className="text-2xl animate-celebrate">🎂</span>
                   <div className="flex-1">
-                    <p className="font-bold text-sm text-[var(--color-text-primary)]">{contact.name}'s Birthday! 🎉</p>
-                    <p className="text-xs text-[var(--color-text-muted)]">Don't forget to send a birthday wish!</p>
+                    <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_birthday_today', { name: contact.name })}</p>
+                    <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_birthday_wish')}</p>
                   </div>
                 </div>
               ))}
             </div>
           </section>
+        )}
+
+        {/* Group Holiday Alerts */}
+        {groupHolidayAlerts.length > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-bold text-[var(--color-text-primary)]">
+              📅 {t('group_holiday_alert')}
+            </h3>
+            {groupHolidayAlerts.map(({ holiday, group, groupContacts, daysUntil }) => (
+              <div
+                key={`${holiday.id}-${group.id}`}
+                className="card !p-3 flex items-start gap-3"
+                style={{ borderLeft: `3px solid ${holiday.color}` }}
+              >
+                <span className="text-2xl leading-none mt-0.5">{holiday.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-[var(--color-text-primary)] truncate">{holiday.name}</p>
+                  <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
+                    {daysUntil === 0
+                      ? t('dashboard_today_exclaim')
+                      : daysUntil === 1
+                        ? t('dashboard_in_days', { n: daysUntil })
+                        : t('dashboard_in_days_plural', { n: daysUntil })}
+                    {' · '}{group.emoji} {group.name}
+                    {' · '}{t('dashboard_contacts_count', { n: groupContacts.length })}
+                  </p>
+                </div>
+                <button
+                  onClick={() => navigate('/contacts')}
+                  className="text-xs font-semibold px-2.5 py-1.5 rounded-lg shrink-0 text-white"
+                  style={{ background: holiday.color }}
+                >
+                  {t('group_send_to_group')}
+                </button>
+              </div>
+            ))}
+          </div>
         )}
 
         {/* Priority contacts */}
@@ -225,7 +304,7 @@ export function DashboardScreen() {
         {/* Premium birthday section */}
         {!isPremium && (
           <section>
-            <PremiumFeaturePrompt feature="Birthday Tracking" />
+            <PremiumFeaturePrompt feature={t('premium_feat_birthday_tracking')} />
           </section>
         )}
 

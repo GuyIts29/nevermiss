@@ -16,7 +16,8 @@ const STORAGE_KEY = 'nm_lang'
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
-    return saved === 'he' ? 'he' : 'en'
+    if (saved === 'en' || saved === 'he') return saved
+    return 'he'
   })
 
   useEffect(() => {
@@ -36,10 +37,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLang() {
   return useContext(LanguageContext)
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useT() {
   const { lang } = useLang()
   return (key: TranslationKey, vars?: Record<string, string | number>) =>

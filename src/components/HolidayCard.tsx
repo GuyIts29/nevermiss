@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { format, differenceInDays } from 'date-fns'
 import type { Holiday } from '@/types'
-import { RELIGION_LABELS } from '@/data/holidays'
+import { useT } from '@/context/LanguageContext'
+import type { TranslationKey } from '@/i18n'
 
 interface HolidayCardProps {
   holiday: Holiday
@@ -18,12 +19,13 @@ function hexToRgb(hex: string) {
 
 export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps) {
   const navigate = useNavigate()
+  const t = useT()
   const daysUntil = differenceInDays(new Date(holiday.date), new Date())
   const staggerClass = staggerIndex != null ? `stagger-${Math.min(staggerIndex + 1, 5)}` : ''
 
   const isToday = daysUntil === 0
   const isSoon = daysUntil >= 0 && daysUntil <= 3
-  const badgeText = daysUntil === 0 ? '🎉 Today!' : daysUntil === 1 ? 'Tomorrow' : `${daysUntil}d`
+  const badgeText = daysUntil === 0 ? `🎉 ${t('today')}!` : daysUntil === 1 ? t('tomorrow') : `${daysUntil}${t('days')}`
 
   if (compact) {
     return (
@@ -49,7 +51,7 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm text-[var(--color-text-primary)] truncate">{holiday.name}</p>
           <p className="text-xs text-[var(--color-text-muted)]">
-            {format(new Date(holiday.date), 'MMM d')} · {RELIGION_LABELS[holiday.religion]}
+            {format(new Date(holiday.date), 'MMM d')} · {t(`religion_${holiday.religion}` as TranslationKey)}
           </p>
         </div>
         <div className="shrink-0">
@@ -84,7 +86,7 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-white truncate">{holiday.name}</h3>
           <p className="text-xs text-white/75 mt-0.5">
-            {RELIGION_LABELS[holiday.religion]} · {format(new Date(holiday.date), 'MMMM d, yyyy')}
+            {t(`religion_${holiday.religion}` as TranslationKey)} · {format(new Date(holiday.date), 'MMMM d, yyyy')}
           </p>
         </div>
         <div
@@ -95,7 +97,7 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
             backdropFilter: 'blur(4px)',
           }}
         >
-          {daysUntil === 0 ? '🎉 Today!' : daysUntil < 0 ? 'Passed' : `${daysUntil}d`}
+          {daysUntil === 0 ? `🎉 ${t('today')}!` : daysUntil < 0 ? t('calendar_passed') : `${daysUntil}${t('days')}`}
         </div>
       </div>
 
