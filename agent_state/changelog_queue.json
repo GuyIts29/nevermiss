@@ -306,5 +306,40 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "נוספו 7 מפתחות i18n: calendar_birthdays, calendar_birthdayLabel, calendar_birthdaysOn, contactForm_hebrewBirthday, contactForm_hebrewBirthdayDay, contactForm_hebrewBirthdayMonth, contactForm_hebrewBirthdayClear — EN + HE"
+  },
+  {
+    "timestamp": "2026-04-28T20:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BL-015: החלפת תיאורי tier קשיחים ב-i18n (greeting_tier_*_desc); placeholder חתימה דרך t('greeting_signature_placeholder'); aria-label על כפתורי Regenerate ו-Copy; aria-expanded על toggles"
+  },
+  {
+    "timestamp": "2026-04-28T20:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/ContactCard.tsx",
+    "description": "BL-016: תרגום תיאור פעולה מוצעת — ACTION_KEY map מ-SuggestedActionType ל-TranslationKey; שימוש ב-t() במקום label גולמי"
+  },
+  {
+    "timestamp": "2026-04-28T20:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-017/018: aria-label על כפתור עריכה; BL-041: אנימציית פרטיקלים (6 אמוג'ים), צליל Web Audio (880→1200Hz), haptic navigator.vibrate(40) בלחיצה על 'סימון כיצרנו קשר'; תומך prefers-reduced-motion"
+  },
+  {
+    "timestamp": "2026-04-28T20:00:00",
+    "agent": "Foundation-Agent",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-015: נוספו מפתחות greeting_tier_casual_desc, greeting_tier_professional_desc, greeting_tier_vip_desc, greeting_signature_placeholder — EN + HE"
+  },
+  {
+    "timestamp": "2026-04-28T20:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/index.css",
+    "description": "BL-041: נוספה keyframe particleBurst ו-class .animate-particle לאנימציית פרטיקלים בחגיגה"
   }
 ]

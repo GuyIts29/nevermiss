@@ -839,6 +839,58 @@ const rows = [
     Agent: 'Foundation-Agent',
     Status: 'done',
   },
+
+  // ── 2026-04-28 iteration 17 — BL-015/016/017/018/041 i18n + accessibility + celebration feedback ──
+  {
+    Date: '2026-04-28',
+    Time: '20:00',
+    'Screen / File': 'src/screens/GreetingEditorScreen.tsx',
+    'Change Description': 'BL-015: Replace hardcoded tier desc strings with i18n keys (greeting_tier_*_desc). Signature placeholder via t(\'greeting_signature_placeholder\'). BL-017: aria-label on Regenerate and Copy icon buttons. BL-018: aria-expanded on Advanced tone + Signature toggle buttons. aria-hidden on decorative icons.',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '20:00',
+    'Screen / File': 'src/i18n/index.ts',
+    'Change Description': 'BL-015: Add 4 i18n keys (EN + HE): greeting_tier_casual_desc, greeting_tier_professional_desc, greeting_tier_vip_desc, greeting_signature_placeholder',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Foundation-Agent',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '20:00',
+    'Screen / File': 'src/components/ContactCard.tsx',
+    'Change Description': 'BL-016: Add ACTION_KEY Record<SuggestedActionType, TranslationKey> map. Use useT() + t(ACTION_KEY[...]) to display action label in current language instead of raw English label string.',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '20:00',
+    'Screen / File': 'src/screens/ContactDetailScreen.tsx',
+    'Change Description': 'BL-017: aria-label on Edit icon button via t(\'contactForm_edit\'). BL-041: Add celebration feedback on Mark as Contacted — 6 emoji particle burst (.animate-particle with --tx/--ty CSS vars), Web Audio oscillator ping (880→1200Hz ramp, 0.4s), haptic navigator.vibrate(40). Respects prefers-reduced-motion. useState celebrating moved before early return to comply with hooks rules.',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '20:00',
+    'Screen / File': 'src/index.css',
+    'Change Description': 'BL-041: Add @keyframes particleBurst (translate + scale to 0 + opacity fade driven by --tx/--ty CSS custom properties) and .animate-particle utility class (1.2s ease-out forwards).',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
 ]
 
 const wb = XLSX.utils.book_new()

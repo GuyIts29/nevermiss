@@ -20,7 +20,7 @@ interface Tier {
   value: GreetingTone
   emoji: string
   labelKey: 'greeting_tier_casual' | 'greeting_tier_professional' | 'greeting_tier_vip'
-  desc: string
+  descKey: 'greeting_tier_casual_desc' | 'greeting_tier_professional_desc' | 'greeting_tier_vip_desc'
   color: string
   premium?: boolean
 }
@@ -30,21 +30,21 @@ const TIERS: Tier[] = [
     value: 'friendly',
     emoji: '😊',
     labelKey: 'greeting_tier_casual',
-    desc: 'Warm & personal',
+    descKey: 'greeting_tier_casual_desc',
     color: '#10B981',
   },
   {
     value: 'business',
     emoji: '💼',
     labelKey: 'greeting_tier_professional',
-    desc: 'Polished & clear',
+    descKey: 'greeting_tier_professional_desc',
     color: '#3B82F6',
   },
   {
     value: 'vip',
     emoji: '👑',
     labelKey: 'greeting_tier_vip',
-    desc: 'Elevated & bespoke',
+    descKey: 'greeting_tier_vip_desc',
     color: '#F59E0B',
     premium: true,
   },
@@ -253,7 +253,7 @@ export function GreetingEditorScreen() {
                     {t(tier.labelKey)}
                   </span>
                   <span className="text-[10px] text-[var(--color-text-muted)] text-center leading-tight">
-                    {tier.desc}
+                    {t(tier.descKey)}
                   </span>
                   {tier.premium && !isPremium && (
                     <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
@@ -286,9 +286,11 @@ export function GreetingEditorScreen() {
           <button
             className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] font-medium"
             onClick={() => setShowAdvanced(v => !v)}
+            aria-expanded={showAdvanced}
           >
             <ChevronDown
               size={14}
+              aria-hidden="true"
               style={{ transform: showAdvanced ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
             />
             {t('greeting_advanced_tone')}
@@ -350,17 +352,18 @@ export function GreetingEditorScreen() {
                   <button
                     onClick={generate}
                     className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
-                    title={t('greeting_regenerate')}
+                    aria-label={t('greeting_regenerate')}
                   >
-                    <RefreshCw size={13} className="text-[var(--color-text-muted)]" />
+                    <RefreshCw size={13} className="text-[var(--color-text-muted)]" aria-hidden="true" />
                   </button>
                   <button
                     onClick={handleCopy}
                     className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+                    aria-label={t('greeting_copy')}
                   >
                     {copied
-                      ? <Check size={13} className="text-green-500" />
-                      : <Copy size={13} className="text-[var(--color-text-muted)]" />
+                      ? <Check size={13} className="text-green-500" aria-hidden="true" />
+                      : <Copy size={13} className="text-[var(--color-text-muted)]" aria-hidden="true" />
                     }
                   </button>
                 </div>
@@ -378,8 +381,9 @@ export function GreetingEditorScreen() {
                   <button
                     className="flex items-center gap-1 text-xs text-[var(--color-text-muted)] font-medium hover:text-[var(--color-primary)] transition-colors"
                     onClick={() => setShowSignature(v => !v)}
+                    aria-expanded={showSignature}
                   >
-                    <Pen size={11} />
+                    <Pen size={11} aria-hidden="true" />
                     {showSignature ? t('greeting_hide_signature') : t('greeting_add_signature')}
                   </button>
                   <CharCount count={fullMessage.length} />
@@ -389,7 +393,7 @@ export function GreetingEditorScreen() {
                   <div className="mt-2 border-t border-[var(--color-border)] pt-2 animate-slide-up">
                     <input
                       className="form-input text-sm"
-                      placeholder="Your name or signature..."
+                      placeholder={t('greeting_signature_placeholder')}
                       value={signature}
                       onChange={e => setSignature(e.target.value)}
                     />

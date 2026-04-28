@@ -1,3 +1,4 @@
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { format, formatDistanceToNow } from 'date-fns'
@@ -25,6 +26,7 @@ export function ContactDetailScreen() {
   const { theme } = useTheme()
   // Capture current timestamp once per mount via useState initializer (avoids impure Date.now() in render)
   const [nowMs] = useState<number>(() => Date.now())
+  const [celebrating, setCelebrating] = useState(false)
 
   const contact = contacts.find(c => c.id === id)
   if (!contact) {
@@ -73,6 +75,27 @@ export function ContactDetailScreen() {
 
   const markContacted = () => {
     updateContact({ ...contact, lastContactDate: new Date().toISOString().split('T')[0], updatedAt: new Date().toISOString() })
+    // Haptic feedback
+    try { navigator.vibrate?.(40) } catch { /* unsupported */ }
+    // Audio ping (non-blocking)
+    try {
+      const ctx = new AudioContext()
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.frequency.setValueAtTime(880, ctx.currentTime)
+      osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.15)
+      gain.gain.setValueAtTime(0.18, ctx.currentTime)
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4)
+      osc.start()
+      osc.stop(ctx.currentTime + 0.4)
+    } catch { /* blocked or unsupported */ }
+    // Particle burst (respects prefers-reduced-motion)
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCelebrating(true)
+      setTimeout(() => setCelebrating(false), 1500)
+    }
   }
 
   const urgencyColors = {
@@ -108,8 +131,9 @@ export function ContactDetailScreen() {
           <button
             onClick={() => navigate(`/contacts/${id}/edit`)}
             className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            aria-label={t('contactForm_edit')}
           >
-            <Edit size={16} className="text-[var(--color-text-muted)]" />
+            <Edit size={16} className="text-[var(--color-text-muted)]" aria-hidden="true" />
           </button>
         }
       />
@@ -283,15 +307,37 @@ export function ContactDetailScreen() {
             />
           )}
 
-          <Button
-            variant="outline"
-            size="md"
-            fullWidth
-            icon={<Clock size={16} />}
-            onClick={markContacted}
-          >
-            {t('contactDetail_markContacted')}
-          </Button>
+          <div className="relative">
+            {celebrating && (
+              <div className="absolute inset-0 pointer-events-none overflow-visible" style={{ zIndex: 50 }}>
+                {(['🎉', '✨', '🌟', '💫', '🎊', '⭐'] as const).map((emoji, i) => {
+                  const dirs = [
+                    { tx: '-40px', ty: '-55px' }, { tx: '40px', ty: '-55px' },
+                    { tx: '-25px', ty: '-65px' }, { tx: '25px', ty: '-65px' },
+                    { tx: '-50px', ty: '-35px' }, { tx: '50px', ty: '-35px' },
+                  ]
+                  return (
+                    <span
+                      key={i}
+                      className="absolute text-base animate-particle"
+                      style={{ left: '50%', bottom: '0', '--tx': dirs[i].tx, '--ty': dirs[i].ty, animationDelay: `${i * 40}ms` } as React.CSSProperties}
+                    >
+                      {emoji}
+                    </span>
+                  )
+                })}
+              </div>
+            )}
+            <Button
+              variant="outline"
+              size="md"
+              fullWidth
+              icon={<Clock size={16} />}
+              onClick={markContacted}
+            >
+              {t('contactDetail_markContacted')}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

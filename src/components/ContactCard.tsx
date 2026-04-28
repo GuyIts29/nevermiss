@@ -1,8 +1,10 @@
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MessageCircle, Crown, Building2 } from 'lucide-react'
-import type { Contact, RelationshipScore } from '@/types'
+import type { Contact, RelationshipScore, SuggestedActionType } from '@/types'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
+import { useT } from '@/context/LanguageContext'
+import type { TranslationKey } from '@/i18n'
 
 interface ContactCardProps {
   contact: Contact
@@ -11,8 +13,18 @@ interface ContactCardProps {
   staggerIndex?: number
 }
 
+const ACTION_KEY: Record<SuggestedActionType, TranslationKey> = {
+  send_greeting: 'action_followup',
+  send_checkin: 'action_checkin',
+  wish_holiday: 'action_followup',
+  wish_birthday: 'action_wish_birthday_today',
+  reconnect: 'action_reconnect_days',
+  follow_up: 'action_followup',
+}
+
 export const ContactCard = memo(function ContactCard({ contact, score, onClick, staggerIndex }: ContactCardProps) {
   const navigate = useNavigate()
+  const t = useT()
   const handleClick = onClick ?? (() => navigate(`/contacts/${contact.id}`))
 
   const urgencyColor = score
@@ -77,7 +89,7 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
         </p>
         {score && (
           <p className="text-xs text-[var(--color-text-muted)] mt-0.5 truncate">
-            {score.suggestedAction.label}
+            {t(ACTION_KEY[score.suggestedAction.type])}
           </p>
         )}
         {score && (

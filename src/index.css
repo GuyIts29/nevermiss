@@ -388,6 +388,11 @@ select.form-input {
   100% { transform: scale(0.8) rotate(360deg); opacity: 0; }
 }
 
+@keyframes particleBurst {
+  0%   { transform: translate(0, 0) scale(1.2); opacity: 1; }
+  100% { transform: translate(var(--tx, 0), var(--ty, -60px)) scale(0); opacity: 0; }
+}
+
 @keyframes staggerIn {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -405,6 +410,7 @@ select.form-input {
 .animate-pulse-soft  { animation: pulseSoft 2s ease-in-out infinite; }
 .animate-celebrate   { animation: celebrate 0.65s ease-out forwards; }
 .animate-confetti    { animation: confettiBurst 0.8s ease-out forwards; }
+.animate-particle    { animation: particleBurst 1.2s ease-out forwards; }
 .animate-float       { animation: float 3s ease-in-out infinite; }
 
 /* Staggered entrance for list items */

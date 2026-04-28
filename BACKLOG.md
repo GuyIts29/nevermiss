@@ -1,12 +1,18 @@
 # NeverMiss — Product Backlog
 _Last updated: 2026-04-28 | Maintained by Agent 4 (Changelog Manager / Documentation Owner / Backlog Curator)_
 
-## Recently Completed (Sprint 2 — Iteration 16)
+## Recently Completed (Sprint 2 — Iterations 16–17)
 
 | Task ID | Task | Priority | Status | Sprint | Type | Files Changed | Description |
 |---------|------|----------|--------|--------|------|---------------|-------------|
 | BL-039 | BUG: Calendar Birthdays not displayed | 🔴 High | ✅ Done | Sprint 2 | Bug | CalendarScreen.tsx, hebrewDateUtils.ts, i18n/index.ts, types/index.ts | Contact birthdays (and Hebrew birthdays) now appear as pink dots on calendar cells; birthday section panel shows contact names for selected day or full month |
 | BL-040 | FEATURE: Hebrew Birthday support | 🟡 Medium | ✅ Done | Sprint 2 | Feature | types/index.ts, hebrewDateUtils.ts, ContactFormScreen.tsx, i18n/index.ts | Optional `hebrewBirthday` field on Contact ("DD-MM" format); Day+Month dropdowns in premium ContactForm; `hebrewBirthdayToGregorianInCalendarYear()` converts to Gregorian for any calendar year; Calendar uses Hebrew date when available |
+| BL-014 | RELIGION_LABELS i18n | 🔴 High | ✅ Done | Sprint 2 | Improvement | CalendarScreen.tsx, HolidayCard.tsx | Already implemented — t(`religion_${...}`) in use; all keys present in both EN+HE |
+| BL-015 | GreetingEditorScreen tier desc i18n | 🟡 Medium | ✅ Done | Sprint 2 | Improvement | GreetingEditorScreen.tsx, i18n/index.ts | Tier descs + signature placeholder via t(); 4 new i18n keys; aria-labels on Regenerate/Copy |
+| BL-016 | ContactCard action label translation | 🟡 Medium | ✅ Done | Sprint 2 | Improvement | ContactCard.tsx | ACTION_KEY map + useT(); action label shown in Hebrew when language=he |
+| BL-017 | Missing aria-labels on icon-only buttons | 🟡 Medium | ✅ Done | Sprint 2 | Accessibility | ContactDetailScreen.tsx, GreetingEditorScreen.tsx | aria-label via t() on Edit, Regenerate, Copy buttons |
+| BL-018 | aria-expanded on toggle buttons | 🟡 Medium | ✅ Done | Sprint 2 | Accessibility | GreetingEditorScreen.tsx | aria-expanded on Advanced tone + Signature toggles; WCAG 4.1.2 |
+| BL-041 | Celebration feedback on Mark as Contacted | 🟡 Medium | ✅ Done | Sprint 2 | Improvement | ContactDetailScreen.tsx, index.css | 6-emoji particle burst + Web Audio ping (880→1200Hz) + haptic (navigator.vibrate 40ms); respects prefers-reduced-motion |
 
 > Source of truth: FEATURES.md (features), BUG_REPORT.md (bugs), AGENTS.md (agents).
 > BACKLOG.md and BACKLOG.csv are planning views derived from those sources. Do NOT edit directly — update the source first.
@@ -17,11 +23,6 @@ _Last updated: 2026-04-28 | Maintained by Agent 4 (Changelog Manager / Documenta
 
 | Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description | Definition of Done |
 |---------|------|----------|--------|--------|------|-------------|-------------|-------------------|
-| BL-014 | RELIGION_LABELS i18n | 🔴 High | 📋 Backlog | Sprint 2 | Improvement | Agent 1 | HolidayCard and CalendarScreen show religion names in English regardless of locale; need t(`religion_${...}`) lookup | All religion names translated in HE; RTL verified; build+lint pass |
-| BL-015 | GreetingEditorScreen tier desc i18n | 🟡 Medium | 📋 Backlog | Sprint 2 | Improvement | Agent 1 | Tier desc fields ('Warm & personal', 'Polished & clear', 'Elevated & bespoke') and signature placeholder are hardcoded EN | All strings via t(); HE translations present; build+lint pass |
-| BL-016 | ContactCard action label translation | 🟡 Medium | 📋 Backlog | Sprint 2 | Improvement | Agent 1 | `score.suggestedAction.label` in ContactCard (line 80) shows raw EN — needs useT() + translatedActionLabel like ContactDetailScreen | Label shown in HE when language=he; no regression on EN |
-| BL-017 | Missing aria-labels on icon-only buttons | 🟡 Medium | 📋 Backlog | Sprint 2 | Accessibility | Agent 1 | Edit button in ContactDetailScreen + Regenerate/Copy/Advanced toggle/Signature toggle in GreetingEditorScreen have no aria-label | All icon buttons have aria-label via t(); screen reader verified |
-| BL-018 | aria-expanded on toggle buttons | 🟡 Medium | 📋 Backlog | Sprint 2 | Accessibility | Agent 1 | Advanced tone options toggle and Signature toggle in GreetingEditorScreen missing aria-expanded | aria-expanded reflects open/closed state; WCAG 4.1.2 |
 | BL-019 | React.lazy for remaining screens | 🟡 Medium | 📋 Backlog | Sprint 2 | Performance | Agent 1 | ~15 screens still eagerly imported; only BirthdayCenter/BirthdayGreetingEditor/ImportContacts are lazy; split remaining premium + secondary screens | Bundle size reduced; Suspense fallback inside WithNav; no flash |
 | BL-020 | scoringSystem.ts memoization | 🟢 Low | 📋 Backlog | Sprint 2 | Performance | Agent 1 | `calculateRelationshipScore` runs for every contact on every render; add per-contact Map cache keyed by `id + updatedAt` | Score cache hit verified; no stale results on contact edit |
 | BL-021 | Pull-to-refresh on Dashboard | 🟢 Low | 📋 Backlog | Sprint 2 | UX | Agent 1 | Mobile users expect pull-to-refresh on a CRM dashboard; currently missing | Touch gesture triggers data recalculation; haptic feedback (if available) |
