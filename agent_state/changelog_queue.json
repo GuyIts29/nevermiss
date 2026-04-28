@@ -642,5 +642,26 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "BL-046/047/048/049/052: נוספו 20 מפתחות ב-EN+HE: import_csvOnly/fromPhoneDesc/orCSV; group_purpose/hint + 7 purpose labels; group_holidays_selected"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-050: group assignment UI בשלב done — select + כפתור assign; מיזוג contactIds עם Set למניעת כפילויות; groupAssigned feedback"
+  },
+  {
+    "timestamp": "2026-04-29T12:01:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-051: downloadCSVTemplate() — Blob CSV עם BOM + כותרות עבריות + שורת דוגמה; כפתור הורדה בשלב upload"
+  },
+  {
+    "timestamp": "2026-04-29T12:02:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-050/051: נוספו 10 מפתחות EN+HE: import_addToGroup/Hint/selectGroup/assignGroup/groupAssigned/noGroups/downloadTemplate/templateHint"
   }
 ]

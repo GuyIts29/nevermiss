@@ -286,5 +286,13 @@
   "T72": {
     "status": "✅",
     "notes": "BL-052 Sprint 5: GroupPurpose type + purpose field ב-Group; SUGGESTED_BASES lookup; applyPurpose(); purpose pills + ✦ badge על holidays מוצעים ב-GroupsScreen"
+  },
+  "T73": {
+    "status": "✅",
+    "notes": "BL-050 Sprint 5: group assignment UI בשלב done של ImportContactsScreen; select + assign button; Set merge; groupAssigned success state"
+  },
+  "T74": {
+    "status": "✅",
+    "notes": "BL-051 Sprint 5: downloadCSVTemplate() — CSV Blob עם BOM + עמודות עבריות + שורת דוגמה; כפתור בשלב upload"
   }
 }

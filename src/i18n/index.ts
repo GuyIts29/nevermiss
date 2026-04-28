@@ -375,6 +375,14 @@ export const translations = {
     import_warnings: 'Warnings',
     import_viewContacts: 'View Contacts',
     import_back: 'Back',
+    import_addToGroup: 'Add to Group (Optional)',
+    import_addToGroupHint: 'Assign all imported contacts to a group',
+    import_selectGroup: '— Select a group —',
+    import_assignGroup: 'Assign to Group',
+    import_groupAssigned: 'Contacts added to "{name}"',
+    import_noGroups: 'No groups yet — create one in the Groups tab',
+    import_downloadTemplate: 'Download CSV Template',
+    import_templateHint: 'Get the recommended column structure',
 
     // ─── What's New ───────────────────────────────────────────────────────
     whatsNew_title: "What's New",
@@ -1009,6 +1017,14 @@ export const translations = {
     import_warnings: 'אזהרות',
     import_viewContacts: 'צפה באנשי קשר',
     import_back: 'חזרה',
+    import_addToGroup: 'הוסף לקבוצה (אופציונלי)',
+    import_addToGroupHint: 'שייך את כל אנשי הקשר שיובאו לקבוצה',
+    import_selectGroup: '— בחר קבוצה —',
+    import_assignGroup: 'שייך לקבוצה',
+    import_groupAssigned: 'אנשי הקשר נוספו לקבוצה "{name}"',
+    import_noGroups: 'אין קבוצות עדיין — צור קבוצה בלשונית הקבוצות',
+    import_downloadTemplate: 'הורד תבנית CSV',
+    import_templateHint: 'קבל את מבנה העמודות המומלץ',
 
     // ─── What's New ───────────────────────────────────────────────────────
     whatsNew_title: 'מה חדש',

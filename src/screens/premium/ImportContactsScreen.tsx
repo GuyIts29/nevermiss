@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, CheckCircle, AlertCircle, ArrowRight, FileText, Smartphone } from 'lucide-react'
+import { Upload, CheckCircle, AlertCircle, ArrowRight, FileText, Smartphone, Download, FolderOpen } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
@@ -10,6 +10,20 @@ import { parseCSV, autoDetectColumns, processImport } from '@/services/importSer
 import { trackEvent } from '@/services/analyticsService'
 import type { ImportPreview, ImportColumn } from '@/types'
 import { clsx } from 'clsx'
+
+const CSV_TEMPLATE_HEADERS = 'שם,טלפון,אימייל,יום הולדת,מחלקה,תפקיד,דת,שפה,הערות\n'
+const CSV_TEMPLATE_EXAMPLE = 'ישראל ישראלי,0501234567,israel@example.com,1990-05-15,פיתוח,מפתח,Judaism,hebrew,\n'
+
+function downloadCSVTemplate() {
+  const bom = '﻿'
+  const blob = new Blob([bom + CSV_TEMPLATE_HEADERS + CSV_TEMPLATE_EXAMPLE], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'nevermiss_import_template.csv'
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 const CONTACT_FIELDS = [
   { value: '', label: '— Skip this column —' },
@@ -88,7 +102,7 @@ function StepIndicator({ step }: { step: Step }) {
 
 export function ImportContactsScreen() {
   const navigate = useNavigate()
-  const { addContact } = useApp()
+  const { addContact, groups, updateGroup } = useApp()
   const t = useT()
   const inputRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null)
@@ -99,6 +113,9 @@ export function ImportContactsScreen() {
   const [step, setStep] = useState<Step>('upload')
   const [dragging, setDragging] = useState(false)
   const [importError, setImportError] = useState<string | null>(null)
+  const [importedIds, setImportedIds] = useState<string[]>([])
+  const [selectedGroupId, setSelectedGroupId] = useState<string>('')
+  const [groupAssigned, setGroupAssigned] = useState<string | null>(null)
 
   const handleFile = async (f: File) => {
     setFile(f)
@@ -129,6 +146,7 @@ export function ImportContactsScreen() {
     try {
       const res = await processImport(file, columns)
       res.contacts.forEach(c => addContact(c))
+      setImportedIds(res.contacts.map(c => c.id))
       setResult({ imported: res.imported, skipped: res.skipped, errors: res.errors })
       trackEvent('contacts_imported', { count: res.imported })
       setStep('done')
@@ -200,6 +218,7 @@ export function ImportContactsScreen() {
         )}
 
         {step === 'upload' && (
+          <>
           <div
             className={clsx(
               'rounded-[var(--border-radius-lg)] p-8 text-center transition-all cursor-pointer',
@@ -253,6 +272,24 @@ export function ImportContactsScreen() {
               <span className="text-xs text-[var(--color-text-muted)]">{t('import_csvOnly')}</span>
             </div>
           </div>
+
+          {/* BL-051: CSV template download */}
+          <button
+            type="button"
+            onClick={e => { e.stopPropagation(); downloadCSVTemplate() }}
+            className="w-full flex items-center gap-3 p-3 rounded-[var(--border-radius)] transition-all hover:opacity-80 active:scale-[0.99]"
+            style={{ background: 'var(--color-surface-2)', border: '1px dashed var(--color-border)' }}
+          >
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)' }}>
+              <Download size={14} className="text-white" />
+            </div>
+            <div className="flex-1 text-start">
+              <p className="text-xs font-bold text-[var(--color-text-primary)]">{t('import_downloadTemplate')}</p>
+              <p className="text-[10px] text-[var(--color-text-muted)]">{t('import_templateHint')}</p>
+            </div>
+            <ArrowRight size={12} className="text-[var(--color-text-muted)] shrink-0" />
+          </button>
+          </>
         )}
 
         {step === 'map' && preview && (
@@ -420,6 +457,51 @@ export function ImportContactsScreen() {
                 </ul>
               </Card>
             )}
+
+            {/* Group assignment */}
+            <Card>
+              <div className="flex items-center gap-2 mb-3">
+                <FolderOpen size={16} style={{ color: 'var(--color-primary)' }} />
+                <p className="text-sm font-bold text-[var(--color-text-primary)]">{t('import_addToGroup')}</p>
+              </div>
+              <p className="text-xs text-[var(--color-text-muted)] mb-3">{t('import_addToGroupHint')}</p>
+
+              {groups.length === 0 ? (
+                <p className="text-xs text-[var(--color-text-muted)] italic">{t('import_noGroups')}</p>
+              ) : groupAssigned ? (
+                <div className="flex items-center gap-2 p-2.5 rounded-lg" style={{ background: '#D1FAE5', border: '1px solid #6EE7B7' }}>
+                  <CheckCircle size={14} className="text-green-600 shrink-0" />
+                  <p className="text-xs font-semibold text-green-700">{t('import_groupAssigned', { name: groupAssigned })}</p>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <select
+                    value={selectedGroupId}
+                    onChange={e => setSelectedGroupId(e.target.value)}
+                    className="form-input text-sm flex-1"
+                  >
+                    <option value="">{t('import_selectGroup')}</option>
+                    {groups.map(g => (
+                      <option key={g.id} value={g.id}>{g.emoji} {g.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    disabled={!selectedGroupId}
+                    onClick={() => {
+                      const group = groups.find(g => g.id === selectedGroupId)
+                      if (!group) return
+                      const merged = [...new Set([...group.contactIds, ...importedIds])]
+                      updateGroup({ ...group, contactIds: merged, updatedAt: new Date().toISOString() })
+                      setGroupAssigned(group.name)
+                    }}
+                    className="px-3 py-2 rounded-[var(--border-radius)] text-sm font-bold text-white disabled:opacity-40 hover:opacity-90 active:scale-95 transition-all shrink-0"
+                    style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))' }}
+                  >
+                    {t('import_assignGroup')}
+                  </button>
+                </div>
+              )}
+            </Card>
 
             <button
               onClick={() => navigate('/contacts')}
