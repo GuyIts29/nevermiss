@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "changelog": "node scripts/make-changelog.js",
+    "qa": "node scripts/make-qa-checklist.js"
   },
   "dependencies": {
     "@capacitor/cli": "^8.3.1",

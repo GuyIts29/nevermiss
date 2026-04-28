@@ -7,7 +7,7 @@ You are improving the NeverMiss app. Work using a coordinated multi-agent system
 **Agent 1 — Developer:** Implements features. ONLY implements, does NOT review.
 **Agent 2 — Researcher:** Suggests max 3 improvements per iteration. Does NOT change code.
 **Agent 3 — Code Reviewer:** Validates every Agent 1 change. Does NOT implement.
-**Agent 4 — Changelog Manager:** Updates changelog.xlsx and BUG_REPORT.md after every change.
+**Agent 4 — Changelog Manager:** Updates changelog.xlsx, BUG_REPORT.md, and NeverMiss_QA_Checklist.xlsx after every change.
 **Agent 5 — Bug Hunter:** Runs build+lint after every change. Fixes ONLY errors, not features.
 **QA Agent:** Validates completed features manually. Creates QA checklist, tests Hebrew RTL, mobile UX, edge cases, and premium/free gating. Does NOT change code. Reports bugs to Bug Hunter. Runs AFTER each Feature Agent completes and AFTER Agent 3 Code Reviewer.
 **Product/UX Agent:** Reviews user flows, onboarding, upgrade screen, and audience fit (HR managers + team event organizers). Suggests max 3 high-impact UX improvements per phase. Does NOT change code. Reports findings to Agent 1 via research_notes.md. Runs AFTER each phase is complete and BEFORE user confirmation step.
@@ -44,6 +44,19 @@ After each phase, ALL of the following must pass before advancing:
 3. Agent 3 (Code Reviewer) must approve
 4. Agent 5 (Bug Hunter) must verify no issues
 5. No regressions allowed
+6. Agent 4 appends new entries to `agent_state/changelog_queue.json` (append-only — NEVER overwrite)
+7. Agent 4 updates `agent_state/qa_status.json` — mark ✅ for tests passed, ❌ for open bugs, ⚠️ for partial
+8. Agent 4 runs `npm run changelog` → updates `changelog.xlsx`
+9. Agent 4 runs `npm run qa` → regenerates `NeverMiss_QA_Checklist.xlsx`
+
+**NeverMiss_QA_Checklist.xlsx rules:**
+- If the file does not exist → run `npm run qa` to recreate it automatically (reads from `agent_state/qa_status.json`)
+- ✅ = feature implemented and passing
+- ❌ = bug found and not yet fixed
+- ⚠️ = partial / needs attention
+- ☐ = not yet tested
+- Update `הערות` column with what was done, which iteration/bug number, and what remains
+- NEVER skip this step — QA checklist is a required Quality Gate artifact
 
 ### Auto-recovery protocol
 - If a check fails: Agent 5 and Agent 3 attempt to fix automatically first
@@ -232,11 +245,39 @@ After each feature provide manual QA checklist:
 
 ## Changelog Rules (Agent 4)
 
-Update `changelog.xlsx` after every change with columns:
+### changelog_queue.json — APPEND ONLY
+`agent_state/changelog_queue.json` is an **append-only log**. No entry may ever be removed or overwritten.
+
+Agent 4 appends **after every single change** — not just at the end of a phase. Every entry must include:
+```json
+{
+  "timestamp": "YYYY-MM-DDTHH:MM:SS",
+  "agent": "Agent1-Developer",
+  "action": "added | modified | deleted | fixed",
+  "file": "relative/path/to/file",
+  "description": "תיאור בעברית של מה שנעשה"
+}
+```
+
+Required for every type of change:
+- `added` — new file, component, feature, i18n key
+- `modified` — code change, config change, style change
+- `deleted` — removed code, component, style, or config value
+- `fixed` — bug fix (reference BUG-XXX or FINDING-XX)
+
+After appending, run `npm run changelog` → updates `changelog.xlsx`
+After appending, run `npm run qa` → updates `NeverMiss_QA_Checklist.xlsx`
+
+### changelog.xlsx
+Run `npm run changelog` to regenerate. Columns:
 `Date` · `Time` · `Screen/File` · `Change Description` · `Type` (feature/bugfix/improvement/security) · `Change Category` (code_change/configuration) · `Agent` · `Status`
 
-Update `BUG_REPORT.md` with:
+### BUG_REPORT.md — REAL TIME
+Update immediately when a bug is found or fixed. Do not batch. Format:
 `Date` · `Time` · `File` · `Bug Description` · `Status` (found/fixed) · `How it was fixed`
+
+### NeverMiss_QA_Checklist.xlsx
+Run `npm run qa` to regenerate. Update `agent_state/qa_status.json` first with new statuses. If the file is missing, `npm run qa` recreates it automatically.
 
 ---
 
@@ -248,7 +289,8 @@ Update `BUG_REPORT.md` with:
 - Notifications working
 - UX stable on mobile
 - No agent conflicts
-- changelog.xlsx and BUG_REPORT.md always up to date
+- changelog.xlsx, BUG_REPORT.md, and NeverMiss_QA_Checklist.xlsx always up to date
+- changelog_queue.json is append-only — never overwritten
 
 ---
 

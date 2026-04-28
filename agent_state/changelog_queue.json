@@ -1,92 +1,114 @@
 [
   {
-    "date": "2026-04-28",
-    "time": "10:00",
+    "timestamp": "2026-04-28T10:00:00",
+    "agent": "Agent5-BugHunter",
+    "action": "fixed",
     "file": "src/integrations/supabase/client.ts",
-    "description": "Fixed pre-existing @typescript-eslint/no-unused-vars lint error on stub parameter _userId (BUG-030)",
-    "type": "bugfix",
-    "category": "code_change",
-    "agent": "Agent5-BugHunter",
-    "status": "done"
+    "description": "תוקן BUG-030 — no-unused-vars lint על פרמטר _userId ב-stub; הוסף eslint-disable-next-line"
   },
   {
-    "date": "2026-04-28",
-    "time": "10:00",
+    "timestamp": "2026-04-28T10:00:00",
+    "agent": "Agent5-BugHunter",
+    "action": "fixed",
     "file": "src/integrations/payment/payme.ts",
-    "description": "Fixed pre-existing @typescript-eslint/no-unused-vars lint error on stub parameter _req (BUG-030)",
-    "type": "bugfix",
-    "category": "code_change",
-    "agent": "Agent5-BugHunter",
-    "status": "done"
+    "description": "תוקן BUG-030 — no-unused-vars lint על פרמטר _req ב-stub; הוסף eslint-disable-next-line"
   },
   {
-    "date": "2026-04-28",
-    "time": "10:00",
+    "timestamp": "2026-04-28T10:00:00",
+    "agent": "Agent5-BugHunter",
+    "action": "fixed",
     "file": "src/integrations/ai/claudeClient.ts",
-    "description": "Fixed pre-existing @typescript-eslint/no-unused-vars lint error on stub parameter _req (BUG-030)",
-    "type": "bugfix",
-    "category": "code_change",
-    "agent": "Agent5-BugHunter",
-    "status": "done"
+    "description": "תוקן BUG-030 — no-unused-vars lint על פרמטר _req ב-stub; הוסף eslint-disable-next-line"
   },
   {
-    "date": "2026-04-28",
-    "time": "10:30",
+    "timestamp": "2026-04-28T10:30:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
     "file": "src/screens/SettingsScreen.tsx",
-    "description": "Fixed invisible language toggle indicator: moved width/borderRadius from Tailwind calc() class to inline style to produce valid CSS (BUG-031)",
-    "type": "bugfix",
-    "category": "code_change",
-    "agent": "Agent1-Developer",
-    "status": "done"
+    "description": "תוקן BUG-031 — מחוון שפה בלתי נראה; w-[calc(50%-4px)] ב-Tailwind יצר CSS לא תקין; הועבר ל-inline style"
   },
   {
-    "date": "2026-04-28",
-    "time": "11:00",
+    "timestamp": "2026-04-28T11:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
     "file": "src/components/WhatsAppButton.tsx",
-    "description": "Added automatic image clipboard copy when sending via WhatsApp with attached image; Hebrew paste instruction popup with dismiss button",
-    "type": "feature",
-    "category": "code_change",
-    "agent": "Agent1-Developer",
-    "status": "done"
+    "description": "נוסף: העתקת תמונה אוטומטית ל-clipboard בלחיצה על WhatsApp; popup עברי עם הנחיות הדבקה; כפתור סיום"
   },
   {
-    "date": "2026-04-28",
-    "time": "11:00",
+    "timestamp": "2026-04-28T11:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
     "file": "src/services/communicationService.ts",
-    "description": "Fixed 00-prefix double-normalization bug in buildWhatsAppUrl (BUG-032); added empty phone guard (BUG-033); removed deprecated execCommand clipboard fallback (BUG-034)",
-    "type": "bugfix",
-    "category": "code_change",
-    "agent": "Agent1-Developer",
-    "status": "done"
+    "description": "תוקן BUG-032 (00-prefix כפול), BUG-033 (guard טלפון ריק), BUG-034 (הוסר execCommand מיושן)"
   },
   {
-    "date": "2026-04-28",
-    "time": "11:30",
+    "timestamp": "2026-04-28T11:30:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
     "file": "src/screens/CalendarScreen.tsx",
-    "description": "Integrated @hebcal/core: Hebrew date (HDate + gematriya) shown below Gregorian date in each calendar cell; Rosh Chodesh shows month name; Hebrew months shown in month header pill (BUG-035)",
-    "type": "feature",
-    "category": "code_change",
-    "agent": "Agent1-Developer",
-    "status": "done"
+    "description": "נוסף: שילוב @hebcal/core — תאריך עברי (גמטריה) בכל תא; ראש חודש עם שם חודש; שמות חודשים עבריים ב-pill"
   },
   {
-    "date": "2026-04-28",
-    "time": "11:30",
-    "file": "src/i18n/index.ts",
-    "description": "Added 3 new i18n keys: whatsapp_image_ready_title, whatsapp_image_paste_hint, whatsapp_image_paste_steps (EN + HE)",
-    "type": "improvement",
-    "category": "code_change",
+    "timestamp": "2026-04-28T11:30:00",
     "agent": "Foundation-Agent",
-    "status": "done"
+    "action": "added",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 3 מפתחות i18n: whatsapp_image_ready_title, whatsapp_image_paste_hint, whatsapp_image_paste_steps (EN + HE)"
   },
   {
-    "date": "2026-04-28",
-    "time": "12:00",
-    "file": "AGENTS.md",
-    "description": "Created AGENTS.md documenting all 8 agent roles and session history, derived from project files",
-    "type": "improvement",
-    "category": "code_change",
+    "timestamp": "2026-04-28T12:00:00",
     "agent": "Agent1-Developer",
-    "status": "done"
+    "action": "added",
+    "file": "AGENTS.md",
+    "description": "נוצר AGENTS.md — תיעוד כל 8 agent הגדרות ופעולות מהפרויקט"
+  },
+  {
+    "timestamp": "2026-04-28T13:00:00",
+    "agent": "Agent4-Changelog",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "עודכן בזמן אמת — BUG-022 סומן כ-fixed; נוספו BUG-030 עד BUG-035 עם תיאור מלא"
+  },
+  {
+    "timestamp": "2026-04-28T13:00:00",
+    "agent": "Agent4-Changelog",
+    "action": "modified",
+    "file": "agent_state/iteration_log.md",
+    "description": "נוסף iteration 11 — SettingsScreen/WhatsApp/communicationService/CalendarScreen/i18n/AGENTS.md"
+  },
+  {
+    "timestamp": "2026-04-28T13:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "added",
+    "file": "agent_state/qa_status.json",
+    "description": "נוצר קובץ סטטוס QA עם 57 בדיקות — מצב נוכחי: 39 ✅ / 13 ❌ / 5 ⚠️"
+  },
+  {
+    "timestamp": "2026-04-28T13:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "added",
+    "file": "scripts/make-qa-checklist.js",
+    "description": "נוצר סקריפט ליצירת NeverMiss_QA_Checklist.xlsx — קורא מ-qa_status.json; 57 בדיקות ב-8 קטגוריות"
+  },
+  {
+    "timestamp": "2026-04-28T13:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "modified",
+    "file": "package.json",
+    "description": "נוספו scripts: \"changelog\" → node scripts/make-changelog.js; \"qa\" → node scripts/make-qa-checklist.js"
+  },
+  {
+    "timestamp": "2026-04-28T13:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "modified",
+    "file": "CLAUDE.md",
+    "description": "עודכן Quality Gate — נוספו שלבים 6-9: append changelog_queue, עדכון qa_status.json, הרצת changelog ו-qa"
+  },
+  {
+    "timestamp": "2026-04-28T13:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "added",
+    "file": "NeverMiss_QA_Checklist.xlsx",
+    "description": "נוצר NeverMiss_QA_Checklist.xlsx — 57 בדיקות ב-8 קטגוריות; מעודכן אוטומטית אחרי כל phase"
   }
 ]
