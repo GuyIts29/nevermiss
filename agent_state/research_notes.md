@@ -1,5 +1,96 @@
 # Agent 2 — Research Notes
-_Last updated: 2026-04-27 (iteration 10)_
+_Last updated: 2026-04-29 (Sprint 4 + Sprint 5)_
+
+## NEW — priority improvements (Sprint 4 + Sprint 5)
+
+### FINDING 74 — `exportBackupJSON()` and `downloadCSVTemplate()`: `URL.createObjectURL()` without `revokeObjectURL()` — memory leak on repeated calls
+**Files:** `src/services/storageService.ts` (exportBackupJSON), `src/screens/premium/ImportContactsScreen.tsx` (downloadCSVTemplate)
+
+**Problem:** Both functions create an object URL, trigger a download, and then leave the URL alive for the lifetime of the document:
+```ts
+// storageService.ts
+const url = URL.createObjectURL(blob)
+const a = document.createElement('a')
+a.href = url
+a.click()
+// ← URL.revokeObjectURL(url) never called
+
+// ImportContactsScreen.tsx
+const url = URL.createObjectURL(blob)
+const a = document.createElement('a')
+a.href = url
+a.download = 'nevermiss_import_template.csv'
+a.click()
+// ← URL.revokeObjectURL(url) never called
+```
+Each call allocates a `Blob` URL that holds a reference to the underlying `Blob` in browser memory. The URL (and associated blob) is never freed until the page is closed. If a user exports multiple times in one session (e.g., repeated backup exports), each export adds a new unreleased blob. On mobile (Capacitor/WKWebView) where memory pressure is higher, accumulating unreleased blobs increases the risk of the app being memory-killed.
+
+**Fix (1 line each):** Add `URL.revokeObjectURL(url)` after the click triggers. Using `setTimeout(0)` ensures the browser has time to initiate the download before revocation:
+```ts
+a.click()
+setTimeout(() => URL.revokeObjectURL(url), 100)
+```
+
+**Priority:** Low-Medium — correctness/hygiene. Easy 1-line fix per function; no API changes needed.
+
+---
+
+### FINDING 75 — `GroupsScreen.tsx`: `SUGGESTED_BASES` holiday suggestions ignore actual group member religions; no way to reject a suggested holiday
+**File:** `src/screens/GroupsScreen.tsx` (SUGGESTED_BASES + applyPurpose)
+
+**Problem A — suggestions blind to member religions:**
+`SUGGESTED_BASES` is a static lookup table keyed by `GroupPurpose`. It always returns the same holidays regardless of which contacts are actually in the group. For example, a `clients` group containing only Muslim contacts will still auto-suggest `christmas` and `rosh-hashana` (because the static table includes them for all client groups). A smarter approach would compute suggestions based on the `religion` or `celebrationType` distribution of `group.contactIds`:
+```ts
+const memberReligions = new Set(
+  group.contactIds
+    .map(id => contacts.find(c => c.id === id))
+    .filter(Boolean)
+    .map(c => c.celebrationType ?? c.religion)
+)
+// then filter SUGGESTED_BASES results to holidays matching those religions
+```
+This would produce more relevant suggestions without changing the UX model.
+
+**Problem B — no way to reject/undo a suggestion:**
+`applyPurpose()` merges suggested holiday IDs into `selectedHolidayIds` using `[...new Set([...prev, ...suggested])]`. Once suggested holidays are added they become indistinguishable from manually selected ones. If a user changes the purpose (e.g., from `work` to `hr`), the new suggestions merge in but the old work-purpose suggestions are NOT removed. Over multiple purpose changes, the holiday list grows monotonically with no pruning. A "suggested" vs "manually selected" distinction (e.g., a separate `suggestedIds` state that can be rejected) would give the user explicit control.
+
+**Fix A:** Add a `getSmartSuggestions(purpose, contactIds, contacts)` utility that cross-references member religions. Medium effort.
+**Fix B:** Track suggestions separately; show a "Clear suggestions" button. Low effort.
+
+**Priority:** Medium — affects UX quality of a core Sprint 5 feature. Problem B is a low-effort polish item.
+
+---
+
+### FINDING 76 — `ContactFormScreen.tsx`: `findDuplicate()` only guards NEW contacts; editing a contact to match an existing one creates a silent duplicate
+**File:** `src/screens/ContactFormScreen.tsx` (findDuplicate)
+
+**Problem:** `findDuplicate()` opens with:
+```ts
+const findDuplicate = (): Contact | null => {
+  if (!isNew) return null
+  ...
+}
+```
+This intentionally skips the duplicate check when editing an existing contact. But it creates a blind spot: if a user edits an existing contact's name or phone number to exactly match another existing contact, no warning is shown and a true duplicate is silently created. The check for a renamed contact (e.g., renaming "Yossi" to match an existing "Yossi Cohen") should compare against all contacts EXCEPT the current contact being edited:
+```ts
+const findDuplicate = (): Contact | null => {
+  const nameNorm = form.name?.trim().toLowerCase() ?? ''
+  const phoneNorm = (form.phone ?? '').replace(/\D/g, '')
+  return contacts.find(c => {
+    if (c.id === contactId) return false  // exclude self
+    const sameName = c.name.trim().toLowerCase() === nameNorm
+    const samePhone = phoneNorm.length >= 7 && c.phone.replace(/\D/g, '') === phoneNorm
+    return sameName || samePhone
+  }) ?? null
+}
+```
+The `handleSave` call site already validates before saving, so adding this check to edits as well would uniformly protect both creation and update paths.
+
+**Fix:** Remove the `if (!isNew) return null` guard; add a `c.id === contactId` exclusion to the `find` predicate. Low effort — 2 line change.
+
+**Priority:** Medium — duplicate data is a data-integrity issue in a CRM. The fix is trivial.
+
+---
 
 ## NEW — priority improvements (iteration 10)
 

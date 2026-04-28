@@ -1,5 +1,130 @@
 # Agent 3 — Code Review Notes
-_Last updated: 2026-04-27 (feature sprint review — 7 files, 3 features)_
+_Last updated: 2026-04-29 (Sprint 4 + Sprint 5 review)_
+
+## NEW — Sprint 4 + Sprint 5 review findings
+
+### Sprint 4 — BL-024: `src/services/hapticService.ts`
+
+#### [FINDING 77] `Capacitor.isNativePlatform()` guard — CORRECT; no-op in browser confirmed
+**Severity: Positive confirmation**
+
+All four exported functions (`hapticLight`, `hapticMedium`, `hapticSuccess`, `hapticError`) guard with `if (!isNative) return` before any Capacitor call. `isNative` is derived from `Capacitor.isNativePlatform()` at module-load time (not on every call). This is the correct pattern — `Capacitor.isNativePlatform()` is a synchronous, stable check that returns `false` in browser contexts. Calling it once at module scope is more efficient than calling it on every haptic trigger. The `async` keyword on each function is technically unnecessary (they don't `await` any value when `!isNative`), but harmless — the returned `Promise<void>` resolves immediately on web. No action required.
+
+---
+
+### Sprint 4 — BL-034: `src/services/storageService.ts` (`exportBackupJSON` / `importBackupJSON`)
+
+#### [FINDING 78] `exportBackupJSON`: `URL.createObjectURL()` without `revokeObjectURL()` — memory leak
+**Severity: Low / hygiene**
+
+The export function (storageService.ts) calls `URL.createObjectURL(blob)` and never calls `URL.revokeObjectURL()`. Each export allocates a blob URL that is never freed until page close. On repeated exports in one session, this accumulates. This is the same issue documented in research_notes.md FINDING 74. Easy fix: `setTimeout(() => URL.revokeObjectURL(url), 100)` after `a.click()`.
+
+#### [FINDING 79] `importBackupJSON`: no `localStorage` quota check before restoring
+**Severity: Low / edge case**
+
+`importBackupJSON` calls `storage.saveContacts(backup.contacts)`, `storage.saveGroups(backup.groups)`, etc. without checking total restored data size against `localStorage` quota (~5 MB). A backup file from a premium user with many contacts + media drafts could exceed quota on a clean install. The silent failure mode is `localStorage.setItem()` throwing `QuotaExceededError` mid-restore, leaving the app in a partially restored state (some keys written, others not). A pre-flight check — `JSON.stringify(backup).length < 4_000_000` — would catch most cases. Low probability in practice (most backup files are small), but the partial-restore scenario is bad UX.
+
+#### [FINDING 80] `importBackupJSON`: validates `contacts` and `groups` but not `drafts` or `settings`
+**Severity: Low / defensive hygiene**
+
+The import function validates:
+```ts
+if (!Array.isArray(backup.contacts) || !Array.isArray(backup.groups)) { ... error ... }
+```
+But `backup.drafts` and `backup.settings` are written to localStorage without validation:
+```ts
+storage.saveDrafts(backup.drafts ?? [])
+storage.saveSettings({ ...DEFAULT_SETTINGS, ...backup.settings })
+```
+The `?? []` fallback for drafts is correct. The settings spread `{ ...DEFAULT_SETTINGS, ...backup.settings }` is also safe (unknown keys are harmlessly merged; missing keys fall back to defaults). No crash risk, but a malformed `backup.settings` object with unexpected field types would silently overwrite valid settings. Acceptable for MVP.
+
+---
+
+### Sprint 4 — BL-035: `src/screens/ContactFormScreen.tsx` (duplicate detection)
+
+#### [FINDING 81] `findDuplicate()` skips check for contact edits — intentional but undocumented
+**Severity: Low / informational**
+
+`if (!isNew) return null` at the top of `findDuplicate()` means editing a contact's name or phone to match an existing contact is not flagged. This is correct behaviour for the stated scope (BL-035: "new contact creation only"), but creates a data-integrity gap for edits. Documented in research_notes.md FINDING 76. The fix is a 2-line change (remove early return; add self-exclusion by ID). Tag for next sprint if data quality is a priority.
+
+#### [FINDING 82] Duplicate modal uses `contact.name` of the found duplicate — CORRECT
+**Severity: Positive confirmation**
+
+The modal renders `{duplicateContact?.name}` — showing the name of the EXISTING contact that the new contact would duplicate. This is the correct framing for the user: "A contact named [Alice] already exists." The "Save Anyway" path calls `doSave()` directly, bypassing validation — correct, since the user has explicitly acknowledged the duplicate. No bypass of required-field validation is introduced (validation runs before `findDuplicate()` in `handleSave()`).
+
+---
+
+### Sprint 5 — BL-050/051: `src/screens/premium/ImportContactsScreen.tsx`
+
+#### [FINDING 83] `downloadCSVTemplate()`: `URL.createObjectURL()` without `revokeObjectURL()` — same leak as FINDING 78
+**Severity: Low / hygiene**
+
+Same pattern as `exportBackupJSON`. Add `setTimeout(() => URL.revokeObjectURL(url), 100)` after `a.click()`. 1-line fix.
+
+#### [FINDING 84] Group assignment (`BL-050`): `updateGroup` called without error handling — silent failure on storage full
+**Severity: Low / edge case**
+
+```tsx
+updateGroup({ ...group, contactIds: merged, updatedAt: new Date().toISOString() })
+setGroupAssigned(group.name)
+```
+`updateGroup` calls `storage.updateGroup(g)` which calls `localStorage.setItem(...)`. If localStorage is full, `setItem` throws `QuotaExceededError` synchronously. The exception is not caught here, so `setGroupAssigned(group.name)` is not called and the app silently fails — the success state is never set, but there is also no error message shown to the user. The assign button stays enabled and can be retried. Low probability in practice (groups are small JSON). A `try/catch` wrapping the `updateGroup` call with a Hebrew error toast would improve robustness.
+
+#### [FINDING 85] Group assignment: no feedback if `importedIds` is empty (zero successful imports)
+**Severity: Low / edge case**
+
+If the CSV file had 0 valid rows (all skipped), `importedIds` is `[]`. The group assignment section still renders, the assign button is enabled, and `updateGroup` is called with `contactIds: [...new Set([...group.contactIds, ...[]])]` — effectively a no-op update that sets a new `updatedAt` but adds nothing. The success message `setGroupAssigned(group.name)` still fires, falsely implying contacts were added. A guard `{importedIds.length > 0 && <group-assignment-card>}` would suppress the section when there's nothing to assign.
+
+---
+
+### Sprint 5 — BL-052: `src/screens/GroupsScreen.tsx` (purpose + holiday suggestions)
+
+#### [FINDING 86] `SUGGESTED_BASES` is a module-level constant inside a screen file — should be extracted
+**Severity: Low / architecture**
+
+`SUGGESTED_BASES: Record<GroupPurpose, string[]>` is declared at module scope inside `GroupsScreen.tsx`. This is domain data (not component state or UI logic) and belongs in `src/data/` alongside `holidays.ts` and `themes.ts`. Having it in a screen file makes it untestable and unavailable for reuse (e.g., a future "auto-suggest holidays on group create via API" would need to import from `GroupsScreen`, which is wrong). Suggested location: `src/data/groupSuggestions.ts`. Low priority — works correctly where it is; this is a maintainability concern.
+
+#### [FINDING 87] `applyPurpose()` does not remove previously suggested holidays when purpose changes
+**Severity: Low / UX gap**
+
+As documented in research_notes.md FINDING 75, switching from one purpose to another merges new suggestions without removing old ones. For example: select `work` purpose (adds rosh-hashana, passover, independence-day), then switch to `family` (adds sukkot, yom-kippur) — result is a union of both sets. The user has no indication which holidays came from which purpose. This is documented, low-priority, and was called out in research notes.
+
+#### [FINDING 88] `getSuggestedIds()` returns empty array for holidays that don't exist in current HOLIDAYS data — CORRECT, not a bug
+**Severity: Positive confirmation**
+
+`getSuggestedIds()` filters `HOLIDAYS` with `h.id.startsWith(base)`. If no holiday ID starts with `base` (e.g., a base `'labor-day'` that has no entry in `holidays.ts`), the filter returns `[]` silently. The caller `applyPurpose()` merges the empty array cleanly. This is correct defensive behaviour — no crash, no stale data. If a holiday is later added to `holidays.ts` with a matching ID prefix, it will automatically appear in suggestions without touching `GroupsScreen.tsx`. The approach is correctly forward-compatible.
+
+---
+
+### Sprint 4/5 — Summary verdict
+
+| Change | Correctness | TypeScript | UX/i18n | Security | Verdict |
+|--------|-------------|------------|---------|----------|---------|
+| hapticService.ts | Correct — Capacitor guard sound | Clean | N/A | N/A | SHIP ✅ |
+| exportBackupJSON/importBackupJSON | Correct — URL leak + no quota check (low risk) | Clean | Good Hebrew error/success states | N/A | SHIP with FINDING 78 note |
+| findDuplicate() | Correct for stated scope (new only) | Clean | Good modal UX | N/A | SHIP; FINDING 81 for next sprint |
+| BottomNav active tab (BL-049) | Correct | Clean | Improved visual feedback | N/A | SHIP ✅ |
+| ImportContactsScreen UX (BL-047/048) | Correct | Clean | Clear CSV-only labelling | N/A | SHIP ✅ |
+| downloadCSVTemplate (BL-051) | Correct — URL leak (low) | Clean | Hebrew headers + sample row | N/A | SHIP with FINDING 83 note |
+| Group assignment on import (BL-050) | Correct — silent failure on quota | Clean | Success feedback present | N/A | SHIP; FINDING 84 for next sprint |
+| GroupPurpose + suggestions (BL-052) | Correct — undo gap and static suggestions | Clean | Purpose pills + ✦ badge clear | N/A | SHIP; FINDING 86/87 for next sprint |
+
+**Must-fix carry-overs (from previous sprints):**
+1. [FINDING 31] `media_record_limit` key misused as mic-error message
+2. [FINDING 35] `mediaAttachment` not cleared on message regeneration
+3. [FINDING 49] "Send to group" CTA navigates to generic `/contacts`
+4. [FINDING 51] Coupon codes in plaintext bundle
+5. [FINDING 30] No image file size guard
+
+**New items for Agent 1 queue (Sprint 6):**
+- [FINDING 74/78/83] Add `URL.revokeObjectURL()` after all `createObjectURL` calls — Low (memory hygiene, 1-line fix ×3)
+- [FINDING 76/81] `findDuplicate()` — extend to cover edits with self-exclusion — Medium (data integrity)
+- [FINDING 75/87] `applyPurpose()` — prune previous-purpose suggestions on purpose change — Low (UX polish)
+- [FINDING 84] `updateGroup` in group assignment — wrap in try/catch with error toast — Low (edge case robustness)
+- [FINDING 85] Hide group assignment card when `importedIds.length === 0` — Low (cosmetic correctness)
+- [FINDING 86] Extract `SUGGESTED_BASES` to `src/data/groupSuggestions.ts` — Low (architecture)
+
+---
 
 ## NEW — Feature sprint review findings
 
