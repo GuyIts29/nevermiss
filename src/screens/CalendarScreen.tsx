@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isSameMonth, isToday, addMonths, subMonths } from 'date-fns'
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isToday, addMonths, subMonths } from 'date-fns'
 import { ChevronLeft, ChevronRight, Filter } from 'lucide-react'
 import { HDate, gematriya } from '@hebcal/core'
 import { PageHeader } from '@/components/Navigation'
@@ -81,13 +81,30 @@ export function CalendarScreen() {
     filterReligion === 'all' || h.religion === filterReligion
   )
 
-  const getHolidaysForDay = (date: Date) =>
-    filtered.filter(h => isSameDay(new Date(h.date), date))
+  // Compare dates using numeric YYYYMMDD to avoid timezone shifts on ISO strings
+  const getHolidaysForDay = (date: Date) => {
+    const dayNum = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate()
+    return filtered.filter(h => {
+      const [sy, sm, sd] = h.date.split('-').map(Number)
+      const startNum = sy * 10000 + sm * 100 + sd
+      if (!h.endDate) return startNum === dayNum
+      const [ey, em, ed] = h.endDate.split('-').map(Number)
+      return dayNum >= startNum && dayNum <= (ey * 10000 + em * 100 + ed)
+    })
+  }
 
   const selectedHolidays = selectedDate
     ? getHolidaysForDay(selectedDate)
-    : filtered.filter(h => isSameMonth(new Date(h.date), currentMonth))
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    : (() => {
+        const curYM = currentMonth.getFullYear() * 100 + (currentMonth.getMonth() + 1)
+        return filtered
+          .filter(h => {
+            const [sy, sm] = h.date.split('-').map(Number)
+            const [ey, em] = (h.endDate ?? h.date).split('-').map(Number)
+            return (sy * 100 + sm) <= curYM && (ey * 100 + em) >= curYM
+          })
+          .sort((a, b) => a.date.localeCompare(b.date))
+      })()
 
   return (
     <div className="screen-container">

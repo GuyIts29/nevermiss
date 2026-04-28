@@ -238,5 +238,13 @@
   "T60": {
     "status": "✅",
     "notes": "BL-030 Sprint 3: DeviceContactsScreen with @capacitor-community/contacts; consent/permission/list/import flow; phone dedup; Capacitor.isNativePlatform() guard; Premium route /device-contacts; import shortcut in ImportContactsScreen"
+  },
+  "T61": {
+    "status": "✅",
+    "notes": "BUG-043: CalendarScreen getHolidaysForDay now uses numeric YYYYMMDD range; all days of Sukkot/Hanukkah/multi-day holidays show dot"
+  },
+  "T62": {
+    "status": "✅",
+    "notes": "BUG-044: sukkot-2026 added to holidays.ts (Sep 25–Oct 2, 2026); calendar now shows Sukkot for 2026"
   }
 }

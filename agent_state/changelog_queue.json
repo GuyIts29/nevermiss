@@ -432,5 +432,19 @@
     "action": "modified",
     "file": "BACKLOG.md",
     "description": "Sprint 3 מסומן כ-✅ COMPLETE; BL-024/025/027/028/029 הועברו ל-Sprint 4"
+  },
+  {
+    "timestamp": "2026-04-28T23:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "BUG-043: תוקן — חגים רב-יומיים הציגו נקודה רק ביום הראשון; getHolidaysForDay עודכן לבדיקת טווח [date, endDate]; רשימת חודש מסוננת לפי חפיפה עם החודש הנוכחי; isSameMonth הוסר מה-imports"
+  },
+  {
+    "timestamp": "2026-04-28T23:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/data/holidays.ts",
+    "description": "BUG-044: נוסף sukkot-2026 (15-22 תשרי תשפ״ז, 25 ספטמבר–2 אוקטובר 2026) — ה-entry של 2025 קיים אך 2026 חסר"
   }
 ]

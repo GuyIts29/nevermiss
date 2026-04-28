@@ -260,3 +260,19 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 ---
 
 _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged here automatically._
+
+---
+
+### BUG-043 — Multi-day holidays showing only first day in calendar
+- **Date:** 2026-04-28 | **Time:** 23:00 | **Status:** ✅ fixed
+- **File:** `src/screens/CalendarScreen.tsx`
+- **Bug:** `getHolidaysForDay` used `isSameDay(h.date, date)` — only matched the start date. Sukkot (Oct 6–13), Hanukkah (Dec 14–22) etc. showed a dot only on the first day. Monthly list filter (`isSameMonth(h.date, currentMonth)`) also only checked the start month.
+- **Fixed by:** Agent 1 — 2026-04-28
+- **Fix:** Replaced `isSameDay` with numeric `YYYYMMDD` range comparison `dayNum >= startNum && dayNum <= endNum`. Monthly list now uses year-month overlap check to correctly include holidays that start in the previous month but extend into the current one. Removed unused `isSameMonth` import.
+
+### BUG-044 — Sukkot 2026 missing from holiday data
+- **Date:** 2026-04-28 | **Time:** 23:00 | **Status:** ✅ fixed
+- **File:** `src/data/holidays.ts`
+- **Bug:** `sukkot-2025` entry existed; no `sukkot-2026` entry. Calendar showed no Sukkot for Sep/Oct 2026.
+- **Fixed by:** Agent 1 — 2026-04-28
+- **Fix:** Added `sukkot-2026` entry: date `2026-09-25`, endDate `2026-10-02` (15–22 Tishrei 5787 — covers Hoshana Rabbah and Shemini Atzeret/Simchat Torah).

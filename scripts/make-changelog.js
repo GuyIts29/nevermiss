@@ -1011,6 +1011,28 @@ const rows = [
     Agent: 'Agent 1',
     Status: 'done',
   },
+
+  // ── BUG-043 + BUG-044 — Multi-day holidays + Sukkot 2026 ──
+  {
+    Date: '2026-04-28',
+    Time: '23:00',
+    'Screen / File': 'src/screens/CalendarScreen.tsx',
+    'Change Description': 'BUG-043: Fix multi-day holidays only showing dot on first day. Replace isSameDay check with numeric YYYYMMDD range [startNum, endNum] in getHolidaysForDay. Fix monthly list to show holidays overlapping the visible month (not just holidays that start in the month). Remove unused isSameMonth import.',
+    Type: 'bugfix',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '23:00',
+    'Screen / File': 'src/data/holidays.ts',
+    'Change Description': 'BUG-044: Add missing sukkot-2026 entry (Sep 25 – Oct 2, 2026 / 15–22 Tishrei 5787). Covers full festival including Hoshana Rabbah and Shemini Atzeret / Simchat Torah. Matches existing sukkot-2025 pattern.',
+    Type: 'bugfix',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
 ]
 
 const wb = XLSX.utils.book_new()
