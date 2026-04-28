@@ -38,22 +38,24 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   }
 }
 
-// Screens
+// Eager screens — kept synchronous so the first frame always renders
 import { OnboardingScreen } from '@/screens/OnboardingScreen'
 import { DashboardScreen } from '@/screens/DashboardScreen'
-import { CalendarScreen } from '@/screens/CalendarScreen'
-import { HolidayDetailScreen } from '@/screens/HolidayDetailScreen'
-import { ContactsScreen } from '@/screens/ContactsScreen'
-import { ContactDetailScreen } from '@/screens/ContactDetailScreen'
-import { ContactFormScreen } from '@/screens/ContactFormScreen'
-import { GreetingEditorScreen } from '@/screens/GreetingEditorScreen'
-import { GroupsScreen } from '@/screens/GroupsScreen'
-import { SettingsScreen } from '@/screens/SettingsScreen'
-import { UpgradeScreen } from '@/screens/UpgradeScreen'
-import { AboutScreen } from '@/screens/AboutScreen'
-import { PrivacyScreen } from '@/screens/PrivacyScreen'
-import { TermsScreen } from '@/screens/TermsScreen'
-import { WhatsNewScreen } from '@/screens/WhatsNewScreen'
+
+// Lazy screens — split into separate chunks; loaded on first navigation
+const CalendarScreen = lazy(() => import('@/screens/CalendarScreen').then(m => ({ default: m.CalendarScreen })))
+const HolidayDetailScreen = lazy(() => import('@/screens/HolidayDetailScreen').then(m => ({ default: m.HolidayDetailScreen })))
+const ContactsScreen = lazy(() => import('@/screens/ContactsScreen').then(m => ({ default: m.ContactsScreen })))
+const ContactDetailScreen = lazy(() => import('@/screens/ContactDetailScreen').then(m => ({ default: m.ContactDetailScreen })))
+const ContactFormScreen = lazy(() => import('@/screens/ContactFormScreen').then(m => ({ default: m.ContactFormScreen })))
+const GreetingEditorScreen = lazy(() => import('@/screens/GreetingEditorScreen').then(m => ({ default: m.GreetingEditorScreen })))
+const GroupsScreen = lazy(() => import('@/screens/GroupsScreen').then(m => ({ default: m.GroupsScreen })))
+const SettingsScreen = lazy(() => import('@/screens/SettingsScreen').then(m => ({ default: m.SettingsScreen })))
+const UpgradeScreen = lazy(() => import('@/screens/UpgradeScreen').then(m => ({ default: m.UpgradeScreen })))
+const AboutScreen = lazy(() => import('@/screens/AboutScreen').then(m => ({ default: m.AboutScreen })))
+const PrivacyScreen = lazy(() => import('@/screens/PrivacyScreen').then(m => ({ default: m.PrivacyScreen })))
+const TermsScreen = lazy(() => import('@/screens/TermsScreen').then(m => ({ default: m.TermsScreen })))
+const WhatsNewScreen = lazy(() => import('@/screens/WhatsNewScreen').then(m => ({ default: m.WhatsNewScreen })))
 const ImportContactsScreen = lazy(() => import('@/screens/premium/ImportContactsScreen').then(m => ({ default: m.ImportContactsScreen })))
 const BirthdayCenterScreen = lazy(() => import('@/screens/premium/BirthdayCenterScreen').then(m => ({ default: m.BirthdayCenterScreen })))
 const BirthdayGreetingEditorScreen = lazy(() => import('@/screens/premium/BirthdayGreetingEditorScreen').then(m => ({ default: m.BirthdayGreetingEditorScreen })))
@@ -65,7 +67,9 @@ function WithNav({ children }: { children: ReactNode }) {
   return (
     <div className="app-layout">
       <main className="app-main">
-        {children}
+        <Suspense fallback={<div className="screen-container" />}>
+          {children}
+        </Suspense>
       </main>
       <BottomNav />
     </div>
@@ -104,9 +108,9 @@ function AppShell() {
       <Route path="/privacy" element={<WithNav><PrivacyScreen /></WithNav>} />
       <Route path="/terms" element={<WithNav><TermsScreen /></WithNav>} />
       <Route path="/whats-new" element={<WithNav><WhatsNewScreen /></WithNav>} />
-      <Route path="/import" element={<WithNav>{isPremium ? <Suspense fallback={null}><ImportContactsScreen /></Suspense> : <UpgradeScreen />}</WithNav>} />
-      <Route path="/birthdays" element={<WithNav>{isPremium ? <Suspense fallback={null}><BirthdayCenterScreen /></Suspense> : <UpgradeScreen />}</WithNav>} />
-      <Route path="/birthdays/greeting/:id" element={<WithNav>{isPremium ? <Suspense fallback={null}><BirthdayGreetingEditorScreen /></Suspense> : <UpgradeScreen />}</WithNav>} />
+      <Route path="/import" element={<WithNav>{isPremium ? <ImportContactsScreen /> : <UpgradeScreen />}</WithNav>} />
+      <Route path="/birthdays" element={<WithNav>{isPremium ? <BirthdayCenterScreen /> : <UpgradeScreen />}</WithNav>} />
+      <Route path="/birthdays/greeting/:id" element={<WithNav>{isPremium ? <BirthdayGreetingEditorScreen /> : <UpgradeScreen />}</WithNav>} />
       <Route path="/" element={<Navigate to={onboardingDone ? '/dashboard' : '/onboarding'} replace />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

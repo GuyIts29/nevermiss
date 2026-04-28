@@ -1,7 +1,7 @@
 # NeverMiss — Product Backlog
 _Last updated: 2026-04-28 | Maintained by Agent 4 (Changelog Manager / Documentation Owner / Backlog Curator)_
 
-## Recently Completed (Sprint 2 — Iterations 16–17)
+## Recently Completed (Sprint 2 — Iterations 16–18)
 
 | Task ID | Task | Priority | Status | Sprint | Type | Files Changed | Description |
 |---------|------|----------|--------|--------|------|---------------|-------------|
@@ -13,20 +13,19 @@ _Last updated: 2026-04-28 | Maintained by Agent 4 (Changelog Manager / Documenta
 | BL-017 | Missing aria-labels on icon-only buttons | 🟡 Medium | ✅ Done | Sprint 2 | Accessibility | ContactDetailScreen.tsx, GreetingEditorScreen.tsx | aria-label via t() on Edit, Regenerate, Copy buttons |
 | BL-018 | aria-expanded on toggle buttons | 🟡 Medium | ✅ Done | Sprint 2 | Accessibility | GreetingEditorScreen.tsx | aria-expanded on Advanced tone + Signature toggles; WCAG 4.1.2 |
 | BL-041 | Celebration feedback on Mark as Contacted | 🟡 Medium | ✅ Done | Sprint 2 | Improvement | ContactDetailScreen.tsx, index.css | 6-emoji particle burst + Web Audio ping (880→1200Hz) + haptic (navigator.vibrate 40ms); respects prefers-reduced-motion |
+| BL-019 | React.lazy for remaining screens | 🟡 Medium | ✅ Done | Sprint 2 | Performance | App.tsx | 13 screens converted to lazy chunks; Suspense fallback inside WithNav; main bundle 435→285 kB (37 kB gzip saved); premium route inner Suspense simplified |
+| BL-020 | scoringSystem.ts memoization | 🟢 Low | ✅ Done | Sprint 2 | Performance | src/core/scoringSystem.ts | Module-level Map cache keyed by `id|updatedAt`; cache hit prevents all recalculation for unchanged contacts; stale results impossible since updatedAt is always set on mutation |
+| BL-021 | Pull-to-refresh on Dashboard | 🟢 Low | ✅ Done | Sprint 2 | UX | DashboardScreen.tsx | Already implemented — touchStart/Move/End handlers; PULL_THRESHOLD=64px; RefreshCw visual indicator; i18n keys dashboard_pull_refresh / dashboard_release_refresh |
+| BL-022 | Dashboard refresh button (no-op) | 🟢 Low | ✅ Done | Sprint 2 | Technical Debt | DashboardScreen.tsx | No standalone refresh button exists; RefreshCw used only in pull indicator; refreshDashboard() stub wired to pull gesture only — no dead button |
 
 > Source of truth: FEATURES.md (features), BUG_REPORT.md (bugs), AGENTS.md (agents).
 > BACKLOG.md and BACKLOG.csv are planning views derived from those sources. Do NOT edit directly — update the source first.
 
 ---
 
-## Sprint 2 — Next Active Sprint
+## Sprint 2 — ✅ COMPLETE
 
-| Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description | Definition of Done |
-|---------|------|----------|--------|--------|------|-------------|-------------|-------------------|
-| BL-019 | React.lazy for remaining screens | 🟡 Medium | 📋 Backlog | Sprint 2 | Performance | Agent 1 | ~15 screens still eagerly imported; only BirthdayCenter/BirthdayGreetingEditor/ImportContacts are lazy; split remaining premium + secondary screens | Bundle size reduced; Suspense fallback inside WithNav; no flash |
-| BL-020 | scoringSystem.ts memoization | 🟢 Low | 📋 Backlog | Sprint 2 | Performance | Agent 1 | `calculateRelationshipScore` runs for every contact on every render; add per-contact Map cache keyed by `id + updatedAt` | Score cache hit verified; no stale results on contact edit |
-| BL-021 | Pull-to-refresh on Dashboard | 🟢 Low | 📋 Backlog | Sprint 2 | UX | Agent 1 | Mobile users expect pull-to-refresh on a CRM dashboard; currently missing | Touch gesture triggers data recalculation; haptic feedback (if available) |
-| BL-022 | Dashboard refresh button (no-op) | 🟢 Low | 📋 Backlog | Sprint 2 | Technical Debt | Agent 1 | Dashboard has a refresh button that is now a no-op since dashboardData uses useMemo; remove or repurpose | Button removed or repurposed; no dead code |
+All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 ---
 

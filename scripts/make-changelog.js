@@ -911,6 +911,28 @@ const rows = [
     Agent: 'Agent 4',
     Status: 'done',
   },
+
+  // ── 2026-04-28 iteration 18 — BL-019 React.lazy + BL-020 scoringSystem cache (Sprint 2 complete) ──
+  {
+    Date: '2026-04-28',
+    Time: '21:00',
+    'Screen / File': 'src/App.tsx',
+    'Change Description': 'BL-019: Convert 13 screens to React.lazy (CalendarScreen, HolidayDetailScreen, ContactsScreen, ContactDetailScreen, ContactFormScreen, GreetingEditorScreen, GroupsScreen, SettingsScreen, UpgradeScreen, AboutScreen, PrivacyScreen, TermsScreen, WhatsNewScreen). Move Suspense fallback into WithNav so BottomNav stays visible during load. Remove now-redundant inner Suspense from 3 premium routes. Main bundle: 435 kB → 285 kB raw (-150 kB), 130 kB → 93 kB gzip (-37 kB).',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '21:00',
+    'Screen / File': 'src/core/scoringSystem.ts',
+    'Change Description': 'BL-020: Add module-level scoreCache Map<string, RelationshipScore> keyed by `contact.id|contact.updatedAt`. calculateRelationshipScore checks cache on entry and sets result before return. Eliminates redundant scoring for unchanged contacts on every render. Stale results impossible since updatedAt is always stamped on mutation.',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
 ]
 
 const wb = XLSX.utils.book_new()

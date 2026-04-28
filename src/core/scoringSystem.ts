@@ -116,10 +116,15 @@ function getSuggestedAction(
   }
 }
 
+const scoreCache = new Map<string, RelationshipScore>()
+
 export function calculateRelationshipScore(
   contact: Contact,
   holidays: Holiday[]
 ): RelationshipScore {
+  const cacheKey = `${contact.id}|${contact.updatedAt ?? ''}`
+  const cached = scoreCache.get(cacheKey)
+  if (cached) return cached
   const frequencyDays = getFrequencyDays(contact.interactionFrequency)
   const sinceContact = daysSince(contact.lastContactDate)
 
@@ -146,7 +151,7 @@ export function calculateRelationshipScore(
     total >= 60 ? 'high' :
     total >= 40 ? 'medium' : 'low'
 
-  return {
+  const result: RelationshipScore = {
     contactId: contact.id,
     total,
     timePenalty,
@@ -163,6 +168,8 @@ export function calculateRelationshipScore(
     ),
     urgencyLevel,
   }
+  scoreCache.set(cacheKey, result)
+  return result
 }
 
 export function sortByScore(

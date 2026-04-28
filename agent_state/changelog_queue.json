@@ -355,5 +355,19 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוסף BUG-040 — iteration_log.md חסר iterations 13–17; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-28T21:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "BL-019: 13 מסכים הומרו ל-React.lazy; Suspense נוסף בתוך WithNav; inner Suspense הוסר מנתיבי premium; bundle ראשי ירד מ-435kB ל-285kB"
+  },
+  {
+    "timestamp": "2026-04-28T21:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/core/scoringSystem.ts",
+    "description": "BL-020: נוסף Map cache (scoreCache) ברמת המודול; מפתח: id|updatedAt; תוצאה נשמרת ומוחזרת מהמטמון לאנשי קשר שלא השתנו"
   }
 ]
