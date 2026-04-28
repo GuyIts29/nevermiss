@@ -537,5 +537,54 @@
     "action": "modified",
     "file": "src/screens/premium/BirthdayGreetingEditorScreen.tsx",
     "description": "BL-029 WCAG 2.5.5: כפתורי Regenerate/Copy עודכנו ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T01:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/services/hapticService.ts",
+    "description": "BL-024 (Sprint 4): שירות haptic feedback — hapticLight/Medium/Success/Error; Capacitor.isNativePlatform() guard; graceful no-op בדפדפן"
+  },
+  {
+    "timestamp": "2026-04-29T01:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "BL-024: hapticSuccess() מופעל לאחר שמירת איש קשר; BL-035: findDuplicate() + Modal אזהרה לשם/טלפון כפול + doSave() refactor"
+  },
+  {
+    "timestamp": "2026-04-29T01:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/ChannelPicker.tsx",
+    "description": "BL-024: hapticMedium() מופעל עם שליחת ברכה בכל ערוץ"
+  },
+  {
+    "timestamp": "2026-04-29T01:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "BL-024: hapticSuccess() בהפעלת קופון; hapticError() בכישלון"
+  },
+  {
+    "timestamp": "2026-04-29T01:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/services/storageService.ts",
+    "description": "BL-034 (Sprint 4): exportBackupJSON() ו-importBackupJSON() — מייצאים/מייבאים contacts+groups+drafts+settings כ-JSON עם version+timestamp"
+  },
+  {
+    "timestamp": "2026-04-29T01:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BL-034: כפתורי Backup/Restore בכרטיס Premium Features; hidden file input; feedback states"
+  },
+  {
+    "timestamp": "2026-04-29T01:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-024+034+035: מפתחות backup/restore/duplicate ב-EN+HE; 13 מפתחות חדשים סה\"כ"
   }
 ]

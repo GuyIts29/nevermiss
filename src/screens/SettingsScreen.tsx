@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, Sparkles, Globe, Check, Calendar, Bell } from 'lucide-react'
+import { useRef } from 'react'
+import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, Sparkles, Globe, Check, Calendar, Bell, ArchiveRestore } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useTheme } from '@/context/ThemeContext'
 import { useLang, useT } from '@/context/LanguageContext'
@@ -11,7 +12,7 @@ import { THEME_LIST } from '@/data/themes'
 import type { TranslationKey } from '@/i18n'
 import { APP_CONFIG } from '@/config/appConfig'
 import { useState } from 'react'
-import { clearAllData } from '@/services/storageService'
+import { clearAllData, exportBackupJSON, importBackupJSON } from '@/services/storageService'
 import { requestPermission, notificationPermission } from '@/services/notificationService'
 import { exportContactsToCSV } from '@/services/exportService'
 
@@ -19,6 +20,9 @@ export function SettingsScreen() {
   const navigate = useNavigate()
   const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings, contacts } = useApp()
   const [exportDone, setExportDone] = useState(false)
+  const [backupDone, setBackupDone] = useState(false)
+  const [restoreStatus, setRestoreStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const restoreInputRef = useRef<HTMLInputElement>(null)
   const { theme, themeId, setTheme } = useTheme()
   const { lang, setLang } = useLang()
   const t = useT()
@@ -280,7 +284,7 @@ export function SettingsScreen() {
                   setExportDone(true)
                   setTimeout(() => setExportDone(false), 2500)
                 }}
-                className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors"
+                className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)]"
               >
                 <FileText size={16} className="text-[var(--color-primary)]" />
                 <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
@@ -288,6 +292,61 @@ export function SettingsScreen() {
                 </span>
                 {exportDone
                   ? <Check size={14} className="text-green-500" />
+                  : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                }
+              </button>
+              <button
+                onClick={() => {
+                  exportBackupJSON()
+                  setBackupDone(true)
+                  setTimeout(() => setBackupDone(false), 2500)
+                }}
+                className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)]"
+              >
+                <Download size={16} className="text-[var(--color-primary)]" />
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
+                  {backupDone ? t('settings_backupSuccess') : t('settings_backupData')}
+                </span>
+                {backupDone
+                  ? <Check size={14} className="text-green-500" />
+                  : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                }
+              </button>
+              <input
+                ref={restoreInputRef}
+                type="file"
+                accept=".json"
+                className="hidden"
+                onChange={async e => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+                  const result = await importBackupJSON(file)
+                  if (result.ok) {
+                    setRestoreStatus('success')
+                    setTimeout(() => window.location.reload(), 1200)
+                  } else {
+                    setRestoreStatus('error')
+                    setTimeout(() => setRestoreStatus('idle'), 3000)
+                  }
+                  e.target.value = ''
+                }}
+              />
+              <button
+                onClick={() => restoreInputRef.current?.click()}
+                className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors"
+              >
+                <ArchiveRestore size={16} className={restoreStatus === 'error' ? 'text-red-500' : 'text-[var(--color-primary)]'} />
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
+                  {restoreStatus === 'success'
+                    ? t('settings_restoreSuccess')
+                    : restoreStatus === 'error'
+                    ? t('settings_restoreError')
+                    : t('settings_restoreData')}
+                </span>
+                {restoreStatus === 'success'
+                  ? <Check size={14} className="text-green-500" />
+                  : restoreStatus === 'error'
+                  ? <span className="text-xs text-red-500">✕</span>
                   : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 }
               </button>

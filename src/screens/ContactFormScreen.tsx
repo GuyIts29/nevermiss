@@ -13,6 +13,7 @@ import { Modal } from '@/components/ui/Modal'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
 import { trackEvent } from '@/services/analyticsService'
+import { hapticSuccess } from '@/services/hapticService'
 import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion, CelebrationType } from '@/types'
 import { RELIGION_LABELS } from '@/data/holidays'
 import type { TranslationKey } from '@/i18n'
@@ -79,6 +80,8 @@ export function ContactFormScreen() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [saving, setSaving] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
+  const [showDuplicateWarning, setShowDuplicateWarning] = useState(false)
+  const [duplicateContact, setDuplicateContact] = useState<Contact | null>(null)
   const [useGradientAvatar, setUseGradientAvatar] = useState(!existing?.avatarColor)
 
   const set = <K extends keyof Contact>(key: K, value: Contact[K]) => {
@@ -103,6 +106,17 @@ export function ContactFormScreen() {
     }
   }
 
+  const findDuplicate = (): Contact | null => {
+    if (!isNew) return null
+    const nameNorm = (form.name ?? '').trim().toLowerCase()
+    const phoneNorm = (form.phone ?? '').replace(/\D/g, '')
+    return contacts.find(c => {
+      const sameName = c.name.trim().toLowerCase() === nameNorm
+      const samePhone = phoneNorm.length >= 7 && c.phone.replace(/\D/g, '') === phoneNorm
+      return sameName || samePhone
+    }) ?? null
+  }
+
   const validate = () => {
     const errs: Record<string, string> = {}
     if (!form.name?.trim()) errs.name = t('contactForm_name')
@@ -110,8 +124,7 @@ export function ContactFormScreen() {
     return Object.keys(errs).length === 0
   }
 
-  const handleSave = async () => {
-    if (!validate()) return
+  const doSave = async () => {
     setSaving(true)
     const now = new Date().toISOString()
     const contact: Contact = {
@@ -143,8 +156,22 @@ export function ContactFormScreen() {
     } else {
       updateContact(contact)
     }
+    await hapticSuccess()
     setSaving(false)
     navigate(`/contacts/${contact.id}`)
+  }
+
+  const handleSave = async () => {
+    if (!validate()) return
+    if (isNew) {
+      const dup = findDuplicate()
+      if (dup) {
+        setDuplicateContact(dup)
+        setShowDuplicateWarning(true)
+        return
+      }
+    }
+    await doSave()
   }
 
   const handleDelete = () => {
@@ -468,6 +495,28 @@ export function ContactFormScreen() {
           {isNew ? t('contactForm_add') : t('contactForm_saveChanges')}
         </Button>
       </div>
+
+      {/* Duplicate warning */}
+      <Modal
+        isOpen={showDuplicateWarning}
+        onClose={() => setShowDuplicateWarning(false)}
+        title={t('contactForm_duplicateTitle')}
+        size="sm"
+        footer={
+          <div className="flex gap-2">
+            <Button variant="ghost" size="sm" fullWidth onClick={() => setShowDuplicateWarning(false)}>
+              {t('cancel')}
+            </Button>
+            <Button variant="primary" size="sm" fullWidth onClick={() => { setShowDuplicateWarning(false); doSave() }}>
+              {t('contactForm_duplicateSaveAnyway')}
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+          {t('contactForm_duplicateBody', { name: duplicateContact?.name ?? '' })}
+        </p>
+      </Modal>
 
       {/* Delete confirm */}
       <Modal

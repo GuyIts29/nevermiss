@@ -254,5 +254,17 @@
   "T64": {
     "status": "✅",
     "notes": "BL-029 Sprint 4 WCAG 2.5.5: 9 כפתורי icon-only עודכנו ל-min-w/h-[48px]; Navigation, ContactForm, ContactDetail, GroupsScreen, GreetingEditor, Modal, HolidayDetail, BirthdayGreetingEditor"
+  },
+  "T65": {
+    "status": "✅",
+    "notes": "BL-024 Sprint 4: hapticService.ts עם Light/Medium/Success/Error; מחובר ל-save contact, send greeting (ChannelPicker), coupon success/error; no-op בדפדפן"
+  },
+  "T66": {
+    "status": "✅",
+    "notes": "BL-034 Sprint 4: exportBackupJSON/importBackupJSON ב-storageService.ts; UI ב-SettingsScreen Premium Features; restore reload אוטומטי; error state 3s"
+  },
+  "T67": {
+    "status": "✅",
+    "notes": "BL-035 Sprint 4: findDuplicate() בודק שם exact + phone ≥7 ספרות; Modal אזהרה עם שם הכפול; Save Anyway / Cancel; לא חוסם עריכה קיימת"
   }
 }

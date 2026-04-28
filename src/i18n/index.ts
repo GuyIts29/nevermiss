@@ -145,6 +145,9 @@ export const translations = {
     contactForm_notesPlaceholder: 'Anything useful to remember about this contact...',
     contactForm_deleteContact: 'Delete Contact',
     contactForm_deleteConfirm: 'Are you sure you want to delete {name}? This cannot be undone.',
+    contactForm_duplicateTitle: 'Possible Duplicate',
+    contactForm_duplicateBody: 'A contact named "{name}" already exists with a similar name or phone number. Save anyway?',
+    contactForm_duplicateSaveAnyway: 'Save Anyway',
     contactForm_celebrationType: 'Celebration Type',
 
     // ─── Contact Detail ───────────────────────────────────────────────────
@@ -238,6 +241,11 @@ export const translations = {
     settings_importContacts: 'Import Contacts',
     settings_exportContacts: 'Export Contacts to CSV',
     settings_exportSuccess: 'Contacts exported!',
+    settings_backupData: 'Backup All Data',
+    settings_backupSuccess: 'Backup downloaded!',
+    settings_restoreData: 'Restore from Backup',
+    settings_restoreSuccess: 'Data restored! Reloading…',
+    settings_restoreError: 'Invalid backup file',
     settings_birthdayCenter: 'Birthday Center',
     settings_about: 'About',
     settings_whatsNew: "What's New",
@@ -758,6 +766,9 @@ export const translations = {
     contactForm_notesPlaceholder: 'כל מה שכדאי לזכור על איש קשר זה...',
     contactForm_deleteContact: 'מחק איש קשר',
     contactForm_deleteConfirm: 'האם אתה בטוח שברצונך למחוק את {name}? לא ניתן לבטל פעולה זו.',
+    contactForm_duplicateTitle: 'ייתכן שכבר קיים איש קשר',
+    contactForm_duplicateBody: 'איש קשר בשם "{name}" כבר קיים עם שם או מספר טלפון דומה. לשמור בכל זאת?',
+    contactForm_duplicateSaveAnyway: 'שמור בכל זאת',
     contactForm_celebrationType: 'סוג חגיגה',
 
     // ─── Contact Detail ───────────────────────────────────────────────────
@@ -851,6 +862,11 @@ export const translations = {
     settings_importContacts: 'ייבוא אנשי קשר',
     settings_exportContacts: 'ייצוא אנשי קשר ל-CSV',
     settings_exportSuccess: 'אנשי הקשר יוצאו בהצלחה!',
+    settings_backupData: 'גיבוי כל הנתונים',
+    settings_backupSuccess: 'הגיבוי הורד בהצלחה!',
+    settings_restoreData: 'שחזור מגיבוי',
+    settings_restoreSuccess: 'הנתונים שוחזרו! מרענן…',
+    settings_restoreError: 'קובץ גיבוי לא תקין',
     settings_birthdayCenter: 'מרכז יומולדות',
     settings_about: 'אודות',
     settings_whatsNew: 'מה חדש',

@@ -11,6 +11,7 @@ import { useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
 import { Button } from '@/components/ui/Button'
 import { APP_CONFIG } from '@/config/appConfig'
+import { hapticSuccess, hapticError } from '@/services/hapticService'
 
 interface PremiumFeatureItem {
   label: string
@@ -50,12 +51,15 @@ export function UpgradeScreen() {
   const [couponStatus, setCouponStatus] = useState<'idle' | 'success' | 'error_invalid' | 'error_used'>('idle')
   const [isRedeeming, setIsRedeeming] = useState(false)
 
-  const handleRedeem = () => {
+  const handleRedeem = async () => {
     if (!couponInput.trim() || isRedeeming) return
     setIsRedeeming(true)
     const result = redeemCoupon(couponInput.trim())
     setIsRedeeming(false)
-    setCouponStatus(result.success ? 'success' : result.error === 'already_used' ? 'error_used' : 'error_invalid')
+    const status = result.success ? 'success' : result.error === 'already_used' ? 'error_used' : 'error_invalid'
+    setCouponStatus(status)
+    if (status === 'success') await hapticSuccess()
+    else await hapticError()
   }
 
   return (

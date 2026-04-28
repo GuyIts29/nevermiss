@@ -13,6 +13,7 @@ import {
 } from '@/services/communicationService'
 import { getLastUsedChannel, saveLastUsedChannel } from '@/services/storageService'
 import { trackEvent } from '@/services/analyticsService'
+import { hapticMedium } from '@/services/hapticService'
 import type { Contact, CommunicationChannel, MediaAttachment } from '@/types'
 
 interface ChannelPickerProps {
@@ -42,6 +43,7 @@ export function ChannelPicker({ contact, message, media, onClose }: ChannelPicke
   const handleSend = async (channel: CommunicationChannel) => {
     saveLastUsedChannel(contact.id, channel)
     trackEvent('greeting_sent', { channel })
+    await hapticMedium()
 
     switch (channel) {
       case 'whatsapp':

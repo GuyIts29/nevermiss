@@ -216,6 +216,62 @@ export function clearAllData(): void {
   Object.values(K).forEach(key => remove(key))
 }
 
+// ─── Backup / Restore ─────────────────────────────────────────────────────────
+
+interface AppBackup {
+  version: string
+  exportedAt: string
+  contacts: Contact[]
+  groups: Group[]
+  drafts: GreetingDraft[]
+  settings: AppSettings
+}
+
+export function exportBackupJSON(): void {
+  const backup: AppBackup = {
+    version: APP_CONFIG.appVersion,
+    exportedAt: new Date().toISOString(),
+    contacts: getContacts(),
+    groups: getGroups(),
+    drafts: getDrafts(),
+    settings: getSettings(),
+  }
+  const json = JSON.stringify(backup, null, 2)
+  const blob = new Blob([json], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `nevermiss-backup-${new Date().toISOString().split('T')[0]}.json`
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+}
+
+export function importBackupJSON(file: File): Promise<{ ok: boolean; error?: string }> {
+  return new Promise(resolve => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      try {
+        const backup = JSON.parse(e.target!.result as string) as AppBackup
+        if (!Array.isArray(backup.contacts) || !Array.isArray(backup.groups)) {
+          resolve({ ok: false, error: 'invalid_format' })
+          return
+        }
+        saveContacts(backup.contacts)
+        saveGroups(backup.groups)
+        if (Array.isArray(backup.drafts)) set(K.greetingDrafts, backup.drafts)
+        if (backup.settings) set(K.settings, backup.settings)
+        resolve({ ok: true })
+      } catch {
+        resolve({ ok: false, error: 'parse_error' })
+      }
+    }
+    reader.onerror = () => resolve({ ok: false, error: 'read_error' })
+    reader.readAsText(file)
+  })
+}
+
 export const defaultContactValues = {
   importanceLevel: 'normal' as const,
   interactionFrequency: 'monthly' as const,
