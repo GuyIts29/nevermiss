@@ -1,7 +1,7 @@
 # NeverMiss — Agent Definitions & Activity Log
 
 > Derived from CLAUDE.md, BUG_REPORT.md, agent_state/, and git history.
-> Last updated: 2026-04-28
+> Last updated: 2026-04-28 | Iteration 12 complete. Sprint 2 in progress.
 
 ---
 
@@ -21,7 +21,8 @@
 - Iteration 8: `ContactCard.tsx` — `<div onClick>` → `<button type="button">` (WCAG 2.1.1 fix)
 - Iteration 9: `index.css` — added `.card-interactive:focus-visible` rule (WCAG 2.4.7)
 - Iteration 10: `communicationService.ts` — Israeli local phone normalization (052-xxx → E.164)
-- Current session: `SettingsScreen.tsx` language toggle CSS fix; `WhatsAppButton.tsx` image clipboard; `communicationService.ts` 00-prefix + execCommand removal; `CalendarScreen.tsx` Hebrew calendar (HDate/gematriya); `i18n/index.ts` new keys
+- Iteration 11: `SettingsScreen.tsx` language toggle CSS fix; `WhatsAppButton.tsx` image clipboard; `communicationService.ts` 00-prefix + execCommand removal; `CalendarScreen.tsx` Hebrew calendar (HDate/gematriya); `i18n/index.ts` new keys
+- Iteration 12: `scoringSystem.ts` DST fix (differenceInCalendarDays); `i18n/index.ts` 39 new keys (urgency/freq/action/go_back/holiday/about); `Navigation.tsx` go_back translated; `ContactDetailScreen.tsx` urgency+freq+suggestedAction translated; `HolidayDetailScreen.tsx` holiday_major/moreContacts; `DashboardScreen.tsx` div→button; `GroupsScreen.tsx` div→button; `index.css` .btn:focus-visible + desktop layout; `Modal.tsx` t('close'); `ImportContactsScreen.tsx` finally block; `AboutScreen.tsx` full i18n; `ContactCard.tsx` aria-hidden icons
 
 ---
 
@@ -43,6 +44,7 @@
 - FINDING 10–18: Continued i18n gaps, performance issues, key={i} bugs
 - FINDING 19–30: ContactDetailScreen, GroupsScreen, Modal, HolidayDetailScreen, BirthdayCenterScreen gaps
 - FINDING 71–73: communicationService.ts edge cases (00-prefix, empty guard, execCommand)
+- Iteration 12: Identified FINDINGS 20/23/25A/27/28A/30B/60/67/69 as still open; all resolved in iteration 12; top new findings seeded for Sprint 2: RELIGION_LABELS (BL-014), GreetingEditorScreen tier desc (BL-015), ContactCard action label (BL-016)
 
 ---
 
@@ -60,16 +62,19 @@
 - Verified ContactCard button conversion + WCAG findings 64–66 (iteration 8)
 - Verified focus-visible ring + found themes with insufficient contrast (iteration 9)
 - Verified WhatsApp phone normalization + flagged 00-prefix, empty guard, execCommand (iteration 10)
+- Iteration 12: Verified all 13 backlog items; QA confirmed 56✅/0❌/1⚠️; new BL-017/018 (aria-labels/aria-expanded) flagged for Sprint 2
 
 ---
 
-## Agent 4 — Changelog Manager
+## Agent 4 — Changelog Manager / Documentation Owner / Backlog Curator
 
-**Responsibility:** Updates `changelog.xlsx` (via `node scripts/make-changelog.js`) and `BUG_REPORT.md` after every change. Reads from `agent_state/changelog_queue.json`.
+**Responsibility:** Updates `changelog.xlsx` (via `node scripts/make-changelog.js`), `BUG_REPORT.md`, `FEATURES.md`, `BACKLOG.md`, `BACKLOG.csv`, and `AGENTS.md` after every change. Reads from `agent_state/changelog_queue.json`. Owns all documentation artifacts. Maintains backlog priorities and sprint assignments.
 
 **Actions taken so far:**
-- Maintained BUG_REPORT.md through BUG-029
-- Processed changelog_queue.json entries into changelog.xlsx
+- Maintained BUG_REPORT.md through BUG-029 (iterations 1–10)
+- Processed changelog_queue.json entries into changelog.xlsx (77+ entries)
+- Iteration 11: Created AGENTS.md; updated BUG_REPORT.md with BUG-030–035
+- Iteration 12: Created BACKLOG.md and BACKLOG.csv (Sprint 2–4 planning); updated FEATURES.md (metrics, planned section, agent activity); updated BUG_REPORT.md (BUG-020/021 fixed, removed duplicate section); updated AGENTS.md (roles, iteration log); qa_status.json → 56✅/0❌/1⚠️; changelog_queue.json appended 12 entries; ran `npm run changelog` + `npm run qa`
 - Note: BUG_REPORT.md must be updated AFTER every iteration, not just at sprint end
 
 ---
@@ -82,7 +87,8 @@
 - Iteration 5: Found and fixed 17 lint errors across 9 files (BUG-003 through BUG-019)
 - Feature sprint F1: Fixed 3 lint errors (MediaAttachmentPicker stop-recording, ESLint setState-in-effect)
 - Iterations 7–10: Confirmed clean build+lint after each change
-- Current session: Confirmed clean build+lint after all fixes; fixed 3 pre-existing lint errors in integration stub files (BUG-030)
+- Iteration 11: Confirmed clean build+lint; fixed 3 pre-existing lint errors in integration stub files (BUG-030)
+- Iteration 12: Build + lint clean. 2143 modules, ~370kB main chunk (gzip 111kB). QA: 56✅/0❌/1⚠️
 
 ---
 
@@ -94,6 +100,7 @@
 - Validated Feature Sprint F1 features (media, groups, coupons, multi-channel)
 - Identified RTL rendering issues in language toggle (CSS calc whitespace — now fixed)
 - Confirmed premium banner i18n keys are present in both locales
+- Iteration 12: Validated all 56 QA items; confirmed 56✅/0❌/1⚠️; T42 ErrorBoundary false negative corrected
 
 ---
 
@@ -116,6 +123,7 @@
 - Initial project setup: `src/types/index.ts`, `src/config/appConfig.ts`, `src/i18n/index.ts` (~500+ keys EN + HE)
 - Phase 2 foundation: Added `MediaAttachment` type, `GreetingDraft.media` field, `Group.holidayIds` field, coupon storage functions, `premiumExpiresAt` field
 - Ongoing: Adding new i18n keys each iteration as gaps are found (whatsapp_image_*, etc.)
+- Iteration 12: Added 39 i18n keys (urgency_*, go_back, action_*, holiday_*, about_*) in both EN + HE
 
 ---
 
@@ -129,5 +137,5 @@
 - Group Holiday Assignment (holiday picker in group edit, dashboard alerts)
 - Coupon System (NEVERMISS1, WELCOME2025, ISRAEL30; expiry logic; Settings display)
 - Haptic feedback (Capacitor), success animation, CSV export, celebrationType field
-- Hebrew calendar integration (@hebcal/core HDate + gematriya in CalendarScreen)
-- WhatsApp image clipboard copy + Hebrew paste instruction popup
+- Hebrew calendar integration (@hebcal/core HDate + gematriya in CalendarScreen) — Iteration 11
+- WhatsApp image clipboard copy + Hebrew paste instruction popup — Iteration 11

@@ -67,21 +67,21 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 
 ---
 
-## Known Issues (found, not yet fixed)
-
 ### BUG-020
-- **Date:** 2026-04-27 | **Status:** 🔴 open
+- **Date:** 2026-04-27 | **Status:** ✅ fixed
 - **File:** `src/core/scoringSystem.ts` (line ~50–59)
 - **Bug:** `getBirthdayDaysUntil` computes days using `Math.floor((thisYear.getTime() - today.getTime()) / 86_400_000)`. On DST spring-forward nights, this returns `-1` for a birthday that is actually "today", silently skipping the birthday action.
 - **Found by:** Agent 2 — iteration 6
-- **Fix (planned):** Replace with `date-fns differenceInCalendarDays(thisYear, startOfDay(today))`
+- **Fixed by:** Agent 1 — iteration 12
+- **Fix:** Replaced with `differenceInCalendarDays(thisYear, today)` from date-fns. Also uses `differenceInCalendarDays` for the "is this year's birthday in the past?" check.
 
 ### BUG-021
-- **Date:** 2026-04-27 | **Status:** 🔴 open
+- **Date:** 2026-04-27 | **Status:** ✅ fixed
 - **File:** `src/screens/premium/ImportContactsScreen.tsx` (line 281, 366)
 - **Bug:** `key={i}` (array index) on CSV preview table rows and import error strings. React mis-reconciles rows when data is filtered or reordered, causing stale cell content to appear.
 - **Found by:** Agent 2 — iteration 6
-- **Fix (planned):** Use stable composite key for CSV rows; `key={e}` (error string) for error list
+- **Fixed by:** Agent 1 — iteration 12
+- **Fix:** Preview rows use `key={\`row-${i}\`}` (prefixed). Error list uses `key={e}` (error message string, unique per error).
 
 ### BUG-022
 - **Date:** 2026-04-27 | **Time:** ~14:00 | **Status:** ✅ fixed
@@ -92,11 +92,12 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **Fix:** Changed `key={i}` to `key={h.id}` on holiday dot elements.
 
 ### BUG-023
-- **Date:** 2026-04-27 | **Status:** 🟡 low priority
-- **File:** `src/App.tsx` (line ~65)
-- **Bug:** `isOnboardingDone()` (calls `localStorage.getItem`) fires synchronously on every render of `AppShell` after first launch — unnecessary main-thread work on every context state change.
+- **Date:** 2026-04-27 | **Status:** ✅ fixed
+- **File:** `src/App.tsx` (line ~76)
+- **Bug:** `isOnboardingDone()` (calls `localStorage.getItem`) potentially firing on every render — unnecessary main-thread work.
 - **Found by:** Agent 2 — iteration 6
-- **Fix (planned):** Hoist to `useMemo(() => isOnboardingDone(), [])` or module-level constant
+- **Fixed by:** Agent 1 — iteration 4 (confirmed fixed in code review, iteration 12)
+- **Fix:** `const onboardingDone = useMemo(() => isOnboardingDone(), [])` in App.tsx (line 76).
 
 ---
 
@@ -134,42 +135,6 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **Bug:** `mediaAttachment` state not cleared when greeting is regenerated. Changing contact/holiday and regenerating would silently carry over a previous attachment to the new greeting.
 - **Found by:** Agent 3 — feature sprint review
 - **Fix:** Added `setMediaAttachment(null)` at the top of the `generate()` function.
-
----
-
-## Known Issues (found, not yet fixed)
-
-### BUG-020
-- **Date:** 2026-04-27 | **Status:** 🔴 open
-- **File:** `src/core/scoringSystem.ts` (line ~50–59)
-- **Bug:** `getBirthdayDaysUntil` uses raw ms division — returns `-1` on DST spring-forward nights for a birthday that is "today".
-- **Fix (planned):** `date-fns differenceInCalendarDays(thisYear, startOfDay(today))`
-
-### BUG-021
-- **Date:** 2026-04-27 | **Status:** 🔴 open
-- **File:** `src/screens/premium/ImportContactsScreen.tsx` (lines 281, 366)
-- **Bug:** `key={i}` on CSV preview rows and error strings — React mis-reconciles on filter/reorder.
-- **Fix (planned):** Stable composite key for rows; `key={e}` for errors
-
-### BUG-022
-- **Date:** 2026-04-27 | **Status:** 🔴 open
-- **File:** `src/screens/CalendarScreen.tsx` (line ~172)
-- **Bug:** `key={i}` on holiday color dots — colors bleed across days on month navigation.
-- **Fix (planned):** `key={h.id}`
-
-### BUG-023
-- **Date:** 2026-04-27 | **Status:** 🟡 low priority
-- **File:** `src/App.tsx` (line ~65)
-- **Bug:** `isOnboardingDone()` fires on every render — unnecessary localStorage read.
-- **Fix (planned):** `useMemo(() => isOnboardingDone(), [])`
-
-### BUG-029 (SECURITY — documented)
-- **Date:** 2026-04-27 | **Status:** 🟡 known / documented
-- **File:** `src/services/storageService.ts`
-- **Bug:** `VALID_COUPONS` hardcoded in compiled JS bundle — codes discoverable via DevTools.
-- **Mitigation:** Security comment added. Per-device reuse prevention via localStorage is in place. For production: server-side validation or SHA-256 hashing.
-
----
 
 ---
 
@@ -222,6 +187,36 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **Found by:** Agent 5 — lint run after Hebrew calendar integration
 - **Fixed by:** Agent 1 — current session
 - **Fix:** Removed `days` from the dependency array; rewrote the `useMemo` to compute its own interval from `currentMonth` (a stable Date value) as the sole dependency.
+
+---
+
+### BUG-036 — FINDINGS 25A / 20 / 23 / 27 / 28A / 30B / 60 / 66 / 67 / 69 (Iteration 12 findings)
+- **Date:** 2026-04-28 | **Time:** ~15:00 | **Status:** ✅ all fixed
+- **Found by:** Agent 3 + QA Agent — various iterations
+- **Fixed by:** Agent 1 — iteration 12
+
+| Finding | File | Issue | Fix |
+|---------|------|-------|-----|
+| FINDING 25A | `Navigation.tsx` | `aria-label="Go back"` hardcoded EN in PageHeader | Added `useT()`; `aria-label={t('go_back')}` |
+| FINDING 20 | `ContactDetailScreen.tsx` | `score.urgencyLevel` + `interactionFrequency` shown as raw EN enum | `t(\`urgency_${...}\`)` and `t(\`freq_${...}\`)` |
+| FINDING 23 | `ContactDetailScreen.tsx` | `suggestedAction.label` always EN from scoringSystem.ts | Added `translatedActionLabel` IIFE with switch on `action.type` |
+| FINDING 27 | `AboutScreen.tsx` | VALUES/TECH arrays + mission paragraph all hardcoded EN (16 strings) | Added 19 `about_*` i18n keys; screen uses `t()` for all content |
+| FINDING 28A | `HolidayDetailScreen.tsx` | `"★ Major"` and `"+{n} more contacts"` hardcoded EN | `t('holiday_major')` and `t('holiday_moreContacts', { n })` |
+| FINDING 30B | `Modal.tsx` | `aria-label="Close"` hardcoded EN; Modal had no `useT()` | Added `useT()` import + call; `aria-label={t('close')}` |
+| FINDING 60 | `ImportContactsScreen.tsx` | `setImporting(false)` after try/catch, not in `finally`; button could stay locked | Moved to `finally` block |
+| FINDING 66 | `ContactCard.tsx` | Crown and Building2 icons missing `aria-hidden="true"`; verbose screen reader | Added `aria-hidden="true"` to both decorative icons |
+| FINDING 67 | `DashboardScreen.tsx`, `GroupsScreen.tsx` | Today-highlight cards and group cards were `<div onClick>` — not keyboard reachable | Changed to `<button type="button">` with `w-full text-left` |
+| FINDING 69 | `src/index.css` | `.btn` missing `:focus-visible` rule; relied on UA default only | Added `.btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }` |
+
+---
+
+## Known Issues (open)
+
+### BUG-029 (SECURITY — documented)
+- **Date:** 2026-04-27 | **Status:** 🟡 known / documented
+- **File:** `src/services/storageService.ts`
+- **Bug:** `VALID_COUPONS` hardcoded in compiled JS bundle — codes discoverable via DevTools.
+- **Mitigation:** Security comment added. Per-device reuse prevention via localStorage is in place. For production: server-side validation or SHA-256 hashing.
 
 ---
 

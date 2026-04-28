@@ -1,5 +1,5 @@
 # NeverMiss — Feature Map
-_Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
+_Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 
 > Intended for sharing with AI tools, designers, and collaborators for feedback and new feature ideas.
 > Stack: React 19 · TypeScript · Vite 8 · Tailwind v4 · Capacitor 8 · localStorage (MVP)
@@ -63,6 +63,7 @@ _Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
 - Full gradient hero banner with floating 💌 emoji
 - Core values with gradient icon circles
 - Privacy facts with icon+pill layout
+- **i18n: Mission text, all VALUES titles/desc, all TECH labels/values fully localized** ✅ _Iteration 12_
 
 #### Privacy & Terms (`src/screens/PrivacyScreen.tsx`, `TermsScreen.tsx`)
 - Full gradient hero banners
@@ -118,6 +119,7 @@ _Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
 - Bottom nav with gradient active pill
 - Page header with font-extrabold
 - Back button with active:scale-90, RTL-aware arrow flip
+- **i18n: Back button aria-label via t('go_back')** ✅ _Iteration 12_
 
 #### Modal (`src/components/ui/Modal.tsx`)
 - Visible drag handle
@@ -125,6 +127,8 @@ _Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
 - danger prop for red title
 - aria-labelledby for accessibility
 - ESC key support
+- Focus trap (Tab/Shift+Tab trapped; focus restored on close) ✅ _Sprint F1_
+- **i18n: Close button aria-label via t('close')** ✅ _Iteration 12_
 
 #### WhatsApp Button (`src/components/WhatsAppButton.tsx`)
 - Authentic WhatsApp green gradient
@@ -147,6 +151,7 @@ _Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
 - Upcoming events weight (holidays, birthdays)
 - Urgency levels: low / medium / high / critical
 - Suggested actions per score
+- **DST-safe birthday countdown via `differenceInCalendarDays`** ✅ _Iteration 12 (BUG-020)_
 
 #### Greeting Engine (`src/services/greetingService.ts`)
 - 4–7 tone variants per template
@@ -156,7 +161,7 @@ _Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
 - Birthday greetings in 6 languages
 
 #### i18n System (`src/i18n/index.ts`, `src/context/LanguageContext.tsx`)
-- ~220+ translation keys
+- ~270+ translation keys (39 added iteration 12: urgency_*, go_back, action_*, holiday_*, about_*)
 - `t(lang, key, vars?)` function with `{variable}` interpolation
 - `useT()` hook (returns bound t fn)
 - Persists to localStorage `nm_lang`
@@ -203,54 +208,47 @@ _Last updated: 2026-04-27 | Auto-maintained by Agent Loop_
 
 ---
 
-## 🚧 In Progress (current sprint)
+## 🚧 In Progress (Sprint 2)
 
-_All recent features shipped. Agent loop resuming normal improvement iterations._
+_All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Starting Sprint 2._
 
 ---
 
 ## 📋 Planned (not yet started)
 
-### Performance
-- **React.lazy code-splitting** — all 18 screens statically imported; premium screens (BirthdayCenter, BirthdayGreetingEditor, ImportContacts) should be lazy-loaded. Suspense boundary must go inside `WithNav` so bottom nav stays visible during loading.
-- **ContactCard React.memo** — component is now ready after useCallback/useMemo fixes; needs `React.memo` wrapper
-- **scoringSystem.ts memoization** — `calculateRelationshipScore` runs for every contact on every render; add per-contact `Map<id, score>` cache keyed by `updatedAt`
-- **scoringSystem.ts DST bug** — `getBirthdayDaysUntil` uses raw ms division; should use `date-fns differenceInCalendarDays`
+### Sprint 2 — Next
 
-### Bug Fixes
-- **`key={index}` anti-pattern** — `ImportContactsScreen` (CSV rows + error strings) and `CalendarScreen` (holiday color dots) use index as key, causing React mis-reconciliation on data changes
-- **RELIGION_LABELS English-only** — HolidayCard renders religion name always in English regardless of locale; needs i18n lookup
-- **`isOnboardingDone()` on every render** — App.tsx calls `localStorage.getItem` inside JSX return on every render; should be moved to `useMemo` with empty deps
+- **RELIGION_LABELS i18n** — religion names in HolidayCard/CalendarScreen still EN-only; need `t(\`religion_${...}\`)` (BL-014)
+- **GreetingEditorScreen tier desc i18n** — `'Warm & personal'`, `'Polished & clear'`, `'Elevated & bespoke'` hardcoded EN (BL-015)
+- **ContactCard action label translation** — `score.suggestedAction.label` in card (line 80) still raw EN; needs `translatedActionLabel` pattern like ContactDetailScreen (BL-016)
+- **Missing `aria-label`** on icon-only buttons: Edit in ContactDetailScreen; Regenerate/Copy/Advanced/Signature in GreetingEditorScreen (BL-017)
+- **`aria-expanded`** on tone toggle and signature toggle in GreetingEditorScreen (BL-018)
+- **React.lazy** for remaining ~15 eagerly-loaded screens; BirthdayCenter/BirthdayGreetingEditor/ImportContacts already lazy (BL-019)
+- **scoringSystem.ts Map cache** — `calculateRelationshipScore` runs per render; add `Map<id, score>` cache keyed by `updatedAt` (BL-020)
+- **Pull-to-refresh** on Dashboard (BL-021)
+- **Dashboard refresh button** — no-op since useMemo; remove or repurpose (BL-022)
 
-### i18n Completeness
-- **GreetingEditorScreen** — `desc` fields on Tiers (`'Warm & personal'`, `'Polished & clear'`, `'Elevated & bespoke'`) and signature placeholder still hardcoded English
-- **DashboardScreen** — Several section labels / empty state strings not yet translated
-- **UpgradeScreen** — FREE_FEATURES list items are hardcoded English strings
+### Sprint 3 — Planned
 
-### Accessibility
-- **Missing `aria-label`** on icon-only buttons in ContactDetailScreen (Edit) and GreetingEditorScreen (Regenerate, Copy, Advanced toggle, Signature toggle)
-- **Missing `aria-expanded`** on Advanced tone options toggle and Signature toggle in GreetingEditorScreen
-- **Modal focus trap** — Tab key can escape to background content
+- **Capacitor Local Notifications** — birthdays + holidays; smart reminder with days-since-contact logic (BL-023)
+- **Haptic feedback** — Capacitor Haptics on save/send/coupon-success (BL-024)
+- **Export contacts to CSV** — Premium feature (BL-025)
+- **celebrationType field** on Contact + holiday suggestions filter (BL-026)
+- **greetingService.ts refactor** — `HOLIDAY_SPECIFIC_BODIES` → `src/data/greetingTemplates.ts` (BL-027)
+- **date-fns named imports** — audit all imports for tree-shaking (BL-028)
+- **Tap target size** WCAG 2.5.5 — some icon buttons ~36px (BL-029)
+- **Import from device contacts** — Capacitor Contacts plugin; Premium (BL-030)
 
-### UX / Mobile
-- **Haptic feedback** — Capacitor Haptics plugin not wired up on key actions (save contact, send greeting, coupon success)
-- **Pull-to-refresh** on Dashboard — common mobile CRM expectation
-- **Tap target size** — some icon-only buttons are ~36px; WCAG 2.5.5 requires ≥ 48×48px
-- **Refresh button on Dashboard** — now a no-op since dashboardData is derived via useMemo; should be removed or repurposed
+### Sprint 4+ — Future
 
-### Architecture
-- **Error boundary** — no top-level `<ErrorBoundary>` in App.tsx or main.tsx; unhandled render errors crash the whole app
-- **Bundle size** — `date-fns` may have wildcard imports in some files; should use named imports for tree-shaking
-- **greetingService.ts refactor** — `HOLIDAY_SPECIFIC_BODIES` (~300 lines) should move to `src/data/greetingTemplates.ts`
-
-### Future Premium Ideas
-- **Smart Reminders** — push notifications (Capacitor local notifications) for upcoming holidays with contacts assigned
-- **Contact relationship map** — visual graph of relationships and shared holidays
-- **AI greeting suggestions** — Claude API integration for personalized greeting text
-- **WhatsApp Business API** — direct message sending (not just link-opening)
-- **Export contacts** — reverse of import; export to CSV
-- **Recurring greeting scheduler** — schedule a greeting to send reminder for same holiday next year
-- **Multi-language greeting** — detect contact's language automatically from name/phone region
+- **Supabase v2 integration** — cloud sync; stubs ready (BL-031)
+- **PayMe payment** — real payment flow; stub ready (BL-032)
+- **Claude AI greeting suggestions** — Claude API; stub ready (BL-033)
+- **Backup / restore JSON** — export all app data (BL-034)
+- **Duplicate contact detection** — merge or skip on import (BL-035)
+- **Demo mode** with realistic sample data (BL-036)
+- **Contact relationship map** — visual graph (BL-037)
+- **Recurring greeting scheduler** (BL-038)
 
 ---
 
@@ -258,15 +256,13 @@ _All recent features shipped. Agent loop resuming normal improvement iterations.
 
 | Agent | Role | Current Status |
 |-------|------|---------------|
-| **Agent 1** — Developer | Implements improvements from Agent 2+3 notes | _Iteration 6 complete. Next: Tier desc i18n or key={i} fix_ |
-| **Agent 2** — Researcher | Finds 3 new improvements per iteration | _Iteration 6 complete. Latest: scoringSystem DST bug, key={i} in 3 lists, isOnboardingDone perf_ |
-| **Agent 3** — Code Reviewer | Reviews every Agent 1 change | _Iteration 6 complete. Last reviewed: GreetingEditorScreen i18n fix — verified correct_ |
-| **Agent 4** — Changelog Manager | Updates changelog.xlsx after every change | _changelog.xlsx at 41 entries. Runs after Agent 3 each iteration_ |
-| **Agent 5** — Bug Hunter | Runs build+lint every iteration, fixes immediately | _Feature sprint: fixed 3 lint bugs in MediaAttachmentPicker. Build + lint clean._ |
-| **Foundation Agent** | One-shot: types + storage + context + i18n for 3 new features | ✅ Complete |
-| **Feature Agent B** | One-shot: Greeting Media UI | ✅ Complete — MediaAttachmentPicker + GreetingEditor + WhatsApp |
-| **Feature Agent C** | One-shot: Group Holiday Assignment | ✅ Complete — GroupsScreen + DashboardScreen |
-| **Feature Agent D** | One-shot: Coupon System UI | ✅ Complete — UpgradeScreen + SettingsScreen |
+| **Agent 1** — Developer | Implements improvements from Agent 2+3 notes | _Iteration 12 complete. Next Sprint 2: RELIGION_LABELS i18n, GreetingEditorScreen tier desc_ |
+| **Agent 2** — Researcher | Finds 3 new improvements per iteration | _Iteration 12 complete. Latest findings: RELIGION_LABELS, GreetingEditorScreen tier i18n, ContactCard action label EN_ |
+| **Agent 3** — Code Reviewer | Reviews every Agent 1 change | _Iteration 12 complete. Reviewed: i18n completeness, accessibility fixes, layout fix_ |
+| **Agent 4** — Changelog Manager / Documentation Owner / Backlog Curator | Updates changelog.xlsx, BUG_REPORT.md, FEATURES.md, AGENTS.md, BACKLOG.md, BACKLOG.csv after every change | _Iteration 12 complete. QA: 56✅/0❌/1⚠️. BACKLOG.md and BACKLOG.csv created._ |
+| **Agent 5** — Bug Hunter | Runs build+lint every iteration, fixes ONLY errors | _Iteration 12 clean. Build: 2143 modules, ~370kB main chunk._ |
+| **Foundation Agent** | Sets up types + storage + i18n; active as needed | _Active: Added 39 i18n keys iteration 12. Ongoing for new features._ |
+| **Feature Agents** | Parallel isolated feature work | _Sprint F1 complete. Next: Sprint 3 features (notifications, haptics, export)_ |
 
 ---
 
@@ -276,13 +272,14 @@ _All recent features shipped. Agent loop resuming normal improvement iterations.
 |--------|-------|
 | Total screens | 18 (15 regular + 3 premium) |
 | Total components | 15+ |
-| i18n keys | ~230+ |
-| changelog.xlsx entries | 52 |
-| Agent loop iterations completed | 6 |
-| Lint errors fixed by Agent 5 | 17 |
-| Build time | ~870ms |
-| Bundle size (main chunk) | 272 kB (gzip: 74 kB) |
+| i18n keys | ~270+ (39 added iteration 12) |
+| changelog.xlsx entries | 77+ |
+| Agent loop iterations completed | 12 |
+| Lint errors fixed by Agent 5 | 20+ |
+| Build time | ~415ms |
+| Bundle size (main chunk) | 370 kB (gzip: 111 kB) |
 | localStorage keys | 7 |
 | Holiday database | 30+ holidays |
 | Supported languages (greetings) | 6 (Hebrew, Arabic, English, French, Spanish, Russian) |
 | UI languages | 2 (EN, HE with full RTL) |
+| QA test score | 56 ✅ / 0 ❌ / 1 ⚠️ (57 total) |
