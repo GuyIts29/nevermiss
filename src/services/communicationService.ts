@@ -4,7 +4,12 @@ import type { Contact, CommunicationChannel, CommunicationAction } from '@/types
 
 export function buildWhatsAppUrl(phone: string, message: string): string {
   let normalized = phone.replace(/\D/g, '')
-  if (normalized.startsWith('0') && normalized.length >= 9 && normalized.length <= 10) {
+  if (!normalized) return ''
+  // Strip 00-prefix international format (e.g. 00972521234567 → 972521234567)
+  if (normalized.startsWith('00')) {
+    normalized = normalized.slice(2)
+  } else if (normalized.startsWith('0') && normalized.length >= 9 && normalized.length <= 10) {
+    // Local Israeli format (e.g. 052-1234567 → 972521234567)
     normalized = '972' + normalized.slice(1)
   }
   return `https://wa.me/${normalized}?text=${encodeURIComponent(message)}`
@@ -59,15 +64,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
     await navigator.clipboard.writeText(text)
     return true
   } catch {
-    const el = document.createElement('textarea')
-    el.value = text
-    el.style.position = 'fixed'
-    el.style.opacity = '0'
-    document.body.appendChild(el)
-    el.select()
-    const ok = document.execCommand('copy')
-    document.body.removeChild(el)
-    return ok
+    return false
   }
 }
 

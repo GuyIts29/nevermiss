@@ -84,11 +84,12 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **Fix (planned):** Use stable composite key for CSV rows; `key={e}` (error string) for error list
 
 ### BUG-022
-- **Date:** 2026-04-27 | **Status:** 🔴 open
+- **Date:** 2026-04-27 | **Time:** ~14:00 | **Status:** ✅ fixed
 - **File:** `src/screens/CalendarScreen.tsx` (line ~172)
 - **Bug:** `key={i}` on holiday color dots within day cells. `dayHolidays` is a filtered subset that changes on month navigation, causing dot colors to bleed across days.
 - **Found by:** Agent 2 — iteration 6
-- **Fix (planned):** Use `key={h.id}` for holiday dots
+- **Fixed by:** Agent 1 — iteration 7
+- **Fix:** Changed `key={i}` to `key={h.id}` on holiday dot elements.
 
 ### BUG-023
 - **Date:** 2026-04-27 | **Status:** 🟡 low priority
@@ -167,6 +168,60 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **File:** `src/services/storageService.ts`
 - **Bug:** `VALID_COUPONS` hardcoded in compiled JS bundle — codes discoverable via DevTools.
 - **Mitigation:** Security comment added. Per-device reuse prevention via localStorage is in place. For production: server-side validation or SHA-256 hashing.
+
+---
+
+---
+
+## 2026-04-28
+
+### BUG-030
+- **Date:** 2026-04-28 | **Time:** ~10:00 | **Status:** ✅ fixed
+- **File:** `src/integrations/supabase/client.ts`, `src/integrations/payment/payme.ts`, `src/integrations/ai/claudeClient.ts`
+- **Bug:** Pre-existing `@typescript-eslint/no-unused-vars` lint errors on stub function parameters (`_userId`, `_req`). The ESLint config version did not recognize underscore-prefix convention to suppress unused-param warnings.
+- **Found by:** Agent 5 — current session lint run
+- **Fixed by:** Agent 5 — current session
+- **Fix:** Added `// eslint-disable-next-line @typescript-eslint/no-unused-vars` before each stub function declaration.
+
+### BUG-031
+- **Date:** 2026-04-28 | **Time:** ~10:30 | **Status:** ✅ fixed
+- **File:** `src/screens/SettingsScreen.tsx`
+- **Bug:** Language toggle indicator invisible when Hebrew selected. Root cause: Tailwind arbitrary-value class `w-[calc(50%-4px)]` generates invalid CSS `width: calc(50%-4px)` — missing required whitespace around the `-` operator. With zero width, the indicator was invisible; the unselected button (dark text on light bg) visually appeared "active" while the selected button (white text on transparent bg) looked inactive. Users could not tell which language was selected.
+- **Found by:** QA Agent — current session
+- **Fixed by:** Agent 1 — current session
+- **Fix:** Removed `w-[...]` and `rounded-[...]` Tailwind classes; moved `width`, `borderRadius` to inline `style` prop with valid `calc(50% - 4px)` syntax. Added comment documenting why `calc()` with spaces must be inline.
+
+### BUG-032
+- **Date:** 2026-04-28 | **Time:** ~11:00 | **Status:** ✅ fixed
+- **File:** `src/services/communicationService.ts` — `buildWhatsAppUrl`
+- **Bug:** Phone numbers with `00` international prefix (e.g. `00972501234567`) were not normalized. After stripping non-digits, `00972...` passed the `startsWith('0')` branch and got `972` prepended again, producing `97200972501234567` — an invalid WhatsApp number.
+- **Found by:** Agent 3 — FINDING 71
+- **Fixed by:** Agent 1 — current session
+- **Fix:** Added `if (normalized.startsWith('00')) normalized = normalized.slice(2)` before the Israeli local-number branch.
+
+### BUG-033
+- **Date:** 2026-04-28 | **Time:** ~11:00 | **Status:** ✅ fixed
+- **File:** `src/services/communicationService.ts` — `buildWhatsAppUrl`
+- **Bug:** No guard on empty phone string. `buildWhatsAppUrl('', msg)` would call `wa.me/?text=...` — an invalid URL that opens WhatsApp with no recipient.
+- **Found by:** Agent 3 — FINDING 72
+- **Fixed by:** Agent 1 — current session
+- **Fix:** Added `if (!normalized) return ''` after stripping non-digits.
+
+### BUG-034
+- **Date:** 2026-04-28 | **Time:** ~11:00 | **Status:** ✅ fixed
+- **File:** `src/services/communicationService.ts` — `copyToClipboard`
+- **Bug:** Used deprecated `document.execCommand('copy')` as a clipboard fallback. `execCommand` was removed in modern browsers and its behavior is undefined in non-secure contexts (non-HTTPS). The function would silently return `false` on any browser that removed it.
+- **Found by:** Agent 3 — FINDING 73
+- **Fixed by:** Agent 1 — current session
+- **Fix:** Removed the `execCommand` fallback branch entirely. Function now relies solely on `navigator.clipboard.writeText` and returns `false` on failure.
+
+### BUG-035
+- **Date:** 2026-04-28 | **Time:** ~11:30 | **Status:** ✅ fixed
+- **File:** `src/screens/CalendarScreen.tsx`
+- **Bug:** `useMemo(() => ..., [days])` used `days` (a mutable array reference from `eachDayOfInterval`) as a dependency. React Compiler's `react-hooks/preserve-manual-memoization` rule flagged: "Compilation Skipped: Existing memoization could not be preserved." The memo would re-run on every render.
+- **Found by:** Agent 5 — lint run after Hebrew calendar integration
+- **Fixed by:** Agent 1 — current session
+- **Fix:** Removed `days` from the dependency array; rewrote the `useMemo` to compute its own interval from `currentMonth` (a stable Date value) as the sole dependency.
 
 ---
 

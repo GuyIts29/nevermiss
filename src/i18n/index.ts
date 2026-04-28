@@ -418,6 +418,11 @@ export const translations = {
     media_audio_too_large: 'Recording too large. Max 2 MB.',
     media_file_too_large: 'Image too large. Max 5 MB.',
 
+    // ─── WhatsApp image clipboard ─────────────────────────────────────────
+    whatsapp_image_ready_title: 'Image Ready to Paste',
+    whatsapp_image_paste_hint: 'Image copied to clipboard — long-press in the chat and paste the image.',
+    whatsapp_image_paste_steps: 'Open WhatsApp → find the chat → long-press in the message box → tap Paste.',
+
     // ─── Dashboard (inline strings) ───────────────────────────────────────
     dashboard_today_highlights: "Today's Highlights",
     dashboard_holiday_is_today: '{name} is Today!',
@@ -888,6 +893,11 @@ export const translations = {
     media_file_too_large: 'תמונה גדולה מדי. מקסימום 5 מגהבייט.',
     media_mic_error: 'לא ניתן לגשת למיקרופון. אנא אשר גישה למיקרופון בדפדפן.',
     media_audio_too_large: 'הקלטה גדולה מדי. מקסימום 2 מגהבייט.',
+
+    // ─── WhatsApp image clipboard ─────────────────────────────────────────
+    whatsapp_image_ready_title: 'התמונה מוכנה להדבקה',
+    whatsapp_image_paste_hint: 'התמונה הועתקה ללוח — לחץ לחיצה ארוכה בשיחה והדבק את התמונה.',
+    whatsapp_image_paste_steps: 'פתח WhatsApp ← מצא את השיחה ← לחץ לחיצה ארוכה בתיבת ההודעות ← בחר הדבק.',
 
     // ─── Group Holiday Assignment ─────────────────────────────────────────
     group_holidays: 'חגים משויכים',

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isSameMonth, isToday, addMonths, subMonths } from 'date-fns'
 import { ChevronLeft, ChevronRight, Filter } from 'lucide-react'
+import { HDate, gematriya } from '@hebcal/core'
 import { PageHeader } from '@/components/Navigation'
 import { HolidayCard } from '@/components/HolidayCard'
 import { EmptyState } from '@/components/EmptyState'
@@ -12,6 +13,15 @@ import type { TranslationKey } from '@/i18n'
 import { clsx } from 'clsx'
 
 const ALL_RELIGIONS = Object.keys(RELIGION_LABELS) as Religion[]
+
+// Hebrew month names (index = month number from HDate.getMonth())
+const HEBREW_MONTHS = ['', 'ניסן', 'אייר', 'סיון', 'תמוז', 'אב', 'אלול', 'תשרי', 'חשוון', 'כסלו', 'טבת', 'שבט', 'אדר', 'אדר ב׳'] as const
+
+function getHDate(date: Date) { return new HDate(date) }
+function hebrewDayGematriya(date: Date): string { return gematriya(getHDate(date).getDate()) }
+function hebrewMonthName(monthNum: number): string {
+  return (HEBREW_MONTHS[monthNum as keyof typeof HEBREW_MONTHS] as string | undefined) ?? ''
+}
 
 export function CalendarScreen() {
   const t = useT()
@@ -25,6 +35,16 @@ export function CalendarScreen() {
   const monthEnd = endOfMonth(currentMonth)
   const days = eachDayOfInterval({ start: monthStart, end: monthEnd })
   const startDow = monthStart.getDay()
+
+  // Hebrew months that appear in the current Gregorian month (derived from currentMonth, not days)
+  const hebrewMonthsLabel = useMemo(() => {
+    const start = startOfMonth(currentMonth)
+    const end = endOfMonth(currentMonth)
+    const allDays = eachDayOfInterval({ start, end })
+    const seen = new Set<number>()
+    allDays.forEach(d => seen.add(getHDate(d).getMonth()))
+    return Array.from(seen).map(m => hebrewMonthName(m)).filter(Boolean).join(' – ')
+  }, [currentMonth])
 
   const filtered = HOLIDAYS.filter(h =>
     filterReligion === 'all' || h.religion === filterReligion
@@ -110,15 +130,20 @@ export function CalendarScreen() {
 
           {/* Gradient pill for current month */}
           <div
-            className="px-4 py-1.5 rounded-full shadow-sm"
+            className="px-4 py-2 rounded-full shadow-sm text-center"
             style={{ background: `linear-gradient(135deg, ${theme.primary}22, ${theme.secondary}33)` }}
           >
             <h3
-              className="font-bold text-sm"
+              className="font-bold text-sm leading-tight"
               style={{ color: theme.primary }}
             >
               {format(currentMonth, 'MMMM yyyy')}
             </h3>
+            {hebrewMonthsLabel && (
+              <p className="text-[11px] font-medium leading-tight mt-0.5 opacity-80" style={{ color: theme.primary }}>
+                {hebrewMonthsLabel}
+              </p>
+            )}
           </div>
 
           <button
@@ -148,13 +173,19 @@ export function CalendarScreen() {
               const dayHolidays = getHolidaysForDay(day)
               const isSelected = selectedDate && isSameDay(day, selectedDate)
               const isTodayDay = isToday(day)
+              const hDay = hebrewDayGematriya(day)
+              const hDate = getHDate(day)
+              const isRoshChodesh = hDate.getDate() === 1
+              const hLabel = isRoshChodesh
+                ? `א׳ ${hebrewMonthName(hDate.getMonth())}`
+                : hDay
 
               return (
                 <button
                   key={day.toISOString()}
                   onClick={() => setSelectedDate(isSameDay(day, selectedDate!) ? null : day)}
                   className={clsx(
-                    'relative aspect-square flex flex-col items-center justify-center rounded-lg transition-all text-xs font-medium',
+                    'relative flex flex-col items-center justify-center rounded-lg transition-all text-xs font-medium min-h-[2.75rem] py-0.5',
                     !isSelected && !isTodayDay && 'hover:bg-[var(--color-surface-2)] text-[var(--color-text-primary)]',
                     !isSelected && isTodayDay && 'text-white font-bold',
                     isSelected && 'text-white font-bold shadow-md',
@@ -168,7 +199,13 @@ export function CalendarScreen() {
                         : undefined
                   }
                 >
-                  {format(day, 'd')}
+                  <span>{format(day, 'd')}</span>
+                  <span
+                    className="text-[8px] leading-none mt-px"
+                    style={{ opacity: isSelected || isTodayDay ? 0.85 : 0.45, direction: 'rtl' }}
+                  >
+                    {hLabel}
+                  </span>
                   {dayHolidays.length > 0 && (
                     <div className="flex gap-0.5 absolute bottom-0.5">
                       {dayHolidays.slice(0, 3).map((h) => (

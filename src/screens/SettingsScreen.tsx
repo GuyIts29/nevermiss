@@ -61,12 +61,15 @@ export function SettingsScreen() {
           <Card>
             {/* Pill toggle — always LTR so button order never flips */}
             <div dir="ltr" className="flex gap-0 p-1 bg-[var(--color-surface-2)] rounded-[var(--border-radius)] relative">
-              {/* Active indicator: physical `left` so transition is clean regardless of document dir */}
+              {/* Active indicator: physical `left`/`width` in inline styles — calc() with spaces must be
+                  inline to avoid Tailwind arbitrary-value whitespace stripping (which generates invalid CSS) */}
               <div
-                className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-[calc(var(--border-radius)-2px)] transition-all duration-300 shadow-sm"
+                className="absolute top-1 bottom-1 transition-all duration-300 shadow-sm"
                 style={{
                   background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`,
                   left: lang === 'en' ? '4px' : 'calc(50%)',
+                  width: 'calc(50% - 4px)',
+                  borderRadius: 'calc(var(--border-radius) - 2px)',
                 }}
               />
               <button

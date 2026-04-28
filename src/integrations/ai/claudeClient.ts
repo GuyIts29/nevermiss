@@ -8,6 +8,7 @@ export interface GreetingEnhancementRequest {
   tone: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function enhanceGreeting(_req: GreetingEnhancementRequest): Promise<string> {
   throw new Error('Claude AI integration not yet enabled')
 }

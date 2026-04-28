@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MessageCircle, AlertTriangle, X, ExternalLink } from 'lucide-react'
+import { MessageCircle, AlertTriangle, X, ExternalLink, ClipboardCheck } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
 import { openWhatsApp } from '@/services/communicationService'
@@ -15,13 +15,29 @@ interface WhatsAppButtonProps {
   media?: MediaAttachment | null
 }
 
+async function copyImageToClipboard(dataUrl: string): Promise<boolean> {
+  try {
+    const response = await fetch(dataUrl)
+    const blob = await response.blob()
+    await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })])
+    return true
+  } catch {
+    return false
+  }
+}
+
 export function WhatsAppButton({ phone, message, contactName, size = 'md', fullWidth, media }: WhatsAppButtonProps) {
   const [showWarning, setShowWarning] = useState(false)
+  const [showCopied, setShowCopied] = useState(false)
   const t = useT()
 
-  const handleSend = () => {
+  const handleSend = async () => {
     openWhatsApp(phone, message)
     setShowWarning(false)
+    if (media?.type === 'image') {
+      await copyImageToClipboard(media.dataUrl)
+      setShowCopied(true)
+    }
   }
 
   if (!phone) return null
@@ -43,6 +59,32 @@ export function WhatsAppButton({ phone, message, contactName, size = 'md', fullW
         <MessageCircle size={size === 'sm' ? 14 : size === 'lg' ? 18 : 16} />
         {t('whatsapp_btn')}
       </button>
+
+      {/* Post-send: image clipboard instruction (stays until dismissed) */}
+      <Modal
+        isOpen={showCopied}
+        onClose={() => setShowCopied(false)}
+        title={t('whatsapp_image_ready_title')}
+        size="sm"
+        footer={
+          <Button variant="primary" size="sm" fullWidth onClick={() => setShowCopied(false)}>
+            {t('done')}
+          </Button>
+        }
+      >
+        <div className="flex flex-col items-center gap-4 py-2 text-center">
+          <div className="w-14 h-14 rounded-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}>
+            <ClipboardCheck size={28} className="text-white" />
+          </div>
+          <p className="text-base font-semibold text-[var(--color-text-primary)] leading-snug">
+            {t('whatsapp_image_paste_hint')}
+          </p>
+          <p className="text-xs text-[var(--color-text-muted)]">
+            {t('whatsapp_image_paste_steps')}
+          </p>
+        </div>
+      </Modal>
 
       <Modal
         isOpen={showWarning}
