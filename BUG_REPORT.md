@@ -210,6 +210,16 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 
 ---
 
+### BUG-037 — Yom HaAtzmaut incorrect Gregorian date
+- **Date:** 2026-04-28 | **Time:** ~16:00 | **Status:** ✅ fixed
+- **File:** `src/data/holidays.ts`
+- **Bug:** `israel-independence-day-2026` had `date: '2026-04-29'` — wrong by 8 days. The actual Yom HaAtzmaut 5786 is April 21, 2026 (ד׳ באייר תשפ״ו, moved 1 day earlier from 5 Iyar/Wednesday per Israeli holiday adjustment rules).
+- **Found by:** User — 2026-04-28
+- **Fixed by:** Agent 1 — 2026-04-28
+- **Fix:** Replaced hardcoded date with runtime computation via `HebrewCalendar.getHolidaysForYearArray(5786, true)` from `@hebcal/core`. Added `hebcalDate()` helper function in `holidays.ts` with a reliable fallback. Also created `src/utils/hebrewDateUtils.ts` — `getHebrewDateStr(isoDate)` converts any date to Hebrew gematria format (e.g. "ד׳ באייר תשפ״ו"). Hebrew date badges added to `HolidayCard` and `HolidayDetailScreen` for all `dateType === 'hebrew'` holidays.
+
+---
+
 ## Known Issues (open)
 
 ### BUG-029 (SECURITY — documented)
