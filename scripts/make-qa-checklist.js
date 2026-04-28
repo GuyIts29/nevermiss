@@ -21,6 +21,8 @@ const CATEGORIES = [
   { id: 'ui',      emoji: '🎨', name: 'UI/UX כללי' },
   { id: 'premium', emoji: '💎', name: 'פרמיום / Free Gating' },
   { id: 'integr',  emoji: '🔗', name: 'אינטגרציות' },
+  { id: 'sprint4', emoji: '🚀', name: 'Sprint 4 — ייצוא / גיבוי / נגישות / ספרינט' },
+  { id: 'sprint5', emoji: '🗂️', name: 'Sprint 5 — ייבוא / קבוצות / ניווט' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -97,6 +99,27 @@ const TESTS = [
   // 🔗 אינטגרציות
   { id: 'T56', cat: 'integr',  name: 'Supabase placeholder stub מוכן ל-v2' },
   { id: 'T57', cat: 'integr',  name: 'PayMe + Claude AI placeholders מוכנים ל-v2' },
+  { id: 'T60', cat: 'integr',  name: 'DeviceContactsScreen — ייבוא מאנשי קשר של המכשיר (Capacitor)' },
+
+  // 🚀 Sprint 4
+  { id: 'T58', cat: 'sprint4', name: 'celebrationType שדה בקשר — סינון חגים לפי סוג חגיגה' },
+  { id: 'T59', cat: 'sprint4', name: 'התראה לאיש קשר שלא דיברו עמו 45 יום + יום הולדת קרוב' },
+  { id: 'T61', cat: 'sprint4', name: 'BUG-043: נקודות חגים מרובי-ימים (סוכות/חנוכה) בלוח שנה' },
+  { id: 'T62', cat: 'sprint4', name: 'BUG-044: סוכות 2026 נוסף ל-holidays.ts' },
+  { id: 'T63', cat: 'sprint4', name: 'BL-025: ייצוא אנשי קשר ל-CSV (Premium)' },
+  { id: 'T64', cat: 'sprint4', name: 'BL-029: כל כפתורי icon-only ≥ 48×48px (WCAG 2.5.5)' },
+  { id: 'T65', cat: 'sprint4', name: 'BL-024: haptic feedback — שמירת קשר / שליחת ברכה / קופון' },
+  { id: 'T66', cat: 'sprint4', name: 'BL-034: גיבוי ושחזור JSON (ייצוא/ייבוא כל הנתונים)' },
+  { id: 'T67', cat: 'sprint4', name: 'BL-035: זיהוי קשר כפול — שם זהה או מספר טלפון זהה' },
+
+  // 🗂️ Sprint 5
+  { id: 'T68', cat: 'sprint5', name: 'BL-046: כפתור ייבוא ב-ContactsScreen (Premium) + empty-state shortcut' },
+  { id: 'T69', cat: 'sprint5', name: 'BL-047: תוויות CSV בלבד ב-ImportContactsScreen' },
+  { id: 'T70', cat: 'sprint5', name: 'BL-048: כפתור import מהמכשיר כ-Blue gradient card' },
+  { id: 'T71', cat: 'sprint5', name: 'BL-049: מחוון tab פעיל — נקודה / אייקון גדול / טקסט עבה' },
+  { id: 'T72', cat: 'sprint5', name: 'BL-052: purpose selector בקבוצה + הצעות חגים אוטומטיות' },
+  { id: 'T73', cat: 'sprint5', name: 'BL-050: שיוך אנשי קשר מיובאים לקבוצה בשלב done' },
+  { id: 'T74', cat: 'sprint5', name: 'BL-051: הורדת תבנית CSV עם כותרות עבריות' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────
