@@ -236,5 +236,40 @@
     "action": "added",
     "file": "src/i18n/index.ts",
     "description": "נוספו 22 מפתחות i18n לתנאי שירות: terms_lastUpdated, terms_intro, terms_s1_title/body עד terms_s10_title/body — בעברית ובאנגלית"
+  },
+  {
+    "timestamp": "2026-04-28T18:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/services/analyticsService.ts",
+    "description": "נוסף שירות analytics מקומי: getAnonymousUserId() (localStorage nm_user_id), trackEvent(name, metadata?) — שומר עד 100 אירועים ב-FIFO ב-nm_events; ללא backend"
+  },
+  {
+    "timestamp": "2026-04-28T18:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "נוסף מעקב app_open ב-AppShell useEffect — מופעל פעם אחת בטעינת האפליקציה"
+  },
+  {
+    "timestamp": "2026-04-28T18:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "נוסף מעקב contact_created לאחר addContact() ביצירת איש קשר חדש בלבד (לא בעדכון)"
+  },
+  {
+    "timestamp": "2026-04-28T18:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/ChannelPicker.tsx",
+    "description": "נוסף מעקב greeting_sent עם metadata { channel } בכל שליחת ברכה דרך כל ערוץ"
+  },
+  {
+    "timestamp": "2026-04-28T18:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "נוסף מעקב contacts_imported עם metadata { count } לאחר ייבוא אנשי קשר מוצלח"
   }
 ]

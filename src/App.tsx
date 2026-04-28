@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/context/ThemeContext'
 import { LanguageProvider } from '@/context/LanguageContext'
 import { BottomNav } from '@/components/Navigation'
 import { isOnboardingDone } from '@/services/storageService'
+import { trackEvent } from '@/services/analyticsService'
 import { Component, lazy, Suspense, useMemo, useEffect, type ErrorInfo, type ReactNode } from 'react'
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
@@ -77,6 +78,7 @@ function AppShell() {
   const t = useT()
 
   useEffect(() => {
+    trackEvent('app_open')
     if (settings.notificationsEnabled) {
       fireReminders(contacts, holidays, t)
     }

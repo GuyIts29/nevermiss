@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { parseCSV, autoDetectColumns, processImport } from '@/services/importService'
+import { trackEvent } from '@/services/analyticsService'
 import type { ImportPreview, ImportColumn } from '@/types'
 import { clsx } from 'clsx'
 
@@ -129,6 +130,7 @@ export function ImportContactsScreen() {
       const res = await processImport(file, columns)
       res.contacts.forEach(c => addContact(c))
       setResult({ imported: res.imported, skipped: res.skipped, errors: res.errors })
+      trackEvent('contacts_imported', { count: res.imported })
       setStep('done')
     } catch (e) {
       setImportError(e instanceof Error ? e.message : 'Import failed — please try again')

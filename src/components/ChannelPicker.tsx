@@ -12,6 +12,7 @@ import {
   CHANNEL_ICONS,
 } from '@/services/communicationService'
 import { getLastUsedChannel, saveLastUsedChannel } from '@/services/storageService'
+import { trackEvent } from '@/services/analyticsService'
 import type { Contact, CommunicationChannel, MediaAttachment } from '@/types'
 
 interface ChannelPickerProps {
@@ -40,6 +41,7 @@ export function ChannelPicker({ contact, message, media, onClose }: ChannelPicke
 
   const handleSend = async (channel: CommunicationChannel) => {
     saveLastUsedChannel(contact.id, channel)
+    trackEvent('greeting_sent', { channel })
 
     switch (channel) {
       case 'whatsapp':

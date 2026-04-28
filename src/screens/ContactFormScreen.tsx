@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
+import { trackEvent } from '@/services/analyticsService'
 import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion } from '@/types'
 import { RELIGION_LABELS } from '@/data/holidays'
 import type { TranslationKey } from '@/i18n'
@@ -115,8 +116,12 @@ export function ContactFormScreen() {
       role: isPremium ? (form.role || undefined) : undefined,
       team: isPremium ? (form.team || undefined) : undefined,
     }
-    if (isNew) addContact(contact)
-    else updateContact(contact)
+    if (isNew) {
+      addContact(contact)
+      trackEvent('contact_created')
+    } else {
+      updateContact(contact)
+    }
     setSaving(false)
     navigate(`/contacts/${contact.id}`)
   }
