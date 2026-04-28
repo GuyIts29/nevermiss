@@ -194,5 +194,33 @@
     "action": "modified",
     "file": "agent_state/qa_status.json",
     "description": "עודכן — T05/T07/T08/T09/T10/T39/T40/T41/T42/T45/T46/T48 סומנו כ-✅; 8 בדיקות תוקנו ב-iteration 12"
+  },
+  {
+    "timestamp": "2026-04-28T16:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/utils/hebrewDateUtils.ts",
+    "description": "נוצר util חדש — getHebrewDateStr() מחזיר תאריך עברי בגימטריה: ד׳ באייר תשפ״ו; משתמש ב-HDate + gematriya מ-@hebcal/core"
+  },
+  {
+    "timestamp": "2026-04-28T16:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/data/holidays.ts",
+    "description": "תוקן BUG-037 — יום העצמאות 2026 היה מקודד כ-2026-04-29 (שגוי); כעת מחושב בזמן ריצה ע\"י HebrewCalendar.getHolidaysForYearArray(5786) מ-@hebcal/core; התוצאה: 2026-04-21 (ד׳ באייר תשפ\"ו)"
+  },
+  {
+    "timestamp": "2026-04-28T16:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/HolidayCard.tsx",
+    "description": "נוסף תצוגת תאריך עברי לחגים יהודיים (dateType === 'hebrew') — כרטיס קומפקטי ומלא; פורמט: ד׳ באייר תשפ״ו"
+  },
+  {
+    "timestamp": "2026-04-28T16:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "נוסף badge תאריך עברי בבאנר הראשי של מסך פרטי החג; מוצג רק לחגים עם dateType === 'hebrew'"
   }
 ]

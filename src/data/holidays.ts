@@ -1,6 +1,20 @@
+import { HebrewCalendar } from '@hebcal/core'
 import type { Holiday } from '@/types'
 
-// Holidays for 2025 and 2026. Lunar/calculated dates are approximations.
+/** Computes the Gregorian ISO date for a Hebrew calendar holiday using @hebcal/core rules. */
+function hebcalDate(hebrewYear: number, descContains: string, fallback: string): string {
+  try {
+    const events = HebrewCalendar.getHolidaysForYearArray(hebrewYear, true)
+    const ev = events.find(e => e.getDesc().includes(descContains))
+    if (!ev) return fallback
+    const g = ev.getDate().greg()
+    return `${g.getFullYear()}-${String(g.getMonth() + 1).padStart(2, '0')}-${String(g.getDate()).padStart(2, '0')}`
+  } catch {
+    return fallback
+  }
+}
+
+// Holidays for 2025 and 2026. Jewish holidays use @hebcal/core for accurate Hebrew-calendar dates.
 export const HOLIDAYS: Holiday[] = [
   // ─── JUDAISM ──────────────────────────────────────────────────────────────
   {
@@ -755,7 +769,7 @@ export const HOLIDAYS: Holiday[] = [
     alternativeNames: ['יום העצמאות', "Yom Ha'atzmaut"],
     religion: 'Secular',
     type: 'national',
-    date: '2026-04-29',
+    date: hebcalDate(5786, "HaAtzma'ut", '2026-04-21'),
     year: 2026,
     dateType: 'hebrew',
     description: 'Israel\'s national independence day, marking the establishment of the State of Israel in 1948. Celebrated with fireworks, outdoor barbecues (mangal), concerts, and public ceremonies. Immediately follows Yom Hazikaron (Memorial Day).',

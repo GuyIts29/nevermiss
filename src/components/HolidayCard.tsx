@@ -3,6 +3,7 @@ import { format, differenceInDays } from 'date-fns'
 import type { Holiday } from '@/types'
 import { useT } from '@/context/LanguageContext'
 import type { TranslationKey } from '@/i18n'
+import { getHebrewDateStr } from '@/utils/hebrewDateUtils'
 
 interface HolidayCardProps {
   holiday: Holiday
@@ -53,6 +54,11 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
           <p className="text-xs text-[var(--color-text-muted)]">
             {format(new Date(holiday.date), 'MMM d')} · {t(`religion_${holiday.religion}` as TranslationKey)}
           </p>
+          {holiday.dateType === 'hebrew' && (
+            <p className="text-[10px] text-[var(--color-text-muted)] opacity-75" dir="rtl">
+              {getHebrewDateStr(holiday.date)}
+            </p>
+          )}
         </div>
         <div className="shrink-0">
           <span
@@ -88,6 +94,11 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
           <p className="text-xs text-white/75 mt-0.5">
             {t(`religion_${holiday.religion}` as TranslationKey)} · {format(new Date(holiday.date), 'MMMM d, yyyy')}
           </p>
+          {holiday.dateType === 'hebrew' && (
+            <p className="text-[10px] text-white/60 mt-0.5" dir="rtl">
+              {getHebrewDateStr(holiday.date)}
+            </p>
+          )}
         </div>
         <div
           className="shrink-0 text-xs font-bold px-2.5 py-1 rounded-full"

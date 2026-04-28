@@ -9,6 +9,7 @@ import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { copyToClipboard } from '@/services/communicationService'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
+import { getHebrewDateStr } from '@/utils/hebrewDateUtils'
 
 function hexToRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -74,6 +75,15 @@ export function HolidayDetailScreen() {
                 <Calendar size={10} />
                 {format(new Date(holiday.date), 'MMMM d, yyyy')}
               </span>
+              {holiday.dateType === 'hebrew' && (
+                <span
+                  className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold text-white"
+                  style={{ background: 'rgba(255,255,255,0.20)' }}
+                  dir="rtl"
+                >
+                  {getHebrewDateStr(holiday.date)}
+                </span>
+              )}
               <span
                 className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold text-white"
                 style={{ background: 'rgba(255,255,255,0.25)' }}
