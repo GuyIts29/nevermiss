@@ -108,6 +108,7 @@ export interface Contact {
   updatedAt: string
   // Premium fields
   birthday?: string         // YYYY-MM-DD
+  hebrewBirthday?: string   // "DD-MM" e.g. "03-01" = 3 Nisan (Hebrew day-month, no year)
   email?: string
   department?: string
   role?: string

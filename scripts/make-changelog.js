@@ -787,6 +787,58 @@ const rows = [
     Agent: 'Agent 1',
     Status: 'done',
   },
+
+  // ── 2026-04-28 iteration 16 — BUG-039 Calendar Birthdays + Hebrew Birthday feature ──
+  {
+    Date: '2026-04-28',
+    Time: '19:00',
+    'Screen / File': 'src/screens/CalendarScreen.tsx',
+    'Change Description': 'BUG-039: Contact birthdays never appeared in calendar. Added birthdayMap useMemo — builds Map<date-string, Contact[]> for visible month using hebrewBirthday (priority) or birthday. Pink dot (#EC4899) added to cell dots row. Birthday panel section added below calendar showing contact name cards for selected day / full month.',
+    Type: 'bugfix',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '19:00',
+    'Screen / File': 'src/types/index.ts',
+    'Change Description': 'FEATURE: Add optional hebrewBirthday?: string field to Contact interface — stored as "DD-MM" (Hebrew day-month, year-agnostic). Additive only; does not affect existing birthday field.',
+    Type: 'feature',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '19:00',
+    'Screen / File': 'src/utils/hebrewDateUtils.ts',
+    'Change Description': 'FEATURE: Add hebrewBirthdayToGregorianInCalendarYear(hebrewBirthday, gregorianYear) — converts "DD-MM" Hebrew date to Gregorian Date for a given year; tries approxHYear and approxHYear+1 to handle year boundary; returns null for invalid combos (e.g. Adar II in non-leap year)',
+    Type: 'feature',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '19:00',
+    'Screen / File': 'src/screens/ContactFormScreen.tsx',
+    'Change Description': 'FEATURE: Add Hebrew Birthday UI in premium section — shown for Judaism contacts or when hebrewBirthday already set. Two dropdowns (day 1–30, Hebrew month 1–12 with names). Derives day/month from form.hebrewBirthday via useMemo. Clear button removes the field. Saved as "DD-MM" string.',
+    Type: 'feature',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '19:00',
+    'Screen / File': 'src/i18n/index.ts',
+    'Change Description': 'Add 7 i18n keys (EN + HE): calendar_birthdays, calendar_birthdayLabel, calendar_birthdaysOn, contactForm_hebrewBirthday, contactForm_hebrewBirthdayDay, contactForm_hebrewBirthdayMonth, contactForm_hebrewBirthdayClear',
+    Type: 'feature',
+    Category: 'code_change',
+    Agent: 'Foundation-Agent',
+    Status: 'done',
+  },
 ]
 
 const wb = XLSX.utils.book_new()

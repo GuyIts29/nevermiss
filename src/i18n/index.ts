@@ -64,6 +64,9 @@ export const translations = {
     calendar_noHolidaysDay: 'No holidays on this day.',
     calendar_noHolidaysMonth: 'No holidays found for this month/filter.',
     calendar_passed: 'Passed',
+    calendar_birthdays: 'Birthdays',
+    calendar_birthdayLabel: 'Birthday',
+    calendar_birthdaysOn: 'Birthdays on {date}',
 
     // ─── Holiday Detail ───────────────────────────────────────────────────
     holiday_about: 'About this Holiday',
@@ -126,6 +129,10 @@ export const translations = {
     contactForm_lastContact: 'Last Contact Date',
     contactForm_premiumDetails: 'Premium Details',
     contactForm_birthday: 'Birthday',
+    contactForm_hebrewBirthday: 'Hebrew Birthday (optional)',
+    contactForm_hebrewBirthdayDay: 'Day',
+    contactForm_hebrewBirthdayMonth: 'Hebrew Month',
+    contactForm_hebrewBirthdayClear: 'Clear',
     contactForm_email: 'Email',
     contactForm_emailPlaceholder: 'name@company.com',
     contactForm_department: 'Department',
@@ -635,6 +642,9 @@ export const translations = {
     calendar_noHolidaysDay: 'אין חגים ביום זה.',
     calendar_noHolidaysMonth: 'לא נמצאו חגים לחודש/סינון זה.',
     calendar_passed: 'עבר',
+    calendar_birthdays: 'ימי הולדת',
+    calendar_birthdayLabel: 'יום הולדת',
+    calendar_birthdaysOn: 'ימי הולדת ב{date}',
 
     // ─── Holiday Detail ───────────────────────────────────────────────────
     holiday_about: 'אודות החג',
@@ -697,6 +707,10 @@ export const translations = {
     contactForm_lastContact: 'תאריך קשר אחרון',
     contactForm_premiumDetails: 'פרטי פרמיום',
     contactForm_birthday: 'יום הולדת',
+    contactForm_hebrewBirthday: 'תאריך לידה עברי (אופציונלי)',
+    contactForm_hebrewBirthdayDay: 'יום',
+    contactForm_hebrewBirthdayMonth: 'חודש עברי',
+    contactForm_hebrewBirthdayClear: 'נקה',
     contactForm_email: 'דוא"ל',
     contactForm_emailPlaceholder: 'name@company.com',
     contactForm_department: 'מחלקה',

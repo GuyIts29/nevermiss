@@ -271,5 +271,40 @@
     "action": "modified",
     "file": "src/screens/premium/ImportContactsScreen.tsx",
     "description": "נוסף מעקב contacts_imported עם metadata { count } לאחר ייבוא אנשי קשר מוצלח"
+  },
+  {
+    "timestamp": "2026-04-28T19:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תוקן BUG-039 — ימי הולדת לא הוצגו בלוח השנה; נוסף birthdayMap useMemo; נוספת נקודה ורודה (#EC4899) על תאים עם ימי הולדת; נוסף פאנל 'ימי הולדת' עם שמות אנשי קשר"
+  },
+  {
+    "timestamp": "2026-04-28T19:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/types/index.ts",
+    "description": "נוסף שדה hebrewBirthday?: string לממשק Contact — פורמט 'DD-MM' (יום-חודש עברי ללא שנה)"
+  },
+  {
+    "timestamp": "2026-04-28T19:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/utils/hebrewDateUtils.ts",
+    "description": "נוספה פונקציה hebrewBirthdayToGregorianInCalendarYear() — ממירה 'DD-MM' עברי לתאריך גרגוריאני בשנה נתונה; בודקת שתי שנות היברו סמוכות"
+  },
+  {
+    "timestamp": "2026-04-28T19:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "נוסף UI לתאריך לידה עברי בסעיף פרמיום — מוצג לאנשי קשר יהודים או כשהשדה כבר מוגדר; שני dropdowns (יום + חודש עברי) + כפתור ניקוי"
+  },
+  {
+    "timestamp": "2026-04-28T19:00:00",
+    "agent": "Foundation-Agent",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 7 מפתחות i18n: calendar_birthdays, calendar_birthdayLabel, calendar_birthdaysOn, contactForm_hebrewBirthday, contactForm_hebrewBirthdayDay, contactForm_hebrewBirthdayMonth, contactForm_hebrewBirthdayClear — EN + HE"
   }
 ]

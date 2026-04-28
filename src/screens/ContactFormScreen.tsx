@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Save, Trash2, User, Globe, BarChart2, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
@@ -68,6 +68,7 @@ export function ContactFormScreen() {
       contactType: existing?.contactType ?? 'external',
       avatarColor: existing?.avatarColor ?? defaultColor,
       birthday: existing?.birthday ?? '',
+      hebrewBirthday: existing?.hebrewBirthday ?? undefined,
       email: existing?.email ?? '',
       department: existing?.department ?? '',
       role: existing?.role ?? '',
@@ -82,6 +83,23 @@ export function ContactFormScreen() {
   const set = <K extends keyof Contact>(key: K, value: Contact[K]) => {
     setForm(f => ({ ...f, [key]: value }))
     setErrors(e => ({ ...e, [key]: '' }))
+  }
+
+  // Hebrew birthday — derived from form; helper updates form as "DD-MM"
+  const hbParts = useMemo(() => {
+    if (!form.hebrewBirthday) return { day: '', month: '' }
+    const [d, m] = form.hebrewBirthday.split('-')
+    return { day: d ? String(parseInt(d, 10)) : '', month: m ? String(parseInt(m, 10)) : '' }
+  }, [form.hebrewBirthday])
+
+  const setHebBirthday = (day: string, month: string) => {
+    const d = parseInt(day, 10)
+    const m = parseInt(month, 10)
+    if (d && m) {
+      set('hebrewBirthday', `${String(d).padStart(2, '0')}-${String(m).padStart(2, '0')}`)
+    } else {
+      set('hebrewBirthday', undefined as unknown as string)
+    }
   }
 
   const validate = () => {
@@ -111,6 +129,7 @@ export function ContactFormScreen() {
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
       birthday: isPremium ? (form.birthday || undefined) : undefined,
+      hebrewBirthday: isPremium ? (form.hebrewBirthday || undefined) : undefined,
       email: isPremium ? (form.email || undefined) : undefined,
       department: isPremium ? (form.department || undefined) : undefined,
       role: isPremium ? (form.role || undefined) : undefined,
@@ -331,6 +350,46 @@ export function ContactFormScreen() {
               value={form.birthday ?? ''}
               onChange={e => set('birthday', e.target.value)}
             />
+            {/* Hebrew Birthday — shown for Jewish contacts or when already set */}
+            {(form.religion === 'Judaism' || form.hebrewBirthday) && (
+              <div>
+                <p className="text-xs font-medium text-[var(--color-text-secondary)] mb-1.5">
+                  {t('contactForm_hebrewBirthday')}
+                </p>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={hbParts.day}
+                    onChange={e => setHebBirthday(e.target.value, hbParts.month)}
+                    className="flex-1 px-2 py-2 rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)]"
+                  >
+                    <option value="">{t('contactForm_hebrewBirthdayDay')}</option>
+                    {Array.from({ length: 30 }, (_, i) => i + 1).map(d => (
+                      <option key={d} value={d}>{d}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={hbParts.month}
+                    onChange={e => setHebBirthday(hbParts.day, e.target.value)}
+                    className="flex-[2] px-2 py-2 rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)]"
+                  >
+                    <option value="">{t('contactForm_hebrewBirthdayMonth')}</option>
+                    {(['ניסן','אייר','סיון','תמוז','אב','אלול','תשרי','חשוון','כסלו','טבת','שבט','אדר'] as const).map((name, i) => (
+                      <option key={i + 1} value={i + 1}>{name}</option>
+                    ))}
+                  </select>
+                  {form.hebrewBirthday && (
+                    <button
+                      type="button"
+                      onClick={() => setHebBirthday('', '')}
+                      className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] transition-colors text-xs"
+                      aria-label={t('contactForm_hebrewBirthdayClear')}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
             <Input
               label={t('contactForm_email')}
               type="email"

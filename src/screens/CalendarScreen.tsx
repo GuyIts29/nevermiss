@@ -6,9 +6,11 @@ import { PageHeader } from '@/components/Navigation'
 import { HolidayCard } from '@/components/HolidayCard'
 import { EmptyState } from '@/components/EmptyState'
 import { HOLIDAYS, RELIGION_LABELS, RELIGION_COLORS } from '@/data/holidays'
+import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
-import type { Religion } from '@/types'
+import { hebrewBirthdayToGregorianInCalendarYear } from '@/utils/hebrewDateUtils'
+import type { Contact, Religion } from '@/types'
 import type { TranslationKey } from '@/i18n'
 import { clsx } from 'clsx'
 
@@ -26,10 +28,39 @@ function hebrewMonthName(monthNum: number): string {
 export function CalendarScreen() {
   const t = useT()
   const { theme } = useTheme()
+  const { contacts } = useApp()
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [filterReligion, setFilterReligion] = useState<Religion | 'all'>('all')
   const [showFilter, setShowFilter] = useState(false)
+
+  // Build a map of "YYYY-MM-DD" → Contact[] for birthdays in the visible month.
+  // Hebrew birthdays (hebrewBirthday) take priority over the Gregorian birthday field.
+  const birthdayMap = useMemo(() => {
+    const map = new Map<string, Contact[]>()
+    const year = currentMonth.getFullYear()
+    const month = currentMonth.getMonth() // 0-based
+
+    for (const c of contacts) {
+      let bDate: Date | null = null
+
+      if (c.hebrewBirthday) {
+        const greg = hebrewBirthdayToGregorianInCalendarYear(c.hebrewBirthday, year)
+        if (greg && greg.getMonth() === month) bDate = greg
+      } else if (c.birthday) {
+        const [, bm, bd] = c.birthday.split('-').map(Number)
+        if (bm - 1 === month) bDate = new Date(year, month, bd)
+      }
+
+      if (bDate) {
+        const key = format(bDate, 'yyyy-MM-dd')
+        const list = map.get(key) ?? []
+        list.push(c)
+        map.set(key, list)
+      }
+    }
+    return map
+  }, [contacts, currentMonth])
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
@@ -171,6 +202,7 @@ export function CalendarScreen() {
             ))}
             {days.map(day => {
               const dayHolidays = getHolidaysForDay(day)
+              const dayBirthdays = birthdayMap.get(format(day, 'yyyy-MM-dd')) ?? []
               const isSelected = selectedDate && isSameDay(day, selectedDate)
               const isTodayDay = isToday(day)
               const hDay = hebrewDayGematriya(day)
@@ -206,15 +238,21 @@ export function CalendarScreen() {
                   >
                     {hLabel}
                   </span>
-                  {dayHolidays.length > 0 && (
+                  {(dayHolidays.length > 0 || dayBirthdays.length > 0) && (
                     <div className="flex gap-0.5 absolute bottom-0.5">
-                      {dayHolidays.slice(0, 3).map((h) => (
+                      {dayHolidays.slice(0, 2).map((h) => (
                         <div
                           key={h.id}
                           className="w-1 h-1 rounded-full"
                           style={{ backgroundColor: isSelected ? 'rgba(255,255,255,0.8)' : h.color }}
                         />
                       ))}
+                      {dayBirthdays.length > 0 && (
+                        <div
+                          className="w-1 h-1 rounded-full"
+                          style={{ backgroundColor: isSelected ? 'rgba(255,255,255,0.8)' : '#EC4899' }}
+                        />
+                      )}
                     </div>
                   )}
                 </button>
@@ -222,6 +260,47 @@ export function CalendarScreen() {
             })}
           </div>
         </div>
+
+        {/* Birthday list — visible when a day is selected that has birthdays, or when any birthdays exist this month */}
+        {(() => {
+          const bdays = selectedDate
+            ? (birthdayMap.get(format(selectedDate, 'yyyy-MM-dd')) ?? [])
+            : Array.from(birthdayMap.values()).flat()
+          if (bdays.length === 0) return null
+          return (
+            <section>
+              <h3 className="section-title mb-2">
+                {selectedDate
+                  ? t('calendar_birthdaysOn', { date: format(selectedDate, 'MMMM d') })
+                  : t('calendar_birthdays')
+                }
+                <span className="ml-2 text-[var(--color-text-muted)] font-normal">({bdays.length})</span>
+              </h3>
+              <div className="space-y-2">
+                {bdays.map(c => (
+                  <div
+                    key={c.id}
+                    className="card !p-3 flex items-center gap-3"
+                    style={{ borderLeft: '3px solid #EC4899' }}
+                  >
+                    <span className="text-xl shrink-0">🎂</span>
+                    <div>
+                      <p className="text-sm font-semibold text-[var(--color-text-primary)]">{c.name}</p>
+                      <p className="text-xs text-[var(--color-text-muted)]">
+                        {t('calendar_birthdayLabel')}
+                        {c.hebrewBirthday && (
+                          <span className="mr-1 ml-1 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full">
+                            {t('contactForm_hebrewBirthday').replace(' (optional)', '').replace(' (אופציונלי)', '')}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        })()}
 
         {/* Holiday list */}
         <section>

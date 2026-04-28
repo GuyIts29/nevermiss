@@ -226,6 +226,18 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **Fixed by:** Agent 1 + Foundation Agent — 2026-04-28
 - **Fix:** Moved `SECTIONS` inside the component function so `t()` is called on every render with the current language. Replaced all hardcoded English strings in the array with `titleKey`/`bodyKey` string references and a matching `as const` assertion for TypeScript narrowing. Added 22 new i18n keys (EN + HE) to `src/i18n/index.ts` covering all 10 section titles and bodies, the last-updated subtitle, and the intro paragraph.
 
+### BUG-039 — Contact birthdays not displayed in the Calendar
+- **Date:** 2026-04-28 | **Time:** ~19:00 | **Status:** ✅ fixed
+- **File:** `src/screens/CalendarScreen.tsx`
+- **Bug:** The Calendar screen only showed holiday dots and holiday cards. Contact birthdays (stored as `YYYY-MM-DD` in `Contact.birthday`) were never rendered in the calendar — no dot indicator on cells and no birthday section in the panel below.
+- **Found by:** User — 2026-04-28
+- **Fixed by:** Agent 1 — 2026-04-28
+- **Fix:** 
+  - Added `birthdayMap` useMemo in CalendarScreen that builds a `Map<"YYYY-MM-DD", Contact[]>` for the visible month; handles both `hebrewBirthday` (via `hebrewBirthdayToGregorianInCalendarYear`) and regular `birthday` fields.
+  - Added a pink dot (💗 `#EC4899`) alongside holiday dots in each calendar cell.
+  - Added a "Birthdays" section panel (with `style={{ borderLeft: '3px solid #EC4899' }}` cards) below the calendar that shows all contacts whose birthday falls on the selected day (or all birthdays in the month when no day is selected).
+  - Added 3 new i18n keys: `calendar_birthdays`, `calendar_birthdayLabel`, `calendar_birthdaysOn` (EN + HE).
+
 ---
 
 ## Known Issues (open)

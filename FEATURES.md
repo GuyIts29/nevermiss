@@ -46,12 +46,16 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Auto gradient + 8 solid color swatch options
 - Section headers with colored gradient icon squares
 - Free section: name, phone, relationship type, contact type (internal/external), religion, language, importance, interaction frequency, last contact date, notes
-- Premium section (amber border, locked fields): birthday, email, department, role, team
+- Premium section (amber border, locked fields): birthday, Hebrew birthday (Judaism contacts), email, department, role, team
+- **Hebrew Birthday field** (optional, `"DD-MM"` format): Day + Month dropdowns for Hebrew calendar; shown for Judaism contacts or when already set; stored as `hebrewBirthday` on Contact; clear button ✅ _FEATURE_
 - Auto-focus on name for new contacts
 - Save bar with gradient fade
 
 #### Calendar (`src/screens/CalendarScreen.tsx`)
 - Monthly calendar with holiday dots per day
+- **Birthday dots (pink) on calendar cells** for contacts with birthdays that month ✅ _BUG-039_
+- **Birthday section panel** — shows contact names with 🎂 for the selected day or all month ✅ _BUG-039_
+- Hebrew birthday dots: uses `hebrewBirthday` conversion when available (priority over Gregorian) ✅ _BUG-039_
 - Religion filter chips with religion-specific colors
 - Gradient-tinted day cells for active/today
 - Holiday list below calendar (filtered by selected date or full month)

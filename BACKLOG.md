@@ -1,6 +1,13 @@
 # NeverMiss — Product Backlog
 _Last updated: 2026-04-28 | Maintained by Agent 4 (Changelog Manager / Documentation Owner / Backlog Curator)_
 
+## Recently Completed (Sprint 2 — Iteration 16)
+
+| Task ID | Task | Priority | Status | Sprint | Type | Files Changed | Description |
+|---------|------|----------|--------|--------|------|---------------|-------------|
+| BL-039 | BUG: Calendar Birthdays not displayed | 🔴 High | ✅ Done | Sprint 2 | Bug | CalendarScreen.tsx, hebrewDateUtils.ts, i18n/index.ts, types/index.ts | Contact birthdays (and Hebrew birthdays) now appear as pink dots on calendar cells; birthday section panel shows contact names for selected day or full month |
+| BL-040 | FEATURE: Hebrew Birthday support | 🟡 Medium | ✅ Done | Sprint 2 | Feature | types/index.ts, hebrewDateUtils.ts, ContactFormScreen.tsx, i18n/index.ts | Optional `hebrewBirthday` field on Contact ("DD-MM" format); Day+Month dropdowns in premium ContactForm; `hebrewBirthdayToGregorianInCalendarYear()` converts to Gregorian for any calendar year; Calendar uses Hebrew date when available |
+
 > Source of truth: FEATURES.md (features), BUG_REPORT.md (bugs), AGENTS.md (agents).
 > BACKLOG.md and BACKLOG.csv are planning views derived from those sources. Do NOT edit directly — update the source first.
 
