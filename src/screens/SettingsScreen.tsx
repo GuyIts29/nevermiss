@@ -13,10 +13,12 @@ import { APP_CONFIG } from '@/config/appConfig'
 import { useState } from 'react'
 import { clearAllData } from '@/services/storageService'
 import { requestPermission, notificationPermission } from '@/services/notificationService'
+import { exportContactsToCSV } from '@/services/exportService'
 
 export function SettingsScreen() {
   const navigate = useNavigate()
-  const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings } = useApp()
+  const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings, contacts } = useApp()
+  const [exportDone, setExportDone] = useState(false)
   const { theme, themeId, setTheme } = useTheme()
   const { lang, setLang } = useLang()
   const t = useT()
@@ -272,6 +274,23 @@ export function SettingsScreen() {
                   <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 </button>
               ))}
+              <button
+                onClick={() => {
+                  exportContactsToCSV(contacts)
+                  setExportDone(true)
+                  setTimeout(() => setExportDone(false), 2500)
+                }}
+                className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors"
+              >
+                <FileText size={16} className="text-[var(--color-primary)]" />
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
+                  {exportDone ? t('settings_exportSuccess') : t('settings_exportContacts')}
+                </span>
+                {exportDone
+                  ? <Check size={14} className="text-green-500" />
+                  : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                }
+              </button>
             </Card>
           </section>
         )}

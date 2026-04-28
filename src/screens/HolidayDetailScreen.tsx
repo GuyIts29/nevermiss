@@ -303,7 +303,7 @@ function GreetingRow({
       </div>
       <button
         onClick={onCopy}
-        className="p-1.5 rounded-lg hover:bg-[var(--color-surface)] transition-colors shrink-0 mt-4"
+        className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface)] transition-colors shrink-0 mt-4"
         aria-label="Copy"
       >
         {copied

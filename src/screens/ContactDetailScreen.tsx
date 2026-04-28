@@ -134,7 +134,7 @@ export function ContactDetailScreen() {
         right={
           <button
             onClick={() => navigate(`/contacts/${id}/edit`)}
-            className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
             aria-label={t('contactForm_edit')}
           >
             <Edit size={16} className="text-[var(--color-text-muted)]" aria-hidden="true" />

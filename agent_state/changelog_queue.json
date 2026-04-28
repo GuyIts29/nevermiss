@@ -460,5 +460,82 @@
     "action": "modified",
     "file": "src/index.css",
     "description": "BL-045: keyframe particleBurst עודכן — scale-pop (0.4→1.6→0) + מסלול רחב יותר; אנימציה עודכנה ל-1.4s"
+  },
+  {
+    "timestamp": "2026-04-29T00:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/services/exportService.ts",
+    "description": "BL-025: exportContactsToCSV — ייצוא כל שדות קשר ל-CSV עם BOM לתמיכה ב-Excel Hebrew; PapaParse"
+  },
+  {
+    "timestamp": "2026-04-29T00:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BL-025: נוסף כפתור ייצוא CSV בכרטיס Premium Features; exportDone state עם הצלחה feedback 2.5s"
+  },
+  {
+    "timestamp": "2026-04-29T00:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-025: נוספו מפתחות settings_exportContacts + settings_exportSuccess ב-EN+HE"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/Navigation.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתור חזרה ב-PageHeader עודכן ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתור מחיקה ב-PageHeader עודכן ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתורי Edit/Delete בכרטיסי קבוצה עודכנו ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתורי Regenerate/Copy עודכנו ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/ui/Modal.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתור סגירה ב-Modal עודכן ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתור עריכה ב-PageHeader עודכן ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתור העתקת ברכה עודכן ל-min-w/h-[48px] flex items-center justify-center"
+  },
+  {
+    "timestamp": "2026-04-29T00:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/BirthdayGreetingEditorScreen.tsx",
+    "description": "BL-029 WCAG 2.5.5: כפתורי Regenerate/Copy עודכנו ל-min-w/h-[48px] flex items-center justify-center"
   }
 ]

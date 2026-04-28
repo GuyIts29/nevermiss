@@ -67,7 +67,7 @@ export function PageHeader({ title, subtitle, right, back }: PageHeaderProps) {
         {back && (
           <button
             onClick={() => window.history.back()}
-            className="p-2 rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90 shrink-0"
+            className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90 shrink-0"
             aria-label={t('go_back')}
           >
             <svg

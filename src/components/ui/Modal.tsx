@@ -113,7 +113,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose
             {!hideClose && (
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
+                className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
                 aria-label={t('close')}
               >
                 <X size={18} className="text-[var(--color-text-muted)]" />

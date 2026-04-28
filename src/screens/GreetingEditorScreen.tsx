@@ -351,14 +351,14 @@ export function GreetingEditorScreen() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={generate}
-                    className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+                    className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
                     aria-label={t('greeting_regenerate')}
                   >
                     <RefreshCw size={13} className="text-[var(--color-text-muted)]" aria-hidden="true" />
                   </button>
                   <button
                     onClick={handleCopy}
-                    className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+                    className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
                     aria-label={t('greeting_copy')}
                   >
                     {copied

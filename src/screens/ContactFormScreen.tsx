@@ -167,7 +167,7 @@ export function ContactFormScreen() {
           !isNew && (
             <button
               onClick={() => setShowDelete(true)}
-              className="p-2 rounded-xl hover:bg-red-50 transition-colors"
+              className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl hover:bg-red-50 transition-colors"
               aria-label={t('contactForm_deleteContact')}
             >
               <Trash2 size={16} className="text-red-500" />

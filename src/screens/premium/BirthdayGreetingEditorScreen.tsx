@@ -194,14 +194,14 @@ export function BirthdayGreetingEditorScreen() {
                 <div className="flex gap-1">
                   <button
                     onClick={generate}
-                    className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+                    className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
                     title="Regenerate"
                   >
                     <RefreshCw size={13} className="text-[var(--color-text-muted)]" />
                   </button>
                   <button
                     onClick={handleCopy}
-                    className="p-1.5 rounded-lg hover:bg-[var(--color-surface-2)] transition-colors relative"
+                    className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors relative"
                     title="Copy"
                   >
                     {showConfetti && (

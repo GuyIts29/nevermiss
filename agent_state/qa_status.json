@@ -246,5 +246,13 @@
   "T62": {
     "status": "✅",
     "notes": "BUG-044: sukkot-2026 added to holidays.ts (Sep 25–Oct 2, 2026); calendar now shows Sukkot for 2026"
+  },
+  "T63": {
+    "status": "✅",
+    "notes": "BL-025 Sprint 4: exportService.ts עם PapaParse + BOM; כפתור ייצוא CSV ב-SettingsScreen Premium Features; exportDone feedback 2.5s; EN+HE i18n keys"
+  },
+  "T64": {
+    "status": "✅",
+    "notes": "BL-029 Sprint 4 WCAG 2.5.5: 9 כפתורי icon-only עודכנו ל-min-w/h-[48px]; Navigation, ContactForm, ContactDetail, GroupsScreen, GreetingEditor, Modal, HolidayDetail, BirthdayGreetingEditor"
   }
 }
