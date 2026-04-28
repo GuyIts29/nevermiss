@@ -341,5 +341,19 @@
     "action": "modified",
     "file": "src/index.css",
     "description": "BL-041: נוספה keyframe particleBurst ו-class .animate-particle לאנימציית פרטיקלים בחגיגה"
+  },
+  {
+    "timestamp": "2026-04-28T20:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "fixed",
+    "file": "agent_state/iteration_log.md",
+    "description": "תוקן BUG-040 — iteration_log.md חסר iterations 13–17; שוחזרו מ-changelog_queue.json; עמודות Agent 2/3 סומנו TBD היכן שאין רשומות; הלוג רציף 0–17"
+  },
+  {
+    "timestamp": "2026-04-28T20:30:00",
+    "agent": "Agent4-Changelog",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-040 — iteration_log.md חסר iterations 13–17; סומן כ-fixed"
   }
 ]

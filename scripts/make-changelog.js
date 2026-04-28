@@ -891,6 +891,26 @@ const rows = [
     Agent: 'Agent 1',
     Status: 'done',
   },
+  {
+    Date: '2026-04-28',
+    Time: '20:30',
+    'Screen / File': 'agent_state/iteration_log.md',
+    'Change Description': 'BUG-040 fix: reconstructed iterations 13–17 from changelog_queue.json. All 5 entries appended: iter 13 (Hebrew date display + BUG-037), iter 14 (BUG-038 Terms fix), iter 15 (analytics foundation), iter 16 (BUG-039 birthday calendar + Hebrew birthday feature), iter 17 (BL-015/016/017/018/041 i18n + accessibility + celebration). Agent 2/3 columns marked TBD where source files have no entries. Log is now continuous 0–17.',
+    Type: 'bugfix',
+    Category: 'code_change',
+    Agent: 'Agent 4',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '20:30',
+    'Screen / File': 'BUG_REPORT.md',
+    'Change Description': 'Added BUG-040 entry: iteration_log.md missing iterations 13–17. Marked fixed.',
+    Type: 'bugfix',
+    Category: 'code_change',
+    Agent: 'Agent 4',
+    Status: 'done',
+  },
 ]
 
 const wb = XLSX.utils.book_new()

@@ -240,6 +240,15 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 
 ---
 
+### BUG-040 — iteration_log.md missing iterations 13–17
+- **Date:** 2026-04-28 | **Time:** 20:30 | **Status:** ✅ fixed
+- **File:** `agent_state/iteration_log.md`
+- **Bug:** Agent 4 last wrote to iteration_log.md at iteration 12 (timestamp 13:00). Iterations 13–17 (timestamps 16:00–20:00, 2026-04-28) were never appended. The log was therefore missing 5 entries covering: Hebrew date display, BUG-038 Terms fix, local analytics foundation, BUG-039 birthday calendar + Hebrew birthday feature, and Sprint 2 i18n/accessibility/celebration feedback work.
+- **Fixed by:** Agent 4 — 2026-04-28
+- **Fix:** Reconstructed iterations 13–17 from `changelog_queue.json` (sole authoritative source). Agent 2 and Agent 3 columns marked TBD where `research_notes.md` / `review_notes.md` have no corresponding entries. Appended all five rows without modifying iterations 0–12. Log is now continuous 0–17.
+
+---
+
 ## Known Issues (open)
 
 ### BUG-029 (SECURITY — documented)
