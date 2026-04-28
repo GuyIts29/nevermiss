@@ -593,5 +593,12 @@
     "action": "modified",
     "file": "BACKLOG.md",
     "description": "Sprint 4 BL-024/025/027/028/029/034/035 מסומנים ✅ Done; BL-031/032/033/036/037/038 הועברו ל-Sprint 5; נוספו BL-046 עד BL-052 (7 משימות חדשות מהמשתמש: Import entry point, CSV label, device contacts visibility, BottomNav active tab, group assignment, Excel template, smart holiday suggestions by group purpose)"
+  },
+  {
+    "timestamp": "2026-04-29T03:00:00",
+    "agent": "Agent4-ChangelogManager",
+    "action": "modified",
+    "file": "scripts/make-changelog.js",
+    "description": "שיפור מעקב changelog: הסקריפט מחדש קורא ישירות מ-changelog_queue.json במקום מערך hardcoded; 64 שורות legacy נשמרות כ-LEGACY_ROWS; כל השינויים העתידיים נרשמים אוטומטית; 24 רשומות שהיו חסרות שוחזרו — סה\"כ 149 רשומות (היה 125)"
   }
 ]
