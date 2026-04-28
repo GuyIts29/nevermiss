@@ -29,6 +29,16 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 ---
 
+## Sprint 3/4 — In Progress
+
+| Task ID | Task | Priority | Status | Sprint | Type | Files Changed | Description |
+|---------|------|----------|--------|--------|------|---------------|-------------|
+| BL-043 | BUG: Multi-day holidays show only first day | 🔴 High | ✅ Done | Sprint 3/4 | Bug | CalendarScreen.tsx | getHolidaysForDay now checks [date, endDate] range; monthly list shows holidays overlapping the visible month |
+| BL-044 | BUG: Sukkot 2026 missing | 🔴 High | ✅ Done | Sprint 3/4 | Bug | holidays.ts | Added sukkot-2026 (Sep 25–Oct 2, 2026 / 15–22 Tishrei 5787) |
+| BL-045 | IMPROVEMENT: Celebration feedback on Mark as Contacted | 🟡 Medium | ✅ Done | Sprint 3/4 | Improvement | ContactDetailScreen.tsx, index.css | Sound: C5/E5/G5 major triad arpeggio replaces harsh oscillator. Animation: 10 particles (up from 6), text-xl, scale-pop keyframe, wider spread (±85px h, ±110px v), 1.4s duration |
+
+---
+
 ## Sprint 3 — ✅ COMPLETE
 
 | Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description |

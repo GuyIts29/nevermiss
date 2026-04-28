@@ -446,5 +446,19 @@
     "action": "added",
     "file": "src/data/holidays.ts",
     "description": "BUG-044: נוסף sukkot-2026 (15-22 תשרי תשפ״ז, 25 ספטמבר–2 אוקטובר 2026) — ה-entry של 2025 קיים אך 2026 חסר"
+  },
+  {
+    "timestamp": "2026-04-28T23:30:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-045: שיפור celebration feedback — צליל: C5/E5/G5 אקורד גדול arpeggio במקום oscillator; אנימציה: 10 חלקיקים (במקום 6), גדולים יותר (text-xl), פיזור רחב יותר (±85px/±110px), 1.6s"
+  },
+  {
+    "timestamp": "2026-04-28T23:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/index.css",
+    "description": "BL-045: keyframe particleBurst עודכן — scale-pop (0.4→1.6→0) + מסלול רחב יותר; אנימציה עודכנה ל-1.4s"
   }
 ]

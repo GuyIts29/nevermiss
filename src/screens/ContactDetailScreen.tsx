@@ -77,24 +77,28 @@ export function ContactDetailScreen() {
     updateContact({ ...contact, lastContactDate: new Date().toISOString().split('T')[0], updatedAt: new Date().toISOString() })
     // Haptic feedback
     try { navigator.vibrate?.(40) } catch { /* unsupported */ }
-    // Audio ping (non-blocking)
+    // Celebration chord — C5/E5/G5 major triad arpeggio, max ~0.75s total
     try {
       const ctx = new AudioContext()
-      const osc = ctx.createOscillator()
-      const gain = ctx.createGain()
-      osc.connect(gain)
-      gain.connect(ctx.destination)
-      osc.frequency.setValueAtTime(880, ctx.currentTime)
-      osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.15)
-      gain.gain.setValueAtTime(0.18, ctx.currentTime)
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4)
-      osc.start()
-      osc.stop(ctx.currentTime + 0.4)
+      const freqs = [523.25, 659.25, 783.99] // C5, E5, G5
+      freqs.forEach((freq, i) => {
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.type = 'sine'
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.frequency.setValueAtTime(freq, ctx.currentTime)
+        gain.gain.setValueAtTime(0, ctx.currentTime)
+        gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.04 + i * 0.08)
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55 + i * 0.08)
+        osc.start(ctx.currentTime + i * 0.08)
+        osc.stop(ctx.currentTime + 0.6 + i * 0.08)
+      })
     } catch { /* blocked or unsupported */ }
     // Particle burst (respects prefers-reduced-motion)
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setCelebrating(true)
-      setTimeout(() => setCelebrating(false), 1500)
+      setTimeout(() => setCelebrating(false), 1600)
     }
   }
 
@@ -310,17 +314,19 @@ export function ContactDetailScreen() {
           <div className="relative">
             {celebrating && (
               <div className="absolute inset-0 pointer-events-none overflow-visible" style={{ zIndex: 50 }}>
-                {(['🎉', '✨', '🌟', '💫', '🎊', '⭐'] as const).map((emoji, i) => {
+                {(['🎉', '✨', '🌟', '💫', '🎊', '⭐', '🎈', '🥳', '✨', '🌟'] as const).map((emoji, i) => {
                   const dirs = [
-                    { tx: '-40px', ty: '-55px' }, { tx: '40px', ty: '-55px' },
-                    { tx: '-25px', ty: '-65px' }, { tx: '25px', ty: '-65px' },
-                    { tx: '-50px', ty: '-35px' }, { tx: '50px', ty: '-35px' },
+                    { tx: '-65px', ty: '-85px' }, { tx: '65px', ty: '-85px' },
+                    { tx: '-35px', ty: '-105px' }, { tx: '35px', ty: '-105px' },
+                    { tx: '-85px', ty: '-55px' }, { tx: '85px', ty: '-55px' },
+                    { tx: '-50px', ty: '-75px' }, { tx: '50px', ty: '-75px' },
+                    { tx: '-15px', ty: '-110px' }, { tx: '15px', ty: '-110px' },
                   ]
                   return (
                     <span
                       key={i}
-                      className="absolute text-base animate-particle"
-                      style={{ left: '50%', bottom: '0', '--tx': dirs[i].tx, '--ty': dirs[i].ty, animationDelay: `${i * 40}ms` } as React.CSSProperties}
+                      className="absolute text-xl animate-particle"
+                      style={{ left: '50%', bottom: '0', '--tx': dirs[i].tx, '--ty': dirs[i].ty, animationDelay: `${i * 50}ms` } as React.CSSProperties}
                     >
                       {emoji}
                     </span>

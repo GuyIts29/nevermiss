@@ -1033,6 +1033,28 @@ const rows = [
     Agent: 'Agent 1',
     Status: 'done',
   },
+
+  // ── BL-045 — Celebration feedback improvements ──
+  {
+    Date: '2026-04-28',
+    Time: '23:30',
+    'Screen / File': 'src/screens/ContactDetailScreen.tsx',
+    'Change Description': 'BL-045: Replace harsh oscillator with C5/E5/G5 major triad arpeggio (3 sine waves, ~0.75s, pleasant chord). Expand particles from 6 to 10, size text-xl (was text-base), wider spread ±85px h / ±110px v. Animation delay stagger 50ms per particle (was 40ms). State clear timeout 1600ms.',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
+  {
+    Date: '2026-04-28',
+    Time: '23:30',
+    'Screen / File': 'src/index.css',
+    'Change Description': 'BL-045: Update particleBurst keyframe — scale-pop effect: 0.4 → 1.6 → 0 across 0/18%/100% keyframe stops, giving a visible "pop then fly" motion. Animation class duration 1.2s → 1.4s.',
+    Type: 'improvement',
+    Category: 'code_change',
+    Agent: 'Agent 1',
+    Status: 'done',
+  },
 ]
 
 const wb = XLSX.utils.book_new()
