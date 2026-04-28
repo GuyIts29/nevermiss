@@ -1,5 +1,5 @@
 # NeverMiss — Feature Map
-_Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
+_Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 
 > Intended for sharing with AI tools, designers, and collaborators for feedback and new feature ideas.
 > Stack: React 19 · TypeScript · Vite 8 · Tailwind v4 · Capacitor 8 · localStorage (MVP)
@@ -11,59 +11,77 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 ### Free Tier
 
 #### Dashboard (`src/screens/DashboardScreen.tsx`)
-- Welcome hero with decorative circles and gradient
+- Time-of-day greeting (morning/afternoon/evening) with personalized text
 - "Today's Highlights" section — today's holiday and birthday cards
-- Priority contacts list (scored by relationship engine)
+- Priority contacts list (scored by relationship engine, top 5)
+- Reconnect suggestions (overdue contacts, high/critical urgency)
 - Tomorrow's holiday preview card
-- Stats cards with gradient icon circles
+- Stats cards with gradient icon circles (contacts count, groups, upcoming holidays)
 - Staggered list entrance animations
 - Gradient FAB button (navigate to add contact)
+- Group holiday alerts section (14-day window, shows coming holidays for groups)
+- Today-highlight cards are `<button>` elements (keyboard accessible) ✅ _Iteration 12_
 
 #### Contacts (`src/screens/ContactsScreen.tsx`)
-- Full contact list with search
+- Full contact list with real-time search
 - Filter chips: All / External / Internal / VIP
+- Sort options: Score / Name / Last Contact / Importance
+- Free-tier limit indicator (20 contacts)
 - Staggered card entrance animations
 - FAB to add new contact
 
 #### Contact Detail (`src/screens/ContactDetailScreen.tsx`)
-- Full-width gradient profile banner
-- SVG ring arc showing relationship score
-- Contact info rows with icon badges
-- Greeting action button (gradient)
-- Related holidays list
+- Full-width gradient profile banner with avatar
+- SVG ring arc showing relationship score (0–100)
+- Score breakdown bars: Time Penalty / Importance Weight / Upcoming Events
+- Contact info rows with icon badges (phone, relationship, type, religion, frequency)
+- Urgency level, interaction frequency, suggested action — all i18n'd ✅ _Iteration 12_
+- Greeting action button (gradient) → GreetingEditorScreen
+- Related holidays list (upcoming 30 days)
+- "Mark Contacted" button (resets last contact date)
+- WhatsApp integration button
 
 #### Contact Form (`src/screens/ContactFormScreen.tsx`)
-- Live gradient avatar preview (name-hashed)
-- Auto gradient + solid color swatch options
+- Live gradient avatar preview (name-hashed, 10-option palette)
+- Auto gradient + 8 solid color swatch options
 - Section headers with colored gradient icon squares
-- Premium section with amber border (locked fields)
+- Free section: name, phone, relationship type, contact type (internal/external), religion, language, importance, interaction frequency, last contact date, notes
+- Premium section (amber border, locked fields): birthday, email, department, role, team
 - Auto-focus on name for new contacts
 - Save bar with gradient fade
 
 #### Calendar (`src/screens/CalendarScreen.tsx`)
-- Monthly calendar with holiday dots
+- Monthly calendar with holiday dots per day
 - Religion filter chips with religion-specific colors
 - Gradient-tinted day cells for active/today
-- Holiday list below calendar
+- Holiday list below calendar (filtered by selected date or full month)
+- Hebrew calendar integration via `@hebcal/core`:
+  - Hebrew month label(s) shown above Gregorian month
+  - Hebrew day in gematria (e.g. "ה׳") on each calendar cell
 
 #### Groups (`src/screens/GroupsScreen.tsx`)
 - Group cards with left color border + gradient tint
 - Gradient emoji circle (w-12 h-12)
-- Contact/holiday count pills
-- Create/edit group modal
+- Contact count + holiday count pills
+- Create/edit group modal (name, description, color picker, emoji picker)
+- Free-tier limit: 2 groups
+- Group cards are `<button>` elements (keyboard accessible) ✅ _Iteration 12_
 
 #### Settings (`src/screens/SettingsScreen.tsx`)
-- Language toggle (EN / HE) with sliding pill indicator
-- Theme picker with 6 themes, active checkmark + glow ring
-- Gradient icon squares on section headers
-- Danger zone (red-tinted background)
-- Premium gold/amber banner when active
+- Language toggle (EN / HE) with sliding pill indicator (CSS calc fix applied)
+- Theme picker with active checkmark + glow ring (3 built-in themes; premium unlocks more)
+- Notifications toggle (browser permission-based)
+- Premium gold/amber banner when premium active
+- "Premium active until [date]" display with calendar icon
+- Coupon input section (collapsible) with auto-uppercase + success/error feedback
+- Danger zone (clear all data, red-tinted background)
+- App links: What's New, About, Privacy, Terms
 
 #### About (`src/screens/AboutScreen.tsx`)
 - Full gradient hero banner with floating 💌 emoji
-- Core values with gradient icon circles
-- Privacy facts with icon+pill layout
-- **i18n: Mission text, all VALUES titles/desc, all TECH labels/values fully localized** ✅ _Iteration 12_
+- Mission text fully i18n'd ✅ _Iteration 12_
+- Core values (4) with gradient icon circles — all i18n'd ✅ _Iteration 12_
+- Privacy tech facts (4) with icon+pill layout — all i18n'd ✅ _Iteration 12_
 
 #### Privacy & Terms (`src/screens/PrivacyScreen.tsx`, `TermsScreen.tsx`)
 - Full gradient hero banners
@@ -73,46 +91,67 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 #### What's New (`src/screens/WhatsNewScreen.tsx`)
 - Vertical timeline with animated gradient connector
 - Version dots as gradient circles
-- Change type badges with gradient backgrounds
+- Change type badges (feature/improvement/bugfix/security) with gradient backgrounds
+- Latest version highlighted
 
 #### Onboarding (`src/screens/OnboardingScreen.tsx`)
-- 3-slide onboarding flow
+- 4-slide onboarding flow (setup, occasions, groups, features)
 - Gradient icon circles per slide with animate-float
 - Progress dots with gradient active pill
+- Skippable
+
+#### Upgrade (`src/screens/UpgradeScreen.tsx`)
+- Hero gradient banner with premium pitch
+- Free vs Premium comparison table
+- Testimonials section
+- Pricing display (₪29/month · ₪249/year)
+- Coupon code section ("Have a coupon?" collapsible)
+- Demo premium activation button
+- Shows "Already Active" state when premium is live
 
 ---
 
 ### Premium Tier
 
 #### Birthday Center (`src/screens/premium/BirthdayCenterScreen.tsx`)
-- Birthday list with upcoming birthday tracking
-- Days-until countdown
-- Quick greeting button
+- Birthday list with tabs: Today / This Week / This Month
+- Days-until countdown with gradient badge
+- Today birthdays highlighted with gradient card background
+- Empty states per tab
+- Quick "Send Greeting" navigation
 
 #### Birthday Greeting Editor (`src/screens/premium/BirthdayGreetingEditorScreen.tsx`)
-- Birthday-specific greeting templates
-- Multi-language support
+- 3 tone tiers: Heartfelt 💝 / Celebratory 🎉 / Elegant 🌹
+- 8-language support
+- Live gift-card preview, editable textarea, character count
+- Copy + WhatsApp send buttons
 
 #### Import Contacts (`src/screens/premium/ImportContactsScreen.tsx`)
-- CSV / Excel file upload
-- Column mapping UI
-- Preview table with error list
-- Import result summary
+- 3-step wizard: Upload → Map Columns → Done
+- CSV / Excel file upload (drag-drop or browse)
+- Auto-detect column names (multi-language patterns including Hebrew)
+- Column mapping UI with preview table
+- Import result summary (imported / skipped / errors)
+- Error list with stable keys (no React reconciliation warnings)
+- `setImporting(false)` in `finally` block (button never stays locked) ✅ _Iteration 12_
 
 ---
 
 ### Components
 
 #### ContactCard (`src/components/ContactCard.tsx`)
-- Name-hashed gradient avatar (10-option palette)
+- Name-hashed gradient avatar (10-option palette, canonical via avatarUtils)
 - Urgency-tinted card background glow
-- Score progress bar
+- Score progress bar with color-coded urgency
 - Staggered entrance animation
 - Urgency badge as colored pill
+- `<button>` element (WCAG 2.1.1 keyboard accessible) ✅ _Iteration 8_
+- Crown and Building2 icons have `aria-hidden="true"` ✅ _Iteration 12_
 
 #### HolidayCard (`src/components/HolidayCard.tsx`)
 - Compact: gradient-tinted background + left color border
 - Full: gradient color header strip, animate-float emoji
+- Hebrew date line for `dateType === 'hebrew'` holidays ✅ _Sprint 2_
 - **i18n: Today/Tomorrow/Passed/days labels fully localized** ✅
 
 #### Navigation (`src/components/Navigation.tsx`)
@@ -124,8 +163,8 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 #### Modal (`src/components/ui/Modal.tsx`)
 - Visible drag handle
 - Backdrop blur(6px)
-- danger prop for red title
-- aria-labelledby for accessibility
+- `danger` prop for red title
+- `aria-labelledby` for accessibility
 - ESC key support
 - Focus trap (Tab/Shift+Tab trapped; focus restored on close) ✅ _Sprint F1_
 - **i18n: Close button aria-label via t('close')** ✅ _Iteration 12_
@@ -134,6 +173,7 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 - Authentic WhatsApp green gradient
 - Green glow shadow
 - Amber-tinted warning box in modal preview
+- Image clipboard copy + Hebrew paste instruction popup ✅ _Iteration 11_
 - Fully i18n'd
 
 #### EmptyState (`src/components/EmptyState.tsx`)
@@ -141,44 +181,13 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 - animate-float icon
 - Font-bold title
 
----
+#### Channel Picker (`src/components/ChannelPicker.tsx`)
+- Bottom sheet modal for channel selection
+- Channels: WhatsApp, SMS, Email, Copy to Clipboard, Web Share
+- Remembers last-used channel per contact
+- Fully localized
 
-### Core Systems
-
-#### Relationship Scoring (`src/core/scoringSystem.ts`)
-- Time-decay penalty (days since last contact)
-- Importance weighting (VIP / high / normal)
-- Upcoming events weight (holidays, birthdays)
-- Urgency levels: low / medium / high / critical
-- Suggested actions per score
-- **DST-safe birthday countdown via `differenceInCalendarDays`** ✅ _Iteration 12 (BUG-020)_
-
-#### Greeting Engine (`src/services/greetingService.ts`)
-- 4–7 tone variants per template
-- HOLIDAY_SPECIFIC_BODIES lookup (rosh-hashana, yom-kippur, hanukkah, passover, eid-al-fitr, eid-al-adha, christmas)
-- Authentic Hebrew Israeli casual voice (not translated English)
-- VIP premium-letter quality templates
-- Birthday greetings in 6 languages
-
-#### i18n System (`src/i18n/index.ts`, `src/context/LanguageContext.tsx`)
-- ~270+ translation keys (39 added iteration 12: urgency_*, go_back, action_*, holiday_*, about_*)
-- `t(lang, key, vars?)` function with `{variable}` interpolation
-- `useT()` hook (returns bound t fn)
-- Persists to localStorage `nm_lang`
-- Sets `document.dir = 'rtl'` on Hebrew
-
-#### Theme System (`src/data/themes.ts`, `src/context/ThemeContext.tsx`)
-- 6 themes: ocean, forest, sunset, purple, rose, midnight
-- CSS custom properties on `:root`
-- Runtime switching via ThemeContext
-- All themes more vibrant (updated)
-
-#### Storage Service (`src/services/storageService.ts`)
-- Typed `get<T>` / `set` / `remove` helpers
-- try/catch on all JSON.parse with console.warn ✅
-- CRUD for contacts, groups, drafts, settings, premium
-
-#### Greeting Media (`src/components/MediaAttachmentPicker.tsx`) ✅ _new — Premium_
+#### Media Attachment Picker (`src/components/MediaAttachmentPicker.tsx`)
 - Image upload from device (FileReader → base64, 2MB guard)
 - Voice recording up to 60 seconds (MediaRecorder API, auto-stop)
 - Image thumbnail / audio player preview with remove button
@@ -186,13 +195,95 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 - Premium-gated with Crown lock card for free users
 - Integrated into GreetingEditorScreen and WhatsAppButton modal
 
-#### Group Holiday Assignment ✅ _new — Premium_
+#### Premium Components
+- **PremiumBadge** — Crown + "Premium" inline badge
+- **PremiumGate** — HOC gate to conditionally render premium content with fallback
+- **PremiumFeaturePrompt** — Inline upgrade CTA card with navigation to /upgrade
+
+---
+
+### Core Systems
+
+#### Relationship Scoring (`src/core/scoringSystem.ts`)
+- Time-decay penalty (0–50 pts based on days since last contact vs. interaction frequency)
+- Importance weighting (0–30 pts: VIP/high/normal)
+- Upcoming events weight (0–20 pts: holiday or birthday within 14 days)
+- Urgency levels: low / medium / high / critical
+- Suggested actions per score: wish_birthday / wish_holiday / reconnect / send_checkin / follow_up
+- All action labels i18n'd ✅ _Iteration 12_
+- **DST-safe birthday countdown via `differenceInCalendarDays`** ✅ _Iteration 12 (BUG-020)_
+
+#### Relationship Engine (`src/core/relationshipEngine.ts`)
+- `buildRelationshipInsight()` — aggregates score, upcoming holidays, birthday countdown per contact
+- `buildDashboardData()` — derives priorityContacts, reconnectSuggestions, upcomingHolidays, todayBirthdays, upcomingBirthdays, teamBirthdays, overdueFollowUps
+- Fully derived via `useMemo` in AppContext (no manual refresh)
+
+#### Greeting Engine (`src/services/greetingService.ts`)
+- 4–7 tone variants per template (friendly / business / formal / internal / VIP)
+- `HOLIDAY_SPECIFIC_BODIES` lookup (rosh-hashana, yom-kippur, hanukkah, passover, eid-al-fitr, eid-al-adha, christmas)
+- Authentic Hebrew Israeli casual voice (not translated English)
+- VIP premium-letter quality templates
+- Birthday greetings in 6+ languages
+- Data split to `src/data/greetingTemplates.ts` for maintainability
+
+#### i18n System (`src/i18n/index.ts`, `src/context/LanguageContext.tsx`)
+- ~300+ translation keys
+- `t(lang, key, vars?)` function with `{variable}` interpolation
+- `useT()` hook (returns bound t fn)
+- Persists to localStorage `nm_lang`
+- Sets `document.dir = 'rtl'` on Hebrew
+
+#### Theme System (`src/data/themes.ts`, `src/context/ThemeContext.tsx`)
+- 3–4 themes: ocean, forest, sunset (+ premium unlock for more)
+- CSS custom properties on `:root`
+- Runtime switching via ThemeContext
+- All themes with vibrant colors
+
+#### Storage Service (`src/services/storageService.ts`)
+- Typed `get<T>` / `set` / `remove` helpers
+- `try/catch` on all JSON.parse with `console.warn` ✅
+- CRUD for contacts, groups, drafts, settings, premium
+- Coupon redemption + expiry tracking
+- Per-contact last-used communication channel
+
+#### Communication Service (`src/services/communicationService.ts`)
+- WhatsApp URL builder with Israeli phone normalization (052-xxx → +972-5x-xxx) ✅ _Iteration 10_
+- 00-prefix normalization (00972 → +972) ✅ _Iteration 11_
+- Empty phone guard ✅ _Iteration 11_
+- SMS (sms:), Email (mailto:), Web Share API, clipboard copy
+- `getAvailableChannels()` returns actionable channels per contact
+
+#### Import Service (`src/services/importService.ts`)
+- CSV/XLSX parsing via PapaParse
+- Auto-detect column names (multi-language patterns including Hebrew)
+- Column validation (name required)
+- Contact object creation from mapped columns
+
+#### Notification Service (`src/services/notificationService.ts`)
+- Browser Notification API wrapper
+- Birthday + holiday reminders
+- Per-day deduplication via localStorage
+- Permission request flow
+
+#### Hebrew Date Utils (`src/utils/hebrewDateUtils.ts`) ✅ _Sprint 2_
+- `getHebrewDateStr(isoDate)` converts any Gregorian ISO date to Hebrew date in gematria format
+- E.g. "2026-04-21" → "ד׳ באייר תשפ״ו"
+- Uses `HDate` + `gematriya` from `@hebcal/core`
+- DST-safe local time parsing
+
+#### Avatar Utils (`src/utils/avatarUtils.ts`)
+- Canonical `getInitials` + `getAvatarGradient`
+- 10-option gradient palette (name-hashed)
+- Module-level `Map<string, string>` cache
+- Consistent across all 7 consumer files
+
+#### Group Holiday Assignment ✅ _Sprint F1_
 - Holiday assignment section in group create/edit modal (searchable checkbox list)
 - `group.holidayIds: string[]` stored and preserved across saves
 - Dashboard "Coming up for your groups" alert section (14-day window)
 - Alert cards with holiday emoji, days-until, group name, contact count, Send button
 
-#### Coupon Code System ✅ _new_
+#### Coupon Code System ✅ _Sprint F1_
 - "Have a coupon?" collapsible section on Upgrade screen
 - Auto-uppercase input, success/error feedback states
 - Valid codes: `NEVERMISS1`, `WELCOME2025`, `ISRAEL30` → 1 month free Premium
@@ -200,17 +291,53 @@ _Last updated: 2026-04-28 | Iteration 12 | Auto-maintained by Agent Loop_
 - Auto-expiry: `checkAndExpirePremium()` on every app init
 - "Premium active until [date]" in Settings screen (calendar icon)
 
-#### Avatar Utils (`src/utils/avatarUtils.ts`) ✅ _new_
-- Canonical `getInitials` + `getAvatarGradient`
-- 10-option gradient palette (name-hashed)
-- Module-level `Map<string, string>` cache
-- Fixes visual bug: 5 files had 8 gradients (wrong) — all now 10
+---
+
+### Data
+
+#### Holiday Database (`src/data/holidays.ts`)
+- ~50+ holidays for 2025–2026
+- Religions covered: Judaism, Islam, Christianity, Druze, Buddhism, Hinduism, Sikhism, Bahá'í, East Asian, Secular/National
+- Fields per holiday: name, alternativeNames, religion, type, date, endDate, year, dateType, description, greetingGuidance, greetings (hebrew/arabic/english/transliteration), sensitivityNotes, do/dontLists, color, emoji
+- **Jewish holiday dates computed via `@hebcal/core`** — no static Gregorian dates for Hebrew-calendar holidays
+- **Yom HaAtzmaut 2026 fixed**: now correctly calculated as April 21 (ד׳ באייר תשפ״ו) ✅ _Sprint 2 (BUG-037)_
+
+#### Greeting Templates (`src/data/greetingTemplates.ts`)
+- Holiday-specific message bodies per tone × language
+- Covers: Rosh Hashana, Yom Kippur, Hanukkah, Passover, Eid al-Fitr, Eid al-Adha, Christmas
+
+---
+
+### Architecture & Quality
+
+#### Error Handling
+- `ErrorBoundary` class component in `App.tsx` (wraps full app)
+- `storageService.ts` — `console.warn` on all JSON.parse failures
+- `ImportContactsScreen` — `setImporting(false)` in `finally` block
+
+#### Accessibility
+- `.card-interactive:focus-visible` ring (WCAG 2.4.7) ✅ _Iteration 9_
+- `.btn:focus-visible` rule ✅ _Iteration 12_
+- All contact/holiday/group cards are `<button>` elements ✅ _Iterations 8, 12_
+- Modal focus trap (Tab/Shift+Tab) ✅ _Sprint F1_
+- `aria-hidden="true"` on decorative icons ✅ _Iteration 12_
+- RTL-aware back button arrow flip
+- `aria-label` on close button via `t('close')` ✅ _Iteration 12_
+
+#### Layout
+- Full-width desktop layout (`@media (min-width: 768px)` removes max-width constraint) ✅ _Iteration 12_
+- Mobile-first responsive design
+
+#### Integrations (Stubbed — no live integration)
+- **Supabase v2** (`src/integrations/supabase/client.ts`) — cloud sync stub
+- **PayMe** (`src/integrations/payment/payme.ts`) — payment flow stub
+- **Claude API** (`src/integrations/ai/claudeClient.ts`) — AI greeting suggestions stub
 
 ---
 
 ## 🚧 In Progress (Sprint 2)
 
-_All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Starting Sprint 2._
+_All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Sprint 2 active._
 
 ---
 
@@ -220,7 +347,7 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Starting Sprint 
 
 - **RELIGION_LABELS i18n** — religion names in HolidayCard/CalendarScreen still EN-only; need `t(\`religion_${...}\`)` (BL-014)
 - **GreetingEditorScreen tier desc i18n** — `'Warm & personal'`, `'Polished & clear'`, `'Elevated & bespoke'` hardcoded EN (BL-015)
-- **ContactCard action label translation** — `score.suggestedAction.label` in card (line 80) still raw EN; needs `translatedActionLabel` pattern like ContactDetailScreen (BL-016)
+- **ContactCard action label translation** — `score.suggestedAction.label` in card (line ~80) still raw EN; needs `translatedActionLabel` pattern like ContactDetailScreen (BL-016)
 - **Missing `aria-label`** on icon-only buttons: Edit in ContactDetailScreen; Regenerate/Copy/Advanced/Signature in GreetingEditorScreen (BL-017)
 - **`aria-expanded`** on tone toggle and signature toggle in GreetingEditorScreen (BL-018)
 - **React.lazy** for remaining ~15 eagerly-loaded screens; BirthdayCenter/BirthdayGreetingEditor/ImportContacts already lazy (BL-019)
@@ -234,7 +361,7 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Starting Sprint 
 - **Haptic feedback** — Capacitor Haptics on save/send/coupon-success (BL-024)
 - **Export contacts to CSV** — Premium feature (BL-025)
 - **celebrationType field** on Contact + holiday suggestions filter (BL-026)
-- **greetingService.ts refactor** — `HOLIDAY_SPECIFIC_BODIES` → `src/data/greetingTemplates.ts` (BL-027)
+- **greetingService.ts refactor** — `HOLIDAY_SPECIFIC_BODIES` → already split to `src/data/greetingTemplates.ts` ✅
 - **date-fns named imports** — audit all imports for tree-shaking (BL-028)
 - **Tap target size** WCAG 2.5.5 — some icon buttons ~36px (BL-029)
 - **Import from device contacts** — Capacitor Contacts plugin; Premium (BL-030)
@@ -256,12 +383,12 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Starting Sprint 
 
 | Agent | Role | Current Status |
 |-------|------|---------------|
-| **Agent 1** — Developer | Implements improvements from Agent 2+3 notes | _Iteration 12 complete. Next Sprint 2: RELIGION_LABELS i18n, GreetingEditorScreen tier desc_ |
+| **Agent 1** — Developer | Implements improvements from Agent 2+3 notes | _Sprint 2 active: Yom HaAtzmaut fixed, Hebrew date display added. Next: RELIGION_LABELS i18n, GreetingEditorScreen tier desc_ |
 | **Agent 2** — Researcher | Finds 3 new improvements per iteration | _Iteration 12 complete. Latest findings: RELIGION_LABELS, GreetingEditorScreen tier i18n, ContactCard action label EN_ |
-| **Agent 3** — Code Reviewer | Reviews every Agent 1 change | _Iteration 12 complete. Reviewed: i18n completeness, accessibility fixes, layout fix_ |
-| **Agent 4** — Changelog Manager / Documentation Owner / Backlog Curator | Updates changelog.xlsx, BUG_REPORT.md, FEATURES.md, AGENTS.md, BACKLOG.md, BACKLOG.csv after every change | _Iteration 12 complete. QA: 56✅/0❌/1⚠️. BACKLOG.md and BACKLOG.csv created._ |
-| **Agent 5** — Bug Hunter | Runs build+lint every iteration, fixes ONLY errors | _Iteration 12 clean. Build: 2143 modules, ~370kB main chunk._ |
-| **Foundation Agent** | Sets up types + storage + i18n; active as needed | _Active: Added 39 i18n keys iteration 12. Ongoing for new features._ |
+| **Agent 3** — Code Reviewer | Reviews every Agent 1 change | _Sprint 2 active. Reviewed: Jewish holiday date fix, hebrewDateUtils.ts_ |
+| **Agent 4** — Changelog Manager / Documentation Owner / Backlog Curator | Updates changelog.xlsx, BUG_REPORT.md, FEATURES.md, AGENTS.md, BACKLOG.md, BACKLOG.csv after every change | _Sprint 2 active. QA: 56✅/0❌/1⚠️. FEATURES.md fully regenerated from codebase scan._ |
+| **Agent 5** — Bug Hunter | Runs build+lint every iteration, fixes ONLY errors | _Sprint 2: Build clean. 2144 modules, ~425kB main chunk._ |
+| **Foundation Agent** | Sets up types + storage + i18n; active as needed | _Active: Added 39 i18n keys iteration 12. hebrewDateUtils.ts added Sprint 2._ |
 | **Feature Agents** | Parallel isolated feature work | _Sprint F1 complete. Next: Sprint 3 features (notifications, haptics, export)_ |
 
 ---
@@ -271,15 +398,19 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Starting Sprint 
 | Metric | Value |
 |--------|-------|
 | Total screens | 18 (15 regular + 3 premium) |
-| Total components | 15+ |
-| i18n keys | ~270+ (39 added iteration 12) |
-| changelog.xlsx entries | 77+ |
-| Agent loop iterations completed | 12 |
-| Lint errors fixed by Agent 5 | 20+ |
-| Build time | ~415ms |
-| Bundle size (main chunk) | 370 kB (gzip: 111 kB) |
+| Total components | 21 (13 feature + 8 UI base) |
+| i18n keys | ~300+ |
+| changelog.xlsx entries | 64+ |
+| Agent loop iterations completed | 12+ |
+| Lint errors fixed | 20+ |
+| Build time | ~400ms |
+| Bundle size (main chunk) | ~425kB (gzip: ~127kB) |
 | localStorage keys | 7 |
-| Holiday database | 30+ holidays |
-| Supported languages (greetings) | 6 (Hebrew, Arabic, English, French, Spanish, Russian) |
+| Holiday database | 50+ holidays |
+| Supported languages (greetings) | 8 (Hebrew, Arabic, English, French, Spanish, Russian, Amharic, Other) |
 | UI languages | 2 (EN, HE with full RTL) |
+| Religion categories | 10 |
+| Contact relationship types | 10 |
+| Greeting tones | 5 (friendly/business/formal/internal/VIP) |
 | QA test score | 56 ✅ / 0 ❌ / 1 ⚠️ (57 total) |
+| Integration stubs | 3 (Supabase, PayMe, Claude API) |
