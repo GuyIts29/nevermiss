@@ -145,6 +145,7 @@ export const translations = {
     contactForm_notesPlaceholder: 'Anything useful to remember about this contact...',
     contactForm_deleteContact: 'Delete Contact',
     contactForm_deleteConfirm: 'Are you sure you want to delete {name}? This cannot be undone.',
+    contactForm_celebrationType: 'Celebration Type',
 
     // ─── Contact Detail ───────────────────────────────────────────────────
     contactDetail_score: 'Relationship Score',
@@ -510,6 +511,7 @@ export const translations = {
     premium_feat_birthday_fields: 'Birthday, Email, Department & Role',
     premium_feat_unlimited_groups: 'Unlimited Groups',
     premium_feat_birthday_tracking: 'Birthday Tracking',
+    premium_feat_device_contacts: 'Import from Phone Contacts',
 
     // ─── Notifications ────────────────────────────────────────────────────
     notif_settings_title: 'Reminders',
@@ -524,6 +526,26 @@ export const translations = {
     notif_holiday_tomorrow: '{emoji} {name} Tomorrow',
     notif_holiday_tomorrow_body: 'Prepare your greetings for tomorrow',
     notif_blocked: 'Notifications blocked. Enable them in your browser settings.',
+    notif_overdue: '🔔 Stay in touch with {name}',
+    notif_overdue_body: "It's been {days} days since your last contact",
+
+    // ─── Device Contacts Import ───────────────────────────────────────────
+    deviceContacts_title: 'Import from Phone',
+    deviceContacts_consent_title: 'Access Your Contacts',
+    deviceContacts_consent_desc: 'NeverMiss will read your phone contacts to help you import them. Your data stays on your device and is never shared.',
+    deviceContacts_consent_allow: 'Allow Access',
+    deviceContacts_consent_deny: 'Not Now',
+    deviceContacts_permission_denied: 'Contact access was denied. Enable it in your device settings.',
+    deviceContacts_loading: 'Loading contacts...',
+    deviceContacts_noContacts: 'No contacts found on your device.',
+    deviceContacts_selectAll: 'Select All',
+    deviceContacts_deselectAll: 'Deselect All',
+    deviceContacts_selected: '{n} selected',
+    deviceContacts_import: 'Import Selected',
+    deviceContacts_importing: 'Importing...',
+    deviceContacts_success: '{n} contacts imported!',
+    deviceContacts_webOnly: 'This feature requires the NeverMiss native app (Android or iOS).',
+    deviceContacts_noPhone: 'No phone number',
 
     // ─── Religion labels ──────────────────────────────────────────────────
     religion_Judaism: 'Judaism',
@@ -536,6 +558,13 @@ export const translations = {
     religion_Bahai: "Bahá'í",
     religion_EastAsian: 'East Asian',
     religion_Secular: 'Secular / National',
+
+    // ─── Celebration type labels ──────────────────────────────────────────
+    celebrationType_Jewish: 'Jewish',
+    celebrationType_Christian: 'Christian',
+    celebrationType_Muslim: 'Muslim',
+    celebrationType_Druze: 'Druze',
+    celebrationType_Secular: 'Secular',
 
     // ─── Settings footer ──────────────────────────────────────────────────
     settings_released: 'Released {date} · Privacy-first',
@@ -727,6 +756,7 @@ export const translations = {
     contactForm_notesPlaceholder: 'כל מה שכדאי לזכור על איש קשר זה...',
     contactForm_deleteContact: 'מחק איש קשר',
     contactForm_deleteConfirm: 'האם אתה בטוח שברצונך למחוק את {name}? לא ניתן לבטל פעולה זו.',
+    contactForm_celebrationType: 'סוג חגיגה',
 
     // ─── Contact Detail ───────────────────────────────────────────────────
     contactDetail_score: 'ציון הקשר',
@@ -1090,6 +1120,7 @@ export const translations = {
     premium_feat_birthday_fields: 'יום הולדת, אימייל, מחלקה ותפקיד',
     premium_feat_unlimited_groups: 'קבוצות ללא הגבלה',
     premium_feat_birthday_tracking: 'מעקב ימי הולדת',
+    premium_feat_device_contacts: 'ייבוא מאנשי הקשר בטלפון',
 
     // ─── Notifications ────────────────────────────────────────────────────
     notif_settings_title: 'תזכורות',
@@ -1104,6 +1135,26 @@ export const translations = {
     notif_holiday_tomorrow: '{emoji} {name} מחר',
     notif_holiday_tomorrow_body: 'הכן את הברכות שלך למחר',
     notif_blocked: 'התראות חסומות. אפשר אותן בהגדרות הדפדפן.',
+    notif_overdue: '🔔 שמור על קשר עם {name}',
+    notif_overdue_body: 'עברו {days} ימים מהפנייה האחרונה שלך',
+
+    // ─── Device Contacts Import ───────────────────────────────────────────
+    deviceContacts_title: 'ייבוא מהטלפון',
+    deviceContacts_consent_title: 'גישה לאנשי הקשר',
+    deviceContacts_consent_desc: 'NeverMiss יקרא את אנשי הקשר בטלפון שלך כדי לעזור לך לייבא אותם. הנתונים שלך נשארים במכשיר ואינם נשלחים לשום מקום.',
+    deviceContacts_consent_allow: 'אפשר גישה',
+    deviceContacts_consent_deny: 'לא עכשיו',
+    deviceContacts_permission_denied: 'הגישה לאנשי הקשר נדחתה. אפשר אותה בהגדרות המכשיר.',
+    deviceContacts_loading: 'טוען אנשי קשר...',
+    deviceContacts_noContacts: 'לא נמצאו אנשי קשר במכשיר.',
+    deviceContacts_selectAll: 'בחר הכל',
+    deviceContacts_deselectAll: 'בטל בחירה',
+    deviceContacts_selected: '{n} נבחרו',
+    deviceContacts_import: 'ייבא נבחרים',
+    deviceContacts_importing: 'מייבא...',
+    deviceContacts_success: 'יובאו {n} אנשי קשר בהצלחה!',
+    deviceContacts_webOnly: 'תכונה זו מצריכה את אפליקציית NeverMiss הנייטיבית (Android או iOS).',
+    deviceContacts_noPhone: 'אין מספר טלפון',
 
     // ─── Religion labels ──────────────────────────────────────────────────
     religion_Judaism: 'יהדות',
@@ -1116,6 +1167,13 @@ export const translations = {
     religion_Bahai: 'בהאי',
     religion_EastAsian: 'מזרח אסייתי',
     religion_Secular: 'חילוני / לאומי',
+
+    // ─── Celebration type labels ──────────────────────────────────────────
+    celebrationType_Jewish: 'יהודי/ה',
+    celebrationType_Christian: 'נוצרי/ה',
+    celebrationType_Muslim: 'מוסלמי/ת',
+    celebrationType_Druze: 'דרוזי/ה',
+    celebrationType_Secular: 'חילוני/ת',
 
     // ─── Settings footer ──────────────────────────────────────────────────
     settings_released: 'שוחרר {date} · פרטיות מלאה',

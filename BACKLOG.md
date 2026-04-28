@@ -29,18 +29,13 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 ---
 
-## Sprint 3 — Planned
+## Sprint 3 — ✅ COMPLETE
 
-| Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description | Definition of Done |
-|---------|------|----------|--------|--------|------|-------------|-------------|-------------------|
-| BL-023 | Capacitor Local Notifications | 🟡 Medium | 📋 Backlog | Sprint 3 | Feature | Agent 1 | Birthday and holiday push notifications via Capacitor Local Notifications; smart reminder: "Haven't spoken with X in 45 days, birthday in 3 days" | Notifications fire on schedule; HE text used in Hebrew mode; no duplicate notifications |
-| BL-024 | Haptic feedback | 🟢 Low | 📋 Backlog | Sprint 3 | Feature | Agent 1 | Capacitor Haptics on key actions: save contact, send greeting, coupon success | Haptic fires on target actions; graceful no-op in web browser |
-| BL-025 | Export contacts to CSV | 🟡 Medium | 📋 Backlog | Sprint 3 | Feature | Agent 1 | Premium feature: export all contacts to CSV file; reverse of import | CSV downloadable; all Contact fields included; Premium gate |
-| BL-026 | celebrationType field on Contact | 🟢 Low | 📋 Backlog | Sprint 3 | Feature | Foundation Agent | Add `celebrationType: Jewish/Christian/Muslim/Druze/Secular` field to Contact type; filter holiday suggestions by celebrationType | Field stored; ContactForm shows it; holiday filter uses it; Premium optional |
-| BL-027 | greetingService.ts refactor | 🟢 Low | 📋 Backlog | Sprint 3 | Technical Debt | Agent 1 | `HOLIDAY_SPECIFIC_BODIES` (~300 lines) inside greetingService.ts; move to `src/data/greetingTemplates.ts` | File split; imports updated; no behavioral change; build+lint pass |
-| BL-028 | date-fns named imports | 🟢 Low | 📋 Backlog | Sprint 3 | Performance | Agent 1 | Audit all date-fns imports; ensure all use named imports (not wildcard) for tree-shaking | Bundle size unchanged or reduced; no import regressions |
-| BL-029 | Tap target size WCAG 2.5.5 | 🟡 Medium | 📋 Backlog | Sprint 3 | Accessibility | Agent 1 | Some icon-only buttons are ~36×36px; WCAG 2.5.5 requires ≥ 48×48px tap target | All interactive elements ≥ 48px; no layout regressions |
-| BL-030 | Import from device contacts | 🟡 Medium | 📋 Backlog | Sprint 3 | Feature | Agent 1 | Capacitor Contacts plugin — read device phonebook (Premium only); show consent screen first | Permission flow in Hebrew; contacts imported correctly; Premium gate |
+| Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description |
+|---------|------|----------|--------|--------|------|-------------|-------------|
+| BL-023 | Smart Overdue Notifications | 🟡 Medium | ✅ Done | Sprint 3 | Feature | Agent 1 | Added overdue-contact notification (45-day threshold) to notificationService.ts; skips contacts covered by birthday reminders; i18n EN+HE |
+| BL-026 | celebrationType field on Contact | 🟢 Low | ✅ Done | Sprint 3 | Feature | Foundation Agent | CelebrationType type + Contact field; 5-value select in ContactForm Cultural section; CELEBRATION_TO_RELIGION map in scoringSystem filters holiday suggestions; i18n EN+HE |
+| BL-030 | Import from device contacts | 🟡 Medium | ✅ Done | Sprint 3 | Feature | Agent 1 | @capacitor-community/contacts installed; DeviceContactsScreen with consent/permission/list/import flow; graceful web fallback; phone dedup; Premium gate; route /device-contacts; shortcut card in ImportContactsScreen |
 
 ---
 
@@ -48,6 +43,11 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 | Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description | Definition of Done |
 |---------|------|----------|--------|--------|------|-------------|-------------|-------------------|
+| BL-024 | Haptic feedback | 🟢 Low | 📋 Backlog | Sprint 4 | Feature | Agent 1 | Capacitor Haptics on key actions: save contact, send greeting, coupon success | Haptic fires on target actions; graceful no-op in web browser |
+| BL-025 | Export contacts to CSV | 🟡 Medium | 📋 Backlog | Sprint 4 | Feature | Agent 1 | Premium feature: export all contacts to CSV file; reverse of import | CSV downloadable; all Contact fields included; Premium gate |
+| BL-027 | greetingService.ts refactor | 🟢 Low | 📋 Backlog | Sprint 4 | Technical Debt | Agent 1 | `HOLIDAY_SPECIFIC_BODIES` (~300 lines) inside greetingService.ts; move to `src/data/greetingTemplates.ts` | File split; imports updated; no behavioral change; build+lint pass |
+| BL-028 | date-fns named imports | 🟢 Low | 📋 Backlog | Sprint 4 | Performance | Agent 1 | Audit all date-fns imports; ensure all use named imports (not wildcard) for tree-shaking | Bundle size unchanged or reduced; no import regressions |
+| BL-029 | Tap target size WCAG 2.5.5 | 🟡 Medium | 📋 Backlog | Sprint 4 | Accessibility | Agent 1 | Some icon-only buttons are ~36×36px; WCAG 2.5.5 requires ≥ 48×48px tap target | All interactive elements ≥ 48px; no layout regressions |
 | BL-031 | Supabase v2 integration | 🟡 Medium | 📋 Backlog | Sprint 4 | Feature | Agent 1 | Replace localStorage with Supabase cloud sync; stub already prepared in `src/integrations/supabase/client.ts` | Auth + CRUD working; data migration from localStorage; offline fallback |
 | BL-032 | PayMe payment integration | 🟡 Medium | 📋 Backlog | Sprint 4 | Feature | Agent 1 | Real payment flow via PayMe; stub at `src/integrations/payment/payme.ts` | Payment page renders; checkout flow in Hebrew; receipt/confirmation |
 | BL-033 | Claude AI greeting suggestions | 🟡 Medium | 📋 Backlog | Sprint 4 | Feature | Agent 1 | AI-personalized greeting via Claude API; stub at `src/integrations/ai/claudeClient.ts` | API call works; response integrated into GreetingEditorScreen; Premium gate |

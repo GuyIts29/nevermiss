@@ -82,6 +82,8 @@ export type InteractionFrequency =
 
 export type ContactType = 'internal' | 'external'
 
+export type CelebrationType = 'Jewish' | 'Christian' | 'Muslim' | 'Druze' | 'Secular'
+
 export type Language =
   | 'hebrew'
   | 'arabic'
@@ -116,6 +118,7 @@ export interface Contact {
   team?: string
   tags?: string[]
   avatarColor?: string
+  celebrationType?: CelebrationType
 }
 
 // ─── Group Types ──────────────────────────────────────────────────────────────

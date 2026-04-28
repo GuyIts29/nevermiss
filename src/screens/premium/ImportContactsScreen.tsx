@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, CheckCircle, AlertCircle, ArrowRight, FileText } from 'lucide-react'
+import { Upload, CheckCircle, AlertCircle, ArrowRight, FileText, Smartphone } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
@@ -144,6 +144,27 @@ export function ImportContactsScreen() {
       <PageHeader title={t('import_title')} back />
 
       <div className="page-content space-y-4 pb-10">
+        {/* Import from phone shortcut */}
+        <button
+          type="button"
+          onClick={() => navigate('/device-contacts')}
+          className="w-full flex items-center gap-3 p-3 rounded-[var(--border-radius)] border border-[var(--color-border)] hover:bg-[var(--color-surface-2)] transition-colors"
+        >
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+            style={{ background: 'linear-gradient(135deg, #3B82F610, #3B82F630)' }}>
+            <Smartphone size={16} style={{ color: '#3B82F6' }} />
+          </div>
+          <div className="flex-1 text-start">
+            <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+              {t('deviceContacts_title')}
+            </p>
+            <p className="text-xs text-[var(--color-text-muted)]">
+              {t('premium_feat_device_contacts')}
+            </p>
+          </div>
+          <ArrowRight size={14} className="text-[var(--color-text-muted)] shrink-0" />
+        </button>
+
         {/* Step indicator */}
         <StepIndicator step={step} />
 

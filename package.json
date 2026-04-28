@@ -12,6 +12,7 @@
     "qa": "node scripts/make-qa-checklist.js"
   },
   "dependencies": {
+    "@capacitor-community/contacts": "^7.2.0",
     "@capacitor/cli": "^8.3.1",
     "@capacitor/core": "^8.3.1",
     "@hebcal/core": "^6.3.3",

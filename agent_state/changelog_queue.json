@@ -369,5 +369,68 @@
     "action": "modified",
     "file": "src/core/scoringSystem.ts",
     "description": "BL-020: נוסף Map cache (scoreCache) ברמת המודול; מפתח: id|updatedAt; תוצאה נשמרת ומוחזרת מהמטמון לאנשי קשר שלא השתנו"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "FoundationAgent",
+    "action": "modified",
+    "file": "src/types/index.ts",
+    "description": "BL-026: נוסף סוג CelebrationType (Jewish/Christian/Muslim/Druze/Secular) + שדה celebrationType? על Contact interface"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "FoundationAgent",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-026+BL-023+BL-030: נוספו 34 מפתחות i18n — celebrationType_*, contactForm_celebrationType, notif_overdue/body, deviceContacts_*, premium_feat_device_contacts — EN+HE"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/core/scoringSystem.ts",
+    "description": "BL-026: נוסף CELEBRATION_TO_RELIGION map; getUpcomingHolidaysForContact עכשיו מסנן לפי celebrationType כאשר מוגדר, נופל בחזרה ל-religion"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "BL-026: נוסף select לסוג חגיגה בקטע תרבות (Cultural); celebrationType עובר ל-handleSave"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/services/notificationService.ts",
+    "description": "BL-023: נוספה התראת overdue — נשלחת כאשר daysSince >= 45 ואין יום הולדת בקרוב (בעוד 7 ימים); dedup קיים דרך nm_notif_sent"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/screens/DeviceContactsScreen.tsx",
+    "description": "BL-030: מסך ייבוא מהטלפון — תהליך consent/permission/list/import; dedup טלפון; fallback ל-web; @capacitor-community/contacts"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "BL-030: נוסף lazy import ל-DeviceContactsScreen; נוסף route /device-contacts עם Premium gate"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-030: נוסף כרטיס קיצור דרך «ייבוא מהטלפון» בראש מסך Import — מנווט ל-/device-contacts"
+  },
+  {
+    "timestamp": "2026-04-28T22:00:00",
+    "agent": "Agent4-ChangelogManager",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "Sprint 3 מסומן כ-✅ COMPLETE; BL-024/025/027/028/029 הועברו ל-Sprint 4"
   }
 ]

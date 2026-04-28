@@ -91,6 +91,27 @@ export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn):
     }
   }
 
+  // ── Overdue contact reminders ───────────────────────────────────────────
+  for (const contact of contacts) {
+    if (!contact.lastContactDate) continue
+    const daysSince = Math.round((today.getTime() - new Date(contact.lastContactDate).getTime()) / 86_400_000)
+    if (daysSince < 45) continue
+    // skip if birthday reminder already covers this contact today
+    const bday = contact.birthday ? new Date(contact.birthday) : null
+    if (bday) {
+      bday.setFullYear(today.getFullYear())
+      bday.setHours(0, 0, 0, 0)
+      if (bday < today) bday.setFullYear(today.getFullYear() + 1)
+      const bdaysUntil = Math.round((bday.getTime() - today.getTime()) / 86_400_000)
+      if (bdaysUntil <= 7) continue
+    }
+    fire(
+      `overdue-${contact.id}`,
+      t('notif_overdue', { name: contact.name }),
+      t('notif_overdue_body', { days: daysSince }),
+    )
+  }
+
   // ── Holiday reminders ───────────────────────────────────────────────────
   for (const holiday of holidays) {
     const hDate = new Date(holiday.date)

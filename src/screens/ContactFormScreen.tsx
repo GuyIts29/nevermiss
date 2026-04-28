@@ -13,7 +13,7 @@ import { Modal } from '@/components/ui/Modal'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
 import { trackEvent } from '@/services/analyticsService'
-import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion } from '@/types'
+import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion, CelebrationType } from '@/types'
 import { RELIGION_LABELS } from '@/data/holidays'
 import type { TranslationKey } from '@/i18n'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
@@ -69,6 +69,7 @@ export function ContactFormScreen() {
       avatarColor: existing?.avatarColor ?? defaultColor,
       birthday: existing?.birthday ?? '',
       hebrewBirthday: existing?.hebrewBirthday ?? undefined,
+      celebrationType: existing?.celebrationType ?? undefined,
       email: existing?.email ?? '',
       department: existing?.department ?? '',
       role: existing?.role ?? '',
@@ -120,6 +121,7 @@ export function ContactFormScreen() {
       language: form.language as Language,
       relationshipType: form.relationshipType as RelationshipType,
       religion: form.religion as Religion | undefined,
+      celebrationType: form.celebrationType as CelebrationType | undefined,
       notes: form.notes,
       lastContactDate: form.lastContactDate || undefined,
       importanceLevel: form.importanceLevel as ImportanceLevel,
@@ -300,6 +302,19 @@ export function ContactFormScreen() {
             options={[
               { value: '', label: t('contactForm_notSpecified') },
               ...Object.keys(RELIGION_LABELS).map(v => ({ value: v, label: t(`religion_${v}` as TranslationKey) })),
+            ]}
+          />
+          <Select
+            label={t('contactForm_celebrationType')}
+            value={form.celebrationType ?? ''}
+            onChange={e => set('celebrationType', (e.target.value as CelebrationType) || undefined)}
+            options={[
+              { value: '', label: t('contactForm_notSpecified') },
+              { value: 'Jewish', label: t('celebrationType_Jewish') },
+              { value: 'Christian', label: t('celebrationType_Christian') },
+              { value: 'Muslim', label: t('celebrationType_Muslim') },
+              { value: 'Druze', label: t('celebrationType_Druze') },
+              { value: 'Secular', label: t('celebrationType_Secular') },
             ]}
           />
         </div>

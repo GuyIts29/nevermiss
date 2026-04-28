@@ -5,7 +5,16 @@ import type {
   RelationshipScore,
   SuggestedAction,
   InteractionFrequency,
+  CelebrationType,
 } from '@/types'
+
+const CELEBRATION_TO_RELIGION: Record<CelebrationType, string> = {
+  Jewish: 'Judaism',
+  Christian: 'Christianity',
+  Muslim: 'Islam',
+  Druze: 'Druze',
+  Secular: 'Secular',
+}
 
 const FREQUENCY_DAYS: Record<InteractionFrequency, number> = {
   daily: 1,
@@ -37,14 +46,13 @@ function getUpcomingHolidaysForContact(
   holidays: Holiday[],
   windowDays: number
 ): Holiday[] {
-  if (!contact.religion) return []
+  const religionFilter = contact.celebrationType
+    ? CELEBRATION_TO_RELIGION[contact.celebrationType]
+    : contact.religion
+  if (!religionFilter) return []
   return holidays.filter(h => {
     const days = daysUntil(h.date)
-    return (
-      h.religion === contact.religion &&
-      days >= 0 &&
-      days <= windowDays
-    )
+    return h.religion === religionFilter && days >= 0 && days <= windowDays
   })
 }
 
