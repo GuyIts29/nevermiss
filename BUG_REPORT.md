@@ -218,6 +218,14 @@ _Maintained by Agent 5 (Bug Hunter). Updated after every iteration._
 - **Fixed by:** Agent 1 — 2026-04-28
 - **Fix:** Replaced hardcoded date with runtime computation via `HebrewCalendar.getHolidaysForYearArray(5786, true)` from `@hebcal/core`. Added `hebcalDate()` helper function in `holidays.ts` with a reliable fallback. Also created `src/utils/hebrewDateUtils.ts` — `getHebrewDateStr(isoDate)` converts any date to Hebrew gematria format (e.g. "ד׳ באייר תשפ״ו"). Hebrew date badges added to `HolidayCard` and `HolidayDetailScreen` for all `dateType === 'hebrew'` holidays.
 
+### BUG-038 — Terms of Service always displayed in English
+- **Date:** 2026-04-28 | **Time:** ~17:00 | **Status:** ✅ fixed
+- **File:** `src/screens/TermsScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** Terms of Service page showed English text regardless of the selected language. The `SECTIONS` array (holding all section titles and body text) was defined at module scope. Because it called `t()` during module initialization — before any language state existed — all strings were computed once in English and never updated when the user switched to Hebrew.
+- **Found by:** User — 2026-04-28
+- **Fixed by:** Agent 1 + Foundation Agent — 2026-04-28
+- **Fix:** Moved `SECTIONS` inside the component function so `t()` is called on every render with the current language. Replaced all hardcoded English strings in the array with `titleKey`/`bodyKey` string references and a matching `as const` assertion for TypeScript narrowing. Added 22 new i18n keys (EN + HE) to `src/i18n/index.ts` covering all 10 section titles and bodies, the last-updated subtitle, and the intro paragraph.
+
 ---
 
 ## Known Issues (open)

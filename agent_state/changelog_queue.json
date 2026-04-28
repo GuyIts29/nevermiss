@@ -222,5 +222,19 @@
     "action": "modified",
     "file": "src/screens/HolidayDetailScreen.tsx",
     "description": "נוסף badge תאריך עברי בבאנר הראשי של מסך פרטי החג; מוצג רק לחגים עם dateType === 'hebrew'"
+  },
+  {
+    "timestamp": "2026-04-28T17:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/TermsScreen.tsx",
+    "description": "תוקן BUG-038 — מסך תנאי שירות הציג תמיד אנגלית; SECTIONS הועבר לתוך הקומפוננטה עם t(); כל 10 כותרות + גופי סעיפים + כותרת הגיבור + תאריך עדכון + טקסט מבוא כעת דינמיים"
+  },
+  {
+    "timestamp": "2026-04-28T17:00:00",
+    "agent": "Foundation-Agent",
+    "action": "added",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 22 מפתחות i18n לתנאי שירות: terms_lastUpdated, terms_intro, terms_s1_title/body עד terms_s10_title/body — בעברית ובאנגלית"
   }
 ]
