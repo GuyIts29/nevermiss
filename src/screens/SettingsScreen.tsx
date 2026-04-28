@@ -317,46 +317,50 @@ export function SettingsScreen() {
           </p>
         </div>
 
-        {/* Danger zone */}
-        <section>
-          <div
-            className="rounded-[var(--border-radius-lg)] p-4 border border-red-200"
-            style={{ backgroundColor: '#FFF1F2' }}
-          >
-            <h3 className="text-sm font-semibold text-red-600 mb-2 flex items-center gap-1.5">
-              <span className="w-3 h-full border-l-2 border-red-500 rounded-full" />
-              {t('settings_dangerZone')}
-            </h3>
-            <Button
-              variant="danger"
-              size="sm"
-              icon={<Trash2 size={13} />}
-              onClick={() => setShowClearConfirm(true)}
+        {/* Danger zone — dev only, never shown in production */}
+        {import.meta.env.DEV && (
+          <section>
+            <div
+              className="rounded-[var(--border-radius-lg)] p-4 border border-red-200"
+              style={{ backgroundColor: '#FFF1F2' }}
             >
-              {t('settings_clearData')}
-            </Button>
-          </div>
-        </section>
+              <h3 className="text-sm font-semibold text-red-600 mb-2 flex items-center gap-1.5">
+                <span className="w-3 h-full border-l-2 border-red-500 rounded-full" />
+                {t('settings_dangerZone')}
+              </h3>
+              <Button
+                variant="danger"
+                size="sm"
+                icon={<Trash2 size={13} />}
+                onClick={() => setShowClearConfirm(true)}
+              >
+                {t('settings_clearData')}
+              </Button>
+            </div>
+          </section>
+        )}
       </div>
 
-      <Modal
-        isOpen={showClearConfirm}
-        onClose={() => setShowClearConfirm(false)}
-        title={t('settings_clearData')}
-        size="sm"
-        footer={
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" fullWidth onClick={() => setShowClearConfirm(false)}>{t('cancel')}</Button>
-            <Button variant="danger" size="sm" fullWidth onClick={handleClearData}>
-              {cleared ? t('done') : t('settings_clearData')}
-            </Button>
-          </div>
-        }
-      >
-        <p className="text-sm text-[var(--color-text-secondary)]">
-          {t('settings_clearConfirm')}
-        </p>
-      </Modal>
+      {import.meta.env.DEV && (
+        <Modal
+          isOpen={showClearConfirm}
+          onClose={() => setShowClearConfirm(false)}
+          title={t('settings_clearData')}
+          size="sm"
+          footer={
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" fullWidth onClick={() => setShowClearConfirm(false)}>{t('cancel')}</Button>
+              <Button variant="danger" size="sm" fullWidth onClick={handleClearData}>
+                {cleared ? t('done') : t('settings_clearData')}
+              </Button>
+            </div>
+          }
+        >
+          <p className="text-sm text-[var(--color-text-secondary)]">
+            {t('settings_clearConfirm')}
+          </p>
+        </Modal>
+      )}
     </div>
   )
 }

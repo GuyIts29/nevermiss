@@ -235,17 +235,20 @@ export function UpgradeScreen() {
                 )}
               </div>
 
-              <button
-                onClick={activatePremium}
-                className="w-full h-14 rounded-[var(--border-radius)] text-white font-bold text-lg flex items-center justify-center gap-2.5 shadow-lg hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all"
-                style={{
-                  background: 'linear-gradient(135deg, #F59E0B, #F97316, #EF4444)',
-                  boxShadow: '0 6px 24px rgba(245,158,11,0.4)',
-                }}
-              >
-                <Unlock size={18} />
-                {t('upgrade_unlockDemo')}
-              </button>
+              {/* Demo activation — only visible in local development */}
+              {import.meta.env.DEV && (
+                <button
+                  onClick={activatePremium}
+                  className="w-full h-14 rounded-[var(--border-radius)] text-white font-bold text-lg flex items-center justify-center gap-2.5 shadow-lg hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                  style={{
+                    background: 'linear-gradient(135deg, #F59E0B, #F97316, #EF4444)',
+                    boxShadow: '0 6px 24px rgba(245,158,11,0.4)',
+                  }}
+                >
+                  <Unlock size={18} />
+                  {t('upgrade_unlockDemo')}
+                </button>
+              )}
               <Button
                 variant="outline"
                 size="md"
