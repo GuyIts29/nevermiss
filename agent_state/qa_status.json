@@ -266,5 +266,25 @@
   "T67": {
     "status": "✅",
     "notes": "BL-035 Sprint 4: findDuplicate() בודק שם exact + phone ≥7 ספרות; Modal אזהרה עם שם הכפול; Save Anyway / Cancel; לא חוסם עריכה קיימת"
+  },
+  "T68": {
+    "status": "✅",
+    "notes": "BL-046 Sprint 5: FileUp icon ב-ContactsScreen header (Premium only) + empty-state shortcut → /import"
+  },
+  "T69": {
+    "status": "✅",
+    "notes": "BL-047 Sprint 5: accept='.csv' + תווית 📄 CSV badge + i18n key import_csvOnly ב-ImportContactsScreen"
+  },
+  "T70": {
+    "status": "✅",
+    "notes": "BL-048 Sprint 5: כפתור device contacts כ-Blue gradient card עם Smartphone icon + arrow; divider 'or upload CSV' ב-ImportContactsScreen"
+  },
+  "T71": {
+    "status": "✅",
+    "notes": "BL-049 Sprint 5: dot indicator + icon 22px + fontWeight 800 primary color label על tab פעיל ב-BottomNav; background glow"
+  },
+  "T72": {
+    "status": "✅",
+    "notes": "BL-052 Sprint 5: GroupPurpose type + purpose field ב-Group; SUGGESTED_BASES lookup; applyPurpose(); purpose pills + ✦ badge על holidays מוצעים ב-GroupsScreen"
   }
 }

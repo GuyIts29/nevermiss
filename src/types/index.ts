@@ -123,6 +123,8 @@ export interface Contact {
 
 // ─── Group Types ──────────────────────────────────────────────────────────────
 
+export type GroupPurpose = 'family' | 'friends' | 'work' | 'clients' | 'hr' | 'community' | 'custom'
+
 export interface Group {
   id: string
   name: string
@@ -131,6 +133,7 @@ export interface Group {
   holidayIds: string[]
   color: string
   emoji: string
+  purpose?: GroupPurpose
   createdAt: string
   updatedAt: string
 }

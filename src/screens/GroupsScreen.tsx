@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Users, Calendar, Edit, Trash2, Crown } from 'lucide-react'
+import { Plus, Users, Calendar, Edit, Trash2, Crown, Sparkles } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -11,11 +11,22 @@ import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/EmptyState'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
-import type { Group } from '@/types'
+import type { Group, GroupPurpose } from '@/types'
 import { APP_CONFIG } from '@/config/appConfig'
 
 const GROUP_COLORS = ['#2563EB','#16A34A','#EA580C','#7C3AED','#E11D48','#0F766E','#D97706','#6366F1']
 const GROUP_EMOJIS = ['👥','🎉','🏢','🤝','🌍','⭐','💼','🎂']
+
+// Base holiday IDs (without year suffix) suggested per group purpose
+const SUGGESTED_BASES: Record<GroupPurpose, string[]> = {
+  family:    ['rosh-hashana','yom-kippur','sukkot','hanukkah','passover','shavuot','new-year'],
+  friends:   ['rosh-hashana','hanukkah','passover','new-year','israel-independence-day'],
+  work:      ['rosh-hashana','passover','israel-independence-day','labor-day','new-year'],
+  clients:   ['rosh-hashana','passover','new-year','eid-al-fitr','christmas'],
+  hr:        ['rosh-hashana','yom-kippur','sukkot','hanukkah','passover','shavuot','israel-independence-day','labor-day','international-womens-day','new-year'],
+  community: ['rosh-hashana','passover','israel-independence-day','labor-day','new-year','eid-al-fitr'],
+  custom:    [],
+}
 
 export function GroupsScreen() {
   const navigate = useNavigate()
@@ -24,11 +35,27 @@ export function GroupsScreen() {
   const { theme } = useTheme()
   const [showForm, setShowForm] = useState(false)
   const [editingGroup, setEditingGroup] = useState<Group | null>(null)
-  const [form, setForm] = useState({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0] })
+  const [form, setForm] = useState({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0], purpose: undefined as GroupPurpose | undefined })
   const [showDelete, setShowDelete] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [selectedHolidayIds, setSelectedHolidayIds] = useState<string[]>([])
   const [holidaySearch, setHolidaySearch] = useState('')
+
+  const getSuggestedIds = (purpose: GroupPurpose | undefined): string[] => {
+    if (!purpose) return []
+    const bases = SUGGESTED_BASES[purpose]
+    return holidays
+      .filter(h => bases.includes(h.id.replace(/-\d{4}$/, '')))
+      .map(h => h.id)
+  }
+
+  const applyPurpose = (purpose: GroupPurpose | undefined) => {
+    setForm(f => ({ ...f, purpose }))
+    if (purpose) {
+      const suggested = getSuggestedIds(purpose)
+      setSelectedHolidayIds(prev => [...new Set([...prev, ...suggested])])
+    }
+  }
 
   const atLimit = !canAddGroup
   const freeRemaining = APP_CONFIG.limits.free.groups - groups.length
@@ -36,11 +63,11 @@ export function GroupsScreen() {
   const openForm = (group?: Group) => {
     if (group) {
       setEditingGroup(group)
-      setForm({ name: group.name, description: group.description ?? '', color: group.color, emoji: group.emoji })
+      setForm({ name: group.name, description: group.description ?? '', color: group.color, emoji: group.emoji, purpose: group.purpose })
       setSelectedHolidayIds(group.holidayIds ?? [])
     } else {
       setEditingGroup(null)
-      setForm({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0] })
+      setForm({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0], purpose: undefined })
       setSelectedHolidayIds([])
     }
     setHolidaySearch('')
@@ -60,6 +87,7 @@ export function GroupsScreen() {
         description: form.description,
         color: form.color,
         emoji: form.emoji,
+        purpose: form.purpose,
         contactIds: [],
         holidayIds: resolvedHolidayIds,
         createdAt: now,
@@ -290,6 +318,31 @@ export function GroupsScreen() {
             placeholder={t('groups_descriptionPlaceholder')}
           />
 
+          {/* Group purpose */}
+          <div>
+            <div className="flex items-center gap-1.5 mb-2">
+              <Sparkles size={12} style={{ color: theme.primary }} />
+              <p className="text-xs font-semibold text-[var(--color-text-primary)]">{t('group_purpose')}</p>
+              <span className="text-[10px] text-[var(--color-text-muted)]">{t('group_purpose_hint')}</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {(['family','friends','work','clients','hr','community','custom'] as GroupPurpose[]).map(p => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => applyPurpose(form.purpose === p ? undefined : p)}
+                  className="px-2.5 py-1 rounded-full text-xs font-semibold transition-all"
+                  style={form.purpose === p
+                    ? { background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`, color: 'white' }
+                    : { background: 'var(--color-surface-2)', color: 'var(--color-text-secondary)' }
+                  }
+                >
+                  {t(`group_purpose_${p}` as Parameters<typeof t>[0])}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Holiday Assignment */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -316,6 +369,9 @@ export function GroupsScreen() {
                     .filter(h => h.name.toLowerCase().includes(holidaySearch.toLowerCase()))
                     .map(h => {
                       const selected = selectedHolidayIds.includes(h.id)
+                      const isSuggested = form.purpose
+                        ? SUGGESTED_BASES[form.purpose].includes(h.id.replace(/-\d{4}$/, ''))
+                        : false
                       return (
                         <button
                           key={h.id}
@@ -327,21 +383,27 @@ export function GroupsScreen() {
                           style={selected ? { background: h.color + '22', border: `1px solid ${h.color}44` } : {}}
                         >
                           <div
-                            className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 ${selected ? 'bg-[var(--color-primary)]' : 'border-[var(--color-border)]'}`}
-                            style={selected ? { borderColor: 'var(--color-primary)', background: 'var(--color-primary)' } : {}}
+                            className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0"
+                            style={selected ? { borderColor: 'var(--color-primary)', background: 'var(--color-primary)' } : { borderColor: 'var(--color-border)' }}
                           >
                             {selected && <span className="text-white text-[10px]">✓</span>}
                           </div>
                           <span className="text-base leading-none">{h.emoji}</span>
                           <span className="flex-1 truncate">{h.name}</span>
+                          {isSuggested && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold shrink-0"
+                              style={{ background: `${theme.primary}22`, color: theme.primary }}>
+                              ✦
+                            </span>
+                          )}
                           <span className="text-[10px] text-[var(--color-text-muted)] shrink-0">{h.religion}</span>
                         </button>
                       )
                     })}
                 </div>
                 {selectedHolidayIds.length > 0 && (
-                  <p className="text-xs text-[var(--color-primary)]">
-                    {selectedHolidayIds.length} holiday{selectedHolidayIds.length !== 1 ? 's' : ''} selected
+                  <p className="text-xs" style={{ color: theme.primary }}>
+                    {t('group_holidays_selected', { n: selectedHolidayIds.length })}
                   </p>
                 )}
               </div>

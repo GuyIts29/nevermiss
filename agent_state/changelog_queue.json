@@ -600,5 +600,47 @@
     "action": "modified",
     "file": "scripts/make-changelog.js",
     "description": "שיפור מעקב changelog: הסקריפט מחדש קורא ישירות מ-changelog_queue.json במקום מערך hardcoded; 64 שורות legacy נשמרות כ-LEGACY_ROWS; כל השינויים העתידיים נרשמים אוטומטית; 24 רשומות שהיו חסרות שוחזרו — סה\"כ 149 רשומות (היה 125)"
+  },
+  {
+    "timestamp": "2026-04-29T04:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactsScreen.tsx",
+    "description": "BL-046 Sprint 5: נוסף כפתור Import (FileUp) בכותרת לפרמיום; קיצור דרך ייבוא בEmpty State לפרמיום"
+  },
+  {
+    "timestamp": "2026-04-29T04:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-047: accept='.csv,.xlsx' → accept='.csv'; תווית CSV-only בולטת עם badge. BL-048: כפתור device contacts עוצב כ-CTA כחול בולט עם gradient+shadow; מפריד 'או העלה קובץ CSV'"
+  },
+  {
+    "timestamp": "2026-04-29T04:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/Navigation.tsx",
+    "description": "BL-049: שיפור Active tab — icon גדול יותר (22px), label בצבע primary עם fontWeight 800, נקודת אינדיקטור קטנה מתחת ל-label"
+  },
+  {
+    "timestamp": "2026-04-29T04:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/types/index.ts",
+    "description": "BL-052: GroupPurpose union type (family/friends/work/clients/hr/community/custom) + purpose?: GroupPurpose שדה ב-Group interface"
+  },
+  {
+    "timestamp": "2026-04-29T04:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "BL-052: SUGGESTED_BASES lookup לפי purpose; applyPurpose() מוסיף הצעות ל-selectedHolidayIds ללא דריסה; purpose selector pills במודל; ✦ badge על חגים מוצעים ברשימה; form+save+openForm מעודכנים עם purpose"
+  },
+  {
+    "timestamp": "2026-04-29T04:30:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-046/047/048/049/052: נוספו 20 מפתחות ב-EN+HE: import_csvOnly/fromPhoneDesc/orCSV; group_purpose/hint + 7 purpose labels; group_holidays_selected"
   }
 ]

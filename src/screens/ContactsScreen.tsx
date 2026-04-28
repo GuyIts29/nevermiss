@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Search, SortAsc } from 'lucide-react'
+import { Plus, Search, SortAsc, FileUp } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -89,19 +89,30 @@ export function ContactsScreen() {
         title={t('contacts_title')}
         subtitle={`${contacts.length} ${contacts.length === 1 ? t('groups_group') : t('groups_groups')}`}
         right={
-          <button
-            onClick={() => canAddContact ? navigate('/contacts/new') : navigate('/upgrade')}
-            className={clsx(
-              'flex items-center gap-1 px-3 py-1.5 rounded-[var(--border-radius)] text-sm font-semibold transition-colors',
-              canAddContact
-                ? 'text-white'
-                : 'bg-amber-100 text-amber-700'
+          <div className="flex items-center gap-2">
+            {isPremium && (
+              <button
+                onClick={() => navigate('/import')}
+                className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
+                aria-label={t('settings_importContacts')}
+              >
+                <FileUp size={18} className="text-[var(--color-text-secondary)]" />
+              </button>
             )}
-            style={canAddContact ? { background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` } : undefined}
-          >
-            <Plus size={14} />
-            {canAddContact ? t('add') : t('upgrade')}
-          </button>
+            <button
+              onClick={() => canAddContact ? navigate('/contacts/new') : navigate('/upgrade')}
+              className={clsx(
+                'flex items-center gap-1 px-3 py-1.5 rounded-[var(--border-radius)] text-sm font-semibold transition-colors',
+                canAddContact
+                  ? 'text-white'
+                  : 'bg-amber-100 text-amber-700'
+              )}
+              style={canAddContact ? { background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` } : undefined}
+            >
+              <Plus size={14} />
+              {canAddContact ? t('add') : t('upgrade')}
+            </button>
+          </div>
         }
       />
 
@@ -162,16 +173,28 @@ export function ContactsScreen() {
 
         {/* List */}
         {filtered.length === 0 && contacts.length === 0 ? (
-          <EmptyState
-            emoji="👥"
-            title={t('contacts_noContacts')}
-            description={t('contacts_noContactsDesc')}
-            action={{
-              label: t('contacts_addFirst'),
-              icon: <Plus size={14} />,
-              onClick: () => navigate('/contacts/new'),
-            }}
-          />
+          <>
+            <EmptyState
+              emoji="👥"
+              title={t('contacts_noContacts')}
+              description={t('contacts_noContactsDesc')}
+              action={{
+                label: t('contacts_addFirst'),
+                icon: <Plus size={14} />,
+                onClick: () => navigate('/contacts/new'),
+              }}
+            />
+            {isPremium && (
+              <button
+                type="button"
+                onClick={() => navigate('/import')}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-[var(--border-radius)] border border-dashed border-[var(--color-border)] text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"
+              >
+                <FileUp size={14} />
+                {t('settings_importContacts')}
+              </button>
+            )}
+          </>
         ) : filtered.length === 0 ? (
           <EmptyState
             emoji="🔍"

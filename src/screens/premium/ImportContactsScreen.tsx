@@ -144,26 +144,35 @@ export function ImportContactsScreen() {
       <PageHeader title={t('import_title')} back />
 
       <div className="page-content space-y-4 pb-10">
-        {/* Import from phone shortcut */}
+        {/* Import from phone — primary CTA */}
         <button
           type="button"
           onClick={() => navigate('/device-contacts')}
-          className="w-full flex items-center gap-3 p-3 rounded-[var(--border-radius)] border border-[var(--color-border)] hover:bg-[var(--color-surface-2)] transition-colors"
+          className="w-full flex items-center gap-3 p-4 rounded-[var(--border-radius-lg)] transition-all active:scale-[0.99]"
+          style={{
+            background: 'linear-gradient(135deg, #3B82F6, #0EA5E9)',
+            boxShadow: '0 4px 14px rgba(59,130,246,0.35)',
+          }}
         >
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: 'linear-gradient(135deg, #3B82F610, #3B82F630)' }}>
-            <Smartphone size={16} style={{ color: '#3B82F6' }} />
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <Smartphone size={20} className="text-white" />
           </div>
           <div className="flex-1 text-start">
-            <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+            <p className="text-sm font-bold text-white">
               {t('deviceContacts_title')}
             </p>
-            <p className="text-xs text-[var(--color-text-muted)]">
-              {t('premium_feat_device_contacts')}
+            <p className="text-xs text-white/80">
+              {t('import_fromPhoneDesc')}
             </p>
           </div>
-          <ArrowRight size={14} className="text-[var(--color-text-muted)] shrink-0" />
+          <ArrowRight size={16} className="text-white shrink-0" />
         </button>
+
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-[var(--color-border)]" />
+          <span className="text-xs text-[var(--color-text-muted)] font-medium">{t('import_orCSV')}</span>
+          <div className="flex-1 h-px bg-[var(--color-border)]" />
+        </div>
 
         {/* Step indicator */}
         <StepIndicator step={step} />
@@ -233,11 +242,16 @@ export function ImportContactsScreen() {
             <input
               ref={inputRef}
               type="file"
-              accept=".csv,.xlsx"
+              accept=".csv"
               className="hidden"
               onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
             />
-            <p className="text-xs text-[var(--color-text-muted)] mt-4">{t('import_supports')}</p>
+            <div className="flex items-center justify-center gap-1.5 mt-4">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-200">
+                📄 CSV
+              </span>
+              <span className="text-xs text-[var(--color-text-muted)]">{t('import_csvOnly')}</span>
+            </div>
           </div>
         )}
 

@@ -27,21 +27,32 @@ export function BottomNav() {
             to={to}
             className={clsx('bottom-nav-item', active && 'active')}
           >
-            <div className="relative flex items-center justify-center w-7 h-7">
+            <div className="relative flex items-center justify-center w-8 h-8">
               {active && (
                 <div
-                  className="absolute inset-0 rounded-lg opacity-20"
+                  className="absolute inset-0 rounded-xl opacity-15"
                   style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
                 />
               )}
               <Icon
-                size={20}
+                size={active ? 22 : 20}
                 strokeWidth={active ? 2.5 : 1.8}
                 style={active ? { color: theme.primary } : undefined}
                 className="transition-all duration-200 relative z-10"
               />
             </div>
-            <span className={clsx('transition-all duration-200', active && 'font-bold')}>{label}</span>
+            <span
+              className="transition-all duration-200 font-semibold"
+              style={active ? { color: theme.primary, fontWeight: 800 } : undefined}
+            >
+              {label}
+            </span>
+            {active && (
+              <div
+                className="w-1 h-1 rounded-full mt-0.5"
+                style={{ background: theme.primary }}
+              />
+            )}
           </NavLink>
         )
       })}
