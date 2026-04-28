@@ -43,6 +43,34 @@ export function ContactDetailScreen() {
     return h.religion === contact.religion && days >= 0 && days <= 60
   })
 
+  const translatedActionLabel = (() => {
+    const action = score.suggestedAction
+    switch (action.type) {
+      case 'wish_birthday': {
+        if (!contact.birthday) return t('action_wish_birthday_today')
+        const today = new Date()
+        const bday = new Date(contact.birthday)
+        const thisYear = new Date(today.getFullYear(), bday.getMonth(), bday.getDate())
+        if (thisYear < today) thisYear.setFullYear(today.getFullYear() + 1)
+        const n = Math.max(0, Math.floor((thisYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)))
+        return n === 0 ? t('action_wish_birthday_today') : t('action_wish_birthday_days', { n })
+      }
+      case 'wish_holiday': {
+        const h = action.relatedHolidayId ? HOLIDAYS.find(x => x.id === action.relatedHolidayId) : undefined
+        if (!h) return action.label
+        const days = Math.max(0, Math.floor((new Date(h.date).getTime() - nowMs) / (1000 * 60 * 60 * 24)))
+        return t('action_wish_holiday_days', { name: h.name, n: days })
+      }
+      case 'reconnect':
+        return t('action_reconnect_days', { n: score.daysSinceContact })
+      case 'send_checkin':
+        return t('action_checkin')
+      case 'follow_up':
+      default:
+        return t('action_followup')
+    }
+  })()
+
   const markContacted = () => {
     updateContact({ ...contact, lastContactDate: new Date().toISOString().split('T')[0], updatedAt: new Date().toISOString() })
   }
@@ -165,7 +193,7 @@ export function ContactDetailScreen() {
                     color: urgencyColor,
                   }}
                 >
-                  {score.urgencyLevel}
+                  {t(`urgency_${score.urgencyLevel}` as TranslationKey)}
                 </div>
               </div>
 
@@ -179,7 +207,7 @@ export function ContactDetailScreen() {
 
           <div className="mt-3 p-2.5 bg-[var(--color-surface-2)] rounded-lg">
             <p className="text-xs font-semibold text-[var(--color-text-primary)]">
-              {t('contactDetail_suggestion', { label: score.suggestedAction.label })}
+              {t('contactDetail_suggestion', { label: translatedActionLabel })}
             </p>
             <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
               {score.suggestedAction.description}
@@ -210,7 +238,7 @@ export function ContactDetailScreen() {
             <DetailRow
               icon={<Calendar size={14} />}
               label={t('contactDetail_frequency')}
-              value={contact.interactionFrequency.charAt(0).toUpperCase() + contact.interactionFrequency.slice(1)}
+              value={t(`freq_${contact.interactionFrequency}` as TranslationKey)}
             />
           </div>
         </Card>

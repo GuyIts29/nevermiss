@@ -110,5 +110,89 @@
     "action": "added",
     "file": "NeverMiss_QA_Checklist.xlsx",
     "description": "נוצר NeverMiss_QA_Checklist.xlsx — 57 בדיקות ב-8 קטגוריות; מעודכן אוטומטית אחרי כל phase"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Foundation-Agent",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 20 מפתחות i18n: urgency_critical/high/medium/low, go_back, action_wish_birthday_today/days, action_wish_holiday_days, action_reconnect_days, action_checkin, action_followup, holiday_major, holiday_moreContacts — EN + HE"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/core/scoringSystem.ts",
+    "description": "תוקן BUG-020 — getBirthdayDaysUntil עבר ל-differenceInCalendarDays מ-date-fns; מונע תוצאה שגויה בימי שינוי שעון"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/components/Navigation.tsx",
+    "description": "תוקן FINDING 25A — PageHeader מוסיף useT(); aria-label=\"Go back\" הוחלף ב-t('go_back') — עברית/אנגלית לפי שפה"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "תוקן FINDING 20/23 — urgencyLevel מוצג עם t(); interactionFrequency עם t(); translatedActionLabel IIFE לפי action.type"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "תוקן FINDING 28A — ★ Major הוחלף ב-t('holiday_major'); +N more contacts הוחלף ב-t('holiday_moreContacts', { n })"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "תוקן FINDING 67 — Today highlight cards (holiday + birthday) הומרו מ-div ל-<button type=button> עם w-full text-left"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "תוקן FINDING 67 — Group card הומר מ-div ל-<button type=button> עם w-full text-left"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/index.css",
+    "description": "תוקן FINDING 69 — נוסף .btn:focus-visible { outline: 2px solid var(--color-primary) }; נוסף @media (min-width: 768px) שמסיר max-width:480px על דסקטופ"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/components/ui/Modal.tsx",
+    "description": "תוקן FINDING 30B — Modal מייבא useT(); aria-label='Close' הוחלף ב-t('close') — עברית/אנגלית לפי שפה"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "תוקן FINDING 60 — setImporting(false) הועבר ל-finally block; מניעת Import button תקוע במצב loading"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/components/ContactCard.tsx",
+    "description": "תוקן FINDING 66 — aria-hidden=\"true\" נוסף ל-Crown ו-Building2 icons; אלמנטים דקורטיביים מוסתרים מקורא מסך"
+  },
+  {
+    "timestamp": "2026-04-28T15:00:00",
+    "agent": "Agent4-Changelog",
+    "action": "modified",
+    "file": "agent_state/qa_status.json",
+    "description": "עודכן — T05/T07/T08/T09/T10/T39/T40/T41/T42/T45/T46/T48 סומנו כ-✅; 8 בדיקות תוקנו ב-iteration 12"
   }
 ]

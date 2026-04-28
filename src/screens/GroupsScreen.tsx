@@ -129,9 +129,10 @@ export function GroupsScreen() {
               const isExpanded = expandedId === group.id
 
               return (
-                <div
+                <button
+                  type="button"
                   key={group.id}
-                  className="card card-interactive cursor-pointer overflow-hidden"
+                  className="card card-interactive cursor-pointer overflow-hidden w-full text-left"
                   style={{
                     borderLeft: `4px solid ${group.color}`,
                     background: `linear-gradient(135deg, var(--color-surface) 70%, ${group.color}11)`,
@@ -215,7 +216,7 @@ export function GroupsScreen() {
                       </Button>
                     </div>
                   )}
-                </div>
+                </button>
               )
             })}
           </div>

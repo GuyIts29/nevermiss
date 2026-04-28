@@ -506,6 +506,48 @@ export const translations = {
 
     // ─── Settings footer ──────────────────────────────────────────────────
     settings_released: 'Released {date} · Privacy-first',
+
+    // ─── Urgency levels ───────────────────────────────────────────────────
+    urgency_critical: 'Critical',
+    urgency_high: 'High',
+    urgency_medium: 'Medium',
+    urgency_low: 'Low',
+
+    // ─── Back navigation ──────────────────────────────────────────────────
+    go_back: 'Go back',
+
+    // ─── Suggested actions ────────────────────────────────────────────────
+    action_wish_birthday_today: "It's their birthday!",
+    action_wish_birthday_days: 'Birthday in {n} days',
+    action_wish_holiday_days: '{name} in {n} days',
+    action_reconnect_days: '{n} days since last contact',
+    action_checkin: 'Check-in overdue',
+    action_followup: 'Schedule follow-up',
+
+    // ─── Holiday detail extras ────────────────────────────────────────────
+    holiday_major: '★ Major',
+    holiday_moreContacts: '+{n} more contacts',
+
+    // ─── About screen content ─────────────────────────────────────────────
+    about_missionText: 'NeverMiss helps people maintain meaningful relationships by combining smart CRM with cultural intelligence. We believe every important moment deserves acknowledgment — whether it\'s a colleague\'s religious holiday, a client\'s birthday, or simply checking in with someone you care about.',
+    about_val1_title: 'Privacy First',
+    about_val1_desc: 'All your data lives on your device. We never access, collect, or transmit your personal information.',
+    about_val2_title: 'Cultural Respect',
+    about_val2_desc: 'We treat all religions and traditions with equal respect and care. Every holiday is presented with accuracy and sensitivity.',
+    about_val3_title: 'Human Connection',
+    about_val3_desc: 'Technology should strengthen relationships, not replace them. We help you show up for the people who matter.',
+    about_val4_title: 'Smart Intelligence',
+    about_val4_desc: 'Our relationship engine helps you prioritize without overwhelming. The right message, at the right time, for the right person.',
+    about_tech1_label: 'Data Storage',
+    about_tech1_value: 'Local device only',
+    about_tech2_label: 'External APIs',
+    about_tech2_value: 'None — fully offline',
+    about_tech3_label: 'Analytics',
+    about_tech3_value: 'None',
+    about_tech4_label: 'Tracking / Ads',
+    about_tech4_value: 'None',
+    about_platform: 'Platform',
+    about_platformValue: 'Web · Android · iOS (Capacitor)',
   },
 
   he: {
@@ -1011,6 +1053,48 @@ export const translations = {
 
     // ─── Settings footer ──────────────────────────────────────────────────
     settings_released: 'שוחרר {date} · פרטיות מלאה',
+
+    // ─── Urgency levels ───────────────────────────────────────────────────
+    urgency_critical: 'קריטי',
+    urgency_high: 'גבוה',
+    urgency_medium: 'בינוני',
+    urgency_low: 'נמוך',
+
+    // ─── Back navigation ──────────────────────────────────────────────────
+    go_back: 'חזור',
+
+    // ─── Suggested actions ────────────────────────────────────────────────
+    action_wish_birthday_today: 'היום יום ההולדת שלהם!',
+    action_wish_birthday_days: 'יום הולדת בעוד {n} ימים',
+    action_wish_holiday_days: '{name} בעוד {n} ימים',
+    action_reconnect_days: '{n} ימים ללא קשר',
+    action_checkin: 'זמן לבדוק מצב',
+    action_followup: 'תזמן המשך',
+
+    // ─── Holiday detail extras ────────────────────────────────────────────
+    holiday_major: '★ ראשי',
+    holiday_moreContacts: '+{n} אנשי קשר נוספים',
+
+    // ─── About screen content ─────────────────────────────────────────────
+    about_missionText: 'NeverMiss עוזר לאנשים לשמור על קשרים משמעותיים על ידי שילוב CRM חכם עם אינטליגנציה תרבותית. אנחנו מאמינים שכל רגע חשוב ראוי להכרה — בין אם מדובר בחג דתי של עמית, יום הולדת של לקוח, או פשוט בדיקה עם מישהו שאכפת לך ממנו.',
+    about_val1_title: 'פרטיות קודמת',
+    about_val1_desc: 'כל הנתונים שלך נמצאים במכשיר שלך. אנחנו לעולם לא ניגשים, אוספים או מעבירים את המידע האישי שלך.',
+    about_val2_title: 'כבוד תרבותי',
+    about_val2_desc: 'אנחנו מתייחסים לכל הדתות והמסורות בכבוד ובטיפול שווים. כל חג מוצג בדיוק ובמודעות.',
+    about_val3_title: 'חיבור אנושי',
+    about_val3_desc: 'הטכנולוגיה צריכה לחזק קשרים, לא להחליפם. אנחנו עוזרים לך להיות שם עבור האנשים שחשובים לך.',
+    about_val4_title: 'אינטליגנציה חכמה',
+    about_val4_desc: 'מנוע הקשרים שלנו עוזר לך לתעדף מבלי להיות מוצף. ההודעה הנכונה, בזמן הנכון, לאדם הנכון.',
+    about_tech1_label: 'אחסון נתונים',
+    about_tech1_value: 'מכשיר מקומי בלבד',
+    about_tech2_label: 'ממשקי API חיצוניים',
+    about_tech2_value: 'אין — לגמרי אופליין',
+    about_tech3_label: 'אנליטיקה',
+    about_tech3_value: 'אין',
+    about_tech4_label: 'מעקב / פרסומות',
+    about_tech4_value: 'אין',
+    about_platform: 'פלטפורמה',
+    about_platformValue: 'Web · Android · iOS (Capacitor)',
   },
 } as const
 

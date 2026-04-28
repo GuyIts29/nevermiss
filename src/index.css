@@ -53,6 +53,13 @@ html, body {
   overflow: hidden;
 }
 
+@media (min-width: 768px) {
+  .app-layout {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
 .app-main {
   flex: 1;
   overflow: hidden;
@@ -202,6 +209,11 @@ html, body {
 
 .btn:active {
   transform: scale(0.96);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .btn-primary {

@@ -58,6 +58,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, right, back }: PageHeaderProps) {
   const { lang } = useLang()
+  const t = useT()
   const isRtl = lang === 'he'
 
   return (
@@ -67,7 +68,7 @@ export function PageHeader({ title, subtitle, right, back }: PageHeaderProps) {
           <button
             onClick={() => window.history.back()}
             className="p-2 rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90 shrink-0"
-            aria-label="Go back"
+            aria-label={t('go_back')}
           >
             <svg
               className="w-5 h-5 text-[var(--color-text-secondary)]"

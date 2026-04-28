@@ -1,3 +1,4 @@
+import { differenceInCalendarDays } from 'date-fns'
 import type {
   Contact,
   Holiday,
@@ -52,10 +53,10 @@ function getBirthdayDaysUntil(birthday: string | undefined): number | null {
   const today = new Date()
   const bday = new Date(birthday)
   const thisYear = new Date(today.getFullYear(), bday.getMonth(), bday.getDate())
-  if (thisYear < today) {
+  if (differenceInCalendarDays(thisYear, today) < 0) {
     thisYear.setFullYear(today.getFullYear() + 1)
   }
-  return Math.floor((thisYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+  return differenceInCalendarDays(thisYear, today)
 }
 
 function getSuggestedAction(

@@ -163,8 +163,9 @@ export function DashboardScreen() {
             </div>
             <div className="space-y-2">
               {todayHoliday && (
-                <div
-                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3"
+                <button
+                  type="button"
+                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-left"
                   style={{
                     background: `linear-gradient(135deg, ${todayHoliday.color}22, ${todayHoliday.color}0a)`,
                     border: `1px solid ${todayHoliday.color}40`,
@@ -176,12 +177,13 @@ export function DashboardScreen() {
                     <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_holiday_is_today', { name: todayHoliday.name })}</p>
                     <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_holiday_tap')}</p>
                   </div>
-                </div>
+                </button>
               )}
               {isPremium && dashboardData.todayBirthdays.map(contact => (
-                <div
+                <button
+                  type="button"
                   key={contact.id}
-                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3"
+                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-left"
                   style={{
                     background: 'linear-gradient(135deg, rgba(236,72,153,0.12), rgba(168,85,247,0.08))',
                     border: '1px solid rgba(236,72,153,0.25)',
@@ -193,7 +195,7 @@ export function DashboardScreen() {
                     <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_birthday_today', { name: contact.name })}</p>
                     <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_birthday_wish')}</p>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </section>

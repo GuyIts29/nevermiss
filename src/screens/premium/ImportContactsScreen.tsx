@@ -132,8 +132,9 @@ export function ImportContactsScreen() {
       setStep('done')
     } catch (e) {
       setImportError(e instanceof Error ? e.message : 'Import failed — please try again')
+    } finally {
+      setImporting(false)
     }
-    setImporting(false)
   }
 
   return (

@@ -9,37 +9,17 @@ export function AboutScreen() {
   const { theme } = useTheme()
 
   const VALUES = [
-    {
-      icon: Shield,
-      gradient: 'linear-gradient(135deg, #8B5CF6, #6366F1)',
-      title: 'Privacy First',
-      desc: 'All your data lives on your device. We never access, collect, or transmit your personal information.',
-    },
-    {
-      icon: Globe,
-      gradient: 'linear-gradient(135deg, #10B981, #0891B2)',
-      title: 'Cultural Respect',
-      desc: 'We treat all religions and traditions with equal respect and care. Every holiday is presented with accuracy and sensitivity.',
-    },
-    {
-      icon: Heart,
-      gradient: 'linear-gradient(135deg, #F43F5E, #EC4899)',
-      title: 'Human Connection',
-      desc: 'Technology should strengthen relationships, not replace them. We help you show up for the people who matter.',
-    },
-    {
-      icon: Zap,
-      gradient: 'linear-gradient(135deg, #F59E0B, #EF4444)',
-      title: 'Smart Intelligence',
-      desc: 'Our relationship engine helps you prioritize without overwhelming. The right message, at the right time, for the right person.',
-    },
+    { icon: Shield,   gradient: 'linear-gradient(135deg, #8B5CF6, #6366F1)', title: t('about_val1_title'), desc: t('about_val1_desc') },
+    { icon: Globe,    gradient: 'linear-gradient(135deg, #10B981, #0891B2)', title: t('about_val2_title'), desc: t('about_val2_desc') },
+    { icon: Heart,    gradient: 'linear-gradient(135deg, #F43F5E, #EC4899)', title: t('about_val3_title'), desc: t('about_val3_desc') },
+    { icon: Zap,      gradient: 'linear-gradient(135deg, #F59E0B, #EF4444)', title: t('about_val4_title'), desc: t('about_val4_desc') },
   ]
 
   const TECH = [
-    { icon: Lock,     label: 'Data Storage',    value: 'Local device only', color: '#8B5CF6' },
-    { icon: WifiOff,  label: 'External APIs',   value: 'None — fully offline', color: '#10B981' },
-    { icon: BarChart2,label: 'Analytics',        value: 'None', color: '#3B82F6' },
-    { icon: Eye,      label: 'Tracking / Ads',  value: 'None', color: '#F43F5E' },
+    { icon: Lock,      label: t('about_tech1_label'), value: t('about_tech1_value'), color: '#8B5CF6' },
+    { icon: WifiOff,   label: t('about_tech2_label'), value: t('about_tech2_value'), color: '#10B981' },
+    { icon: BarChart2, label: t('about_tech3_label'), value: t('about_tech3_value'), color: '#3B82F6' },
+    { icon: Eye,       label: t('about_tech4_label'), value: t('about_tech4_value'), color: '#F43F5E' },
   ]
 
   return (
@@ -74,10 +54,7 @@ export function AboutScreen() {
             <h3 className="font-extrabold text-sm text-[var(--color-text-primary)]">{t('about_mission')}</h3>
           </div>
           <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-            NeverMiss helps people maintain meaningful relationships by combining smart CRM with
-            cultural intelligence. We believe every important moment deserves acknowledgment —
-            whether it's a colleague's religious holiday, a client's birthday, or simply checking in
-            with someone you care about.
+            {t('about_missionText')}
           </p>
         </div>
 
@@ -136,9 +113,9 @@ export function AboutScreen() {
               </div>
             ))}
             <div className="flex items-center justify-between pt-1 border-t border-[var(--color-border)] mt-1">
-              <span className="text-sm text-[var(--color-text-muted)]">Platform</span>
+              <span className="text-sm text-[var(--color-text-muted)]">{t('about_platform')}</span>
               <span className="text-xs font-medium text-[var(--color-text-secondary)]">
-                Web · Android · iOS (Capacitor)
+                {t('about_platformValue')}
               </span>
             </div>
           </div>

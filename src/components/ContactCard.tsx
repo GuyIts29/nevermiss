@@ -65,10 +65,10 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
             {contact.name}
           </span>
           {contact.importanceLevel === 'vip' && (
-            <Crown size={12} className="text-amber-500 shrink-0" />
+            <Crown size={12} className="text-amber-500 shrink-0" aria-hidden="true" />
           )}
           {contact.contactType === 'internal' && (
-            <Building2 size={12} className="text-[var(--color-primary)] shrink-0" />
+            <Building2 size={12} className="text-[var(--color-primary)] shrink-0" aria-hidden="true" />
           )}
         </div>
         <p className="text-xs text-[var(--color-text-muted)] capitalize">

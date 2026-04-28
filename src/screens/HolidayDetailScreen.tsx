@@ -85,7 +85,7 @@ export function HolidayDetailScreen() {
                   className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold"
                   style={{ background: 'rgba(255,255,255,0.9)', color: holiday.color }}
                 >
-                  ★ Major
+                  {t('holiday_major')}
                 </span>
               )}
             </div>
@@ -235,7 +235,7 @@ export function HolidayDetailScreen() {
               ))}
               {relatedContacts.length > 3 && (
                 <p className="text-xs text-center text-[var(--color-text-muted)] pt-1">
-                  +{relatedContacts.length - 3} more contacts
+                  {t('holiday_moreContacts', { n: relatedContacts.length - 3 })}
                 </p>
               )}
             </div>

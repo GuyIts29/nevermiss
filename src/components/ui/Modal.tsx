@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { X } from 'lucide-react'
 import { clsx } from 'clsx'
+import { useT } from '@/context/LanguageContext'
 
 interface ModalProps {
   isOpen: boolean
@@ -26,6 +27,7 @@ const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:n
 export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose, footer, danger }: ModalProps) {
   const sheetRef = useRef<HTMLDivElement>(null)
   const previousFocus = useRef<Element | null>(null)
+  const t = useT()
 
   useEffect(() => {
     if (!isOpen) return
@@ -112,7 +114,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose
               <button
                 onClick={onClose}
                 className="p-1.5 rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
-                aria-label="Close"
+                aria-label={t('close')}
               >
                 <X size={18} className="text-[var(--color-text-muted)]" />
               </button>
