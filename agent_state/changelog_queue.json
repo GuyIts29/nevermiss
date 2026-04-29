@@ -971,5 +971,47 @@
     "action": "modified",
     "file": "src/data/holidays.ts",
     "description": "BL-060: נוספו 5 תאריכים חילוניים/לאומיים: יום השואה הבינלאומי (27 ינואר), יום השואה (27 ניסן), יום הזיכרון (4 אייר), יום הזיכרון האמריקאי (25 מאי), יום העצמאות האמריקאי (4 יולי) — כולם religion: Secular עם ברכות EN+HE"
+  },
+  {
+    "timestamp": "2026-04-29T18:00:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "BL-062 / BUG-045: הוחלף t('payme_goPayMe') ב-t('upgrade_cta') — CTA כפתור כעת גנרי ולא תלוי ספק"
+  },
+  {
+    "timestamp": "2026-04-29T18:01:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/i18n/index.ts",
+    "description": "BL-062 / BUG-045+046: נוסף מפתח upgrade_cta (EN: 'Upgrade Now', HE: 'שדרג עכשיו'); upgrade_unlockEverything HE שונה מ-'פתח הכל' ל-'שדרג לפרמיום'"
+  },
+  {
+    "timestamp": "2026-04-29T18:02:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/services/greetingService.ts",
+    "description": "BL-063 / BUG-048: תוקנו תבניות עברית friendly generic — 'לברר' → 'לדעת', 'שכל טוב' → 'שיהיה הכל טוב'; business 'שלחתי ידו/ת' → 'פניתי'"
+  },
+  {
+    "timestamp": "2026-04-29T18:03:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BL-063 / BUG-047: נוסף useEffect([tone]) — כל שינוי ב-tone מחולל generate() מחדש; טיפ שמנוע אוטומטי עובד רק כשיש קשר ומסר"
+  },
+  {
+    "timestamp": "2026-04-29T18:04:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/i18n/index.ts",
+    "description": "BL-064: נוספו 8 מפתחות dashboard_quick_send_* ב-EN+HE — dashboard_quick_send/title/subtitle/wa/copy/copied/open_editor"
+  },
+  {
+    "timestamp": "2026-04-29T18:05:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-064: Quick Send panel — כפתור 'שלח ברכה' על כרטיסי ימי הולדת וכרטיסי קבוצה; פאנל overlay תחתי עם 3 אפשרויות AI per contact; כפתורי WhatsApp/Copy/Open Editor לכל option; premium gate"
   }
 ]

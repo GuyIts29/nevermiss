@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Crown, Zap, Calendar, Users, RefreshCw, Bell, Star } from 'lucide-react'
+import { Plus, Crown, Zap, Calendar, Users, RefreshCw, Bell, Star, Send, Copy, Check, X, Sparkles } from 'lucide-react'
 import { format, differenceInDays } from 'date-fns'
 import { useApp } from '@/context/AppContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -12,6 +12,9 @@ import { ContactCard } from '@/components/ContactCard'
 import { HolidayCard } from '@/components/HolidayCard'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { APP_CONFIG } from '@/config/appConfig'
+import { getAISuggestions } from '@/services/aiSuggestionsService'
+import { openWhatsApp, copyToClipboard } from '@/services/communicationService'
+import type { Contact, Holiday, GreetingTone } from '@/types'
 
 export function DashboardScreen() {
   const navigate = useNavigate()
@@ -38,6 +41,35 @@ export function DashboardScreen() {
   const touchStartY = useRef(0)
   const [pullDistance, setPullDistance] = useState(0)
   const PULL_THRESHOLD = 64
+
+  // Quick send panel state
+  type QuickSendState = { contact: Contact; holiday?: Holiday; options: string[] } | null
+  const [quickSend, setQuickSend] = useState<QuickSendState>(null)
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+
+  function resolveTone(contact: Contact): GreetingTone {
+    if (contact.contactType === 'internal') return 'internal'
+    if (contact.importanceLevel === 'vip') return 'vip'
+    if (contact.relationshipType === 'client' || contact.relationshipType === 'business_partner') return 'business'
+    return 'friendly'
+  }
+
+  const openQuickSend = (contact: Contact, holiday?: Holiday) => {
+    const options = getAISuggestions({
+      contactName: contact.name,
+      holiday,
+      tone: resolveTone(contact),
+      language: contact.language,
+    })
+    setQuickSend({ contact, holiday, options })
+    setCopiedIdx(null)
+  }
+
+  const handleCopyOption = async (text: string, idx: number) => {
+    await copyToClipboard(text)
+    setCopiedIdx(idx)
+    setTimeout(() => setCopiedIdx(null), 2000)
+  }
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY
@@ -180,22 +212,34 @@ export function DashboardScreen() {
                 </button>
               )}
               {isPremium && dashboardData.todayBirthdays.map(contact => (
-                <button
-                  type="button"
+                <div
                   key={contact.id}
-                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-left"
+                  className="rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3"
                   style={{
                     background: 'linear-gradient(135deg, rgba(236,72,153,0.12), rgba(168,85,247,0.08))',
                     border: '1px solid rgba(236,72,153,0.25)',
                   }}
-                  onClick={() => navigate(`/contacts/${contact.id}`)}
                 >
-                  <span className="text-2xl animate-celebrate">🎂</span>
-                  <div className="flex-1">
-                    <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_birthday_today', { name: contact.name })}</p>
-                    <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_birthday_wish')}</p>
-                  </div>
-                </button>
+                  <button
+                    type="button"
+                    className="flex items-center gap-3 flex-1 text-left min-w-0"
+                    onClick={() => navigate(`/contacts/${contact.id}`)}
+                  >
+                    <span className="text-2xl animate-celebrate shrink-0">🎂</span>
+                    <div className="min-w-0">
+                      <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_birthday_today', { name: contact.name })}</p>
+                      <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_birthday_wish')}</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => isPremium ? openQuickSend(contact) : navigate(`/greeting?contactId=${contact.id}`)}
+                    className="shrink-0 flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white"
+                    style={{ background: 'linear-gradient(135deg, #EC4899, #A855F7)' }}
+                  >
+                    <Send size={11} aria-hidden="true" />
+                    {t('dashboard_quick_send')}
+                  </button>
+                </div>
               ))}
             </div>
           </section>
@@ -229,13 +273,15 @@ export function DashboardScreen() {
                 <button
                   onClick={() => {
                     const first = groupContacts[0]
-                    if (first) navigate(`/greeting?contactId=${first.id}&holidayId=${holiday.id}`)
-                    else navigate('/contacts')
+                    if (!first) { navigate('/contacts'); return }
+                    if (isPremium) openQuickSend(first, holiday)
+                    else navigate(`/greeting?contactId=${first.id}&holidayId=${holiday.id}`)
                   }}
-                  className="text-xs font-semibold px-2.5 py-1.5 rounded-lg shrink-0 text-white"
+                  className="text-xs font-semibold px-2.5 py-1.5 rounded-lg shrink-0 text-white flex items-center gap-1"
                   style={{ background: holiday.color }}
                 >
-                  {t('group_send_to_group')}
+                  {isPremium ? <Sparkles size={10} aria-hidden="true" /> : <Send size={10} aria-hidden="true" />}
+                  {t('dashboard_quick_send')}
                 </button>
               </div>
             ))}
@@ -402,6 +448,78 @@ export function DashboardScreen() {
       >
         <Plus size={24} className="text-white" />
       </button>
+
+      {/* Quick Send overlay */}
+      {quickSend && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 z-40"
+            onClick={() => setQuickSend(null)}
+          />
+          {/* Panel */}
+          <div className="fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl overflow-hidden animate-slide-up"
+            style={{ background: 'var(--color-surface)', boxShadow: '0 -8px 32px rgba(0,0,0,0.18)' }}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)]">
+              <div className="flex items-center gap-2">
+                <Sparkles size={14} style={{ color: '#8B5CF6' }} aria-hidden="true" />
+                <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_quick_send_title')}</p>
+                <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_quick_send_subtitle', { name: quickSend.contact.name.split(' ')[0] })}</p>
+              </div>
+              <button
+                onClick={() => setQuickSend(null)}
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] transition-colors"
+                aria-label={t('close')}
+              >
+                <X size={16} aria-hidden="true" />
+              </button>
+            </div>
+
+            {/* Options */}
+            <div className="divide-y divide-[var(--color-border)] max-h-[60vh] overflow-y-auto">
+              {quickSend.options.map((option, i) => (
+                <div key={i} className="p-4 space-y-3">
+                  <p className="text-sm text-[var(--color-text-primary)] whitespace-pre-wrap leading-relaxed">
+                    {option}
+                  </p>
+                  <div className="flex gap-2">
+                    {quickSend.contact.phone && (
+                      <button
+                        onClick={() => { openWhatsApp(quickSend.contact.phone!, option); setQuickSend(null) }}
+                        className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white"
+                        style={{ background: '#25D366' }}
+                      >
+                        <Send size={11} aria-hidden="true" />
+                        {t('dashboard_quick_send_wa')}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleCopyOption(option, i)}
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"
+                    >
+                      {copiedIdx === i
+                        ? <><Check size={11} className="text-green-500" aria-hidden="true" />{t('dashboard_quick_send_copied')}</>
+                        : <><Copy size={11} aria-hidden="true" />{t('dashboard_quick_send_copy')}</>
+                      }
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigate(`/greeting?contactId=${quickSend.contact.id}${quickSend.holiday ? `&holidayId=${quickSend.holiday.id}` : ''}`)
+                        setQuickSend(null)
+                      }}
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors ml-auto"
+                    >
+                      {t('dashboard_quick_send_open_editor')}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

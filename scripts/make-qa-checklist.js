@@ -28,6 +28,7 @@ const CATEGORIES = [
   { id: 'sprint8', emoji: '🔧', name: 'Sprint 8 — Stability · Accessibility · RTL/Hebrew Correctness (FINDING 28D, 29A/B/C)' },
   { id: 'sprint9', emoji: '💳', name: 'Sprint 9 — Holiday Reminders (BL-059) + PayMe Payment UI (BL-032)' },
   { id: 'sprint10', emoji: '🤖', name: 'Sprint 10 — AI Suggestions MVP (BL-033) + Secular/National Dates (BL-060)' },
+  { id: 'sprint11', emoji: '✉️', name: 'Sprint 11 — Quick Send (BL-064) + Auto-Regenerate on Tone (BL-063) + UpgradeScreen CTA Fix (BL-062)' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -167,6 +168,15 @@ const TESTS = [
   { id: 'T104', cat: 'sprint10', name: 'BL-033: premium user sees purple AI button; generates 3 distinct options with 400ms delay' },
   { id: 'T105', cat: 'sprint10', name: 'BL-060: 5 secular/national dates added — Holocaust Intl (Jan 27), Yom HaShoah, Yom HaZikaron, US Memorial Day, US Independence Day' },
   { id: 'T106', cat: 'sprint10', name: 'BL-060: all new dates under religion: Secular; greetings EN+HE; sensitivity notes on memorial days; build+lint pass' },
+
+  // ✉️ Sprint 11
+  { id: 'T107', cat: 'sprint11', name: 'BL-063 / BUG-047: useEffect([tone]) — שינוי tier מחולל generate() מחדש אוטומטית ב-GreetingEditorScreen' },
+  { id: 'T108', cat: 'sprint11', name: 'BL-063 / BUG-048: תבניות עברית friendly תוקנו — "לברר"→"לדעת", "שכל טוב"→"שיהיה הכל טוב"' },
+  { id: 'T109', cat: 'sprint11', name: 'BL-062 / BUG-045: UpgradeScreen CTA — t("upgrade_cta") במקום t("payme_goPayMe"); גנרי ולא תלוי ספק' },
+  { id: 'T110', cat: 'sprint11', name: 'BL-062 / BUG-046: upgrade_unlockEverything HE = "שדרג לפרמיום"; upgrade_cta EN/HE נוסף ל-i18n' },
+  { id: 'T111', cat: 'sprint11', name: 'BL-064: כפתור "שלח ברכה" על כרטיסי ימי הולדת + קבוצה; premium → Quick Send; free → /greeting' },
+  { id: 'T112', cat: 'sprint11', name: 'BL-064: Quick Send overlay — 3 options AI; WhatsApp/Copy/Open Editor לכל option; backdrop סגירה; copied feedback 2s' },
+  { id: 'T113', cat: 'sprint11', name: 'Sprint 11 QA: build נקי + lint נקי; BL-062, BL-063, BL-064 מאומתים' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

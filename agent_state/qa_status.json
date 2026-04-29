@@ -422,5 +422,33 @@
   "T106": {
     "status": "✅",
     "notes": "BL-060: כל התאריכים החדשים עם religion: Secular; ברכות EN+HE; הערות רגישות לתאריכי אבל; build+lint נקי"
+  },
+  "T107": {
+    "status": "✅",
+    "notes": "BL-063 / BUG-047: useEffect([tone]) נוסף ל-GreetingEditorScreen — שינוי tier מפעיל generate() מחדש אוטומטית"
+  },
+  "T108": {
+    "status": "✅",
+    "notes": "BL-063 / BUG-048: תבניות עברית friendly תוקנו — 'לברר'→'לדעת', 'שכל טוב'→'שיהיה הכל טוב'; business 'שלחתי ידו/ת'→'פניתי'"
+  },
+  "T109": {
+    "status": "✅",
+    "notes": "BL-062 / BUG-045: UpgradeScreen CTA עכשיו משתמש ב-t('upgrade_cta') — 'שדרג עכשיו' — לא תלוי ב-PayMe"
+  },
+  "T110": {
+    "status": "✅",
+    "notes": "BL-062 / BUG-046: upgrade_unlockEverything HE שונה ל-'שדרג לפרמיום'; upgrade_cta EN/HE נוסף ל-i18n"
+  },
+  "T111": {
+    "status": "✅",
+    "notes": "BL-064: כפתור 'שלח ברכה' על כרטיסי ימי הולדת + כרטיסי קבוצה; premium → openQuickSend; free → navigate to /greeting"
+  },
+  "T112": {
+    "status": "✅",
+    "notes": "BL-064: Quick Send overlay — 3 options AI per contact; WhatsApp/Copy/Open Editor לכל option; backdrop סגירה; copiedIdx feedback 2s"
+  },
+  "T113": {
+    "status": "✅",
+    "notes": "Sprint 11 QA: build נקי + lint נקי; BL-062+063+064 מיושמים ומאומתים"
   }
 }

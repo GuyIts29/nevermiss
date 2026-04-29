@@ -548,6 +548,13 @@ export const translations = {
     dashboard_release_refresh: 'Release to refresh',
     dashboard_isTomorrow: '{name} is Tomorrow!',
     dashboard_prepareGreetings: 'Prepare your greetings now',
+    dashboard_quick_send: 'Send Greeting',
+    dashboard_quick_send_title: 'Quick Send',
+    dashboard_quick_send_subtitle: 'to {name}',
+    dashboard_quick_send_wa: 'WhatsApp',
+    dashboard_quick_send_copy: 'Copy',
+    dashboard_quick_send_copied: 'Copied!',
+    dashboard_quick_send_open_editor: 'Open Editor',
 
     // ─── Upgrade (localized feature lists) ───────────────────────────────
     upgrade_free_1: 'Up to 20 contacts',
@@ -1261,6 +1268,13 @@ export const translations = {
     dashboard_release_refresh: 'שחרר לרענון',
     dashboard_isTomorrow: '{name} מחר!',
     dashboard_prepareGreetings: 'הכן את ברכותיך עכשיו',
+    dashboard_quick_send: 'שלח ברכה',
+    dashboard_quick_send_title: 'שליחה מהירה',
+    dashboard_quick_send_subtitle: 'ל{name}',
+    dashboard_quick_send_wa: 'WhatsApp',
+    dashboard_quick_send_copy: 'העתק',
+    dashboard_quick_send_copied: 'הועתק!',
+    dashboard_quick_send_open_editor: 'פתח עורך',
 
     // ─── Upgrade (localized feature lists) ───────────────────────────────
     upgrade_free_1: 'עד 20 אנשי קשר',

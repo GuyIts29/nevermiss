@@ -184,6 +184,13 @@ export function GreetingEditorScreen() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedContactId, selectedHolidayId])
 
+  // Auto-regenerate when tier changes if a message is already displayed
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (selectedContact && message) generate()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tone])
+
   const handleCopy = async () => {
     await copyToClipboard(fullMessage)
     setCopied(true)
