@@ -106,12 +106,29 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 
 #### Upgrade (`src/screens/UpgradeScreen.tsx`)
 - Hero gradient banner with premium pitch
-- Free vs Premium comparison table
+- Free vs Premium comparison table (see feature gate details below)
 - Testimonials section
 - Pricing display (₪29/month · ₪249/year)
 - Coupon code section ("Have a coupon?" collapsible)
 - Demo premium activation button
 - Shows "Already Active" state when premium is live
+
+**Free vs Premium feature comparison (documented gates):**
+
+| Feature | Free | Premium |
+|---------|------|---------|
+| Contacts | Up to 20 | Unlimited |
+| Groups | Up to 2 | Unlimited |
+| Import contacts (CSV) | ❌ | ✅ |
+| Import from device contacts | ❌ | ✅ |
+| Export contacts to CSV | ❌ | ✅ |
+| Birthday tracking & Birthday Center | ❌ | ✅ |
+| Birthday Greeting Editor | ❌ | ✅ |
+| Premium themes | ❌ | ✅ |
+| Contact fields (email, department, role, team) | ❌ | ✅ |
+| Backup / restore JSON | ❌ | ✅ |
+| **Holiday reminder notifications** | ❌ locked | ✅ Push · SMS · Email · WhatsApp |
+| **Notification channels** | — | Push · SMS · Email · WhatsApp (per toggle) |
 
 ---
 
@@ -370,11 +387,18 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Sprint 2 active.
 - **Tap target size** WCAG 2.5.5 — some icon buttons ~36px (BL-029)
 - **Import from device contacts** — Capacitor Contacts plugin; Premium (BL-030)
 
+### Sprint 9 — Planned
+
+- **PayMe payment page UI** — Hebrew checkout flow; stub at `src/integrations/payment/payme.ts` (BL-032)
+- **Premium holiday reminder notifications** — Push, SMS, Email, WhatsApp channels; per-contact+holiday toggles; dedup via localStorage; free users see premium lock (BL-059)
+
+### Sprint 10 — Planned
+
+- **Claude AI greeting suggestions** — AI-personalized greetings via Claude API; stub ready at `src/integrations/ai/claudeClient.ts` (BL-033)
+
 ### Sprint 4+ — Future
 
 - **Supabase v2 integration** — cloud sync; stubs ready (BL-031)
-- **PayMe payment** — real payment flow; stub ready (BL-032)
-- **Claude AI greeting suggestions** — Claude API; stub ready (BL-033)
 - **Backup / restore JSON** — export all app data (BL-034)
 - **Duplicate contact detection** — merge or skip on import (BL-035)
 - **Demo mode** with realistic sample data (BL-036)

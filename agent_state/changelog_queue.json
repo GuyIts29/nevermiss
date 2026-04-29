@@ -838,5 +838,26 @@
     "action": "fixed",
     "file": "src/screens/ContactFormScreen.tsx",
     "description": "FINDING 29B תוקן: title='Auto gradient' הוחלף ב-aria-label={t('contactForm_autoGradient')} — מתקן הפרת WCAG 4.1.2 על כפתור icon-only"
+  },
+  {
+    "timestamp": "2026-04-29T15:30:00",
+    "agent": "Agent4-ChangelogManager",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-059 נוסף: Premium holiday reminder notifications — Sprint 9; Push/SMS/Email/WhatsApp; dedup; Premium gate"
+  },
+  {
+    "timestamp": "2026-04-29T15:30:01",
+    "agent": "Agent4-ChangelogManager",
+    "action": "added",
+    "file": "BACKLOG.csv",
+    "description": "BL-059 שורה חדשה ב-BACKLOG.csv — Premium holiday reminder notifications"
+  },
+  {
+    "timestamp": "2026-04-29T15:30:02",
+    "agent": "Agent4-ChangelogManager",
+    "action": "modified",
+    "file": "FEATURES.md",
+    "description": "BL-059 תועד ב-FEATURES.md: תיאור Feature, Sprint 9 Planned section, טבלת Free vs Premium עודכנה עם Holiday reminders + Notification channels"
   }
 ]
