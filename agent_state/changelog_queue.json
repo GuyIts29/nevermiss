@@ -859,5 +859,54 @@
     "action": "modified",
     "file": "FEATURES.md",
     "description": "BL-059 תועד ב-FEATURES.md: תיאור Feature, Sprint 9 Planned section, טבלת Free vs Premium עודכנה עם Holiday reminders + Notification channels"
+  },
+  {
+    "timestamp": "2026-04-29T16:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 9: נוספו 21 מפתחות reminders_* (EN+HE) ו-24 מפתחות payme_* (EN+HE) עבור BL-059 ו-BL-032"
+  },
+  {
+    "timestamp": "2026-04-29T16:01:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/services/reminderService.ts",
+    "description": "BL-059: שירות תזכורות חגים — HolidayReminderSettings, getReminderSettings/saveReminderSettings, hasBeenReminded/markReminded; localStorage key nm_holiday_reminder_settings + nm_holiday_reminder_sent"
+  },
+  {
+    "timestamp": "2026-04-29T16:02:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/screens/HolidayRemindersScreen.tsx",
+    "description": "BL-059: מסך תזכורות חגים — Premium gate, toggle הפעל/כבה, בחירת ימים מראש (1/3/7), 4 ערוצים (Push/SMS/Email/WhatsApp) עם הערת provider לערוצים עתידיים, רשימת אנשי קשר+חגים קרובים, שמירה ב-localStorage"
+  },
+  {
+    "timestamp": "2026-04-29T16:03:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/screens/PaymeScreen.tsx",
+    "description": "BL-032: מסך תשלום PayMe — בחירת תוכנית חודשי/שנתי, טופס שם+אימייל, כפתור שלם עם PayMe (קורא ל-createPaymentLink stub), error handling בעברית, disclaimer הדגמה, מצב premium active"
+  },
+  {
+    "timestamp": "2026-04-29T16:04:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "Sprint 9: נוספו routes /reminders (HolidayRemindersScreen) ו-/payment (PaymeScreen), שניהם lazy loaded"
+  },
+  {
+    "timestamp": "2026-04-29T16:05:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BL-059: נוסף כפתור 'תזכורות חגים' לסעיף Premium Features בהגדרות (מוביל ל-/reminders)"
+  },
+  {
+    "timestamp": "2026-04-29T16:06:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "BL-032: נוסף כפתור 'שלם עם PayMe' (gradient amber) מעל קטע הקופון — מנווט ל-/payment; import CreditCard מ-lucide-react"
   }
 ]

@@ -26,6 +26,7 @@ const CATEGORIES = [
   { id: 'sprint6', emoji: '🔧', name: 'Sprint 6 — תיקוני איכות / Findings 31/49/75/76/84/85/86' },
   { id: 'sprint7', emoji: '🎮', name: 'Sprint 7 — Demo Mode (BL-036) + i18n BirthdayCenterScreen + מחרוזות נגישות' },
   { id: 'sprint8', emoji: '🔧', name: 'Sprint 8 — Stability · Accessibility · RTL/Hebrew Correctness (FINDING 28D, 29A/B/C)' },
+  { id: 'sprint9', emoji: '💳', name: 'Sprint 9 — Holiday Reminders (BL-059) + PayMe Payment UI (BL-032)' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -148,6 +149,15 @@ const TESTS = [
   { id: 'T91', cat: 'sprint8', name: 'FINDING 29B: aria-label על כפתור Auto gradient — WCAG 4.1.2 תוקן' },
   { id: 'T92', cat: 'sprint8', name: 'FINDING 29C: PremiumFeaturePrompt feature — t(premium_feat_birthday_fields) כבר קיים' },
   { id: 'T93', cat: 'sprint8', name: 'Sprint 8 QA: build נקי + lint נקי אחרי כל תיקוני Sprint 8' },
+
+  // 💳 Sprint 9
+  { id: 'T94', cat: 'sprint9', name: 'BL-059: reminderService — getReminderSettings/saveReminderSettings/hasBeenReminded/markReminded' },
+  { id: 'T95', cat: 'sprint9', name: 'BL-059: HolidayRemindersScreen — toggle, days ahead, 4 channels, upcoming list, save' },
+  { id: 'T96', cat: 'sprint9', name: 'BL-059: free users see PremiumFeaturePrompt; premium users see full config' },
+  { id: 'T97', cat: 'sprint9', name: 'BL-059: dedup — אותו contactId:holidayId לא יקבל תזכורת פעמיים באותו יום' },
+  { id: 'T98', cat: 'sprint9', name: 'BL-032: PaymeScreen — plan picker, form, CTA, error handling, already-premium state' },
+  { id: 'T99', cat: 'sprint9', name: 'BL-032: UpgradeScreen → /payment; SettingsScreen → Holiday Reminders entry' },
+  { id: 'T100', cat: 'sprint9', name: 'Sprint 9 QA: build נקי + lint נקי; שני מסכים נטענים כ-lazy chunks' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

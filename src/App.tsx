@@ -60,6 +60,8 @@ const ImportContactsScreen = lazy(() => import('@/screens/premium/ImportContacts
 const BirthdayCenterScreen = lazy(() => import('@/screens/premium/BirthdayCenterScreen').then(m => ({ default: m.BirthdayCenterScreen })))
 const BirthdayGreetingEditorScreen = lazy(() => import('@/screens/premium/BirthdayGreetingEditorScreen').then(m => ({ default: m.BirthdayGreetingEditorScreen })))
 const DeviceContactsScreen = lazy(() => import('@/screens/DeviceContactsScreen').then(m => ({ default: m.DeviceContactsScreen })))
+const HolidayRemindersScreen = lazy(() => import('@/screens/HolidayRemindersScreen').then(m => ({ default: m.HolidayRemindersScreen })))
+const PaymeScreen = lazy(() => import('@/screens/PaymeScreen').then(m => ({ default: m.PaymeScreen })))
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { fireReminders } from '@/services/notificationService'
@@ -135,6 +137,8 @@ function AppShell() {
       <Route path="/device-contacts" element={<WithNav>{isPremium ? <DeviceContactsScreen /> : <UpgradeScreen />}</WithNav>} />
       <Route path="/birthdays" element={<WithNav>{isPremium ? <BirthdayCenterScreen /> : <UpgradeScreen />}</WithNav>} />
       <Route path="/birthdays/greeting/:id" element={<WithNav>{isPremium ? <BirthdayGreetingEditorScreen /> : <UpgradeScreen />}</WithNav>} />
+      <Route path="/reminders" element={<WithNav><HolidayRemindersScreen /></WithNav>} />
+      <Route path="/payment" element={<WithNav><PaymeScreen /></WithNav>} />
       <Route path="/" element={<Navigate to={onboardingDone ? '/dashboard' : '/onboarding'} replace />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

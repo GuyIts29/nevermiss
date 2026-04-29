@@ -4,7 +4,7 @@ import {
   Crown, Check, Unlock, X,
   Users, Group, Cake, FileUp,
   Sparkles, BarChart2, Building2,
-  Layers, Palette, Headphones, Tag,
+  Layers, Palette, Headphones, Tag, CreditCard,
 } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
@@ -186,6 +186,19 @@ export function UpgradeScreen() {
         <div className="space-y-2">
           {!isPremium ? (
             <>
+              {/* PayMe CTA */}
+              <button
+                onClick={() => navigate('/payment')}
+                className="w-full h-14 rounded-[var(--border-radius)] text-white font-bold text-base flex items-center justify-center gap-2.5 shadow-lg hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B, #F97316)',
+                  boxShadow: '0 6px 24px rgba(245,158,11,0.35)',
+                }}
+              >
+                <CreditCard size={18} />
+                {t('payme_goPayMe')}
+              </button>
+
               {/* Coupon Section */}
               <div className="space-y-2">
                 <button

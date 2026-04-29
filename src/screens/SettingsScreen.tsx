@@ -267,6 +267,7 @@ export function SettingsScreen() {
               {[
                 { label: t('settings_importContacts'), icon: Download, to: '/import' },
                 { label: t('settings_birthdayCenter'), icon: Crown, to: '/birthdays' },
+                { label: t('reminders_title'), icon: Bell, to: '/reminders' },
               ].map(({ label, icon: Icon, to }) => (
                 <button
                   key={to}

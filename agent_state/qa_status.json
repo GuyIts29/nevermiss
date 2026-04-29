@@ -370,5 +370,33 @@
   "T93": {
     "status": "✅",
     "notes": "Sprint 8 QA: build עבר ו-lint נקי אחרי כל תיקוני Sprint 8"
+  },
+  "T94": {
+    "status": "✅",
+    "notes": "BL-059: reminderService.ts — getReminderSettings/saveReminderSettings/hasBeenReminded/markReminded; build+lint"
+  },
+  "T95": {
+    "status": "✅",
+    "notes": "BL-059: HolidayRemindersScreen — premium gate; master toggle; days ahead 1/3/7; Push/SMS/Email/WhatsApp channels; provider disclaimer; upcoming pairs list; save bar"
+  },
+  "T96": {
+    "status": "✅",
+    "notes": "BL-059: free users see PremiumFeaturePrompt on /reminders; premium users see full config"
+  },
+  "T97": {
+    "status": "✅",
+    "notes": "BL-059: dedup via nm_holiday_reminder_sent key (contactId:holidayId per day)"
+  },
+  "T98": {
+    "status": "✅",
+    "notes": "BL-032: PaymeScreen — plan picker monthly/annual; name+email form; Pay with PayMe CTA; error handling (stub throws); disclaimer; already-premium state"
+  },
+  "T99": {
+    "status": "✅",
+    "notes": "BL-032: UpgradeScreen כפתור 'שלם עם PayMe' מנווט ל-/payment; SettingsScreen → Holiday Reminders entry ב-Premium Features"
+  },
+  "T100": {
+    "status": "✅",
+    "notes": "Sprint 9 QA: build נקי + lint נקי; HolidayRemindersScreen ו-PaymeScreen נטענים כ-lazy chunks נפרדים"
   }
 }
