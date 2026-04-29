@@ -316,6 +316,26 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 
 ---
 
+### BUG-047 — Greeting type not applied: switching tier does not regenerate message
+- **Date:** 2026-04-29 | **Time:** 16:20 | **Status:** 📋 open (planned Sprint 11)
+- **File:** `src/screens/GreetingEditorScreen.tsx`
+- **Bug:** Clicking a different tier (VIP / Professional / Casual) correctly calls `setTone(tier.value)`, which updates the `tone` React state and re-highlights the selected card. However, the already-displayed greeting text is NOT regenerated — it keeps the tone from when Generate was last clicked. The user has no indication that they need to re-click Generate. As a result, switching tiers appears to have no effect on the output.
+- **Root cause:** No `useEffect` or reactive path re-invokes `generate()` on `tone` changes. The `generate()` function only runs on explicit user action.
+- **Found by:** User — 2026-04-29 (Sprint 11 bug report)
+- **Fix (planned):** Auto-regenerate the message whenever `tone` changes AND a message is already displayed (`message !== ''`). Use a `useEffect([tone])` guard to avoid generating on initial mount before the user has selected a contact.
+
+---
+
+### BUG-048 — Hebrew `friendly` greeting templates contain unnatural / grammatically incorrect phrasing
+- **Date:** 2026-04-29 | **Time:** 16:21 | **Status:** 📋 open (planned Sprint 11)
+- **File:** `src/services/greetingService.ts`
+- **Bug:** Several Hebrew body templates in the `friendly` generic pool use awkward or grammatically incorrect phrasing. Confirmed example: `"סתם חשבתי עליך ורציתי לברר מה שלומך."` — "לברר" (to clarify/find out) is semantically wrong; natural Hebrew would use "לאחל", "לשאול", or "לדעת". Additional templates contain similar issues. Other tone pools (business, vip) should also be reviewed.
+- **Root cause:** Template strings written without native Hebrew speaker review.
+- **Found by:** User — 2026-04-29 (Sprint 11 bug report)
+- **Fix (planned):** Rewrite affected Hebrew body templates in `buildGenericBody()` and `buildHolidayBody()` using natural, grammatically correct phrasing. Examples provided by user: `"סתם חשבתי עליך ורציתי לאחל לך יום נפלא. מה שלומך?"` / `"רציתי לאחל לך חג שמח! מקווה שאתה בטוב 😊"`. No AI API — template strings only.
+
+---
+
 ### BUG-045 — UpgradeScreen CTA button uses provider-specific text
 - **Date:** 2026-04-29 | **Time:** 16:00 | **Status:** ✅ fixed
 - **File:** `src/screens/UpgradeScreen.tsx`, `src/i18n/index.ts`

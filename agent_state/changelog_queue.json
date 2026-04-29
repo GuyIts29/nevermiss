@@ -929,5 +929,19 @@
     "action": "added",
     "file": "BUG_REPORT.md",
     "description": "BUG-045 ו-BUG-046: תועדו שני באגים בדף השדרוג — טקסט CTA ספציפי לספק ו-כותרת גיבור לא ברורה; שניהם סומנו כתוקנו"
+  },
+  {
+    "timestamp": "2026-04-29T16:22:00",
+    "agent": "Agent4-ChangelogManager",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-063: נוסף תיאור מלא לבאג — סוג ברכה לא מיושם (אין רגנרציה אוטומטית) + דקדוק עברי שגוי בתבניות; מתוכנן לספרינט 11"
+  },
+  {
+    "timestamp": "2026-04-29T16:22:00",
+    "agent": "Agent4-ChangelogManager",
+    "action": "added",
+    "file": "BUG_REPORT.md",
+    "description": "BUG-047 (סוג ברכה לא מיושם) ו-BUG-048 (דקדוק עברי שגוי): תועדו שני באגים חדשים; שניהם פתוחים ומתוכננים לספרינט 11"
   }
 ]
