@@ -27,6 +27,7 @@ const CATEGORIES = [
   { id: 'sprint7', emoji: '🎮', name: 'Sprint 7 — Demo Mode (BL-036) + i18n BirthdayCenterScreen + מחרוזות נגישות' },
   { id: 'sprint8', emoji: '🔧', name: 'Sprint 8 — Stability · Accessibility · RTL/Hebrew Correctness (FINDING 28D, 29A/B/C)' },
   { id: 'sprint9', emoji: '💳', name: 'Sprint 9 — Holiday Reminders (BL-059) + PayMe Payment UI (BL-032)' },
+  { id: 'sprint10', emoji: '🤖', name: 'Sprint 10 — AI Suggestions MVP (BL-033) + Secular/National Dates (BL-060)' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -158,6 +159,14 @@ const TESTS = [
   { id: 'T98', cat: 'sprint9', name: 'BL-032: PaymeScreen — plan picker, form, CTA, error handling, already-premium state' },
   { id: 'T99', cat: 'sprint9', name: 'BL-032: UpgradeScreen → /payment; SettingsScreen → Holiday Reminders entry' },
   { id: 'T100', cat: 'sprint9', name: 'Sprint 9 QA: build נקי + lint נקי; שני מסכים נטענים כ-lazy chunks' },
+
+  // 🤖 Sprint 10
+  { id: 'T101', cat: 'sprint10', name: 'BL-033: aiSuggestionsService — 3 options per tone×holiday×lang (casual/professional/vip, EN/HE/AR)' },
+  { id: 'T102', cat: 'sprint10', name: 'BL-033: AI Suggestions button in GreetingEditorScreen — premium gate (PRO badge → /upgrade for free users)' },
+  { id: 'T103', cat: 'sprint10', name: 'BL-033: selecting a suggestion populates message field; panel closes; Use this button per option' },
+  { id: 'T104', cat: 'sprint10', name: 'BL-033: premium user sees purple AI button; generates 3 distinct options with 400ms delay' },
+  { id: 'T105', cat: 'sprint10', name: 'BL-060: 5 secular/national dates added — Holocaust Intl (Jan 27), Yom HaShoah, Yom HaZikaron, US Memorial Day, US Independence Day' },
+  { id: 'T106', cat: 'sprint10', name: 'BL-060: all new dates under religion: Secular; greetings EN+HE; sensitivity notes on memorial days; build+lint pass' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

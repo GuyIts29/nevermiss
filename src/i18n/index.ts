@@ -208,6 +208,13 @@ export const translations = {
     greeting_greeting: 'Greeting',
     greeting_live_preview: 'Live Preview',
     greeting_signature_append: 'Will append: "– {sig}"',
+    ai_suggestions_btn: '✨ AI Suggestions',
+    ai_suggestions_title: 'AI Suggestions',
+    ai_suggestions_subtitle: 'Pick the greeting that fits best',
+    ai_suggestions_generating: 'Generating options…',
+    ai_suggestions_use: 'Use this',
+    ai_suggestions_option: 'Option {n}',
+    ai_suggestions_premium_desc: 'Get 3 personalized greeting options based on your tone and occasion',
 
     // ─── Groups ───────────────────────────────────────────────────────────
     groups_title: 'Holiday Groups',
@@ -916,6 +923,13 @@ export const translations = {
     greeting_greeting: 'ברכה',
     greeting_live_preview: 'תצוגה מקדימה',
     greeting_signature_append: 'יצורף: "– {sig}"',
+    ai_suggestions_btn: '✨ הצעות AI',
+    ai_suggestions_title: 'הצעות AI',
+    ai_suggestions_subtitle: 'בחר את הברכה שהכי מתאימה לך',
+    ai_suggestions_generating: 'מייצר אפשרויות...',
+    ai_suggestions_use: 'השתמש בזו',
+    ai_suggestions_option: 'אפשרות {n}',
+    ai_suggestions_premium_desc: 'קבל 3 אפשרויות ברכה מותאמות לפי הסגנון והאירוע שלך',
 
     // ─── Groups ───────────────────────────────────────────────────────────
     groups_title: 'קבוצות חגים',

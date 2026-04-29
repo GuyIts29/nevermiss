@@ -398,5 +398,29 @@
   "T100": {
     "status": "✅",
     "notes": "Sprint 9 QA: build נקי + lint נקי; HolidayRemindersScreen ו-PaymeScreen נטענים כ-lazy chunks נפרדים"
+  },
+  "T101": {
+    "status": "✅",
+    "notes": "BL-033: aiSuggestionsService.ts — getAISuggestions מחזיר 3 אפשרויות שונות לפי tone×holiday×lang; casual/professional/vip; EN/HE/AR"
+  },
+  "T102": {
+    "status": "✅",
+    "notes": "BL-033: כפתור AI Suggestions ב-GreetingEditorScreen — premium gate (PRO badge → /upgrade); premium users ← 400ms delay → 3 options panel"
+  },
+  "T103": {
+    "status": "✅",
+    "notes": "BL-033: בחירת suggestion ממלאת את message field ומסתירה את הפאנל; כפתור Use this לכל אפשרות"
+  },
+  "T104": {
+    "status": "✅",
+    "notes": "BL-033: HA לא premium — כפתור ממוסגר עם PRO badge; לחיצה → /upgrade; premium — כפתור סגול פעיל"
+  },
+  "T105": {
+    "status": "✅",
+    "notes": "BL-060: 5 תאריכים חילוניים/לאומיים נוספו להוליידייס: Holocaust Remembrance Intl (Jan 27), Yom HaShoah (27 Nisan), Yom HaZikaron (4 Iyar), US Memorial Day (May 25), US Independence Day (Jul 4)"
+  },
+  "T106": {
+    "status": "✅",
+    "notes": "BL-060: כל התאריכים החדשים עם religion: Secular; ברכות EN+HE; הערות רגישות לתאריכי אבל; build+lint נקי"
   }
 }

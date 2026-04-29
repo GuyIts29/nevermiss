@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Wand2, Copy, Check, RefreshCw, Save, ChevronDown, Pen, Send } from 'lucide-react'
+import { useSearchParams, useNavigate } from 'react-router-dom'
+import { Wand2, Copy, Check, RefreshCw, Save, ChevronDown, Pen, Send, Sparkles, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/Textarea'
 import { MediaAttachmentPicker } from '@/components/MediaAttachmentPicker'
 import { ChannelPicker } from '@/components/ChannelPicker'
 import { generateGreeting } from '@/services/greetingService'
+import { getAISuggestions } from '@/services/aiSuggestionsService'
 import { copyToClipboard, CHANNEL_ICONS } from '@/services/communicationService'
 import { getHolidayById } from '@/data/holidays'
 import { generateId, getLastUsedChannel } from '@/services/storageService'
@@ -91,6 +92,7 @@ function CharCount({ count, max = 500 }: { count: number; max?: number }) {
 
 export function GreetingEditorScreen() {
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const { contacts, holidays, saveDraft, isPremium } = useApp()
   const t = useT()
   const { theme } = useTheme()
@@ -113,6 +115,9 @@ export function GreetingEditorScreen() {
   const [saved, setSaved] = useState(false)
   const [celebrating, setCelebrating] = useState(false)
   const [showChannelPicker, setShowChannelPicker] = useState(false)
+  const [showAISuggestions, setShowAISuggestions] = useState(false)
+  const [aiSuggestions, setAiSuggestions] = useState<string[]>([])
+  const [aiGenerating, setAiGenerating] = useState(false)
 
   const selectedContact = contacts.find(c => c.id === selectedContactId)
   const selectedHoliday = getHolidayById(selectedHolidayId)
@@ -131,6 +136,30 @@ export function GreetingEditorScreen() {
     })
     setMessage(text)
     setMediaAttachment(null)
+    setSaved(false)
+    setCopied(false)
+  }
+
+  const handleGetSuggestions = () => {
+    if (!selectedContact) return
+    setAiGenerating(true)
+    setShowAISuggestions(false)
+    setTimeout(() => {
+      const suggestions = getAISuggestions({
+        contactName: selectedContact.name,
+        holiday: selectedHoliday,
+        tone,
+        language,
+      })
+      setAiSuggestions(suggestions)
+      setAiGenerating(false)
+      setShowAISuggestions(true)
+    }, 400)
+  }
+
+  const handleUseSuggestion = (text: string) => {
+    setMessage(text)
+    setShowAISuggestions(false)
     setSaved(false)
     setCopied(false)
   }
@@ -323,6 +352,63 @@ export function GreetingEditorScreen() {
         >
           {t('greeting_generateBtn')}
         </Button>
+
+        {/* AI Suggestions button */}
+        {!isPremium ? (
+          <button
+            onClick={() => navigate('/upgrade')}
+            className="w-full h-11 rounded-[var(--border-radius)] flex items-center justify-center gap-2 text-sm font-semibold border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"
+          >
+            <Sparkles size={14} className="text-amber-400" aria-hidden="true" />
+            {t('ai_suggestions_btn')}
+            <span
+              className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white ml-0.5"
+              style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)' }}
+            >
+              <Crown size={8} className="inline mr-0.5" aria-hidden="true" />PRO
+            </span>
+          </button>
+        ) : (
+          <button
+            onClick={handleGetSuggestions}
+            disabled={!selectedContactId || aiGenerating}
+            className="w-full h-11 rounded-[var(--border-radius)] flex items-center justify-center gap-2 text-sm font-semibold border-2 disabled:opacity-50 transition-all hover:opacity-90"
+            style={{ borderColor: '#8B5CF6', background: 'linear-gradient(135deg, #8B5CF620, #6366F110)', color: '#7C3AED' }}
+          >
+            <Sparkles size={14} aria-hidden="true" />
+            {aiGenerating ? t('ai_suggestions_generating') : t('ai_suggestions_btn')}
+          </button>
+        )}
+
+        {/* AI Suggestions panel */}
+        {showAISuggestions && aiSuggestions.length > 0 && (
+          <div className="rounded-[var(--border-radius-lg)] overflow-hidden animate-slide-up border-2" style={{ borderColor: '#8B5CF640' }}>
+            <div className="px-4 py-2.5 flex items-center gap-2" style={{ background: 'linear-gradient(135deg, #8B5CF618, #6366F108)' }}>
+              <Sparkles size={13} style={{ color: '#8B5CF6' }} aria-hidden="true" />
+              <p className="text-xs font-bold" style={{ color: '#7C3AED' }}>{t('ai_suggestions_title')}</p>
+              <p className="text-xs text-[var(--color-text-muted)] ml-1">{t('ai_suggestions_subtitle')}</p>
+            </div>
+            <div className="divide-y divide-[var(--color-border)] bg-[var(--color-surface)]">
+              {aiSuggestions.map((suggestion, i) => (
+                <div key={i} className="p-3 space-y-2">
+                  <p className="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-wide">
+                    {t('ai_suggestions_option', { n: String(i + 1) })}
+                  </p>
+                  <p className="text-sm text-[var(--color-text-primary)] whitespace-pre-wrap leading-relaxed">
+                    {suggestion}
+                  </p>
+                  <button
+                    onClick={() => handleUseSuggestion(suggestion)}
+                    className="text-xs font-bold px-3 py-1.5 rounded-lg text-white transition-opacity hover:opacity-90"
+                    style={{ background: 'linear-gradient(135deg, #8B5CF6, #6366F1)' }}
+                  >
+                    {t('ai_suggestions_use')}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Message editor */}
         {message && (
