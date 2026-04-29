@@ -107,10 +107,10 @@ export function ContactFormScreen() {
   }
 
   const findDuplicate = (): Contact | null => {
-    if (!isNew) return null
     const nameNorm = (form.name ?? '').trim().toLowerCase()
     const phoneNorm = (form.phone ?? '').replace(/\D/g, '')
     return contacts.find(c => {
+      if (!isNew && c.id === existing?.id) return false
       const sameName = c.name.trim().toLowerCase() === nameNorm
       const samePhone = phoneNorm.length >= 7 && c.phone.replace(/\D/g, '') === phoneNorm
       return sameName || samePhone
@@ -163,13 +163,11 @@ export function ContactFormScreen() {
 
   const handleSave = async () => {
     if (!validate()) return
-    if (isNew) {
-      const dup = findDuplicate()
-      if (dup) {
-        setDuplicateContact(dup)
-        setShowDuplicateWarning(true)
-        return
-      }
+    const dup = findDuplicate()
+    if (dup) {
+      setDuplicateContact(dup)
+      setShowDuplicateWarning(true)
+      return
     }
     await doSave()
   }

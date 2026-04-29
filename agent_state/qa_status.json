@@ -294,5 +294,29 @@
   "T74": {
     "status": "✅",
     "notes": "BL-051 Sprint 5: downloadCSVTemplate() — CSV Blob עם BOM + עמודות עבריות + שורת דוגמה; כפתור בשלב upload"
+  },
+  "T75": {
+    "status": "✅",
+    "notes": "FINDING 86 Sprint 6: SUGGESTED_BASES חולץ ל-src/data/groupSuggestions.ts; GroupsScreen מייבא ממנו"
+  },
+  "T76": {
+    "status": "✅",
+    "notes": "FINDING 75/87 Sprint 6: applyPurpose() מנקה ה-holidays מהקטגוריה הישנה לפני הוספת החדשים — אין הצטברות של holidays לא רלוונטיים"
+  },
+  "T77": {
+    "status": "✅",
+    "notes": "FINDING 31 Sprint 6: MediaAttachmentPicker — הוסרו המילים \" 1:00\" המיותרות; ממשק ההקלטה מציג רק t(media_record_limit)"
+  },
+  "T78": {
+    "status": "✅",
+    "notes": "FINDING 49 Sprint 6: כפתור Send to Group מנווט ל-/greeting עם contactId + holidayId של איש הקשר הראשון בקבוצה"
+  },
+  "T79": {
+    "status": "✅",
+    "notes": "FINDING 76/81 Sprint 6: findDuplicate() בודקת גם עת עריכה; self-exclusion לפי contact.id; handleSave ללא גייט isNew"
+  },
+  "T80": {
+    "status": "✅",
+    "notes": "FINDING 84/85 Sprint 6: כרטיס שיוך קבוצה מוסתר כשאין קשרים מיובאים; כפתור שיוך עם try/catch + הודעת שגיאה בעברית"
   }
 }

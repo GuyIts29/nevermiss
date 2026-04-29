@@ -293,7 +293,7 @@ export function MediaAttachmentPicker({ value, onChange, isPremium }: MediaAttac
                   {formatTime(elapsed)}
                 </span>
                 <span className="text-xs text-[var(--color-text-muted)]">
-                  {t('media_record_limit')} 1:00
+                  {t('media_record_limit')}
                 </span>
                 <button
                   onClick={handleStopRecording}

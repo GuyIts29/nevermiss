@@ -663,5 +663,54 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "BL-050/051: נוספו 10 מפתחות EN+HE: import_addToGroup/Hint/selectGroup/assignGroup/groupAssigned/noGroups/downloadTemplate/templateHint"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/data/groupSuggestions.ts",
+    "description": "FINDING 86: חולץ SUGGESTED_BASES לקובץ נתונים עצמאי src/data/groupSuggestions.ts; GroupsScreen.tsx מייבא ממנו"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "FINDING 75/87: applyPurpose() מסיר עכשיו את ה-holidays המוצעים על-ידי הקטגוריה הישנה לפני הוספת החדשים; FINDING 86: SUGGESTED_BASES מיובא מ-groupSuggestions.ts"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/components/MediaAttachmentPicker.tsx",
+    "description": "FINDING 31: הוסרו המילים \" 1:00\" המיותרות שצורפו לאחר media_record_limit; המפתח כבר מכיל \"מקסימום 60 שניות\""
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "FINDING 49: כפתור \"שלח לקבוצה\" מנווט עכשיו ל-/greeting?contactId=&holidayId= (איש הקשר הראשון בקבוצה + חג); במקום ל-/contacts גנרי"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "FINDING 76/81: findDuplicate() בודקת גם עת עריכת קשר קיים (לא רק חדש); מוסיפה self-exclusion לפי contact ID; handleSave מפעיל בדיקה גם בעריכה"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "FINDING 84: כפתור שיוך לקבוצה עטוף ב-try/catch + הודעת שגיאה בעברית; FINDING 85: כרטיס שיוך קבוצה מוסתר כאשר importedIds.length === 0"
+  },
+  {
+    "timestamp": "2026-04-29T12:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוסף מפתח import_groupAssignError בעברית ובאנגלית — הודעת שגיאה לשיוך קבוצה שנכשל"
   }
 ]

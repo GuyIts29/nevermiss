@@ -29,6 +29,19 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 ---
 
+## Sprint 6 — ✅ COMPLETE
+
+| Task ID | Task | Priority | Status | Sprint | Type | Files Changed | Description |
+|---------|------|----------|--------|--------|------|---------------|-------------|
+| BL-053 | FINDING 86: Extract SUGGESTED_BASES to groupSuggestions.ts | 🟢 Low | ✅ Done | Sprint 6 | Tech Debt | src/data/groupSuggestions.ts, GroupsScreen.tsx | New shared data file; GroupsScreen imports SUGGESTED_BASES from it |
+| BL-054 | FINDING 75/87: applyPurpose prunes old-purpose suggestions | 🟡 Medium | ✅ Done | Sprint 6 | Bug | GroupsScreen.tsx | Purpose change now removes previous purpose's suggestions before adding new ones |
+| BL-055 | FINDING 31: Remove redundant "1:00" from recording UI | 🟢 Low | ✅ Done | Sprint 6 | UX | MediaAttachmentPicker.tsx | media_record_limit key already says "Max 60 seconds"; removed duplicate hardcoded suffix |
+| BL-056 | FINDING 49: "Send to group" navigates to greeting editor | 🟡 Medium | ✅ Done | Sprint 6 | UX | DashboardScreen.tsx | CTA now opens /greeting?contactId=&holidayId= for first group contact instead of generic /contacts |
+| BL-057 | FINDING 76/81: findDuplicate covers edits + self-exclusion | 🟡 Medium | ✅ Done | Sprint 6 | Bug | ContactFormScreen.tsx | Duplicate check runs on save for both new and edited contacts; self-excluded by contact.id |
+| BL-058 | FINDING 84/85: Group assign robustness in ImportContactsScreen | 🟡 Medium | ✅ Done | Sprint 6 | Bug | ImportContactsScreen.tsx, i18n/index.ts | Card hidden when 0 contacts imported; try/catch + Hebrew error toast on assign failure |
+
+---
+
 ## Sprint 3/4 — In Progress
 
 | Task ID | Task | Priority | Status | Sprint | Type | Files Changed | Description |

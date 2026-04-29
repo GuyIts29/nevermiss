@@ -13,20 +13,10 @@ import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
 import type { Group, GroupPurpose } from '@/types'
 import { APP_CONFIG } from '@/config/appConfig'
+import { SUGGESTED_BASES } from '@/data/groupSuggestions'
 
 const GROUP_COLORS = ['#2563EB','#16A34A','#EA580C','#7C3AED','#E11D48','#0F766E','#D97706','#6366F1']
 const GROUP_EMOJIS = ['👥','🎉','🏢','🤝','🌍','⭐','💼','🎂']
-
-// Base holiday IDs (without year suffix) suggested per group purpose
-const SUGGESTED_BASES: Record<GroupPurpose, string[]> = {
-  family:    ['rosh-hashana','yom-kippur','sukkot','hanukkah','passover','shavuot','new-year'],
-  friends:   ['rosh-hashana','hanukkah','passover','new-year','israel-independence-day'],
-  work:      ['rosh-hashana','passover','israel-independence-day','labor-day','new-year'],
-  clients:   ['rosh-hashana','passover','new-year','eid-al-fitr','christmas'],
-  hr:        ['rosh-hashana','yom-kippur','sukkot','hanukkah','passover','shavuot','israel-independence-day','labor-day','international-womens-day','new-year'],
-  community: ['rosh-hashana','passover','israel-independence-day','labor-day','new-year','eid-al-fitr'],
-  custom:    [],
-}
 
 export function GroupsScreen() {
   const navigate = useNavigate()
@@ -50,11 +40,15 @@ export function GroupsScreen() {
   }
 
   const applyPurpose = (purpose: GroupPurpose | undefined) => {
-    setForm(f => ({ ...f, purpose }))
-    if (purpose) {
-      const suggested = getSuggestedIds(purpose)
-      setSelectedHolidayIds(prev => [...new Set([...prev, ...suggested])])
-    }
+    setForm(f => {
+      const oldSuggested = f.purpose ? getSuggestedIds(f.purpose) : []
+      const newSuggested = purpose ? getSuggestedIds(purpose) : []
+      setSelectedHolidayIds(prev => {
+        const withoutOld = prev.filter(id => !oldSuggested.includes(id))
+        return [...new Set([...withoutOld, ...newSuggested])]
+      })
+      return { ...f, purpose }
+    })
   }
 
   const atLimit = !canAddGroup

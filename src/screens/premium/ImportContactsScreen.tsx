@@ -116,6 +116,7 @@ export function ImportContactsScreen() {
   const [importedIds, setImportedIds] = useState<string[]>([])
   const [selectedGroupId, setSelectedGroupId] = useState<string>('')
   const [groupAssigned, setGroupAssigned] = useState<string | null>(null)
+  const [groupAssignError, setGroupAssignError] = useState<string | null>(null)
 
   const handleFile = async (f: File) => {
     setFile(f)
@@ -458,50 +459,62 @@ export function ImportContactsScreen() {
               </Card>
             )}
 
-            {/* Group assignment */}
-            <Card>
-              <div className="flex items-center gap-2 mb-3">
-                <FolderOpen size={16} style={{ color: 'var(--color-primary)' }} />
-                <p className="text-sm font-bold text-[var(--color-text-primary)]">{t('import_addToGroup')}</p>
-              </div>
-              <p className="text-xs text-[var(--color-text-muted)] mb-3">{t('import_addToGroupHint')}</p>
+            {/* Group assignment — only shown when at least 1 contact was imported */}
+            {importedIds.length > 0 && (
+              <Card>
+                <div className="flex items-center gap-2 mb-3">
+                  <FolderOpen size={16} style={{ color: 'var(--color-primary)' }} />
+                  <p className="text-sm font-bold text-[var(--color-text-primary)]">{t('import_addToGroup')}</p>
+                </div>
+                <p className="text-xs text-[var(--color-text-muted)] mb-3">{t('import_addToGroupHint')}</p>
 
-              {groups.length === 0 ? (
-                <p className="text-xs text-[var(--color-text-muted)] italic">{t('import_noGroups')}</p>
-              ) : groupAssigned ? (
-                <div className="flex items-center gap-2 p-2.5 rounded-lg" style={{ background: '#D1FAE5', border: '1px solid #6EE7B7' }}>
-                  <CheckCircle size={14} className="text-green-600 shrink-0" />
-                  <p className="text-xs font-semibold text-green-700">{t('import_groupAssigned', { name: groupAssigned })}</p>
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <select
-                    value={selectedGroupId}
-                    onChange={e => setSelectedGroupId(e.target.value)}
-                    className="form-input text-sm flex-1"
-                  >
-                    <option value="">{t('import_selectGroup')}</option>
-                    {groups.map(g => (
-                      <option key={g.id} value={g.id}>{g.emoji} {g.name}</option>
-                    ))}
-                  </select>
-                  <button
-                    disabled={!selectedGroupId}
-                    onClick={() => {
-                      const group = groups.find(g => g.id === selectedGroupId)
-                      if (!group) return
-                      const merged = [...new Set([...group.contactIds, ...importedIds])]
-                      updateGroup({ ...group, contactIds: merged, updatedAt: new Date().toISOString() })
-                      setGroupAssigned(group.name)
-                    }}
-                    className="px-3 py-2 rounded-[var(--border-radius)] text-sm font-bold text-white disabled:opacity-40 hover:opacity-90 active:scale-95 transition-all shrink-0"
-                    style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))' }}
-                  >
-                    {t('import_assignGroup')}
-                  </button>
-                </div>
-              )}
-            </Card>
+                {groups.length === 0 ? (
+                  <p className="text-xs text-[var(--color-text-muted)] italic">{t('import_noGroups')}</p>
+                ) : groupAssigned ? (
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg" style={{ background: '#D1FAE5', border: '1px solid #6EE7B7' }}>
+                    <CheckCircle size={14} className="text-green-600 shrink-0" />
+                    <p className="text-xs font-semibold text-green-700">{t('import_groupAssigned', { name: groupAssigned })}</p>
+                  </div>
+                ) : (
+                  <>
+                    {groupAssignError && (
+                      <p className="text-xs text-red-500 mb-2">{groupAssignError}</p>
+                    )}
+                    <div className="flex gap-2">
+                      <select
+                        value={selectedGroupId}
+                        onChange={e => setSelectedGroupId(e.target.value)}
+                        className="form-input text-sm flex-1"
+                      >
+                        <option value="">{t('import_selectGroup')}</option>
+                        {groups.map(g => (
+                          <option key={g.id} value={g.id}>{g.emoji} {g.name}</option>
+                        ))}
+                      </select>
+                      <button
+                        disabled={!selectedGroupId}
+                        onClick={() => {
+                          const group = groups.find(g => g.id === selectedGroupId)
+                          if (!group) return
+                          try {
+                            const merged = [...new Set([...group.contactIds, ...importedIds])]
+                            updateGroup({ ...group, contactIds: merged, updatedAt: new Date().toISOString() })
+                            setGroupAssigned(group.name)
+                            setGroupAssignError(null)
+                          } catch {
+                            setGroupAssignError(t('import_groupAssignError'))
+                          }
+                        }}
+                        className="px-3 py-2 rounded-[var(--border-radius)] text-sm font-bold text-white disabled:opacity-40 hover:opacity-90 active:scale-95 transition-all shrink-0"
+                        style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))' }}
+                      >
+                        {t('import_assignGroup')}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </Card>
+            )}
 
             <button
               onClick={() => navigate('/contacts')}

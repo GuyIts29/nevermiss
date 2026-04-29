@@ -23,6 +23,7 @@ const CATEGORIES = [
   { id: 'integr',  emoji: '🔗', name: 'אינטגרציות' },
   { id: 'sprint4', emoji: '🚀', name: 'Sprint 4 — ייצוא / גיבוי / נגישות / ספרינט' },
   { id: 'sprint5', emoji: '🗂️', name: 'Sprint 5 — ייבוא / קבוצות / ניווט' },
+  { id: 'sprint6', emoji: '🔧', name: 'Sprint 6 — תיקוני איכות / Findings 31/49/75/76/84/85/86' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -120,6 +121,14 @@ const TESTS = [
   { id: 'T72', cat: 'sprint5', name: 'BL-052: purpose selector בקבוצה + הצעות חגים אוטומטיות' },
   { id: 'T73', cat: 'sprint5', name: 'BL-050: שיוך אנשי קשר מיובאים לקבוצה בשלב done' },
   { id: 'T74', cat: 'sprint5', name: 'BL-051: הורדת תבנית CSV עם כותרות עבריות' },
+
+  // 🔧 Sprint 6
+  { id: 'T75', cat: 'sprint6', name: 'FINDING 86: SUGGESTED_BASES חולץ ל-src/data/groupSuggestions.ts' },
+  { id: 'T76', cat: 'sprint6', name: 'FINDING 75/87: applyPurpose מנקה holidays של קטגוריה קודמת' },
+  { id: 'T77', cat: 'sprint6', name: 'FINDING 31: MediaAttachmentPicker — "1:00" מיותר הוסר' },
+  { id: 'T78', cat: 'sprint6', name: 'FINDING 49: Send to Group מנווט ל-/greeting עם contactId+holidayId' },
+  { id: 'T79', cat: 'sprint6', name: 'FINDING 76/81: findDuplicate בודקת עריכה + self-exclusion' },
+  { id: 'T80', cat: 'sprint6', name: 'FINDING 84/85: group assign try/catch + hidden when 0 imported' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

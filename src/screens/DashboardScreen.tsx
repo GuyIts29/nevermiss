@@ -227,7 +227,11 @@ export function DashboardScreen() {
                   </p>
                 </div>
                 <button
-                  onClick={() => navigate('/contacts')}
+                  onClick={() => {
+                    const first = groupContacts[0]
+                    if (first) navigate(`/greeting?contactId=${first.id}&holidayId=${holiday.id}`)
+                    else navigate('/contacts')
+                  }}
                   className="text-xs font-semibold px-2.5 py-1.5 rounded-lg shrink-0 text-white"
                   style={{ background: holiday.color }}
                 >
