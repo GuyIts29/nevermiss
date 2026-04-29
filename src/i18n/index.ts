@@ -152,6 +152,8 @@ export const translations = {
     contactForm_duplicateBody: 'A contact named "{name}" already exists with a similar name or phone number. Save anyway?',
     contactForm_duplicateSaveAnyway: 'Save Anyway',
     contactForm_celebrationType: 'Celebration Type',
+    contactForm_avatarColor: 'Avatar Color',
+    contactForm_autoGradient: 'Auto gradient',
 
     // ─── Contact Detail ───────────────────────────────────────────────────
     contactDetail_score: 'Relationship Score',
@@ -815,6 +817,8 @@ export const translations = {
     contactForm_duplicateBody: 'איש קשר בשם "{name}" כבר קיים עם שם או מספר טלפון דומה. לשמור בכל זאת?',
     contactForm_duplicateSaveAnyway: 'שמור בכל זאת',
     contactForm_celebrationType: 'סוג חגיגה',
+    contactForm_avatarColor: 'צבע אווטאר',
+    contactForm_autoGradient: 'גרדיאנט אוטומטי',
 
     // ─── Contact Detail ───────────────────────────────────────────────────
     contactDetail_score: 'ציון הקשר',
@@ -1337,4 +1341,9 @@ export function t(lang: Lang, key: TranslationKey, vars?: Record<string, string 
     })
   }
   return text
+}
+
+const RTL_LANG_CODES = new Set(['he', 'ar', 'fa', 'ur', 'yi', 'dv'])
+export function dir(langCode: string): 'rtl' | 'ltr' {
+  return RTL_LANG_CODES.has(langCode.toLowerCase().split('-')[0]) ? 'rtl' : 'ltr'
 }

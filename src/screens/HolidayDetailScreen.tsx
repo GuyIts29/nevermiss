@@ -4,6 +4,7 @@ import { MessageCircle, Users, Copy, Check, BookOpen, Lightbulb, AlertTriangle, 
 import { useState } from 'react'
 import { getHolidayById } from '@/data/holidays'
 import type { TranslationKey } from '@/i18n'
+import { dir } from '@/i18n'
 import { PageHeader } from '@/components/Navigation'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
@@ -132,16 +133,16 @@ export function HolidayDetailScreen() {
           <p className="text-xs text-[var(--color-text-muted)] mb-3">{holiday.greetingGuidance}</p>
           <div className="space-y-2">
             {holiday.greetings.hebrew?.map((g, i) => (
-              <GreetingRow key={`he-${i}`} text={g} lang={t('holiday_Hebrew')} accentColor={holiday.color} onCopy={() => handleCopy(g, i)} copied={copiedIdx === i} />
+              <GreetingRow key={`he-${i}`} text={g} lang={t('holiday_Hebrew')} langCode="he" accentColor={holiday.color} onCopy={() => handleCopy(g, i)} copied={copiedIdx === i} />
             ))}
             {holiday.greetings.arabic?.map((g, i) => (
-              <GreetingRow key={`ar-${i}`} text={g} lang={t('holiday_Arabic')} accentColor={holiday.color} onCopy={() => handleCopy(g, 100 + i)} copied={copiedIdx === 100 + i} />
+              <GreetingRow key={`ar-${i}`} text={g} lang={t('holiday_Arabic')} langCode="ar" accentColor={holiday.color} onCopy={() => handleCopy(g, 100 + i)} copied={copiedIdx === 100 + i} />
             ))}
             {holiday.greetings.english.map((g, i) => (
-              <GreetingRow key={`en-${i}`} text={g} lang={t('holiday_English')} accentColor={holiday.color} onCopy={() => handleCopy(g, 200 + i)} copied={copiedIdx === 200 + i} />
+              <GreetingRow key={`en-${i}`} text={g} lang={t('holiday_English')} langCode="en" accentColor={holiday.color} onCopy={() => handleCopy(g, 200 + i)} copied={copiedIdx === 200 + i} />
             ))}
             {holiday.greetings.transliteration?.map((g, i) => (
-              <GreetingRow key={`tr-${i}`} text={g} lang={t('holiday_Pronunciation')} accentColor={holiday.color} onCopy={() => handleCopy(g, 300 + i)} copied={copiedIdx === 300 + i} italic />
+              <GreetingRow key={`tr-${i}`} text={g} lang={t('holiday_Pronunciation')} langCode="en" accentColor={holiday.color} onCopy={() => handleCopy(g, 300 + i)} copied={copiedIdx === 300 + i} italic />
             ))}
           </div>
         </div>
@@ -273,10 +274,11 @@ export function HolidayDetailScreen() {
 }
 
 function GreetingRow({
-  text, lang, accentColor, onCopy, copied, italic,
+  text, lang, langCode, accentColor, onCopy, copied, italic,
 }: {
   text: string
   lang: string
+  langCode: string
   accentColor: string
   onCopy: () => void
   copied: boolean
@@ -297,7 +299,7 @@ function GreetingRow({
         </span>
         <p
           className={`text-sm text-[var(--color-text-primary)] leading-relaxed ${italic ? 'italic' : ''}`}
-          dir={lang === 'Hebrew' || lang === 'עברית' || lang === 'Arabic' || lang === 'ערבית' ? 'rtl' : 'ltr'}
+          dir={dir(langCode)}
         >
           {text}
         </p>

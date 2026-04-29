@@ -222,7 +222,7 @@ export function ContactFormScreen() {
           {/* Picker */}
           <div className="flex-1">
             <p className="text-xs font-bold text-[var(--color-text-muted)] uppercase tracking-wide mb-2">
-              Avatar Color
+              {t('contactForm_avatarColor')}
             </p>
             <div className="flex flex-wrap gap-2">
               {/* Auto-gradient option */}
@@ -235,7 +235,7 @@ export function ContactFormScreen() {
                   outlineOffset: '2px',
                   boxShadow: useGradientAvatar ? '0 0 0 4px var(--color-accent)' : 'none',
                 }}
-                title="Auto gradient"
+                aria-label={t('contactForm_autoGradient')}
               >
                 ✦
               </button>

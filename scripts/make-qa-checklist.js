@@ -25,6 +25,7 @@ const CATEGORIES = [
   { id: 'sprint5', emoji: '🗂️', name: 'Sprint 5 — ייבוא / קבוצות / ניווט' },
   { id: 'sprint6', emoji: '🔧', name: 'Sprint 6 — תיקוני איכות / Findings 31/49/75/76/84/85/86' },
   { id: 'sprint7', emoji: '🎮', name: 'Sprint 7 — Demo Mode (BL-036) + i18n BirthdayCenterScreen + מחרוזות נגישות' },
+  { id: 'sprint8', emoji: '🔧', name: 'Sprint 8 — Stability · Accessibility · RTL/Hebrew Correctness (FINDING 28D, 29A/B/C)' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -140,6 +141,13 @@ const TESTS = [
   { id: 'T86', cat: 'sprint7', name: 'i18n: contacts_addContact / calendar_prevMonth+nextMonth / groups_searchHolidays / dashboard_isTomorrow+prepareGreetings / greeting_copy' },
   { id: 'T87', cat: 'sprint7', name: 'i18n: מפתחות demo_banner/loadData/clear/clearConfirm/cleared ב-EN+HE' },
   { id: 'T88', cat: 'sprint7', name: 'QA end-to-end: Onboarding → Try Demo → DemoBanner → Settings exit; RTL; בידוד נתונים' },
+
+  // 🔧 Sprint 8
+  { id: 'T89', cat: 'sprint8', name: 'FINDING 28D: dir(langCode) ב-i18n; GreetingRow dir attribute מחושב לפי langCode' },
+  { id: 'T90', cat: 'sprint8', name: 'FINDING 29A: תווית Avatar Color מוחלפת ב-t(contactForm_avatarColor) — EN/HE' },
+  { id: 'T91', cat: 'sprint8', name: 'FINDING 29B: aria-label על כפתור Auto gradient — WCAG 4.1.2 תוקן' },
+  { id: 'T92', cat: 'sprint8', name: 'FINDING 29C: PremiumFeaturePrompt feature — t(premium_feat_birthday_fields) כבר קיים' },
+  { id: 'T93', cat: 'sprint8', name: 'Sprint 8 QA: build נקי + lint נקי אחרי כל תיקוני Sprint 8' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

@@ -803,5 +803,40 @@
     "action": "modified",
     "file": "src/screens/HolidayDetailScreen.tsx",
     "description": "Sprint 7 i18n: aria-label 'Copy' הוחלף ב-t('greeting_copy'); נוסף useT() ל-GreetingRow sub-component"
+  },
+  {
+    "timestamp": "2026-04-29T15:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 8 FINDING 28D: נוספה פונקציית dir(langCode) — מחזירה 'rtl'|'ltr' לפי קוד שפה (RTL_LANG_CODES: he/ar/fa/ur/yi/dv)"
+  },
+  {
+    "timestamp": "2026-04-29T15:01:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 8 FINDING 29A+29B: נוספו מפתחות contactForm_avatarColor (EN: Avatar Color / HE: צבע אווטאר) ו-contactForm_autoGradient (EN: Auto gradient / HE: גרדיאנט אוטומטי)"
+  },
+  {
+    "timestamp": "2026-04-29T15:02:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "FINDING 28D תוקן: GreetingRow הוסף prop langCode; dir attribute מחושב עם dir(langCode) במקום השוואת מחרוזת מוקשת; 4 call sites עודכנו עם he/ar/en"
+  },
+  {
+    "timestamp": "2026-04-29T15:03:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "FINDING 29A תוקן: תווית 'Avatar Color' הוחלפה ב-t('contactForm_avatarColor') — עברית: צבע אווטאר"
+  },
+  {
+    "timestamp": "2026-04-29T15:04:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "FINDING 29B תוקן: title='Auto gradient' הוחלף ב-aria-label={t('contactForm_autoGradient')} — מתקן הפרת WCAG 4.1.2 על כפתור icon-only"
   }
 ]

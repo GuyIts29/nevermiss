@@ -71,6 +71,19 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 ---
 
+## Sprint 8 — ✅ COMPLETE
+
+**Focus: Stability · Accessibility · RTL/Hebrew Correctness**
+
+| Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description |
+|---------|------|----------|--------|--------|------|-------------|-------------|
+| F28D | FINDING 28D: GreetingRow RTL dir detection | 🔴 High | ✅ Done | Sprint 8 | Bug | Agent 1 | `dir()` function added to `src/i18n/index.ts` (RTL_LANG_CODES Set: he/ar/fa/ur/yi/dv). `GreetingRow` gains `langCode` prop; `dir` attribute uses `dir(langCode)` instead of fragile string comparison. 4 call sites pass `'he'`/`'ar'`/`'en'` literals. |
+| F29A | FINDING 29A: ContactFormScreen Avatar Color label | 🟡 Medium | ✅ Done | Sprint 8 | Bug | Agent 1 | Added `contactForm_avatarColor` key (EN: 'Avatar Color' / HE: 'צבע אווטאר') to i18n. Replaced hardcoded `"Avatar Color"` with `{t('contactForm_avatarColor')}`. |
+| F29B | FINDING 29B: ContactFormScreen Auto gradient aria-label | 🔴 High | ✅ Done | Sprint 8 | Bug | Agent 1 | Added `contactForm_autoGradient` key (EN: 'Auto gradient' / HE: 'גרדיאנט אוטומטי') to i18n. Replaced `title="Auto gradient"` with `aria-label={t('contactForm_autoGradient')}` — fixes WCAG 4.1.2. |
+| F29C | FINDING 29C: PremiumFeaturePrompt feature prop | 🟡 Medium | ✅ Done | Sprint 8 | Bug | Agent 1 | Already fixed: `feature={t('premium_feat_birthday_fields')}` confirmed in code. No change required. |
+
+---
+
 ## Sprint 4+ — Future
 
 | Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description | Definition of Done |
@@ -83,8 +96,8 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 | BL-034 | Backup / restore JSON | 🟢 Low | ✅ Done | Sprint 4 | Feature | Agent 1 | Full app data export to JSON; restore from file; useful before cloud sync | Export/import cycle preserves all contacts, groups, drafts |
 | BL-035 | Duplicate contact detection | 🟢 Low | ✅ Done | Sprint 4 | Feature | Agent 1 | On manual add: detect duplicates by name + phone similarity; Modal offers Save Anyway or Cancel | Detected on new contact; HE UI for decision |
 | BL-031 | Supabase v2 integration | 🟡 Medium | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Replace localStorage with Supabase cloud sync; stub already prepared in `src/integrations/supabase/client.ts` | Auth + CRUD working; data migration from localStorage; offline fallback |
-| BL-032 | PayMe payment integration | 🟡 Medium | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Real payment flow via PayMe; stub at `src/integrations/payment/payme.ts` | Payment page renders; checkout flow in Hebrew; receipt/confirmation |
-| BL-033 | Claude AI greeting suggestions | 🟡 Medium | 📋 Backlog | Sprint 5 | Feature | Agent 1 | AI-personalized greeting via Claude API; stub at `src/integrations/ai/claudeClient.ts` | API call works; response integrated into GreetingEditorScreen; Premium gate |
+| BL-032 | PayMe payment integration | 🟡 Medium | 📋 Backlog | Sprint 9 | Feature | Agent 1 | Real payment flow via PayMe; stub at `src/integrations/payment/payme.ts` | Payment page renders; checkout flow in Hebrew; receipt/confirmation |
+| BL-033 | Claude AI greeting suggestions | 🟡 Medium | 📋 Backlog | Sprint 10 | Feature | Agent 1 | AI-personalized greeting via Claude API; stub at `src/integrations/ai/claudeClient.ts` | API call works; response integrated into GreetingEditorScreen; Premium gate |
 | BL-036 | Demo mode with sample data | 🟢 Low | ✅ Done | Sprint 7 | Feature | Agent 1 | 6 sample contacts + 2 groups in demoData.ts; storage routing via nm_demo_* keys; Try Demo button on Onboarding last slide; DemoBanner with Exit; Clear Demo in Settings; real data fully isolated | Sample data loads; DemoBanner shown; Exit clears demo data; real data untouched |
 | BL-037 | Contact relationship map | 🟢 Low | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Visual graph of relationships and shared holidays (nice-to-have for v2) | Graph renders; zoomable; RTL-aware layout |
 | BL-038 | Recurring greeting scheduler | 🟢 Low | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Schedule a reminder to re-send greeting for same holiday next year | Reminder set; notification fires next year; Hebrew UI |

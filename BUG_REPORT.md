@@ -276,3 +276,40 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Bug:** `sukkot-2025` entry existed; no `sukkot-2026` entry. Calendar showed no Sukkot for Sep/Oct 2026.
 - **Fixed by:** Agent 1 — 2026-04-28
 - **Fix:** Added `sukkot-2026` entry: date `2026-09-25`, endDate `2026-10-02` (15–22 Tishrei 5787 — covers Hoshana Rabbah and Shemini Atzeret/Simchat Torah).
+
+---
+
+### FINDING 28D — GreetingRow RTL dir detection used hardcoded string comparison
+- **Date:** 2026-04-29 | **Time:** 15:02 | **Status:** ✅ fixed
+- **File:** `src/screens/HolidayDetailScreen.tsx`
+- **Bug:** `dir` attribute on greeting text element was computed via `lang === 'Hebrew' || lang === 'עברית' || lang === 'Arabic' || lang === 'ערבית'`. Any translation label change would silently break RTL rendering.
+- **Found by:** Agent 3 — Code Review (Sprint 7)
+- **Fixed by:** Agent 1 — 2026-04-29 (Sprint 8)
+- **Fix:** Added `dir(langCode: string): 'rtl' | 'ltr'` function to `src/i18n/index.ts` using a stable `RTL_LANG_CODES` Set. Added `langCode` prop to `GreetingRow`; `dir` attribute now calls `dir(langCode)`. Call sites pass `'he'`, `'ar'`, `'en'` literals — immune to translation label changes.
+
+---
+
+### FINDING 29A — ContactFormScreen "Avatar Color" label hardcoded in English
+- **Date:** 2026-04-29 | **Time:** 15:03 | **Status:** ✅ fixed
+- **File:** `src/screens/ContactFormScreen.tsx`
+- **Bug:** Section label `"Avatar Color"` was a hardcoded English string not going through the i18n system.
+- **Found by:** Agent 3 — Code Review (Sprint 7/8)
+- **Fixed by:** Agent 1 — 2026-04-29 (Sprint 8)
+- **Fix:** Added `contactForm_avatarColor` key (EN: 'Avatar Color', HE: 'צבע אווטאר') to `src/i18n/index.ts`. Replaced hardcoded string with `{t('contactForm_avatarColor')}`.
+
+---
+
+### FINDING 29B — ContactFormScreen "Auto gradient" button missing aria-label (WCAG 4.1.2)
+- **Date:** 2026-04-29 | **Time:** 15:04 | **Status:** ✅ fixed
+- **File:** `src/screens/ContactFormScreen.tsx`
+- **Bug:** The Auto gradient color-picker button had `title="Auto gradient"` but no `aria-label`. Icon-only buttons without `aria-label` violate WCAG 4.1.2 (Name, Role, Value).
+- **Found by:** Agent 3 — Code Review (Sprint 7/8)
+- **Fixed by:** Agent 1 — 2026-04-29 (Sprint 8)
+- **Fix:** Added `contactForm_autoGradient` key (EN: 'Auto gradient', HE: 'גרדיאנט אוטומטי') to `src/i18n/index.ts`. Replaced `title` attribute with `aria-label={t('contactForm_autoGradient')}`.
+
+---
+
+### FINDING 29C — PremiumFeaturePrompt feature prop hardcoded EN (pre-verified)
+- **Date:** 2026-04-29 | **Time:** 15:05 | **Status:** ✅ already fixed
+- **File:** `src/screens/ContactFormScreen.tsx`
+- **Note:** Inspection of the current code confirmed `feature={t('premium_feat_birthday_fields')}` was already in place. No change required.

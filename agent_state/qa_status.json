@@ -350,5 +350,25 @@
   "T88": {
     "status": "☐",
     "notes": "Sprint 7 QA: בדיקת מצב הדגמה end-to-end — Onboarding → Try Demo → DemoBanner → Settings exit; RTL Hebrew; בידוד נתונים"
+  },
+  "T89": {
+    "status": "✅",
+    "notes": "Sprint 8 FINDING 28D: dir(langCode) נוסף ל-src/i18n/index.ts; GreetingRow משתמשת ב-langCode prop במקום השוואת מחרוזת; build+lint עבר"
+  },
+  "T90": {
+    "status": "✅",
+    "notes": "Sprint 8 FINDING 29A: תווית 'Avatar Color' מוחלפת ב-t('contactForm_avatarColor') — EN/HE תוקן"
+  },
+  "T91": {
+    "status": "✅",
+    "notes": "Sprint 8 FINDING 29B: כפתור 'Auto gradient' — title הוחלף ב-aria-label={t('contactForm_autoGradient')}; WCAG 4.1.2 מתוקן"
+  },
+  "T92": {
+    "status": "✅",
+    "notes": "Sprint 8 FINDING 29C: PremiumFeaturePrompt feature כבר שימשה ב-t('premium_feat_birthday_fields') — לא נדרש שינוי"
+  },
+  "T93": {
+    "status": "✅",
+    "notes": "Sprint 8 QA: build עבר ו-lint נקי אחרי כל תיקוני Sprint 8"
   }
 }
