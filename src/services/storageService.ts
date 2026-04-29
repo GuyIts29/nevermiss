@@ -3,6 +3,28 @@ import type { Contact, Group, GreetingDraft, AppSettings, PremiumState, ThemeId,
 
 const K = APP_CONFIG.storageKeys
 
+// ─── Demo Mode ────────────────────────────────────────────────────────────────
+
+const DEMO_MODE_KEY = 'nm_demo_mode'
+const DEMO_CONTACTS_KEY = 'nm_demo_contacts'
+const DEMO_GROUPS_KEY = 'nm_demo_groups'
+
+export function isDemoMode(): boolean {
+  return localStorage.getItem(DEMO_MODE_KEY) === 'true'
+}
+
+export function enableDemoMode(contacts: Contact[], groups: Group[]): void {
+  localStorage.setItem(DEMO_MODE_KEY, 'true')
+  localStorage.setItem(DEMO_CONTACTS_KEY, JSON.stringify(contacts))
+  localStorage.setItem(DEMO_GROUPS_KEY, JSON.stringify(groups))
+}
+
+export function clearDemoMode(): void {
+  localStorage.removeItem(DEMO_MODE_KEY)
+  localStorage.removeItem(DEMO_CONTACTS_KEY)
+  localStorage.removeItem(DEMO_GROUPS_KEY)
+}
+
 function get<T>(key: string): T | null {
   try {
     const raw = localStorage.getItem(key)
@@ -24,11 +46,11 @@ function remove(key: string): void {
 // ─── Contacts ────────────────────────────────────────────────────────────────
 
 export function getContacts(): Contact[] {
-  return get<Contact[]>(K.contacts) ?? []
+  return get<Contact[]>(isDemoMode() ? DEMO_CONTACTS_KEY : K.contacts) ?? []
 }
 
 export function saveContacts(contacts: Contact[]): void {
-  set(K.contacts, contacts)
+  set(isDemoMode() ? DEMO_CONTACTS_KEY : K.contacts, contacts)
 }
 
 export function addContact(contact: Contact): void {
@@ -53,11 +75,11 @@ export function getContactById(id: string): Contact | undefined {
 // ─── Groups ───────────────────────────────────────────────────────────────────
 
 export function getGroups(): Group[] {
-  return get<Group[]>(K.groups) ?? []
+  return get<Group[]>(isDemoMode() ? DEMO_GROUPS_KEY : K.groups) ?? []
 }
 
 export function saveGroups(groups: Group[]): void {
-  set(K.groups, groups)
+  set(isDemoMode() ? DEMO_GROUPS_KEY : K.groups, groups)
 }
 
 export function addGroup(group: Group): void {

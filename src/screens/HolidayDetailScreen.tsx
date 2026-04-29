@@ -282,6 +282,7 @@ function GreetingRow({
   copied: boolean
   italic?: boolean
 }) {
+  const t = useT()
   return (
     <div
       className="flex items-start gap-2 p-2.5 rounded-[var(--border-radius)]"
@@ -304,7 +305,7 @@ function GreetingRow({
       <button
         onClick={onCopy}
         className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface)] transition-colors shrink-0 mt-4"
-        aria-label="Copy"
+        aria-label={t('greeting_copy')}
       >
         {copied
           ? <Check size={14} className="text-green-500" />

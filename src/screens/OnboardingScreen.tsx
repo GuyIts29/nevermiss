@@ -4,6 +4,7 @@ import { ChevronRight, Heart, PartyPopper, Building2, Sparkles } from 'lucide-re
 import { markOnboardingDone } from '@/services/storageService'
 import { useTheme } from '@/context/ThemeContext'
 import { useT } from '@/context/LanguageContext'
+import { useApp } from '@/context/AppContext'
 import { APP_CONFIG } from '@/config/appConfig'
 
 const SLIDE_ICONS = [Heart, PartyPopper, Building2, Sparkles]
@@ -16,6 +17,7 @@ export function OnboardingScreen() {
   const navigate = useNavigate()
   const { theme } = useTheme()
   const t = useT()
+  const { enableDemo } = useApp()
   const isLast = slide === 3
 
   const SLIDE_KEYS = [
@@ -115,9 +117,21 @@ export function OnboardingScreen() {
         </button>
 
         {isLast && (
-          <p className="text-center text-xs text-[var(--color-text-muted)]">
-            {t('onboarding_privacy', { app: APP_CONFIG.appName, version: APP_CONFIG.appVersion })}
-          </p>
+          <>
+            <button
+              onClick={() => {
+                markOnboardingDone()
+                enableDemo()
+              }}
+              className="w-full h-11 text-sm font-semibold rounded-[var(--border-radius)] border-2 transition-all hover:opacity-80 active:scale-95"
+              style={{ borderColor: theme.primary, color: theme.primary }}
+            >
+              {t('demo_loadData')}
+            </button>
+            <p className="text-center text-xs text-[var(--color-text-muted)]">
+              {t('onboarding_privacy', { app: APP_CONFIG.appName, version: APP_CONFIG.appVersion })}
+            </p>
+          </>
         )}
       </div>
     </div>

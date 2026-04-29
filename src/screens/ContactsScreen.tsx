@@ -221,7 +221,7 @@ export function ContactsScreen() {
           onClick={() => navigate('/contacts/new')}
           className="fixed right-4 bottom-20 w-14 h-14 rounded-full shadow-xl flex items-center justify-center z-30 transition-transform hover:scale-105 active:scale-95"
           style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
-          aria-label="Add contact"
+          aria-label={t('contacts_addContact')}
         >
           <Plus size={24} className="text-white" />
         </button>

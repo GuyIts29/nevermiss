@@ -318,5 +318,37 @@
   "T80": {
     "status": "✅",
     "notes": "FINDING 84/85 Sprint 6: כרטיס שיוך קבוצה מוסתר כשאין קשרים מיובאים; כפתור שיוך עם try/catch + הודעת שגיאה בעברית"
+  },
+  "T81": {
+    "status": "✅",
+    "notes": "BL-036 Sprint 7: src/data/demoData.ts נוצר — 6 אנשי קשר דוגמה מגוונים + 2 קבוצות"
+  },
+  "T82": {
+    "status": "✅",
+    "notes": "BL-036 Sprint 7: isDemoMode()/enableDemoMode()/clearDemoMode() ב-storageService; getContacts/saveContacts/getGroups/saveGroups מנותבים לפי isDemoMode"
+  },
+  "T83": {
+    "status": "✅",
+    "notes": "BL-036 Sprint 7: כפתור 'נסה הדגמה' בשקף האחרון של Onboarding; DemoBanner בפסקה העליונה; כרטיס 'צא ממצב הדגמה' בהגדרות"
+  },
+  "T84": {
+    "status": "✅",
+    "notes": "BL-036 Sprint 7: נתוני משתמש אמיתיים לא נפגעים — מצב הדגמה משתמש ב-nm_demo_* keys בלבד; clearDemoMode() מוחק רק אותם"
+  },
+  "T85": {
+    "status": "✅",
+    "notes": "Sprint 7 i18n: 7 מחרוזות קשיחות ב-BirthdayCenterScreen הוחלפו ב-t() — hero title, subtitle, contactCount, noneTracked, todayBadge, itsTheirBirthday, day/days"
+  },
+  "T86": {
+    "status": "✅",
+    "notes": "Sprint 7 i18n: contacts_addContact (Dashboard FAB + EmptyState + ContactsScreen FAB), calendar_prevMonth/nextMonth, groups_searchHolidays, dashboard_isTomorrow, dashboard_prepareGreetings, greeting_copy (HolidayDetailScreen)"
+  },
+  "T87": {
+    "status": "✅",
+    "notes": "Sprint 7 i18n: מפתחות demo_banner/loadData/clear/clearConfirm/cleared EN+HE — 5 מפתחות חדשים"
+  },
+  "T88": {
+    "status": "☐",
+    "notes": "Sprint 7 QA: בדיקת מצב הדגמה end-to-end — Onboarding → Try Demo → DemoBanner → Settings exit; RTL Hebrew; בידוד נתונים"
   }
 }

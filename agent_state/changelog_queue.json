@@ -712,5 +712,96 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "נוסף מפתח import_groupAssignError בעברית ובאנגלית — הודעת שגיאה לשיוך קבוצה שנכשל"
+  },
+  {
+    "timestamp": "2026-04-29T14:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/data/demoData.ts",
+    "description": "BL-036 Sprint 7: נוצר קובץ נתוני הדגמה — 6 אנשי קשר דוגמה (Sarah Cohen, Ahmed Al-Rashid, David Levi, Maria García, Yosef Mizrahi, Nadia Khalil) + 2 קבוצות (Jewish Holidays, VIP Clients)"
+  },
+  {
+    "timestamp": "2026-04-29T14:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/services/storageService.ts",
+    "description": "BL-036 Sprint 7: נוספו פונקציות מצב הדגמה — isDemoMode(), enableDemoMode(), clearDemoMode(); getContacts/saveContacts/getGroups/saveGroups מנותבים לכתובות nm_demo_* כשמצב הדגמה פעיל; נתוני משתמש אמיתיים לא נפגעים"
+  },
+  {
+    "timestamp": "2026-04-29T14:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/context/AppContext.tsx",
+    "description": "BL-036 Sprint 7: נוספו isDemoMode, enableDemo, clearDemo לממשק וה-context value; enableDemo() מפעיל מצב הדגמה ומרענן; clearDemo() מוחק נתוני הדגמה ומרענן"
+  },
+  {
+    "timestamp": "2026-04-29T14:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/OnboardingScreen.tsx",
+    "description": "BL-036 Sprint 7: נוסף כפתור 'נסה הדגמה' בשקף האחרון של ה-Onboarding; לחיצה מפעילה enableDemo() ומנווטת לדשבורד עם נתוני דוגמה"
+  },
+  {
+    "timestamp": "2026-04-29T14:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "BL-036 Sprint 7: נוסף DemoBanner קבוע בראש המסך כשמצב הדגמה פעיל — באנר סגול עם כפתור יציאה; WithNav מוסיף padding-top כדי לפנות מקום לבאנר"
+  },
+  {
+    "timestamp": "2026-04-29T14:00:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BL-036 Sprint 7: נוסף כרטיס 'צא ממצב הדגמה' בהגדרות כשמצב הדגמה פעיל; כפתור מפעיל clearDemo()"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 7 i18n: נוספו 20 מפתחות EN+HE — 7 ל-BirthdayCenterScreen (birthday_heroSubtitle, contactCount, noneTracked, todayBadge, itsTheirBirthday, day, days), 4 מפתחות נגישות (contacts_addContact, calendar_prevMonth, calendar_nextMonth, groups_searchHolidays), 2 לדשבורד (dashboard_isTomorrow, dashboard_prepareGreetings), 5 למצב הדגמה (demo_banner, demo_loadData, demo_clear, demo_clearConfirm, demo_cleared)"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/premium/BirthdayCenterScreen.tsx",
+    "description": "Sprint 7 i18n: 7 מחרוזות אנגלית קשיחות הוחלפו ב-t() — birthday_title בהרו, birthday_heroSubtitle, birthday_contactCount, birthday_noneTracked, birthday_todayBadge, birthday_itsTheirBirthday, birthday_day/days במחשבון ספירת ימים"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "Sprint 7 i18n: 3 מחרוזות תורגמו — label כפתור Add Contact, טקסט '{name} is Tomorrow!', טקסט 'Prepare your greetings now', aria-label כפתור FAB"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/ContactsScreen.tsx",
+    "description": "Sprint 7 i18n: aria-label 'Add contact' הוחלף ב-t('contacts_addContact')"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "Sprint 7 i18n: aria-label 'Previous month' ו-'Next month' הוחלפו ב-t('calendar_prevMonth') ו-t('calendar_nextMonth')"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "Sprint 7 i18n: placeholder 'Search holidays...' הוחלף ב-t('groups_searchHolidays')"
+  },
+  {
+    "timestamp": "2026-04-29T14:10:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "Sprint 7 i18n: aria-label 'Copy' הוחלף ב-t('greeting_copy'); נוסף useT() ל-GreetingRow sub-component"
   }
 ]

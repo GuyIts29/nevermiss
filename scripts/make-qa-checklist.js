@@ -24,6 +24,7 @@ const CATEGORIES = [
   { id: 'sprint4', emoji: '🚀', name: 'Sprint 4 — ייצוא / גיבוי / נגישות / ספרינט' },
   { id: 'sprint5', emoji: '🗂️', name: 'Sprint 5 — ייבוא / קבוצות / ניווט' },
   { id: 'sprint6', emoji: '🔧', name: 'Sprint 6 — תיקוני איכות / Findings 31/49/75/76/84/85/86' },
+  { id: 'sprint7', emoji: '🎮', name: 'Sprint 7 — Demo Mode (BL-036) + i18n BirthdayCenterScreen + מחרוזות נגישות' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -129,6 +130,16 @@ const TESTS = [
   { id: 'T78', cat: 'sprint6', name: 'FINDING 49: Send to Group מנווט ל-/greeting עם contactId+holidayId' },
   { id: 'T79', cat: 'sprint6', name: 'FINDING 76/81: findDuplicate בודקת עריכה + self-exclusion' },
   { id: 'T80', cat: 'sprint6', name: 'FINDING 84/85: group assign try/catch + hidden when 0 imported' },
+
+  // 🎮 Sprint 7
+  { id: 'T81', cat: 'sprint7', name: 'BL-036: src/data/demoData.ts — 6 אנשי קשר + 2 קבוצות דוגמה' },
+  { id: 'T82', cat: 'sprint7', name: 'BL-036: isDemoMode/enableDemoMode/clearDemoMode — ניתוב ל-nm_demo_* keys' },
+  { id: 'T83', cat: 'sprint7', name: 'BL-036: כפתור Try Demo ב-Onboarding + DemoBanner + Exit בהגדרות' },
+  { id: 'T84', cat: 'sprint7', name: 'BL-036: נתוני משתמש אמיתיים לא נפגעים במצב הדגמה' },
+  { id: 'T85', cat: 'sprint7', name: 'i18n: 7 מחרוזות BirthdayCenterScreen ב-t() — hero, subtitle, count, noneTracked, badge, itsTheirBirthday, day/days' },
+  { id: 'T86', cat: 'sprint7', name: 'i18n: contacts_addContact / calendar_prevMonth+nextMonth / groups_searchHolidays / dashboard_isTomorrow+prepareGreetings / greeting_copy' },
+  { id: 'T87', cat: 'sprint7', name: 'i18n: מפתחות demo_banner/loadData/clear/clearConfirm/cleared ב-EN+HE' },
+  { id: 'T88', cat: 'sprint7', name: 'QA end-to-end: Onboarding → Try Demo → DemoBanner → Settings exit; RTL; בידוד נתונים' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

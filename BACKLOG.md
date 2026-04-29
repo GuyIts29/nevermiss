@@ -62,6 +62,15 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 
 ---
 
+## Sprint 7 — ✅ COMPLETE
+
+| Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description |
+|---------|------|----------|--------|--------|------|-------------|-------------|
+| BL-036 | Demo mode with sample data | 🟢 Low | ✅ Done | Sprint 7 | Feature | Agent 1 | `src/data/demoData.ts`: 6 sample contacts (Sarah Cohen/Ahmed Al-Rashid/David Levi/Maria García/Yosef Mizrahi/Nadia Khalil) + 2 groups (Jewish Holidays, VIP Clients). Storage routing: `isDemoMode()/enableDemoMode()/clearDemoMode()` in `storageService.ts`; getContacts/saveContacts/getGroups/saveGroups routed to `nm_demo_*` keys when active. AppContext: `isDemoMode`, `enableDemo`, `clearDemo` exposed. OnboardingScreen: "Try Demo" button on last slide. App.tsx: `DemoBanner` fixed at top (gradient purple) with Exit button. SettingsScreen: "Exit Demo Mode" card when isDemoMode. |
+| i18n-S7 | i18n: BirthdayCenterScreen + bonus fixes | 🔴 High | ✅ Done | Sprint 7 | Improvement | Agent 1 | 20 new keys EN+HE: `birthday_heroSubtitle/contactCount/noneTracked/todayBadge/itsTheirBirthday/day/days`, `contacts_addContact`, `calendar_prevMonth/nextMonth`, `groups_searchHolidays`, `dashboard_isTomorrow/prepareGreetings`, `demo_banner/loadData/clear/clearConfirm/cleared`. Fixed 7 strings in BirthdayCenterScreen + 6 across Dashboard/Contacts/Calendar/Groups/HolidayDetail. |
+
+---
+
 ## Sprint 4+ — Future
 
 | Task ID | Task | Priority | Status | Sprint | Type | Owner Agent | Description | Definition of Done |
@@ -76,7 +85,7 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 | BL-031 | Supabase v2 integration | 🟡 Medium | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Replace localStorage with Supabase cloud sync; stub already prepared in `src/integrations/supabase/client.ts` | Auth + CRUD working; data migration from localStorage; offline fallback |
 | BL-032 | PayMe payment integration | 🟡 Medium | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Real payment flow via PayMe; stub at `src/integrations/payment/payme.ts` | Payment page renders; checkout flow in Hebrew; receipt/confirmation |
 | BL-033 | Claude AI greeting suggestions | 🟡 Medium | 📋 Backlog | Sprint 5 | Feature | Agent 1 | AI-personalized greeting via Claude API; stub at `src/integrations/ai/claudeClient.ts` | API call works; response integrated into GreetingEditorScreen; Premium gate |
-| BL-036 | Demo mode with sample data | 🟢 Low | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Onboarding option to pre-fill with realistic sample contacts and holidays for first-time exploration | Sample data loads correctly; can be cleared; doesn't overwrite real data |
+| BL-036 | Demo mode with sample data | 🟢 Low | ✅ Done | Sprint 7 | Feature | Agent 1 | 6 sample contacts + 2 groups in demoData.ts; storage routing via nm_demo_* keys; Try Demo button on Onboarding last slide; DemoBanner with Exit; Clear Demo in Settings; real data fully isolated | Sample data loads; DemoBanner shown; Exit clears demo data; real data untouched |
 | BL-037 | Contact relationship map | 🟢 Low | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Visual graph of relationships and shared holidays (nice-to-have for v2) | Graph renders; zoomable; RTL-aware layout |
 | BL-038 | Recurring greeting scheduler | 🟢 Low | 📋 Backlog | Sprint 5 | Feature | Agent 1 | Schedule a reminder to re-send greeting for same holiday next year | Reminder set; notification fires next year; Hebrew UI |
 | BL-046 | Move Import Contacts entry point to Contacts tab | 🔴 High | 📋 Backlog | Sprint 5 | UX | Agent 1 | Import Contacts primary CTA should live in Contacts tab (not just Settings); current ImportContactsScreen already exists; add visible entry in ContactsScreen (e.g. empty-state CTA or header button) | Import entry visible in Contacts tab; existing premium gate preserved; no duplicate screens |

@@ -56,6 +56,8 @@ export const translations = {
 
     // ─── Calendar ─────────────────────────────────────────────────────────
     calendar_title: 'Holiday Calendar',
+    calendar_prevMonth: 'Previous month',
+    calendar_nextMonth: 'Next month',
     calendar_filterByReligion: 'Filter by religion',
     calendar_all: 'All',
     calendar_holidaysOn: 'Holidays on {date}',
@@ -96,6 +98,7 @@ export const translations = {
     contacts_limitReached: '⚠️ Contact limit reached. Upgrade to Premium for unlimited contacts.',
     contacts_freeSlots: '{n} free slot remaining',
     contacts_freeSlotsPlural: '{n} free slots remaining',
+    contacts_addContact: 'Add Contact',
     contacts_filter_all: 'All',
     contacts_filter_external: '🌐 External',
     contacts_filter_internal: '🏢 Internal',
@@ -227,6 +230,7 @@ export const translations = {
     groups_limitReached: '⚠️ Group limit reached. Upgrade for unlimited groups.',
     groups_freeSlots: '{n} free slot remaining',
     groups_freeSlotsPlural: '{n} free slots remaining',
+    groups_searchHolidays: 'Search holidays...',
 
     // ─── Settings ─────────────────────────────────────────────────────────
     settings_title: 'Settings',
@@ -350,6 +354,13 @@ export const translations = {
     birthday_turning: 'Turning {age}',
     birthday_in: 'In {n} day',
     birthday_inPlural: 'In {n} days',
+    birthday_heroSubtitle: 'Never miss a special day',
+    birthday_contactCount: '{n} contacts with birthdays',
+    birthday_noneTracked: 'No birthdays tracked yet',
+    birthday_todayBadge: 'Today! 🎉',
+    birthday_itsTheirBirthday: "🎂 It's their birthday!",
+    birthday_day: 'day',
+    birthday_days: 'days',
 
     // ─── Import ───────────────────────────────────────────────────────────
     import_title: 'Import Contacts',
@@ -504,6 +515,8 @@ export const translations = {
     dashboard_holiday_in_suffix: 'in {n} days',
     dashboard_pull_refresh: 'Pull to refresh',
     dashboard_release_refresh: 'Release to refresh',
+    dashboard_isTomorrow: '{name} is Tomorrow!',
+    dashboard_prepareGreetings: 'Prepare your greetings now',
 
     // ─── Upgrade (localized feature lists) ───────────────────────────────
     upgrade_free_1: 'Up to 20 contacts',
@@ -642,6 +655,13 @@ export const translations = {
     about_tech4_value: 'None',
     about_platform: 'Platform',
     about_platformValue: 'Web · Android · iOS (Capacitor)',
+
+    // ─── Demo mode ────────────────────────────────────────────────────────
+    demo_banner: '🎮 Demo Mode — Sample data only',
+    demo_loadData: 'Try Demo',
+    demo_clear: 'Exit Demo Mode',
+    demo_clearConfirm: 'This will remove all demo data. Your real data is untouched.',
+    demo_cleared: 'Demo data cleared',
   },
 
   he: {
@@ -699,6 +719,8 @@ export const translations = {
 
     // ─── Calendar ─────────────────────────────────────────────────────────
     calendar_title: 'לוח חגים',
+    calendar_prevMonth: 'חודש קודם',
+    calendar_nextMonth: 'חודש הבא',
     calendar_filterByReligion: 'סנן לפי דת',
     calendar_all: 'הכל',
     calendar_holidaysOn: 'חגים ב{date}',
@@ -739,6 +761,7 @@ export const translations = {
     contacts_limitReached: '⚠️ הגעת לגבול אנשי הקשר. שדרג לפרמיום לאנשי קשר ללא הגבלה.',
     contacts_freeSlots: 'נשאר מקום חינמי אחד',
     contacts_freeSlotsPlural: 'נשארו {n} מקומות חינמיים',
+    contacts_addContact: 'הוסף איש קשר',
     contacts_filter_all: 'הכל',
     contacts_filter_external: '🌐 חיצוני',
     contacts_filter_internal: '🏢 פנימי',
@@ -870,6 +893,7 @@ export const translations = {
     groups_limitReached: '⚠️ הגעת לגבול הקבוצות. שדרג לקבוצות ללא הגבלה.',
     groups_freeSlots: 'נשאר מקום חינמי אחד',
     groups_freeSlotsPlural: 'נשארו {n} מקומות חינמיים',
+    groups_searchHolidays: 'חפש חגים...',
 
     // ─── Settings ─────────────────────────────────────────────────────────
     settings_title: 'הגדרות',
@@ -993,6 +1017,13 @@ export const translations = {
     birthday_turning: 'חוגג/ת {age}',
     birthday_in: 'בעוד יום אחד',
     birthday_inPlural: 'בעוד {n} ימים',
+    birthday_heroSubtitle: 'לעולם אל תפספס יום מיוחד',
+    birthday_contactCount: '{n} אנשי קשר עם יום הולדת',
+    birthday_noneTracked: 'עדיין לא עוקבים אחרי ימי הולדת',
+    birthday_todayBadge: 'היום! 🎉',
+    birthday_itsTheirBirthday: '🎂 היום יום ההולדת שלהם!',
+    birthday_day: 'יום',
+    birthday_days: 'ימים',
 
     // ─── Import ───────────────────────────────────────────────────────────
     import_title: 'ייבוא אנשי קשר',
@@ -1145,6 +1176,8 @@ export const translations = {
     dashboard_holiday_in_suffix: 'בעוד {n} ימים',
     dashboard_pull_refresh: 'משוך לרענון',
     dashboard_release_refresh: 'שחרר לרענון',
+    dashboard_isTomorrow: '{name} מחר!',
+    dashboard_prepareGreetings: 'הכן את ברכותיך עכשיו',
 
     // ─── Upgrade (localized feature lists) ───────────────────────────────
     upgrade_free_1: 'עד 20 אנשי קשר',
@@ -1283,6 +1316,13 @@ export const translations = {
     about_tech4_value: 'אין',
     about_platform: 'פלטפורמה',
     about_platformValue: 'Web · Android · iOS (Capacitor)',
+
+    // ─── Demo mode ────────────────────────────────────────────────────────
+    demo_banner: '🎮 מצב הדגמה — נתוני דוגמה בלבד',
+    demo_loadData: 'נסה הדגמה',
+    demo_clear: 'צא ממצב הדגמה',
+    demo_clearConfirm: 'פעולה זו תמחק את נתוני ההדגמה. הנתונים האמיתיים שלך לא יפגעו.',
+    demo_cleared: 'נתוני ההדגמה נמחקו',
   },
 } as const
 

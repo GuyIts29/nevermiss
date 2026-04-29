@@ -321,7 +321,7 @@ export function DashboardScreen() {
             title={t('empty_startAdding')}
             description={t('empty_startAddingDesc')}
             action={{
-              label: 'Add Contact',
+              label: t('contacts_addContact'),
               icon: <Plus size={14} />,
               onClick: () => navigate('/contacts/new'),
             }}
@@ -380,9 +380,9 @@ export function DashboardScreen() {
             <span className="text-3xl">{tomorrowHoliday.emoji}</span>
             <div>
               <p className="font-bold text-sm text-[var(--color-text-primary)]">
-                {tomorrowHoliday.name} is Tomorrow!
+                {t('dashboard_isTomorrow', { name: tomorrowHoliday.name })}
               </p>
-              <p className="text-xs text-[var(--color-text-muted)]">Prepare your greetings now</p>
+              <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_prepareGreetings')}</p>
             </div>
           </div>
         )}
@@ -398,7 +398,7 @@ export function DashboardScreen() {
           background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`,
           boxShadow: `0 6px 20px ${theme.shadowColor ?? 'rgba(0,0,0,0.2)'}`,
         }}
-        aria-label="Add contact"
+        aria-label={t('contacts_addContact')}
       >
         <Plus size={24} className="text-white" />
       </button>

@@ -63,11 +63,11 @@ export function BirthdayCenterScreen() {
           <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none" />
           <div className="absolute -bottom-3 -left-3 w-14 h-14 rounded-full bg-white/10 pointer-events-none" />
           <div className="text-4xl animate-float inline-block mb-1">🎂</div>
-          <p className="text-white font-bold text-base">Birthday Center</p>
-          <p className="text-white/70 text-xs mt-0.5">Never miss a special day</p>
+          <p className="text-white font-bold text-base">{t('birthday_title')}</p>
+          <p className="text-white/70 text-xs mt-0.5">{t('birthday_heroSubtitle')}</p>
           {withBirthdays.length > 0 && (
             <div className="mt-2 inline-flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
-              <span className="text-white text-xs font-semibold">{withBirthdays.length} contacts with birthdays</span>
+              <span className="text-white text-xs font-semibold">{t('birthday_contactCount', { n: withBirthdays.length })}</span>
             </div>
           )}
         </div>
@@ -138,6 +138,10 @@ export function BirthdayCenterScreen() {
                 wishLabel={t('birthday_wish')}
                 turningLabel={t('birthday_turning', { age })}
                 inDaysLabel={days === 1 ? t('birthday_in', { n: days }) : t('birthday_inPlural', { n: days })}
+                todayBadgeLabel={t('birthday_todayBadge')}
+                itsTheirBirthdayLabel={t('birthday_itsTheirBirthday')}
+                dayLabel={t('birthday_day')}
+                daysLabel={t('birthday_days')}
               />
             ))}
           </div>
@@ -149,7 +153,7 @@ export function BirthdayCenterScreen() {
             style={{ background: 'linear-gradient(135deg, #FCE7F3, #F3E8FF)' }}
           >
             <p className="text-2xl mb-2">🎁</p>
-            <p className="text-sm font-semibold text-[var(--color-text-primary)]">No birthdays tracked yet</p>
+            <p className="text-sm font-semibold text-[var(--color-text-primary)]">{t('birthday_noneTracked')}</p>
             <p className="text-xs text-[var(--color-text-muted)] mt-1">{t('birthday_noDesc')}</p>
           </div>
         )}
@@ -161,6 +165,7 @@ export function BirthdayCenterScreen() {
 function BirthdayCard({
   contact, daysUntil, birthdayDate, onGreet,
   wishLabel, turningLabel, inDaysLabel, animClass,
+  todayBadgeLabel, itsTheirBirthdayLabel, dayLabel, daysLabel,
 }: {
   contact: Contact
   daysUntil: number
@@ -171,6 +176,10 @@ function BirthdayCard({
   turningLabel: string
   inDaysLabel: string
   animClass: string
+  todayBadgeLabel: string
+  itsTheirBirthdayLabel: string
+  dayLabel: string
+  daysLabel: string
 }) {
   const isToday = daysUntil === 0
 
@@ -194,13 +203,13 @@ function BirthdayCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <p className="font-bold text-base text-white">{contact.name}</p>
-              <Badge variant="danger" size="sm">Today! 🎉</Badge>
+              <Badge variant="danger" size="sm">{todayBadgeLabel}</Badge>
             </div>
             <p className="text-white/80 text-xs mt-0.5">
               {format(birthdayDate, 'MMMM d')} · {turningLabel}
             </p>
             <div className="mt-1 inline-flex items-center gap-1.5 bg-white/20 rounded-full px-2.5 py-0.5">
-              <span className="text-white text-xs font-semibold">🎂 It's their birthday!</span>
+              <span className="text-white text-xs font-semibold">{itsTheirBirthdayLabel}</span>
             </div>
           </div>
           <button
@@ -233,7 +242,7 @@ function BirthdayCard({
           {daysUntil}
         </span>
         <span className="text-[9px] font-bold text-[var(--color-text-muted)] uppercase tracking-wide">
-          {daysUntil === 1 ? 'day' : 'days'}
+          {daysUntil === 1 ? dayLabel : daysLabel}
         </span>
       </div>
 

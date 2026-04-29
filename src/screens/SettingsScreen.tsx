@@ -18,7 +18,7 @@ import { exportContactsToCSV } from '@/services/exportService'
 
 export function SettingsScreen() {
   const navigate = useNavigate()
-  const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings, contacts } = useApp()
+  const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings, contacts, isDemoMode, clearDemo } = useApp()
   const [exportDone, setExportDone] = useState(false)
   const [backupDone, setBackupDone] = useState(false)
   const [restoreStatus, setRestoreStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -351,6 +351,26 @@ export function SettingsScreen() {
                 }
               </button>
             </Card>
+          </section>
+        )}
+
+        {/* Demo mode exit */}
+        {isDemoMode && (
+          <section>
+            <div
+              className="rounded-[var(--border-radius-lg)] p-4 border border-purple-200"
+              style={{ backgroundColor: '#F5F3FF' }}
+            >
+              <p className="text-xs font-semibold text-purple-700 mb-2">{t('demo_banner')}</p>
+              <Button
+                variant="outline"
+                size="sm"
+                icon={<Trash2 size={13} />}
+                onClick={clearDemo}
+              >
+                {t('demo_clear')}
+              </Button>
+            </div>
           </section>
         )}
 

@@ -64,9 +64,31 @@ import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { fireReminders } from '@/services/notificationService'
 
-function WithNav({ children }: { children: ReactNode }) {
+function DemoBanner() {
+  const { isDemoMode, clearDemo } = useApp()
+  const t = useT()
+  if (!isDemoMode) return null
   return (
-    <div className="app-layout">
+    <div
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-white"
+      style={{ background: 'linear-gradient(90deg, #7C3AED, #DB2777)' }}
+    >
+      <span>{t('demo_banner')}</span>
+      <button
+        onClick={clearDemo}
+        className="ml-2 underline underline-offset-2 hover:opacity-80 active:opacity-60 transition-opacity"
+      >
+        {t('demo_clear')}
+      </button>
+    </div>
+  )
+}
+
+function WithNav({ children }: { children: ReactNode }) {
+  const { isDemoMode } = useApp()
+  return (
+    <div className="app-layout" style={isDemoMode ? { paddingTop: '32px' } : undefined}>
+      <DemoBanner />
       <main className="app-main">
         <Suspense fallback={<div className="screen-container" />}>
           {children}

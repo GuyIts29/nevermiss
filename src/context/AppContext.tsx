@@ -5,6 +5,7 @@ import { HOLIDAYS } from '@/data/holidays'
 import type { Holiday } from '@/types'
 import { buildDashboardData } from '@/core/relationshipEngine'
 import type { DashboardData } from '@/types'
+import { DEMO_CONTACTS, DEMO_GROUPS } from '@/data/demoData'
 
 const LIMITS = { free: { contacts: 20, groups: 2 } }
 
@@ -46,6 +47,11 @@ interface AppContextValue {
   // Dashboard
   dashboardData: DashboardData
   refreshDashboard: () => void
+
+  // Demo mode
+  isDemoMode: boolean
+  enableDemo: () => void
+  clearDemo: () => void
 }
 
 const AppContext = createContext<AppContextValue | null>(null)
@@ -53,6 +59,7 @@ const AppContext = createContext<AppContextValue | null>(null)
 export function AppProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<Contact[]>(() => storage.getContacts())
   const [groups, setGroups] = useState<Group[]>(() => storage.getGroups())
+  const [isDemo] = useState(() => storage.isDemoMode())
   const [drafts, setDrafts] = useState<GreetingDraft[]>(() => storage.getDrafts())
   const [settings, setSettings] = useState<AppSettings>(() => storage.getSettings())
   const [premium, setPremium] = useState<PremiumState>(() => storage.checkAndExpirePremium())
@@ -125,6 +132,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return result
   }, [])
 
+  const enableDemoFn = useCallback(() => {
+    storage.enableDemoMode(DEMO_CONTACTS, DEMO_GROUPS)
+    window.location.reload()
+  }, [])
+
+  const clearDemoFn = useCallback(() => {
+    storage.clearDemoMode()
+    window.location.reload()
+  }, [])
+
   const contextValue = useMemo<AppContextValue>(() => ({
     contacts, addContact, updateContact, deleteContact,
     groups, addGroup, updateGroup, deleteGroup,
@@ -136,6 +153,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     premiumExpiresAt: premium.expiresAt,
     holidays: HOLIDAYS,
     dashboardData, refreshDashboard,
+    isDemoMode: isDemo, enableDemo: enableDemoFn, clearDemo: clearDemoFn,
   }), [
     contacts, addContact, updateContact, deleteContact,
     groups, addGroup, updateGroup, deleteGroup,
@@ -145,6 +163,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     isPremium, canAddContact, canAddGroup,
     redeemCouponFn,
     dashboardData, refreshDashboard,
+    isDemo, enableDemoFn, clearDemoFn,
   ])
 
   return (

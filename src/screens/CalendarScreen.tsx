@@ -171,7 +171,7 @@ export function CalendarScreen() {
           <button
             onClick={() => { setCurrentMonth(subMonths(currentMonth, 1)); setSelectedDate(null) }}
             className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
-            aria-label="Previous month"
+            aria-label={t('calendar_prevMonth')}
           >
             <ChevronLeft size={18} className="text-[var(--color-text-secondary)]" />
           </button>
@@ -197,7 +197,7 @@ export function CalendarScreen() {
           <button
             onClick={() => { setCurrentMonth(addMonths(currentMonth, 1)); setSelectedDate(null) }}
             className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
-            aria-label="Next month"
+            aria-label={t('calendar_nextMonth')}
           >
             <ChevronRight size={18} className="text-[var(--color-text-secondary)]" />
           </button>

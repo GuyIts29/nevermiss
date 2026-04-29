@@ -353,7 +353,7 @@ export function GroupsScreen() {
                 <p className="text-xs text-[var(--color-text-muted)]">{t('group_holidays_hint')}</p>
                 <input
                   type="text"
-                  placeholder="Search holidays..."
+                  placeholder={t('groups_searchHolidays')}
                   value={holidaySearch}
                   onChange={e => setHolidaySearch(e.target.value)}
                   className="w-full px-3 py-1.5 text-sm rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)]"
