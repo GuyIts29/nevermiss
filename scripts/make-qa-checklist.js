@@ -29,6 +29,7 @@ const CATEGORIES = [
   { id: 'sprint9', emoji: '💳', name: 'Sprint 9 — Holiday Reminders (BL-059) + PayMe Payment UI (BL-032)' },
   { id: 'sprint10', emoji: '🤖', name: 'Sprint 10 — AI Suggestions MVP (BL-033) + Secular/National Dates (BL-060)' },
   { id: 'sprint11', emoji: '✉️', name: 'Sprint 11 — Quick Send (BL-064) + Auto-Regenerate on Tone (BL-063) + UpgradeScreen CTA Fix (BL-062)' },
+  { id: 'sprint12', emoji: '🪪', name: 'Sprint 12 — Personal User Layer (BL-067) + AI Personalization MVP (BL-065)' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -177,6 +178,15 @@ const TESTS = [
   { id: 'T111', cat: 'sprint11', name: 'BL-064: כפתור "שלח ברכה" על כרטיסי ימי הולדת + קבוצה; premium → Quick Send; free → /greeting' },
   { id: 'T112', cat: 'sprint11', name: 'BL-064: Quick Send overlay — 3 options AI; WhatsApp/Copy/Open Editor לכל option; backdrop סגירה; copied feedback 2s' },
   { id: 'T113', cat: 'sprint11', name: 'Sprint 11 QA: build נקי + lint נקי; BL-062, BL-063, BL-064 מאומתים' },
+
+  // 🪪 Sprint 12
+  { id: 'T114', cat: 'sprint12', name: 'BL-067: userProfileService — getUserName/saveUserName/isProfileSetup; nm_user_name ב-localStorage' },
+  { id: 'T115', cat: 'sprint12', name: 'BL-067: UserSetupScreen — שאלת שם + CTA "יאללה נתחיל" + קישור דלג; מנווט ל-/dashboard' },
+  { id: 'T116', cat: 'sprint12', name: 'BL-067: App.tsx route /setup + redirect: onboarding→setup→dashboard לפי localStorage' },
+  { id: 'T117', cat: 'sprint12', name: 'BL-067: Dashboard hero — "היי {name}" כשיש שם; pending count; כפתור "שלח ברכה עכשיו"' },
+  { id: 'T118', cat: 'sprint12', name: 'BL-067 UX: pending greetings panel — כל item קליקבילי → Quick Send (BL-064)' },
+  { id: 'T119', cat: 'sprint12', name: 'BL-065 MVP: PROFESSIONAL_RELATIONSHIPS → resolveTone מחזיר professional מינימום; VIP נשמר' },
+  { id: 'T120', cat: 'sprint12', name: 'Sprint 12 QA: build נקי + lint נקי; BL-067 + BL-065 מאומתים' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

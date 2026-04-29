@@ -1,17 +1,25 @@
-import type { GreetingTone, Language, Holiday } from '@/types'
+import type { GreetingTone, Language, Holiday, RelationshipType } from '@/types'
 
 export interface AISuggestionsContext {
   contactName: string
   holiday?: Holiday
   tone: GreetingTone
   language: Language
+  relationshipType?: RelationshipType
 }
 
 type SuggestionLang = 'english' | 'hebrew' | 'arabic'
 type SuggestionTone = 'casual' | 'professional' | 'vip'
 
-function resolveTone(tone: GreetingTone): SuggestionTone {
+// BL-065: professional relationships always get at least professional register
+const PROFESSIONAL_RELATIONSHIPS: ReadonlySet<RelationshipType> = new Set([
+  'client', 'business_partner', 'manager', 'employee', 'mentor',
+])
+
+function resolveTone(tone: GreetingTone, relationship?: RelationshipType): SuggestionTone {
   if (tone === 'vip') return 'vip'
+  // BL-065: professional relationships always get at least professional register
+  if (relationship && PROFESSIONAL_RELATIONSHIPS.has(relationship)) return 'professional'
   if (tone === 'business' || tone === 'formal') return 'professional'
   return 'casual'
 }
@@ -139,7 +147,7 @@ const GENERIC_SUGGESTIONS: Record<SuggestionTone, Record<SuggestionLang, string[
 }
 
 export function getAISuggestions(ctx: AISuggestionsContext): string[] {
-  const tone = resolveTone(ctx.tone)
+  const tone = resolveTone(ctx.tone, ctx.relationshipType)
   const lang = resolveLang(ctx.language)
   const firstName = ctx.contactName.split(' ')[0]
   const holidayName = ctx.holiday?.name ?? ''

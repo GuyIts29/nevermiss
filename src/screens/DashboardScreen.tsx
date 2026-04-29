@@ -14,6 +14,7 @@ import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { APP_CONFIG } from '@/config/appConfig'
 import { getAISuggestions } from '@/services/aiSuggestionsService'
 import { openWhatsApp, copyToClipboard } from '@/services/communicationService'
+import { getUserName } from '@/services/userProfileService'
 import type { Contact, Holiday, GreetingTone } from '@/types'
 
 export function DashboardScreen() {
@@ -36,6 +37,9 @@ export function DashboardScreen() {
   const daysToNext = nextHoliday ? differenceInDays(new Date(nextHoliday.date), now) : null
 
   const hasTodayHighlights = (isPremium && dashboardData.todayBirthdays.length > 0) || !!todayHoliday
+
+  // BL-067: personalisation
+  const userName = getUserName()
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const touchStartY = useRef(0)
@@ -60,6 +64,7 @@ export function DashboardScreen() {
       holiday,
       tone: resolveTone(contact),
       language: contact.language,
+      relationshipType: contact.relationshipType,
     })
     setQuickSend({ contact, holiday, options })
     setCopiedIdx(null)
@@ -109,6 +114,29 @@ export function DashboardScreen() {
     return results.sort((a, b) => a.daysUntil - b.daysUntil)
   }, [isPremium, groups, contacts, holidays])
 
+  // BL-067: pending greetings — birthdays today + group holiday contacts within 3 days
+  const pendingItems = useMemo(() => {
+    const items: { contact: Contact; holiday?: Holiday }[] = []
+    if (isPremium) {
+      for (const c of dashboardData.todayBirthdays) {
+        items.push({ contact: c })
+      }
+    }
+    for (const { groupContacts, holiday, daysUntil } of groupHolidayAlerts) {
+      if (daysUntil <= 3 && groupContacts[0]) {
+        items.push({ contact: groupContacts[0], holiday })
+      }
+    }
+    return items
+  }, [isPremium, dashboardData.todayBirthdays, groupHolidayAlerts])
+
+  const handleSendNow = () => {
+    const first = pendingItems[0]
+    if (first) { openQuickSend(first.contact, first.holiday); return }
+    if (contacts.length === 0) { navigate('/contacts/new'); return }
+    navigate('/greeting')
+  }
+
   return (
     <div className="screen-container">
       <PageHeader
@@ -150,6 +178,35 @@ export function DashboardScreen() {
           </div>
         )}
 
+        {/* Pending Greetings context panel — BL-067 */}
+        {pendingItems.length > 0 && !hasTodayHighlights && (
+          <section className="animate-slide-up">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Send size={14} style={{ color: theme.primary }} aria-hidden="true" />
+              <h3 className="section-title">{t('dashboard_pending_greetings')}</h3>
+            </div>
+            <div className="space-y-2">
+              {pendingItems.map(({ contact, holiday }) => (
+                <button
+                  key={`pending-${contact.id}-${holiday?.id ?? 'bday'}`}
+                  type="button"
+                  onClick={() => openQuickSend(contact, holiday)}
+                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-left"
+                >
+                  <span className="text-xl shrink-0">{holiday ? holiday.emoji : '🎂'}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm text-[var(--color-text-primary)] truncate">{contact.name}</p>
+                    <p className="text-xs text-[var(--color-text-muted)]">
+                      {holiday ? holiday.name : t('dashboard_birthday_wish')}
+                    </p>
+                  </div>
+                  <Sparkles size={14} style={{ color: '#8B5CF6' }} aria-hidden="true" />
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Welcome hero banner */}
         <div
           className="relative rounded-[var(--border-radius-lg)] p-5 overflow-hidden animate-scale-in"
@@ -162,15 +219,19 @@ export function DashboardScreen() {
             style={{ background: 'rgba(255,255,255,0.4)' }} />
 
           <div className="relative z-10">
-            <p className="text-white/80 text-xs font-semibold mb-1">{greeting} 👋</p>
+            <p className="text-white/80 text-xs font-semibold mb-1">
+              {userName ? t('dashboard_hello', { name: userName }) : `${greeting} 👋`}
+            </p>
             <h2 className="text-white font-extrabold text-xl tracking-tight">
-              {contacts.length === 0
-                ? t('dashboard_letsStart')
-                : contacts.length === 1
-                  ? t('dashboard_youHave', { n: 1 })
-                  : t('dashboard_youHavePlural', { n: contacts.length })}
+              {pendingItems.length > 0
+                ? t(pendingItems.length === 1 ? 'dashboard_pending_singular' : 'dashboard_pending_plural', { n: pendingItems.length })
+                : contacts.length === 0
+                  ? t('dashboard_first_greeting')
+                  : contacts.length === 1
+                    ? t('dashboard_youHave', { n: 1 })
+                    : t('dashboard_youHavePlural', { n: contacts.length })}
             </h2>
-            {daysToNext != null && nextHoliday && (
+            {daysToNext != null && nextHoliday && pendingItems.length === 0 && (
               <div className="flex items-center gap-1.5 mt-2">
                 <span className="text-lg">{nextHoliday.emoji}</span>
                 <p className="text-white/85 text-sm font-medium">
@@ -183,6 +244,14 @@ export function DashboardScreen() {
                 </p>
               </div>
             )}
+            <button
+              onClick={handleSendNow}
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold px-4 py-2 rounded-xl border border-white/30 text-white/90 hover:bg-white/10 active:bg-white/20 transition-colors"
+              style={{ minHeight: '40px' }}
+            >
+              <Send size={13} aria-hidden="true" />
+              {t('dashboard_send_now')}
+            </button>
           </div>
         </div>
 

@@ -1013,5 +1013,61 @@
     "action": "added",
     "file": "src/screens/DashboardScreen.tsx",
     "description": "BL-064: Quick Send panel — כפתור 'שלח ברכה' על כרטיסי ימי הולדת וכרטיסי קבוצה; פאנל overlay תחתי עם 3 אפשרויות AI per contact; כפתורי WhatsApp/Copy/Open Editor לכל option; premium gate"
+  },
+  {
+    "timestamp": "2026-04-29T19:00:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/services/userProfileService.ts",
+    "description": "BL-067: שירות חדש — getUserName/saveUserName/isProfileSetup; מאחסן שם המשתמש ב-localStorage תחת nm_user_name"
+  },
+  {
+    "timestamp": "2026-04-29T19:01:00",
+    "agent": "Agent1-Developer",
+    "action": "added",
+    "file": "src/screens/UserSetupScreen.tsx",
+    "description": "BL-067: מסך הגדרת פרופיל ראשוני — שאלת שם, שמירה ב-localStorage, CTA 'יאללה נתחיל', קישור דלג; מנווט ל-/dashboard"
+  },
+  {
+    "timestamp": "2026-04-29T19:02:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "BL-067: נוסף route /setup + UserSetupScreen; redirect שורש עודכן: onboarding→setup→dashboard לפי isOnboardingDone + isProfileSetup"
+  },
+  {
+    "timestamp": "2026-04-29T19:03:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-067: נוספו 10 מפתחות EN+HE — setup_title/subtitle/placeholder/cta; dashboard_hello/send_now/pending_greetings/pending_singular/pending_plural/first_greeting"
+  },
+  {
+    "timestamp": "2026-04-29T19:04:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-067: hero banner — 'היי {name}' כשיש שם; pending greetings count בכותרת; כפתור 'שלח ברכה עכשיו'; פאנל 'ברכות ממתינות' עם items קליקביליים → Quick Send (BL-064); pendingItems useMemo"
+  },
+  {
+    "timestamp": "2026-04-29T19:05:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/services/aiSuggestionsService.ts",
+    "description": "BL-065 MVP: נוסף relationshipType ל-AISuggestionsContext; PROFESSIONAL_RELATIONSHIPS set (client/business_partner/manager/employee/mentor); resolveTone מחזיר professional מינימום לסוגי קשר מקצועיים; import RelationshipType מ-types"
+  },
+  {
+    "timestamp": "2026-04-29T19:06:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BL-065: נוסף relationshipType: selectedContact.relationshipType ל-getAISuggestions call"
+  },
+  {
+    "timestamp": "2026-04-29T19:07:00",
+    "agent": "Agent1-Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-065: נוסף relationshipType: contact.relationshipType ל-getAISuggestions call ב-openQuickSend"
   }
 ]

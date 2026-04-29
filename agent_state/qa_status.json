@@ -450,5 +450,33 @@
   "T113": {
     "status": "✅",
     "notes": "Sprint 11 QA: build נקי + lint נקי; BL-062+063+064 מיושמים ומאומתים"
+  },
+  "T114": {
+    "status": "✅",
+    "notes": "BL-067: userProfileService — getUserName/saveUserName/isProfileSetup; localStorage key nm_user_name"
+  },
+  "T115": {
+    "status": "✅",
+    "notes": "BL-067: UserSetupScreen — שאלת שם עם input, CTA 'יאללה נתחיל' + קישור דלג; מנווט ל-/dashboard אחרי שמירה"
+  },
+  "T116": {
+    "status": "✅",
+    "notes": "BL-067: App.tsx — route /setup נוסף; redirect: onboarding→setup→dashboard לפי מצב localStorage"
+  },
+  "T117": {
+    "status": "✅",
+    "notes": "BL-067: DashboardScreen hero — 'היי {name}' כשיש שם; pending count בכותרת; כפתור 'שלח ברכה עכשיו' → openQuickSend/navigate"
+  },
+  "T118": {
+    "status": "✅",
+    "notes": "BL-067 UX req: pending items קליקביליים → פותחים Quick Send (BL-064); מוצגים כשיש pending ו-hasTodayHighlights=false"
+  },
+  "T119": {
+    "status": "✅",
+    "notes": "BL-065 MVP: PROFESSIONAL_RELATIONSHIPS (client/business_partner/manager/employee/mentor) → resolveTone מחזיר professional מינימום; VIP נשמר; Dashboard + GreetingEditor"
+  },
+  "T120": {
+    "status": "✅",
+    "notes": "Sprint 12 QA: build נקי + lint נקי; BL-067 + BL-065 מיושמים ומאומתים"
   }
 }

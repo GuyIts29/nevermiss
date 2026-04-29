@@ -556,6 +556,18 @@ export const translations = {
     dashboard_quick_send_copied: 'Copied!',
     dashboard_quick_send_open_editor: 'Open Editor',
 
+    // ─── Personal user layer (BL-067) ────────────────────────────────────
+    setup_title: "What's your name?",
+    setup_subtitle: "I'll personalize your experience",
+    setup_placeholder: 'Your name',
+    setup_cta: "Let's go!",
+    dashboard_hello: 'Hey {name}! 👋',
+    dashboard_send_now: 'Send a greeting now',
+    dashboard_pending_greetings: 'Pending Greetings',
+    dashboard_pending_singular: 'You have {n} greeting to send today',
+    dashboard_pending_plural: 'You have {n} greetings to send today',
+    dashboard_first_greeting: "Let's send your first greeting",
+
     // ─── Upgrade (localized feature lists) ───────────────────────────────
     upgrade_free_1: 'Up to 20 contacts',
     upgrade_free_2: 'Up to 2 groups',
@@ -1275,6 +1287,18 @@ export const translations = {
     dashboard_quick_send_copy: 'העתק',
     dashboard_quick_send_copied: 'הועתק!',
     dashboard_quick_send_open_editor: 'פתח עורך',
+
+    // ─── Personal user layer (BL-067) ────────────────────────────────────
+    setup_title: 'מה שמך?',
+    setup_subtitle: 'נתאים עבורך חוויה אישית',
+    setup_placeholder: 'שמך',
+    setup_cta: 'יאללה, נתחיל!',
+    dashboard_hello: 'היי {name}! 👋',
+    dashboard_send_now: 'שלח ברכה עכשיו',
+    dashboard_pending_greetings: 'ברכות ממתינות',
+    dashboard_pending_singular: 'יש לך {n} ברכה לשלוח היום',
+    dashboard_pending_plural: 'יש לך {n} ברכות לשלוח היום',
+    dashboard_first_greeting: 'בוא נשלח את הברכה הראשונה שלך',
 
     // ─── Upgrade (localized feature lists) ───────────────────────────────
     upgrade_free_1: 'עד 20 אנשי קשר',

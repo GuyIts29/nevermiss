@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/context/ThemeContext'
 import { LanguageProvider } from '@/context/LanguageContext'
 import { BottomNav } from '@/components/Navigation'
 import { isOnboardingDone } from '@/services/storageService'
+import { isProfileSetup } from '@/services/userProfileService'
 import { trackEvent } from '@/services/analyticsService'
 import { Component, lazy, Suspense, useMemo, useEffect, type ErrorInfo, type ReactNode } from 'react'
 
@@ -41,6 +42,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
 // Eager screens — kept synchronous so the first frame always renders
 import { OnboardingScreen } from '@/screens/OnboardingScreen'
 import { DashboardScreen } from '@/screens/DashboardScreen'
+import { UserSetupScreen } from '@/screens/UserSetupScreen'
 
 // Lazy screens — split into separate chunks; loaded on first navigation
 const CalendarScreen = lazy(() => import('@/screens/CalendarScreen').then(m => ({ default: m.CalendarScreen })))
@@ -104,6 +106,7 @@ function WithNav({ children }: { children: ReactNode }) {
 function AppShell() {
   const { isPremium, contacts, holidays, settings } = useApp()
   const onboardingDone = useMemo(() => isOnboardingDone(), [])
+  const profileSetup = useMemo(() => isProfileSetup(), [])
   const t = useT()
 
   useEffect(() => {
@@ -118,6 +121,7 @@ function AppShell() {
   return (
     <Routes>
       <Route path="/onboarding" element={<OnboardingScreen />} />
+      <Route path="/setup" element={<UserSetupScreen />} />
       <Route path="/dashboard" element={<WithNav><DashboardScreen /></WithNav>} />
       <Route path="/calendar" element={<WithNav><CalendarScreen /></WithNav>} />
       <Route path="/calendar/:id" element={<WithNav><HolidayDetailScreen /></WithNav>} />
@@ -139,7 +143,9 @@ function AppShell() {
       <Route path="/birthdays/greeting/:id" element={<WithNav>{isPremium ? <BirthdayGreetingEditorScreen /> : <UpgradeScreen />}</WithNav>} />
       <Route path="/reminders" element={<WithNav><HolidayRemindersScreen /></WithNav>} />
       <Route path="/payment" element={<WithNav><PaymeScreen /></WithNav>} />
-      <Route path="/" element={<Navigate to={onboardingDone ? '/dashboard' : '/onboarding'} replace />} />
+      <Route path="/" element={
+        <Navigate to={!onboardingDone ? '/onboarding' : !profileSetup ? '/setup' : '/dashboard'} replace />
+      } />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   )

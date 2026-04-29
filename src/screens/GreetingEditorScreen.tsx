@@ -150,6 +150,7 @@ export function GreetingEditorScreen() {
         holiday: selectedHoliday,
         tone,
         language,
+        relationshipType: selectedContact.relationshipType,
       })
       setAiSuggestions(suggestions)
       setAiGenerating(false)
