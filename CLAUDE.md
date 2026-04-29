@@ -1,24 +1,73 @@
 # NeverMiss — Claude Code Instructions
 
-You are improving the NeverMiss app. Work using a coordinated multi-agent system.
+You are improving the NeverMiss app. Work using a 4-agent pipeline.
 
 ## Agents
 
-**Agent 1 — Developer:** Implements features. ONLY implements, does NOT review.
-**Agent 2 — Researcher:** Suggests max 3 improvements per iteration. Does NOT change code.
-**Agent 3 — Code Reviewer:** Validates every Agent 1 change. Does NOT implement.
-**Agent 4 — Changelog Manager:** Updates changelog.xlsx, BUG_REPORT.md, and NeverMiss_QA_Checklist.xlsx after every change.
-**Agent 5 — Bug Hunter:** Runs build+lint after every change. Fixes ONLY errors, not features.
-**QA Agent:** Validates completed features manually. Creates QA checklist, tests Hebrew RTL, mobile UX, edge cases, and premium/free gating. Does NOT change code. Reports bugs to Bug Hunter. Runs AFTER each Feature Agent completes and AFTER Agent 3 Code Reviewer.
-**Product/UX Agent:** Reviews user flows, onboarding, upgrade screen, and audience fit (HR managers + team event organizers). Suggests max 3 high-impact UX improvements per phase. Does NOT change code. Reports findings to Agent 1 via research_notes.md. Runs AFTER each phase is complete and BEFORE user confirmation step.
-**Foundation Agent:** Sets up types, storage, i18n keys, shared state — MUST complete before Feature Agents start.
-**Feature Agents:** Work in parallel but fully isolated. Do NOT modify shared core logic unless required. Do NOT conflict with each other.
+### Developer
+Implements all changes: features, foundational setup, i18n keys, type definitions, bug fixes.
+Works to full DoD — no partial implementations. Both locales (EN + HE) required on every change that touches strings.
+
+### Quality Gate
+Validates every Developer change. Runs after Developer, before Documentation.
+
+**Technical checks:**
+- Build must pass (`npm run build`)
+- Lint must pass (`npm run lint`)
+- No TypeScript errors
+- No regressions in existing features
+- i18n keys present in both EN and HE locales
+
+**Product checks:**
+- DoD fully met — no partial implementation
+- User can complete the action end-to-end
+- UX flow is clear and unbroken
+- Feature achieves its stated user goal (technically working is not enough)
+
+Quality Gate may fix mechanical errors (build, lint, types) directly.
+Quality Gate flags logic, architectural, and product issues to Developer for fix, then re-runs the full check.
+Partial approval is not permitted. Either all checks pass or the sprint is blocked.
+
+**Failure → sprint blocked. Developer fixes. Quality Gate re-runs.**
+
+### Documentation
+Runs after Quality Gate approves. Closes the sprint. All steps are required — none may be skipped.
+
+- Append entries to `agent_state/changelog_queue.json` (append-only — NEVER overwrite or delete entries)
+- Update `agent_state/qa_status.json` with new test statuses for the sprint
+- Update `scripts/make-qa-checklist.js` TESTS array to match new test IDs
+- Update `BUG_REPORT.md` immediately when a bug is found or fixed (real-time, not batched)
+- Run `npm run changelog` → regenerates `changelog.xlsx`
+- Run `npm run qa` → regenerates `NeverMiss_QA_Checklist.xlsx`
+
+**Sprint is NOT complete until all Documentation steps are done.**
+
+### Research & UX *(optional — post-sprint only)*
+Runs after a sprint is complete, before the next sprint plan. Never runs during implementation.
+Produces max 3 findings per sprint covering technical issues (memory leaks, logic gaps, architectural risks) and/or UX issues (user flows, audience fit, onboarding clarity).
+Writes to `agent_state/research_notes.md`. No code changes, ever.
+If more than 3 findings are submitted, only the top 3 by impact are kept.
+
+---
+
+## Execution Order (STRICT)
+
+```
+Developer → Quality Gate → Documentation
+```
+
+Research & UX runs only after Documentation closes the sprint — never during.
+
+After sprint complete:
+1. Research & UX produces findings (if applicable) → feeds next sprint plan
+2. Present full sprint summary
+3. Wait for user confirmation before starting next sprint
 
 ---
 
 ## Core Rules
 
-- Each agent operates ONLY within its role
+- Each agent operates ONLY within its defined role
 - All changes must be: incremental, isolated, reversible, build-safe
 - NEVER break the build
 - NEVER introduce partial features
@@ -30,51 +79,40 @@ You are improving the NeverMiss app. Work using a coordinated multi-agent system
 
 ## Anti-Chaos Rules (CRITICAL)
 
-- Maximum 3–5 iterations per execution
-- Run all 9 phases continuously within a single cycle. DO NOT stop for user confirmation between phases.
-- Do NOT cross phase scope or start new work outside the current phase.
-- Never start a new phase if: build fails, lint errors exist, previous phase incomplete
 - Prefer editing existing files over creating new ones
+- Do NOT cross sprint scope or start new work outside the approved plan
+- Never start a new sprint if: build fails, lint errors exist, previous sprint incomplete
 - Do NOT create parallel systems if one already exists
 
-### Quality Gate (required between every phase)
-After each phase, ALL of the following must pass before advancing:
-1. Build must pass (`npm run build`)
-2. Lint must pass (`npm run lint`)
-3. Agent 3 (Code Reviewer) must approve
-4. Agent 5 (Bug Hunter) must verify no issues
-5. No regressions allowed
-6. Agent 4 appends new entries to `agent_state/changelog_queue.json` (append-only — NEVER overwrite)
-7. Agent 4 updates `agent_state/qa_status.json` — mark ✅ for tests passed, ❌ for open bugs, ⚠️ for partial
-8. Agent 4 runs `npm run changelog` → updates `changelog.xlsx`
-9. Agent 4 runs `npm run qa` → regenerates `NeverMiss_QA_Checklist.xlsx`
+### Sprint Quality Gate (required before Documentation runs)
+ALL of the following must pass:
+1. Build passes (`npm run build`)
+2. Lint passes (`npm run lint`)
+3. No TypeScript errors
+4. No regressions in existing features
+5. i18n keys present in both EN and HE for every new string
+6. DoD fully met — no partial implementation
+7. User flow works end-to-end — user goal is achievable
 
 **NeverMiss_QA_Checklist.xlsx rules:**
-- If the file does not exist → run `npm run qa` to recreate it automatically (reads from `agent_state/qa_status.json`)
+- If the file does not exist → run `npm run qa` to recreate it automatically
 - ✅ = feature implemented and passing
 - ❌ = bug found and not yet fixed
 - ⚠️ = partial / needs attention
 - ☐ = not yet tested
-- Update `הערות` column with what was done, which iteration/bug number, and what remains
-- NEVER skip this step — QA checklist is a required Quality Gate artifact
+- Update `הערות` column with what was done, which sprint/bug number, and what remains
+- NEVER skip this step — QA checklist is a required Documentation artifact
 
 ### Auto-recovery protocol
-- If a check fails: Agent 5 and Agent 3 attempt to fix automatically first
+- If a Quality Gate check fails: Quality Gate attempts to fix mechanical errors (build/lint/types) directly
 - If fixed within 2 attempts → continue automatically
 - If NOT fixed after 2 attempts → STOP and wait for user confirmation
 
 ### Stop conditions (immediate halt)
 - Build fails
 - Lint fails
-- Reviewer flags a critical issue
-- Bug Hunter finds blocking issues
+- Quality Gate flags a critical issue (technical or product)
 - Unexpected file changes occur
-
-### After all 9 phases complete
-- Present a full sprint summary
-- Re-evaluate backlog with Agent 2 and Product/UX Agent
-- Wait for user confirmation before starting the next cycle
-- After user confirmation, start next cycle with updated backlog priorities
 
 ---
 
@@ -92,20 +130,7 @@ After each feature provide manual QA checklist:
 
 ---
 
-## Strict Execution Order (per iteration)
-
-1. Foundation Agent (if needed)
-2. Feature Agents (parallel & isolated)
-3. Agent 1 + Agent 2 + Agent 5 (parallel)
-4. Agent 3 — Code Reviewer
-5. QA Agent — validates features, tests RTL/mobile/edge cases
-6. Product/UX Agent — reviews user flows, reports to Agent 1
-7. Agent 4 — Changelog Manager
-8. After all 9 phases complete: present full sprint summary → wait for user confirmation before next cycle
-
----
-
-## Phase 1 — Critical Fixes (Bug Hunter priority)
+## Phase 1 — Critical Fixes
 
 - Replace key={index} with stable IDs
 - Add top-level ErrorBoundary in App.tsx
@@ -116,7 +141,7 @@ After each feature provide manual QA checklist:
 
 ---
 
-## Phase 2 — Premium Features (Feature Agents)
+## Phase 2 — Premium Features
 
 ### Greeting Media
 - Image upload (Camera + Gallery via Capacitor)
@@ -243,16 +268,16 @@ After each feature provide manual QA checklist:
 
 ---
 
-## Changelog Rules (Agent 4)
+## Changelog Rules (Documentation)
 
 ### changelog_queue.json — APPEND ONLY
 `agent_state/changelog_queue.json` is an **append-only log**. No entry may ever be removed or overwritten.
 
-Agent 4 appends **after every single change** — not just at the end of a phase. Every entry must include:
+Documentation appends **after every single change** — not just at the end of a sprint. Every entry must include:
 ```json
 {
   "timestamp": "YYYY-MM-DDTHH:MM:SS",
-  "agent": "Agent1-Developer",
+  "agent": "Developer | QualityGate | Documentation | ResearchUX",
   "action": "added | modified | deleted | fixed",
   "file": "relative/path/to/file",
   "description": "תיאור בעברית של מה שנעשה"
@@ -288,7 +313,6 @@ Run `npm run qa` to regenerate. Update `agent_state/qa_status.json` first with n
 - Premium features complete and usable
 - Notifications working
 - UX stable on mobile
-- No agent conflicts
 - changelog.xlsx, BUG_REPORT.md, and NeverMiss_QA_Checklist.xlsx always up to date
 - changelog_queue.json is append-only — never overwritten
 
@@ -296,7 +320,7 @@ Run `npm run qa` to regenerate. Update `agent_state/qa_status.json` first with n
 
 ## Output Format (Mandatory)
 
-After each iteration:
+After each sprint:
 - What was done
 - Files changed
 - What remains
@@ -312,9 +336,9 @@ Stack: React 19 + TypeScript + Vite 8 + Tailwind v4 (`@tailwindcss/vite` plugin,
 Build: `npm run build` (uses rolldown via Vite 8).
 Changelog: `node scripts/make-changelog.js` → writes `changelog.xlsx`.
 
-## Coordination Files (shared state, all in `agent_state/`)
+## Coordination Files (all in `agent_state/`)
 
-- `research_notes.md` — Agent 2 writes, Agent 1 reads
-- `review_notes.md` — Agent 3 writes, Agent 1 reads
-- `changelog_queue.json` — append-only JSON array; all agents write, Agent 4 processes + clears
-- `iteration_log.md` — one row per iteration: number, date, what each agent did
+- `research_notes.md` — Research & UX writes; Developer reads before sprint planning
+- `review_notes.md` — Quality Gate writes findings; Developer reads and fixes
+- `changelog_queue.json` — append-only JSON array; Documentation writes after every sprint
+- `iteration_log.md` — one row per sprint: number, date, what each agent did
