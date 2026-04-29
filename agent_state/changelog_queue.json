@@ -908,5 +908,26 @@
     "action": "modified",
     "file": "src/screens/UpgradeScreen.tsx",
     "description": "BL-032: נוסף כפתור 'שלם עם PayMe' (gradient amber) מעל קטע הקופון — מנווט ל-/payment; import CreditCard מ-lucide-react"
+  },
+  {
+    "timestamp": "2026-04-29T16:10:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/i18n/index.ts",
+    "description": "BUG-045/BL-062: נוסף מפתח upgrade_cta גנרי (EN: 'Upgrade Now' / HE: 'שדרג עכשיו') — ללא שם ספק; תוקן upgrade_unlockEverything בעברית מ-'פתח הכל' ל-'שדרג לפרמיום' (BUG-046)"
+  },
+  {
+    "timestamp": "2026-04-29T16:10:00",
+    "agent": "Agent1-Developer",
+    "action": "fixed",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "BUG-045/BL-062: הוחלף t('payme_goPayMe') ב-t('upgrade_cta') בכפתור ה-CTA הראשי — הטקסט עכשיו גנרי ללא שם ספק"
+  },
+  {
+    "timestamp": "2026-04-29T16:11:00",
+    "agent": "Agent4-ChangelogManager",
+    "action": "added",
+    "file": "BUG_REPORT.md",
+    "description": "BUG-045 ו-BUG-046: תועדו שני באגים בדף השדרוג — טקסט CTA ספציפי לספק ו-כותרת גיבור לא ברורה; שניהם סומנו כתוקנו"
   }
 ]

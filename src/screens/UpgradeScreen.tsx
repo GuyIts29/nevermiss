@@ -196,7 +196,7 @@ export function UpgradeScreen() {
                 }}
               >
                 <CreditCard size={18} />
-                {t('payme_goPayMe')}
+                {t('upgrade_cta')}
               </button>
 
               {/* Coupon Section */}

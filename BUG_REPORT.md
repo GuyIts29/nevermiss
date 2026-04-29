@@ -313,3 +313,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Date:** 2026-04-29 | **Time:** 15:05 | **Status:** ✅ already fixed
 - **File:** `src/screens/ContactFormScreen.tsx`
 - **Note:** Inspection of the current code confirmed `feature={t('premium_feat_birthday_fields')}` was already in place. No change required.
+
+---
+
+### BUG-045 — UpgradeScreen CTA button uses provider-specific text
+- **Date:** 2026-04-29 | **Time:** 16:00 | **Status:** ✅ fixed
+- **File:** `src/screens/UpgradeScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** The primary upgrade CTA button used `t('payme_goPayMe')` which renders "שלם עם PayMe" (EN: "Pay with PayMe") — a provider-specific string. This violates the no-provider-mention rule for the Upgrade screen CTA and is misleading when no payment is yet processed.
+- **Found by:** User — 2026-04-29 (Sprint 10 bug report)
+- **Fixed by:** Agent 1 — 2026-04-29 (Sprint 10 hotfix)
+- **Fix:** Added generic `upgrade_cta` i18n key (EN: 'Upgrade Now' / HE: 'שדרג עכשיו') to both locales in `src/i18n/index.ts`. Replaced `{t('payme_goPayMe')}` with `{t('upgrade_cta')}` in `UpgradeScreen.tsx`. Button still navigates to `/payment`.
+
+---
+
+### BUG-046 — UpgradeScreen hero title "פתח הכל" is unclear
+- **Date:** 2026-04-29 | **Time:** 16:01 | **Status:** ✅ fixed
+- **File:** `src/i18n/index.ts`
+- **Bug:** Hebrew value for `upgrade_unlockEverything` was `'פתח הכל'` ("Open Everything") — vague, doesn't communicate the upgrade action clearly to the user.
+- **Found by:** User — 2026-04-29 (Sprint 10 bug report)
+- **Fixed by:** Agent 1 — 2026-04-29 (Sprint 10 hotfix)
+- **Fix:** Changed `upgrade_unlockEverything` HE value from `'פתח הכל'` to `'שדרג לפרמיום'` ("Upgrade to Premium") in `src/i18n/index.ts`. EN value ('Unlock Everything') unchanged.

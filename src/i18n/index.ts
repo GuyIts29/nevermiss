@@ -274,6 +274,7 @@ export const translations = {
     upgrade_continueFree: 'Continue with Free',
     upgrade_unlockDemo: 'Unlock Premium (Demo)',
     upgrade_free: 'Free',
+    upgrade_cta: 'Upgrade Now',
 
     // ─── PayMe Payment (BL-032) ───────────────────────────────────────────
     payme_title: 'Complete Your Upgrade',
@@ -971,7 +972,7 @@ export const translations = {
 
     // ─── Upgrade ──────────────────────────────────────────────────────────
     upgrade_title: 'NeverMiss פרמיום',
-    upgrade_unlockEverything: 'פתח הכל',
+    upgrade_unlockEverything: 'שדרג לפרמיום',
     upgrade_subtitle: 'ה-CRM המלא למנהלי משאבי אנוש ומארגני אירועי צוות',
     upgrade_month: '/חודש',
     upgrade_yearSave: 'או {price}/שנה (חסוך 28%)',
@@ -981,6 +982,7 @@ export const translations = {
     upgrade_continueFree: 'המשך בחינמי',
     upgrade_unlockDemo: 'הפעל פרמיום (הדגמה)',
     upgrade_free: 'חינמי',
+    upgrade_cta: 'שדרג עכשיו',
 
     // ─── PayMe Payment (BL-032) ───────────────────────────────────────────
     payme_title: 'השלם את השדרוג',
