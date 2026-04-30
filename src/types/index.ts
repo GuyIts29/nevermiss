@@ -46,6 +46,7 @@ export interface Holiday {
   year: number
   dateType: DateType
   description: string
+  heDescription?: string
   greetingGuidance: string
   greetings: HolidayGreetings
   sensitivityNotes?: string

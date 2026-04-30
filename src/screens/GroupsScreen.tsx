@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Users, Calendar, Edit, Trash2, Crown, Sparkles } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import { PageHeader } from '@/components/Navigation'
 import { Button } from '@/components/ui/Button'
@@ -22,6 +22,7 @@ export function GroupsScreen() {
   const navigate = useNavigate()
   const { groups, contacts, holidays, addGroup, updateGroup, deleteGroup, canAddGroup, isPremium } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const { theme } = useTheme()
   const [showForm, setShowForm] = useState(false)
   const [editingGroup, setEditingGroup] = useState<Group | null>(null)
@@ -30,6 +31,21 @@ export function GroupsScreen() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [selectedHolidayIds, setSelectedHolidayIds] = useState<string[]>([])
   const [holidaySearch, setHolidaySearch] = useState('')
+
+  const uniqueHolidays = useMemo(() => {
+    const seen = new Map<string, typeof holidays[0]>()
+    for (const h of holidays) {
+      const base = h.id.replace(/-\d{4}$/, '')
+      const existing = seen.get(base)
+      if (!existing || h.year > existing.year) seen.set(base, h)
+    }
+    return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name))
+  }, [holidays])
+
+  const getHolidayDisplayName = (h: typeof holidays[0]) => {
+    if (lang !== 'he') return h.name
+    return h.alternativeNames.find(n => /[֐-׿]/.test(n)) ?? h.name
+  }
 
   const getSuggestedIds = (purpose: GroupPurpose | undefined): string[] => {
     if (!purpose) return []
@@ -359,8 +375,11 @@ export function GroupsScreen() {
                   className="w-full px-3 py-1.5 text-sm rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)]"
                 />
                 <div className="max-h-48 overflow-y-auto space-y-1 rounded-[var(--border-radius)] border border-[var(--color-border)] p-1">
-                  {holidays
-                    .filter(h => h.name.toLowerCase().includes(holidaySearch.toLowerCase()))
+                  {uniqueHolidays
+                    .filter(h => {
+                      const q = holidaySearch.toLowerCase()
+                      return !q || h.name.toLowerCase().includes(q) || h.alternativeNames.some(n => n.toLowerCase().includes(q))
+                    })
                     .map(h => {
                       const selected = selectedHolidayIds.includes(h.id)
                       const isSuggested = form.purpose
@@ -383,14 +402,14 @@ export function GroupsScreen() {
                             {selected && <span className="text-white text-[10px]">✓</span>}
                           </div>
                           <span className="text-base leading-none">{h.emoji}</span>
-                          <span className="flex-1 truncate">{h.name}</span>
+                          <span className="flex-1 truncate">{getHolidayDisplayName(h)}</span>
                           {isSuggested && (
                             <span className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold shrink-0"
                               style={{ background: `${theme.primary}22`, color: theme.primary }}>
                               ✦
                             </span>
                           )}
-                          <span className="text-[10px] text-[var(--color-text-muted)] shrink-0">{h.religion}</span>
+                          <span className="text-[10px] text-[var(--color-text-muted)] shrink-0">{t(`religion_${h.religion}` as Parameters<typeof t>[0])}</span>
                         </button>
                       )
                     })}

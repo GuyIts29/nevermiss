@@ -7,7 +7,7 @@ import type { TranslationKey } from '@/i18n'
 import { dir } from '@/i18n'
 import { PageHeader } from '@/components/Navigation'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { copyToClipboard } from '@/services/communicationService'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 import { getHebrewDateStr } from '@/utils/hebrewDateUtils'
@@ -24,6 +24,7 @@ export function HolidayDetailScreen() {
   const navigate = useNavigate()
   const { contacts } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
 
   const holiday = getHolidayById(id ?? '')
@@ -115,7 +116,7 @@ export function HolidayDetailScreen() {
             <h3 className="font-extrabold text-sm text-[var(--color-text-primary)]">{t('holiday_about')}</h3>
           </div>
           <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-            {holiday.description}
+            {lang === 'he' && holiday.heDescription ? holiday.heDescription : holiday.description}
           </p>
         </div>
 

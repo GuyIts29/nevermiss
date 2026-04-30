@@ -191,6 +191,9 @@ const TESTS = [
   { id: 'T121', cat: 'bugfix',  name: 'RTL לוח שנה: חצים מוחלפים בעברית (prev=ימין, next=שמאל); LTR ללא שינוי' },
   { id: 'T122', cat: 'bugfix',  name: 'יום הולדת עברי: dropdown גמטריה; תצוגה כ״א בטבת; Hebrew+Gregorian — 2 אירועים עצמאיים' },
   { id: 'T123', cat: 'bugfix',  name: 'BUG-049: PaymeScreen demo mode — באנר הדגמה + כפתור הפעל פרימיום; לא נדרש תשלום אמיתי' },
+  { id: 'T124', cat: 'bugfix',  name: 'BUG-059: Google Translate — translate=no + notranslate על html ו-root מונעים תרגום אוטומטי' },
+  { id: 'T125', cat: 'bugfix',  name: 'BUG-060: תיאורי חגים בעברית — heDescription ב-46 חגים; HolidayDetailScreen מציג עברית כשheLang' },
+  { id: 'T126', cat: 'bugfix',  name: 'BUG-061: קבוצות — רשימת חגים ללא כפילויות; שמות עבריים; דת מתורגמת' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

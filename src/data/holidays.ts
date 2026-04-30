@@ -28,6 +28,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'hebrew',
     description: 'The Jewish New Year, marking the beginning of the High Holy Days. A time of reflection, repentance, and renewal. Traditionally observed with the sounding of the shofar (ram\'s horn), special prayers, and festive meals featuring symbolic foods like apples and honey.',
+    heDescription: 'ראש השנה הוא ראש השנה היהודי, פתיחת עשרת ימי תשובה. תוקעים בשופר, מתפללים לשנה טובה ומתוקה, ואוכלים תפוח בדבש.',
     greetingGuidance: 'Greet with warmth and sincerity. This is a sacred, reflective holiday — focus on wishing a good and sweet new year.',
     greetings: {
       hebrew: ['שנה טובה ומתוקה', 'לשנה טובה תכתבו ותחתמו', 'גמר חתימה טובה'],
@@ -51,6 +52,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'The Jewish New Year, beginning the Days of Awe between Rosh Hashana and Yom Kippur.',
+    heDescription: 'ראש השנה תשפ"ז — פתיחת עשרת ימי תשובה. תוקעים בשופר ומאחלים שנה טובה ומתוקה.',
     greetingGuidance: 'Warm, heartfelt greetings emphasizing a sweet and good new year.',
     greetings: {
       hebrew: ['שנה טובה ומתוקה', 'לשנה טובה תכתבו ותחתמו'],
@@ -72,6 +74,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'hebrew',
     description: 'The holiest day in the Jewish calendar — the Day of Atonement. A 25-hour fast during which Jews seek forgiveness from God and from one another. Streets go quiet in Israel. Synagogues fill. It is a solemn yet ultimately hopeful day.',
+    heDescription: 'יום הכיפורים הוא היום הקדוש ביותר בלוח היהודי — 25 שעות של צום, תפילה וחשבון נפש. ישראל שותקת. מבקשים סליחה ומתחדשים.',
     greetingGuidance: 'Tone should be sincere and solemn. Focus on wishing an easy fast and a good sealing in the Book of Life.',
     greetings: {
       hebrew: ['גמר חתימה טובה', 'צום קל', 'גמח"ט'],
@@ -95,6 +98,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'The holiest day in the Jewish calendar — the Day of Atonement, observed with a 25-hour fast.',
+    heDescription: 'יום הכיפורים — יום הצום הגדול. 25 שעות של תפילה ובקשת סליחה, וסיום בנעילה ותקיעת שופר.',
     greetingGuidance: 'Solemn and sincere. Wish an easy fast and a good sealing.',
     greetings: {
       hebrew: ['גמר חתימה טובה', 'צום קל'],
@@ -116,6 +120,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'hebrew',
     description: 'A joyful week-long harvest festival during which families build and dwell in temporary shelters (sukkot). The Four Species — lulav and etrog — are waved during prayer. Guests (both real and spiritual, the Ushpizin) are welcomed into the sukkah.',
+    heDescription: 'חג סוכות הוא חג קציר שמח שנמשך שבוע, ובו יושבים בסוכה ומניפים את ארבעת המינים. חג האסיף, האורחים והשמחה.',
     greetingGuidance: 'Joyful and warm. Emphasize the festivity and the joy of the season.',
     greetings: {
       hebrew: ['חג סוכות שמח', 'מועדים לשמחה'],
@@ -136,6 +141,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'A joyful week-long harvest festival during which families build and dwell in temporary shelters (sukkot). The Four Species — lulav and etrog — are waved during prayer. Ends with Shemini Atzeret and Simchat Torah, a celebration of completing the Torah cycle.',
+    heDescription: 'חג סוכות — שבוע של שמחה בסוכה עם ארבעת המינים. מסתיים בשמיני עצרת ושמחת תורה, חגיגת סיום וחידוש מחזור הקריאה.',
     greetingGuidance: 'Joyful and warm. Emphasize the festivity and the joy of the season.',
     greetings: {
       hebrew: ['חג סוכות שמח', 'מועדים לשמחה', 'חג שמח'],
@@ -156,6 +162,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'hebrew',
     description: 'The eight-day Festival of Lights, celebrating the rededication of the Temple in Jerusalem and the miracle of oil that burned for eight nights. Families light the hanukkiah (menorah), play dreidel, eat fried foods like latkes and sufganiyot, and exchange gifts.',
+    heDescription: 'חנוכה הוא חג האורות לשמונה ימים, המציין את נס פח השמן ונצחון החשמונאים. מדליקים חנוכייה, אוכלים סופגניות ולביבות, ומשחקים בסביבון.',
     greetingGuidance: 'Warm and festive. Suitable for all audiences — often the most recognized Jewish holiday internationally.',
     greetings: {
       hebrew: ['חנוכה שמח', 'חג אורים שמח', 'חג חנוכה שמח'],
@@ -177,6 +184,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'Eight-day Festival of Lights celebrating the miracle of the Temple oil.',
+    heDescription: 'חנוכה — חג האורות לשמונה ימים, חגיגת נס הנרות שדלקו. מדליקים חנוכייה ומשמחים את הלב.',
     greetingGuidance: 'Festive and warm. International audience will recognize this holiday.',
     greetings: {
       hebrew: ['חנוכה שמח', 'חג אורים שמח'],
@@ -196,6 +204,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'A joyous holiday celebrating the salvation of the Jewish people in ancient Persia as told in the Book of Esther. Marked by costumes, feasting, giving gifts of food (mishloach manot), and charity to the poor.',
+    heDescription: 'פורים חוגג את הצלת יהודי פרס על ידי אסתר ומרדכי. מתחפשים, שולחים משלוח מנות, קוראים מגילה ושמחים.',
     greetingGuidance: 'Playful, joyful, and celebratory. One of the most fun Jewish holidays.',
     greetings: {
       hebrew: ['פורים שמח', 'חג פורים שמח'],
@@ -216,6 +225,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'The eight-day Festival of Freedom, commemorating the Exodus of the Israelites from Egypt. Celebrated with the Passover Seder — a ritual meal retelling the story of liberation. Leavened bread (chametz) is forbidden during the entire holiday.',
+    heDescription: 'פסח מציין את יציאת מצרים ואת חירות עם ישראל. עורכים ליל סדר, אוכלים מצה ומספרים לדורות את סיפור הגאולה.',
     greetingGuidance: 'Warm and meaningful. Focus on freedom, family, and renewal.',
     greetings: {
       hebrew: ['חג פסח כשר ושמח', 'פסח שמח'],
@@ -237,6 +247,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'calculated',
     description: 'Celebrates the giving of the Torah at Mount Sinai and the spring harvest. Traditionally marked by all-night Torah study, decorating synagogues with flowers, and eating dairy foods.',
+    heDescription: 'שבועות חוגג את מתן תורה בסיני ואת ביכורי הקציר. נוהגים ללמוד תורה כל הלילה ולאכול מאכלי חלב.',
     greetingGuidance: 'Joyful and spiritual. Celebrate learning, harvest, and receiving the Torah.',
     greetings: {
       hebrew: ['חג שבועות שמח', 'מועדים לשמחה'],
@@ -259,6 +270,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hijri',
     description: 'The holiest month in Islam — a 29 or 30 day period of fasting, prayer, reflection, and community. Muslims fast from dawn to sunset, refrain from food, drink, smoking, and sinful behavior. Nights are marked by special prayers (Tarawih) and reading the Quran. The last ten nights are especially sacred.',
+    heDescription: 'רמדאן הוא חודש הצום האסלאמי הקדוש — 29 או 30 ימים של צום מזריחה לשקיעה, תפילה ולימוד קוראן. לילות מסומנים בתפילות תראוויח.',
     greetingGuidance: 'Respectful, warm, and acknowledging the spiritual significance. Avoid references to food or drink.',
     greetings: {
       arabic: ['رمضان كريم', 'رمضان مبارك'],
@@ -282,6 +294,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hijri',
     description: 'The joyous celebration at the end of Ramadan. A three-day festival of gratitude, generosity, and community. Families gather for prayers, feasts, new clothes, gifts, and charitable giving (Zakat al-Fitr). It is one of the most important celebrations in Islam.',
+    heDescription: 'עיד אל-פיטר הוא חג שבירת הצום של רמדאן — שלושה ימים של שמחה, תפילה, לבוש חדש, מתנות וצדקה.',
     greetingGuidance: 'Joyful and warm. This is a time of great celebration — match the energy!',
     greetings: {
       arabic: ['عيد مبارك', 'عيد سعيد', 'كل عام وأنتم بخير'],
@@ -303,6 +316,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hijri',
     description: 'The Festival of Sacrifice, commemorating Ibrahim\'s willingness to sacrifice his son in obedience to God. Marks the end of Hajj (pilgrimage to Mecca). Families sacrifice an animal and distribute the meat among family, neighbors, and those in need.',
+    heDescription: 'עיד אל-אדחא הוא "חג הקורבן", המציין את נכונות אברהים להקריב את בנו. שוחטים בהמה ומחלקים את הבשר למשפחה ולנזקקים.',
     greetingGuidance: 'Warm and celebratory, acknowledging the spirit of sacrifice, faith, and generosity.',
     greetings: {
       arabic: ['عيد مبارك', 'عيد أضحى مبارك', 'كل عام وأنتم بخير'],
@@ -322,6 +336,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hijri',
     description: 'The beginning of the Islamic Hijri calendar year, marking Prophet Muhammad\'s migration from Mecca to Medina. A time for reflection rather than major celebration.',
+    heDescription: 'ראש השנה האסלאמי מציין את תחילת השנה ההיג\'רית החדשה וזכר הגירת הנביא ממכה למדינה. יום של הרהור ותפילה.',
     greetingGuidance: 'Respectful and reflective tone. Not as festive as Eid.',
     greetings: {
       arabic: ['عام هجري جديد مبارك', 'كل عام وأنتم بخير'],
@@ -341,6 +356,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hijri',
     description: 'Celebrates the birthday of the Prophet Muhammad. Observed with prayers, processions, recitations of his life, and gatherings of remembrance. Observance varies significantly among Muslim communities.',
+    heDescription: 'מולד אל-נביא מציין את יום הולדת הנביא מוחמד. נחוג בתפילות, שירים לכבוד הנביא וסיפורי חייו.',
     greetingGuidance: 'Respectful and thoughtful. Acknowledge the significance of the Prophet\'s teachings.',
     greetings: {
       arabic: ['بمناسبة المولد النبوي الشريف', 'عيد ميلاد النبي مبارك'],
@@ -363,6 +379,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'gregorian',
     description: 'The annual Christian festival celebrating the birth of Jesus Christ. Observed worldwide on December 25th. A time of family gatherings, gift-giving, caroling, and charitable acts. Deeply embedded in the secular culture of many countries.',
+    heDescription: 'חג המולד הנוצרי חוגג את לידת ישוע ב-25 בדצמבר. מתנות, קישוטים, מפגשי משפחה ושמחה — חג נפוץ בקרב נוצרים ולא-נוצרים כאחד.',
     greetingGuidance: 'Warm and joyful. For secular contacts, "Happy Holidays" is inclusive. For Christian contacts, "Merry Christmas" is appropriate.',
     greetings: {
       hebrew: ['חג מולד שמח'],
@@ -382,6 +399,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'Annual Christian festival celebrating the birth of Jesus Christ.',
+    heDescription: 'חג המולד — חגיגת לידת ישוע ב-25 בדצמבר. מתנות, קישוטים ומפגשי משפחה.',
     greetingGuidance: 'Warm and joyful. Widely celebrated.',
     greetings: {
       english: ['Merry Christmas! Wishing you a joyful and peaceful holiday.', 'Happy Christmas and warmest wishes for the New Year!'],
@@ -399,6 +417,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'calculated',
     description: 'The most important Christian festival, celebrating the resurrection of Jesus Christ from the dead. Preceded by 40 days of Lent and Holy Week. Observed with special church services, family gatherings, and traditions like Easter eggs.',
+    heDescription: 'פסחא היא החג החשוב ביותר בנצרות, המציין את תחיית ישוע מן המתים. קודמת לה 40 יום של לנט ושבוע קדוש.',
     greetingGuidance: 'Joyful and spiritually meaningful for Christians. For secular contacts, focus on spring and renewal.',
     greetings: {
       english: ['Happy Easter! Wishing you joy and renewal this Easter season.', 'Christ is risen! Wishing you a blessed and peaceful Easter.', 'Happy Easter — may spring bring you new beginnings and joy.'],
@@ -416,6 +435,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'Christmas as celebrated by Eastern Orthodox Churches using the Julian calendar. Observed by communities in Russia, Ukraine, Serbia, Ethiopia, and other Orthodox communities.',
+    heDescription: 'חג המולד האורתודוקסי נחוג לפי הלוח היוליאני על ידי קהילות אורתודוקסיות ברוסיה, אוקראינה, סרביה ועוד. מציין את לידת ישוע בנחת ובאמונה.',
     greetingGuidance: 'Warm and respectful of the Orthodox tradition.',
     greetings: {
       english: ['Merry Orthodox Christmas! Wishing you a blessed and peaceful Nativity season.', 'Happy Christmas to you and your family — may it be filled with peace and joy.'],
@@ -435,6 +455,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'The vibrant Festival of Colors, celebrating the arrival of spring, the triumph of good over evil, and the blossoming of love. People gather to throw colored powder and water at each other. Preceded by Holika Dahan (the bonfire night). A joyous festival welcoming new beginnings.',
+    heDescription: 'הולי הוא חג הצבעים ההינדי המבשר את בוא האביב ונצחון הטוב על הרע. מתאספים לזרוק אבקות צבעוניות ולשמוח יחד.',
     greetingGuidance: 'Colorful, playful, and joyful. Express the energy and vibrancy of the festival.',
     greetings: {
       english: ['Happy Holi! May the colors of joy, love, and prosperity fill your life!', 'Wishing you a vibrant and colorful Holi celebration!', 'May Holi fill your world with beautiful colors and happiness.'],
@@ -452,6 +473,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'The Festival of Lights — one of the most beloved Hindu festivals, also celebrated by Jains, Sikhs, and some Buddhists. Over five days, homes are lit with oil lamps (diyas) and fireworks. Celebrates the victory of light over darkness, knowledge over ignorance. Lakshmi, the goddess of prosperity, is worshipped.',
+    heDescription: 'דיוולי הוא "חג האורות" — חמישה ימים של נרות שמן, זיקוקין ותפילה. מציין את נצחון האור על החושך, ומהחגיגות האהובות ביותר בהינדואיזם.',
     greetingGuidance: 'Warm and celebratory. Wishes for light, prosperity, and happiness are perfect.',
     greetings: {
       english: ['Happy Diwali! May the festival of lights illuminate your life with joy and prosperity.', 'Wishing you and your family a brilliant and prosperous Diwali!', 'May Diwali fill your home with light, laughter, and blessings.'],
@@ -471,6 +493,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'A nine-night festival celebrating the divine feminine power (Shakti). Each of the nine nights is dedicated to a different form of Goddess Durga. Celebrated with fasting, garba and dandiya dance, prayers, and vibrant festivities.',
+    heDescription: 'נוורטרי הוא תשעה לילות של חגיגה לכבוד האלה דורגה. נחוג בצום, ריקודי גרבה ודנדיה ותפילות.',
     greetingGuidance: 'Festive and devotional. Acknowledge the spiritual and cultural significance.',
     greetings: {
       english: ['Happy Navratri! May the nine nights of Durga fill your life with divine blessings.', 'Wishing you a joyful Navratri full of devotion, dance, and blessings.'],
@@ -488,6 +511,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'Celebrates the triumph of good over evil — Lord Rama\'s victory over the demon king Ravana. Marked by the burning of giant effigies of Ravana, public performances of the Ramlila, and the victory of Durga over Mahishasura.',
+    heDescription: 'דשהרה מציין את נצחון רמה על הדמון רוואנה — ניצחון הצדק על הרשע. נשרפות דמויות ענק של רוואנה בחגיגות פומביות.',
     greetingGuidance: 'Celebratory and positive. Focus on the victory of righteousness.',
     greetings: {
       english: ['Happy Dussehra! May good always triumph over evil in your life.', 'Wishing you a joyful Vijaya Dashami — may truth and righteousness prevail.'],
@@ -508,6 +532,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'hijri',
     description: 'The joyous celebration at the end of Ramadan — the Feast of Breaking Fast.',
+    heDescription: 'עיד אל-פיטר — חג שבירת הצום של רמדאן. יום של שמחה, תפילה משפחתית, לבוש חדש ומתנות.',
     greetingGuidance: 'Joyful and celebratory. Acknowledge the end of Ramadan with warmth.',
     greetings: {
       arabic: ['عيد مبارك', 'عيد سعيد', 'كل عام وأنتم بخير'],
@@ -528,6 +553,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'hijri',
     description: 'The Festival of Sacrifice, commemorating Ibrahim\'s willingness to sacrifice his son.',
+    heDescription: 'עיד אל-אדחא — חג הקורבן, המציין את נכונות אברהים להקריב את בנו. שוחטים בהמה ומחלקים בשר לנזקקים.',
     greetingGuidance: 'Warm and acknowledging the spirit of faith and generosity.',
     greetings: {
       arabic: ['عيد الأضحى مبارك', 'عيد مبارك'],
@@ -549,6 +575,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'One of the most important Sikh festivals, marking the formation of the Khalsa (the Sikh community of baptized Sikhs) by Guru Gobind Singh in 1699. Also a harvest festival in Punjab. Celebrated with prayers, processions (nagar kirtan), folk music, and bhangra and gidda dances.',
+    heDescription: 'וייסאקי מציין את ייסוד קהילת הח\'אלסה בשנת 1699 על ידי גורו גוביד סינג\'. נחוג בתהלוכות, ריקודים ותפילות — גם חג קציר בפנג\'אב.',
     greetingGuidance: 'Joyful and celebratory. Acknowledge both the spiritual and cultural significance.',
     greetings: {
       english: ['Happy Vaisakhi! Waheguru ji ka Khalsa, Waheguru ji ki Fateh!', 'Wishing you a joyful Vaisakhi — may this blessed day bring you happiness and prosperity.'],
@@ -567,6 +594,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'Celebrates the birth of Guru Nanak Dev Ji, the founder of Sikhism. Observed with three-day celebrations including Akhand Path (continuous reading of the Guru Granth Sahib), processions, kirtan, and langar (community meal).',
+    heDescription: 'גורפורב הוא יום הולדת גורו נאנאק, מייסד הסיקיזם. נחוג בקריאת הגרנת\' סאהיב, תהלוכות ואוכל קהילתי.',
     greetingGuidance: 'Respectful and warm. Acknowledge the founder of the faith.',
     greetings: {
       english: ['Happy Gurpurab! May Guru Nanak\'s teachings guide your path.', 'Waheguru ji ka Khalsa, Waheguru ji ki Fateh! Wishing you a blessed Gurpurab.'],
@@ -586,6 +614,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'The holiest Buddhist holiday, commemorating the birth, enlightenment, and death of Gautama Buddha — all believed to have occurred on the same day. Observed with temple visits, meditation, releasing of birds/fish, candlelit processions, and acts of charity.',
+    heDescription: 'וסאק הוא החג הקדוש ביותר לבודהיזם, המציין את לידת הבודהה, הארתו ומותו — שלושתם בתאריך אחד. נחוג בביקור מקדשים ומדיטציה.',
     greetingGuidance: 'Peaceful and reflective. Focus on compassion, peace, and wisdom.',
     greetings: {
       english: ['Happy Vesak! May the Buddha\'s teachings of compassion and wisdom guide your path.', 'Wishing you a peaceful and joyful Vesak — may your heart be filled with love and light.'],
@@ -604,6 +633,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'gregorian',
     description: 'Commemorates the day Siddhartha Gautama attained enlightenment (bodhi) under the Bodhi tree. Observed by Zen and some Mahayana Buddhist communities with meditation and study.',
+    heDescription: 'יום הבודהי מציין את ההארה של סידהארתא גאוטמה תחת עץ הבודהי. נצפה בקהילות זן ומהאיאנה בתרגול מדיטציה ולימוד.',
     greetingGuidance: 'Peaceful and contemplative. Acknowledge the path to wisdom.',
     greetings: {
       english: ['Happy Bodhi Day. May you walk the path of wisdom and compassion.', 'On this Day of Enlightenment, may clarity and peace fill your heart.'],
@@ -624,6 +654,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'The holiest and most joyous of all Bahá\'í festivals, a 12-day celebration commemorating the declaration of Bahá\'u\'lláh\'s mission in the Garden of Ridván near Baghdad in 1863. The 1st, 9th, and 12th days of Ridván are particularly holy days.',
+    heDescription: 'ריד\'ואן הוא החג הקדוש ביותר של האמונה הבהאית — 12 ימים המציינים את הכרזת בהאא\'ולאה על שליחותו בגן ריד\'ואן בשנת 1863.',
     greetingGuidance: 'Joyful and spiritually warm. Acknowledge the declaration of the Bahá\'í faith.',
     greetings: {
       english: ['Happy Ridván! May this Most Great Festival bring you joy, peace, and spiritual renewal.', 'Wishing you a blessed Ridván — may its light guide your path.'],
@@ -641,6 +672,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'The Bahá\'í New Year, coinciding with the spring equinox. A festive day of renewal and new beginnings, marking the end of the 19-day fast. Celebrated with gatherings, prayer, and music.',
+    heDescription: 'נאו-רוז\' הוא ראש השנה הבהאי, נחוג ביום שוויון האביב. יום של התחדשות, שמחה ותפילה שמסמן את סיום 19 ימי הצום.',
     greetingGuidance: 'Joyful and celebrating new beginnings.',
     greetings: {
       english: ['Happy Naw-Rúz! May the new year bring you abundance, joy, and spiritual growth.'],
@@ -660,6 +692,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hijri',
     description: 'The Druze community observes Eid al-Adha with particular reverence. The Druze have a distinct religious tradition rooted in Ismaili Islam but with unique beliefs. This holiday emphasizes family unity, charity, and remembrance.',
+    heDescription: 'עיד אל-אדחא בקהילה הדרוזית נחוג בהדגשה על אחדות משפחתית, צדקה וזיכרון. לדרוזים מסורת דתית ייחודית הנבדלת מהאסלאם.',
     greetingGuidance: 'Respectful and warm. The Druze are a close-knit community with strong emphasis on family.',
     greetings: {
       arabic: ['عيد مبارك', 'كل عام وأنتم بخير'],
@@ -678,6 +711,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'The annual Druze pilgrimage to the tomb of the Prophet Shu\'ayb (Jethro, father-in-law of Moses) near Hittin in the Galilee. A major gathering of the Druze community from Israel and abroad, emphasizing religious and cultural identity.',
+    heDescription: 'עלייה לרגל שנתית לקבר הנביא שועיב (יתרו, חמיו של משה) ליד חיטין בגליל. עצרת גדולה של הקהילה הדרוזית מישראל ומחו"ל.',
     greetingGuidance: 'Respectful acknowledgment of this important communal pilgrimage.',
     greetings: {
       arabic: ['أتمنى لكم حجاً مقبولاً', 'كل عام وأنتم بخير'],
@@ -698,6 +732,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'The most important Chinese holiday, marking the beginning of the lunar new year. Celebrated by Chinese, Vietnamese (Tết), Korean (Seollal), and other East Asian communities worldwide. Two weeks of celebrations including family reunions, firecrackers, dragon dances, red envelopes (hóngbāo), and lantern festival. 2026 is the Year of the Horse.',
+    heDescription: 'ראש השנה הסיני הוא החג הגדול ביותר בתרבות הסינית — שבועיים של חגיגות עם מפגשי משפחה, ריקוד דרקון ומעטפות אדומות. 2026 — שנת הסוס.',
     greetingGuidance: 'Festive and warm. Wishes for prosperity, health, and happiness are appropriate.',
     greetings: {
       english: ['Happy Chinese New Year! Gong Xi Fa Cai — wishing you prosperity and good fortune!', 'Xīn Nián Kuài Lè — Happy New Year! May the Year of the Horse bring you strength and success.', 'Wishing you a joyful Lunar New Year filled with happiness and good health!'],
@@ -717,6 +752,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2025,
     dateType: 'lunar',
     description: 'Lunar New Year 2025 — Year of the Snake.',
+    heDescription: 'ראש השנה הסיני לשנת 2025 — שנת הנחש. חגיגות ירח עם מפגשי משפחה, זיקוקין ואיחולים לשנה טובה.',
     greetingGuidance: 'Festive wishes for the new year.',
     greetings: {
       english: ['Gong Xi Fa Cai! Happy Year of the Snake — may it bring you wisdom and prosperity!', 'Xīn Nián Kuài Lè! Wishing you a wonderful Lunar New Year!'],
@@ -735,6 +771,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'lunar',
     description: 'The harvest moon festival celebrated under the full moon. Families gather to share mooncakes, watch the full moon, light lanterns, and give thanks. One of the most beloved East Asian festivals.',
+    heDescription: 'חג האמצע סתיו נחוג תחת ירח מלא. משפחות מתאספות לאכול עוגות ירח, להדליק פנסים ולחגוג את קציר הסתיו.',
     greetingGuidance: 'Warm and nostalgic. Focus on family reunion, the beauty of the moon, and sharing.',
     greetings: {
       english: ['Happy Mid-Autumn Festival! May the bright moon bring you joy and family reunion.', 'Zhōngqiū Kuài Lè! Wishing you a wonderful harvest moon celebration.'],
@@ -755,6 +792,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'The first day of the Gregorian calendar year. Celebrated worldwide with festivities, fireworks, gatherings, and resolutions for the year ahead. A universal opportunity to wish happiness and success.',
+    heDescription: 'ראש השנה הגרגוריאני (1 בינואר) נחוג ברחבי העולם עם זיקוקין ומסיבות. הזדמנות אוניברסלית לאחל לכולם שנה טובה.',
     greetingGuidance: 'Universal and inclusive. Appropriate for everyone regardless of religion or background.',
     greetings: {
       hebrew: ['שנה חדשה שמחה', 'שנה טובה'],
@@ -774,6 +812,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'A global day celebrating the social, economic, cultural, and political achievements of women. A call to action for accelerating gender parity. In some countries (Russia, former Soviet states, Middle East), it is widely celebrated with flowers and gifts.',
+    heDescription: 'יום האישה הבינלאומי (8 במרץ) חוגג את הישגיהן החברתיים, הכלכליים והפוליטיים של נשים. יום של הכרה, עצמה ושוויון.',
     greetingGuidance: 'Warm and appreciative. Focus on celebration, achievement, and empowerment.',
     greetings: {
       hebrew: ['יום האישה הבינלאומי שמח', 'לאישה החזקה שבחיי'],
@@ -793,6 +832,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'Israel\'s national independence day, marking the establishment of the State of Israel in 1948. Celebrated with fireworks, outdoor barbecues (mangal), concerts, and public ceremonies. Immediately follows Yom Hazikaron (Memorial Day).',
+    heDescription: 'יום העצמאות מציין את הקמת מדינת ישראל ב-1948. נחוג בזיקוקין, מנגלים, קונצרטים וטקסי מדינה — ביום שאחרי יום הזיכרון.',
     greetingGuidance: 'Patriotic and celebratory. Appropriate for Israeli contacts and Jewish contacts with connection to Israel.',
     greetings: {
       hebrew: ['יום עצמאות שמח', 'חג עצמאות שמח'],
@@ -813,6 +853,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'International Workers\' Day, celebrated in over 160 countries. Recognizes the labor movement and workers\' rights. A public holiday in most countries.',
+    heDescription: 'יום העבודה הבינלאומי (1 במאי) חוגג את תנועת הפועלים וזכויות העובדים ברחבי העולם.',
     greetingGuidance: 'Simple acknowledgment. Brief wishes for rest and appreciation of hard work.',
     greetings: {
       english: ['Happy Labor Day! Wishing you a well-deserved rest.', 'Celebrating the contributions of workers everywhere — happy May Day!'],
@@ -832,6 +873,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'Designated by the United Nations to commemorate the victims of the Holocaust. Observed on January 27, the anniversary of the liberation of Auschwitz-Birkenau in 1945. A day for remembrance, education, and action against antisemitism and genocide.',
+    heDescription: 'יום השואה הבינלאומי של האו"ם (27 בינואר) מוקדש לזכר קורבנות השואה ולמאבק נגד אנטישמיות. יום הרהור וזיכרון — לא חגיגה.',
     greetingGuidance: 'This is a solemn day of remembrance — not a celebratory greeting. Use only for messages of reflection and shared memory.',
     sensitivityNotes: 'Do not use cheerful or celebratory language. Appropriate for formal, respectful acknowledgment only.',
     greetings: {
@@ -851,6 +893,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'Israel\'s national Holocaust Remembrance Day, observed on 27 Nisan. Marked by a two-minute siren during which the entire country stands in silence. Memorial ceremonies are held throughout Israel and Jewish communities worldwide.',
+    heDescription: 'יום השואה הישראלי (כ"ז בניסן) מציין את השואה והגבורה. בשעה 10:00 שותקת המדינה כולה לשתי דקות זיכרון.',
     greetingGuidance: 'Deeply solemn day. Appropriate only for messages of remembrance and solidarity. Never use cheerful or congratulatory language.',
     sensitivityNotes: 'The two-minute nationwide siren at 10:00 AM brings Israel to a complete standstill. This is a national moment of silence.',
     greetings: {
@@ -870,6 +913,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'hebrew',
     description: 'Israel\'s official Memorial Day for fallen soldiers and victims of terror, observed on 4 Iyar — the day before Yom Ha\'atzmaut. Marked by two nationwide sirens, memorial ceremonies, and a somber national atmosphere.',
+    heDescription: 'יום הזיכרון לחללי מערכות ישראל ולנפגעי פעולות האיבה. שתי סירנות וטקסי אבל ממלכתיים — מעבר לחגיגות יום העצמאות בשקיעה.',
     greetingGuidance: 'Solemn and respectful. This is a day of mourning, not celebration. Appropriate for messages of solidarity and shared grief.',
     sensitivityNotes: 'Sirens sound at 8:00 PM (start) and 11:00 AM. Entertainment venues close. The transition to Independence Day celebrations begins at sundown.',
     greetings: {
@@ -889,6 +933,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'A United States federal holiday observed on the last Monday of May. Honors US military personnel who died in service. Traditionally marked with ceremonies at cemeteries and memorials, and also marks the unofficial start of summer.',
+    heDescription: 'יום הזיכרון האמריקאי (יום שני האחרון במאי) מכבד את חיילי ארה"ב שנפלו בשירות המדינה. טקסים, פרחים על קברים ותחילת עונת הקיץ.',
     greetingGuidance: 'Respectful and patriotic. Acknowledge the sacrifice before any lighter references to the holiday weekend.',
     greetings: {
       english: ['Honoring the brave men and women who gave their lives for freedom. Happy Memorial Day.', 'On Memorial Day, we remember and give thanks to all who made the ultimate sacrifice.'],
@@ -906,6 +951,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'The United States national holiday celebrating the Declaration of Independence on July 4, 1776. Marked with fireworks, barbecues, parades, concerts, and patriotic gatherings. One of the most widely celebrated national holidays in the US.',
+    heDescription: 'יום העצמאות האמריקאי (4 ביולי) מציין את הכרזת העצמאות של ארה"ב ב-1776. נחוג בזיקוקין, מסיבות, מצעדים וקונצרטים.',
     greetingGuidance: 'Celebratory and patriotic. Appropriate for US contacts and anyone with American ties.',
     greetings: {
       english: ['Happy 4th of July! Wishing you a day full of fireworks, family, and freedom.', 'Happy Independence Day! Hope your day is as bright as the fireworks tonight. 🎆', 'Celebrating 250 years of freedom — Happy Fourth of July!'],

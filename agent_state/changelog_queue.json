@@ -1300,5 +1300,40 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוסף BUG-058 — שדה תיאור בטופס קבוצה מאבד פוקוס; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-05-01T00:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "index.html",
+    "description": "תוקן BUG-059 — הוסף translate=\"no\" ו-notranslate class למניעת תרגום Google Translate של תוכן האפליקציה"
+  },
+  {
+    "timestamp": "2026-05-01T00:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/types/index.ts",
+    "description": "הוסף שדה heDescription אופציונלי לממשק Holiday לתמיכה בתיאורי חגים בעברית"
+  },
+  {
+    "timestamp": "2026-05-01T00:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/data/holidays.ts",
+    "description": "תוקן BUG-060 — הוסף heDescription לכל 46 ערכי חגים לתצוגת תיאורים בעברית"
+  },
+  {
+    "timestamp": "2026-05-01T00:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "עודכן מסך פרטי חג להציג heDescription כשהשפה עברית ויש תיאור עברי"
+  },
+  {
+    "timestamp": "2026-05-01T00:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "תוקן BUG-061 — ביטול כפילויות ברשימת חגים; תרגום שמות חגים ותוויות דת לפי שפה פעילה"
   }
 ]

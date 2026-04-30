@@ -453,3 +453,33 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Added `onCloseRef` to Modal. A separate `useEffect([onClose])` keeps the ref current. The focus-trap effect now depends only on `[isOpen]`, so it re-runs only when the modal opens or closes — never on prop reference churn. The Escape key handler reads `onCloseRef.current` (always latest value). This fix applies to ALL modals in the app that use this component.
+
+---
+
+### BUG-059 — Google Translate overrides app language and translates Hebrew UI
+- **Date:** 2026-05-01 | **Time:** 00:00 | **Status:** ✅ fixed
+- **File:** `index.html`
+- **Bug:** Mobile Chrome users with Google Translate active could have the entire app auto-translated, overriding the built-in EN/HE language switcher and garbling Hebrew text.
+- **Found by:** User — 2026-05-01 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
+- **Fix:** Added `translate="no"` and `class="notranslate"` to `<html>`, `<meta name="google" content="notranslate">` to `<head>`, and `class="notranslate"` to `<div id="root">`. These three attributes collectively disable Google Translate on all browsers and the Translate API.
+
+---
+
+### BUG-060 — Holiday descriptions always shown in English on HolidayDetailScreen
+- **Date:** 2026-05-01 | **Time:** 00:00 | **Status:** ✅ fixed
+- **File:** `src/types/index.ts`, `src/data/holidays.ts`, `src/screens/HolidayDetailScreen.tsx`
+- **Bug:** The holiday detail screen always displayed the English `description` field regardless of the active language. Hebrew users saw English paragraphs.
+- **Found by:** User — 2026-05-01 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
+- **Fix:** Added `heDescription?: string` to the Holiday type. Added Hebrew descriptions (`heDescription`) to all 46 holiday entries in holidays.ts. Updated HolidayDetailScreen to import `useLang` and render `holiday.heDescription` when `lang === 'he'` and the field exists, falling back to the English `description` otherwise.
+
+---
+
+### BUG-061 — Holiday list in group form shows duplicates and English-only names/religion labels
+- **Date:** 2026-05-01 | **Time:** 00:00 | **Status:** ✅ fixed
+- **File:** `src/screens/GroupsScreen.tsx`
+- **Bug:** The holiday picker in the group create/edit modal listed the same holidays twice (once for 2025, once for 2026). Holiday names were always English, and religion labels were always English raw strings (e.g., "Judaism" instead of "יהדות").
+- **Found by:** User — 2026-05-01 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
+- **Fix:** Added `uniqueHolidays` useMemo that deduplicates by base holiday ID (strips year suffix), keeping the more recent year's entry. Added `getHolidayDisplayName` helper that finds the Hebrew name from `alternativeNames` (first string containing Hebrew Unicode chars) when `lang === 'he'`. Updated search filter to also match against `alternativeNames`. Changed religion label from `{h.religion}` to `{t(\`religion_${h.religion}\`)}` using existing i18n keys.

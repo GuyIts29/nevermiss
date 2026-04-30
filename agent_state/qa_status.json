@@ -490,5 +490,17 @@
   "T123": {
     "status": "✅",
     "notes": "BUG-049: PaymeScreen שוכתב כ-demo mode; באנר 'זוהי גרסת הדגמה'; כפתור 'הפעל פרימיום (הדגמה)' → activatePremium() + navigate('/dashboard'); build+lint ✅"
+  },
+  "T124": {
+    "status": "✅",
+    "notes": "BUG-059 תוקן — translate=no + notranslate על html/root מונעים Google Translate"
+  },
+  "T125": {
+    "status": "✅",
+    "notes": "BUG-060 תוקן — heDescription הוסף לכל 46 חגים; HolidayDetailScreen מציג עברית כששפה=he"
+  },
+  "T126": {
+    "status": "✅",
+    "notes": "BUG-061 תוקן — GroupsScreen מציג חג ייחודי אחד (ללא כפילות שנה), שם עברי כשhe, דת מתורגמת"
   }
 }
