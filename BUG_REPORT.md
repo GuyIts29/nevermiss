@@ -433,3 +433,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Added `useRef` refs (`lastContactRef`, `birthdayRef`) to both date inputs and a shared `openDatePicker` helper that calls `ref.current?.showPicker()` (with `ref.current?.click()` fallback) from each field's `onClick` handler. This forces the picker to open on any click/tap of the field area. Added `cursor: pointer` to `input[type="date"].form-input` in index.css, consistent with how `select.form-input` is already styled. Date value and storage logic unchanged.
+
+---
+
+### BUG-057 — Hebrew birthday dropdowns clear after selection (partial value not persisted)
+- **Date:** 2026-04-30 | **Time:** 15:00 | **Status:** ✅ fixed
+- **File:** `src/screens/ContactFormScreen.tsx`
+- **Bug:** After selecting a day or month in the Hebrew birthday dropdowns, the chosen value immediately disappeared and the field reverted to the placeholder. Root cause: `hbParts` was a `useMemo` derived from `form.hebrewBirthday`. `setHebBirthday` only writes to the form when **both** day and month are valid (`if (d && m)`). Selecting one part while the other was empty caused `parseInt("", 10) = NaN` → condition false → `hebrewBirthday` set to undefined → `hbParts` re-derived as `{ day: '', month: '' }` → dropdown reset to placeholder.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Replaced the `hbParts` useMemo with two `useState` variables (`hbDay`, `hbMonth`) initialized from `existing.hebrewBirthday`. Dropdowns now bind to local state (always reflect the user's last selection) while `setHebBirthday` still only writes to the form when both parts are valid. Clear button resets both local state and form. `useMemo` import removed. Storage logic unchanged.

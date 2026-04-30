@@ -1272,5 +1272,19 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוסף BUG-056 — שדות תאריך לא פותחים לוח שנה בלחיצה על כל השדה; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T15:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "תוקן BUG-057 — דרופדאון יום הולדת עברי מאפסים לאחר בחירה: הוחלף useMemo של hbParts ב-useState של hbDay/hbMonth; ערך מקומי נשמר גם כשרק חלק אחד נבחר; כפתור ניקוי מאפס גם state מקומי"
+  },
+  {
+    "timestamp": "2026-04-30T15:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-057 — דרופדאון יום הולדת עברי מתאפסים לאחר בחירה חלקית; סומן כ-fixed"
   }
 ]

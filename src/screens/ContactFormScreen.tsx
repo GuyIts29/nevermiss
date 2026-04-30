@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Save, Trash2, User, Globe, BarChart2, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
@@ -90,12 +90,17 @@ export function ContactFormScreen() {
     setErrors(e => ({ ...e, [key]: '' }))
   }
 
-  // Hebrew birthday — derived from form; helper updates form as "DD-MM"
-  const hbParts = useMemo(() => {
-    if (!form.hebrewBirthday) return { day: '', month: '' }
-    const [d, m] = form.hebrewBirthday.split('-')
-    return { day: d ? String(parseInt(d, 10)) : '', month: m ? String(parseInt(m, 10)) : '' }
-  }, [form.hebrewBirthday])
+  // Hebrew birthday — local display state so partial selections remain visible
+  const [hbDay, setHbDay] = useState<string>(() => {
+    if (!existing?.hebrewBirthday) return ''
+    const [d] = existing.hebrewBirthday.split('-')
+    return d ? String(parseInt(d, 10)) : ''
+  })
+  const [hbMonth, setHbMonth] = useState<string>(() => {
+    if (!existing?.hebrewBirthday) return ''
+    const [, m] = existing.hebrewBirthday.split('-')
+    return m ? String(parseInt(m, 10)) : ''
+  })
 
   const setHebBirthday = (day: string, month: string) => {
     const d = parseInt(day, 10)
@@ -412,8 +417,8 @@ export function ContactFormScreen() {
                 </p>
                 <div className="flex items-center gap-2">
                   <select
-                    value={hbParts.day}
-                    onChange={e => setHebBirthday(e.target.value, hbParts.month)}
+                    value={hbDay}
+                    onChange={e => { setHbDay(e.target.value); setHebBirthday(e.target.value, hbMonth) }}
                     className="flex-1 px-2 py-2 rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)]"
                   >
                     <option value="">{t('contactForm_hebrewBirthdayDay')}</option>
@@ -422,8 +427,8 @@ export function ContactFormScreen() {
                     ))}
                   </select>
                   <select
-                    value={hbParts.month}
-                    onChange={e => setHebBirthday(hbParts.day, e.target.value)}
+                    value={hbMonth}
+                    onChange={e => { setHbMonth(e.target.value); setHebBirthday(hbDay, e.target.value) }}
                     className="flex-[2] px-2 py-2 rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-primary)]"
                   >
                     <option value="">{t('contactForm_hebrewBirthdayMonth')}</option>
@@ -434,7 +439,7 @@ export function ContactFormScreen() {
                   {form.hebrewBirthday && (
                     <button
                       type="button"
-                      onClick={() => setHebBirthday('', '')}
+                      onClick={() => { setHbDay(''); setHbMonth(''); setHebBirthday('', '') }}
                       className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] transition-colors text-xs"
                       aria-label={t('contactForm_hebrewBirthdayClear')}
                     >
