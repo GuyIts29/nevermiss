@@ -7,9 +7,9 @@ import { HolidayCard } from '@/components/HolidayCard'
 import { EmptyState } from '@/components/EmptyState'
 import { HOLIDAYS, RELIGION_LABELS, RELIGION_COLORS } from '@/data/holidays'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
-import { hebrewBirthdayToGregorianInCalendarYear } from '@/utils/hebrewDateUtils'
+import { hebrewBirthdayToGregorianInCalendarYear, formatHebrewBirthdayDisplay } from '@/utils/hebrewDateUtils'
 import type { Contact, Religion } from '@/types'
 import type { TranslationKey } from '@/i18n'
 import { clsx } from 'clsx'
@@ -25,8 +25,12 @@ function hebrewMonthName(monthNum: number): string {
   return (HEBREW_MONTHS[monthNum as keyof typeof HEBREW_MONTHS] as string | undefined) ?? ''
 }
 
+type BirthdayEntry = { contact: Contact; birthdayType: 'hebrew' | 'gregorian' }
+
 export function CalendarScreen() {
   const t = useT()
+  const { lang } = useLang()
+  const isRTL = lang === 'he'
   const { theme } = useTheme()
   const { contacts } = useApp()
   const [currentMonth, setCurrentMonth] = useState(new Date())
@@ -34,29 +38,32 @@ export function CalendarScreen() {
   const [filterReligion, setFilterReligion] = useState<Religion | 'all'>('all')
   const [showFilter, setShowFilter] = useState(false)
 
-  // Build a map of "YYYY-MM-DD" → Contact[] for birthdays in the visible month.
-  // Hebrew birthdays (hebrewBirthday) take priority over the Gregorian birthday field.
+  // Build a map of "YYYY-MM-DD" → BirthdayEntry[] for birthdays in the visible month.
+  // Hebrew and Gregorian birthdays are treated independently — both shown if present.
   const birthdayMap = useMemo(() => {
-    const map = new Map<string, Contact[]>()
+    const map = new Map<string, BirthdayEntry[]>()
     const year = currentMonth.getFullYear()
     const month = currentMonth.getMonth() // 0-based
 
     for (const c of contacts) {
-      let bDate: Date | null = null
-
       if (c.hebrewBirthday) {
         const greg = hebrewBirthdayToGregorianInCalendarYear(c.hebrewBirthday, year)
-        if (greg && greg.getMonth() === month) bDate = greg
-      } else if (c.birthday) {
-        const [, bm, bd] = c.birthday.split('-').map(Number)
-        if (bm - 1 === month) bDate = new Date(year, month, bd)
+        if (greg && greg.getMonth() === month) {
+          const key = format(greg, 'yyyy-MM-dd')
+          const list = map.get(key) ?? []
+          list.push({ contact: c, birthdayType: 'hebrew' })
+          map.set(key, list)
+        }
       }
-
-      if (bDate) {
-        const key = format(bDate, 'yyyy-MM-dd')
-        const list = map.get(key) ?? []
-        list.push(c)
-        map.set(key, list)
+      if (c.birthday) {
+        const [, bm, bd] = c.birthday.split('-').map(Number)
+        if (bm - 1 === month) {
+          const bDate = new Date(year, month, bd)
+          const key = format(bDate, 'yyyy-MM-dd')
+          const list = map.get(key) ?? []
+          list.push({ contact: c, birthdayType: 'gregorian' })
+          map.set(key, list)
+        }
       }
     }
     return map
@@ -167,13 +174,15 @@ export function CalendarScreen() {
         )}
 
         {/* Month navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between" dir="ltr">
           <button
             onClick={() => { setCurrentMonth(subMonths(currentMonth, 1)); setSelectedDate(null) }}
             className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
             aria-label={t('calendar_prevMonth')}
           >
-            <ChevronLeft size={18} className="text-[var(--color-text-secondary)]" />
+            {isRTL
+              ? <ChevronRight size={18} className="text-[var(--color-text-secondary)]" />
+              : <ChevronLeft size={18} className="text-[var(--color-text-secondary)]" />}
           </button>
 
           {/* Gradient pill for current month */}
@@ -199,7 +208,9 @@ export function CalendarScreen() {
             className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
             aria-label={t('calendar_nextMonth')}
           >
-            <ChevronRight size={18} className="text-[var(--color-text-secondary)]" />
+            {isRTL
+              ? <ChevronLeft size={18} className="text-[var(--color-text-secondary)]" />
+              : <ChevronRight size={18} className="text-[var(--color-text-secondary)]" />}
           </button>
         </div>
 
@@ -280,7 +291,7 @@ export function CalendarScreen() {
 
         {/* Birthday list — visible when a day is selected that has birthdays, or when any birthdays exist this month */}
         {(() => {
-          const bdays = selectedDate
+          const bdays: BirthdayEntry[] = selectedDate
             ? (birthdayMap.get(format(selectedDate, 'yyyy-MM-dd')) ?? [])
             : Array.from(birthdayMap.values()).flat()
           if (bdays.length === 0) return null
@@ -294,9 +305,9 @@ export function CalendarScreen() {
                 <span className="ml-2 text-[var(--color-text-muted)] font-normal">({bdays.length})</span>
               </h3>
               <div className="space-y-2">
-                {bdays.map(c => (
+                {bdays.map(({ contact: c, birthdayType }) => (
                   <div
-                    key={c.id}
+                    key={`${c.id}-${birthdayType}`}
                     className="card !p-3 flex items-center gap-3"
                     style={{ borderLeft: '3px solid #EC4899' }}
                   >
@@ -305,9 +316,9 @@ export function CalendarScreen() {
                       <p className="text-sm font-semibold text-[var(--color-text-primary)]">{c.name}</p>
                       <p className="text-xs text-[var(--color-text-muted)]">
                         {t('calendar_birthdayLabel')}
-                        {c.hebrewBirthday && (
-                          <span className="mr-1 ml-1 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full">
-                            {t('contactForm_hebrewBirthday').replace(' (optional)', '').replace(' (אופציונלי)', '')}
+                        {birthdayType === 'hebrew' && c.hebrewBirthday && (
+                          <span className="mr-1 ml-1 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full" dir="rtl">
+                            {formatHebrewBirthdayDisplay(c.hebrewBirthday)}
                           </span>
                         )}
                       </p>

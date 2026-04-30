@@ -14,6 +14,7 @@ import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
 import { trackEvent } from '@/services/analyticsService'
 import { hapticSuccess } from '@/services/hapticService'
+import { gematriya } from '@hebcal/core'
 import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion, CelebrationType } from '@/types'
 import { RELIGION_LABELS } from '@/data/holidays'
 import type { TranslationKey } from '@/i18n'
@@ -374,6 +375,7 @@ export function ContactFormScreen() {
           <Input
             label={t('contactForm_lastContact')}
             type="date"
+            dir="ltr"
             value={form.lastContactDate ?? ''}
             onChange={e => set('lastContactDate', e.target.value)}
           />
@@ -387,6 +389,7 @@ export function ContactFormScreen() {
             <Input
               label={t('contactForm_birthday')}
               type="date"
+              dir="ltr"
               value={form.birthday ?? ''}
               onChange={e => set('birthday', e.target.value)}
             />
@@ -404,7 +407,7 @@ export function ContactFormScreen() {
                   >
                     <option value="">{t('contactForm_hebrewBirthdayDay')}</option>
                     {Array.from({ length: 30 }, (_, i) => i + 1).map(d => (
-                      <option key={d} value={d}>{d}</option>
+                      <option key={d} value={d}>{gematriya(d)}</option>
                     ))}
                   </select>
                   <select

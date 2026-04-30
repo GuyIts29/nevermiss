@@ -17,6 +17,7 @@ import { HOLIDAYS } from '@/data/holidays'
 import type { TranslationKey } from '@/i18n'
 import { generateGreeting } from '@/services/greetingService'
 import { getAvatarGradient } from '@/utils/avatarUtils'
+import { formatHebrewBirthdayDisplay } from '@/utils/hebrewDateUtils'
 
 export function ContactDetailScreen() {
   const { id } = useParams<{ id: string }>()
@@ -262,6 +263,9 @@ export function ContactDetailScreen() {
             )}
             {contact.birthday && isPremium && (
               <DetailRow icon={<Gift size={14} />} label={t('contactDetail_birthday')} value={format(new Date(contact.birthday), 'MMMM d')} />
+            )}
+            {contact.hebrewBirthday && isPremium && (
+              <DetailRow icon={<Gift size={14} />} label={t('contactDetail_hebrewBirthday')} value={formatHebrewBirthdayDisplay(contact.hebrewBirthday)} />
             )}
             <DetailRow
               icon={<Calendar size={14} />}

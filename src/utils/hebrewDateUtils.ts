@@ -31,6 +31,15 @@ export function hebrewBirthdayToGregorianInCalendarYear(
   return null
 }
 
+/** Returns Hebrew birthday in display format: "כ״א בטבת" (gematria day + month name) */
+export function formatHebrewBirthdayDisplay(hebrewBirthday: string): string {
+  const parts = hebrewBirthday.split('-').map(Number)
+  if (parts.length < 2 || !parts[0] || !parts[1]) return ''
+  const [hDay, hMonth] = parts
+  const monthName = (HEBREW_MONTHS[hMonth as keyof typeof HEBREW_MONTHS] as string | undefined) ?? ''
+  return `${gematriya(hDay)} ב${monthName}`
+}
+
 /** Returns Hebrew date string in gematria format: "ה׳ באייר תשפ״ו" */
 export function getHebrewDateStr(isoDate: string): string {
   const [y, m, d] = isoDate.split('-').map(Number)

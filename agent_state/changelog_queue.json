@@ -1188,5 +1188,47 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוספו BUG-051 ו-BUG-052 — כפתור CTA כפול ב-UpgradeScreen וגרסת PaymeScreen שלא הועלתה; שניהם סומנו כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "תוקן BUG-053 — נוסף dir='ltr' לשני שדות תאריך (lastContactDate ו-birthday) כדי שלוח שנה ייפתח בלחיצה במצב RTL"
+  },
+  {
+    "timestamp": "2026-04-30T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "תוקן BUG-054 — הועלו שינויי Bug Fix 1 שלא הועלו: gematriya(d) כתווית ביום עברי, import של gematriya"
+  },
+  {
+    "timestamp": "2026-04-30T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/utils/hebrewDateUtils.ts",
+    "description": "הועלה פונקציית formatHebrewBirthdayDisplay — ממיר DD-MM לפורמט 'כ״א בטבת'"
+  },
+  {
+    "timestamp": "2026-04-30T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "הועלה שורת תצוגת יום הולדת עברי ב-ContactDetailScreen עם formatHebrewBirthdayDisplay"
+  },
+  {
+    "timestamp": "2026-04-30T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "הועלו תיקוני Bug Fix 1: חצי ניווט RTL תקינים, סוג BirthdayEntry לאירועי יום הולדת עברי/גרגוריאני עצמאיים"
+  },
+  {
+    "timestamp": "2026-04-30T12:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוספו BUG-053 ו-BUG-054 — שדות תאריך לא פותחים לוח שנה ב-RTL; יום עברי לא בגמטריה (שינויים לא הועלו); שניהם סומנו כ-fixed"
   }
 ]

@@ -478,5 +478,17 @@
   "T120": {
     "status": "✅",
     "notes": "Sprint 12 QA: build נקי + lint נקי; BL-067 + BL-065 מיושמים ומאומתים"
+  },
+  "T121": {
+    "status": "✅",
+    "notes": "RTL calendar arrows: ChevronLeft/Right מוחלפים כשlang==='he'; prev button מימין, next משמאל בעברית; LTR — ללא שינוי"
+  },
+  "T122": {
+    "status": "✅",
+    "notes": "Hebrew birthday: day dropdown מציג גמטריה (א–ל); תצוגה בפורמט כ״א בטבת ב-ContactDetailScreen; Hebrew+Gregorian מטופלים כ-2 אירועים עצמאיים בלוח השנה"
+  },
+  "T123": {
+    "status": "✅",
+    "notes": "BUG-049: PaymeScreen שוכתב כ-demo mode; באנר 'זוהי גרסת הדגמה'; כפתור 'הפעל פרימיום (הדגמה)' → activatePremium() + navigate('/dashboard'); build+lint ✅"
   }
 }

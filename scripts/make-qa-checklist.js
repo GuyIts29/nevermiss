@@ -30,6 +30,7 @@ const CATEGORIES = [
   { id: 'sprint10', emoji: '🤖', name: 'Sprint 10 — AI Suggestions MVP (BL-033) + Secular/National Dates (BL-060)' },
   { id: 'sprint11', emoji: '✉️', name: 'Sprint 11 — Quick Send (BL-064) + Auto-Regenerate on Tone (BL-063) + UpgradeScreen CTA Fix (BL-062)' },
   { id: 'sprint12', emoji: '🪪', name: 'Sprint 12 — Personal User Layer (BL-067) + AI Personalization MVP (BL-065)' },
+  { id: 'bugfix',  emoji: '🐞', name: 'Bug Fixes & Improvements — Sprint Suspension Mode' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -187,6 +188,9 @@ const TESTS = [
   { id: 'T118', cat: 'sprint12', name: 'BL-067 UX: pending greetings panel — כל item קליקבילי → Quick Send (BL-064)' },
   { id: 'T119', cat: 'sprint12', name: 'BL-065 MVP: PROFESSIONAL_RELATIONSHIPS → resolveTone מחזיר professional מינימום; VIP נשמר' },
   { id: 'T120', cat: 'sprint12', name: 'Sprint 12 QA: build נקי + lint נקי; BL-067 + BL-065 מאומתים' },
+  { id: 'T121', cat: 'bugfix',  name: 'RTL לוח שנה: חצים מוחלפים בעברית (prev=ימין, next=שמאל); LTR ללא שינוי' },
+  { id: 'T122', cat: 'bugfix',  name: 'יום הולדת עברי: dropdown גמטריה; תצוגה כ״א בטבת; Hebrew+Gregorian — 2 אירועים עצמאיים' },
+  { id: 'T123', cat: 'bugfix',  name: 'BUG-049: PaymeScreen demo mode — באנר הדגמה + כפתור הפעל פרימיום; לא נדרש תשלום אמיתי' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

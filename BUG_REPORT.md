@@ -393,3 +393,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Committed the local demo-mode PaymeScreen.tsx. Screen now shows amber demo notice (`payme_demoNotice`) and "הפעל פרימיום (הדגמה)" button (`payme_activateDemo`) that calls `activatePremium()` and navigates to `/dashboard`.
+
+---
+
+### BUG-053 — Date input fields do not open calendar picker in RTL mode
+- **Date:** 2026-04-30 | **Time:** 12:00 | **Status:** ✅ fixed
+- **File:** `src/screens/ContactFormScreen.tsx`
+- **Bug:** The "תאריך קשר אחרון" and birthday `type="date"` inputs did not open the native calendar picker when clicked in Hebrew (RTL) mode. The date format (YYYY-MM-DD) is inherently LTR; without an explicit `dir="ltr"` on the input, Chromium/WebKit browsers suppress the date picker interaction in RTL documents.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Added `dir="ltr"` to both date inputs (`lastContactDate` and `birthday`) in ContactFormScreen.tsx. Value handling unchanged.
+
+---
+
+### BUG-054 — Hebrew birthday day dropdown showing numbers instead of Gematria (changes never committed)
+- **Date:** 2026-04-30 | **Time:** 12:00 | **Status:** ✅ fixed
+- **File:** `src/screens/ContactFormScreen.tsx`, `src/utils/hebrewDateUtils.ts`, `src/screens/ContactDetailScreen.tsx`, `src/screens/CalendarScreen.tsx`
+- **Bug:** Hebrew birthday day dropdown displayed numeric values (1–30) instead of Gematria letters (א–ל). The gematriya() fix and all related Bug Fix 1 changes (RTL calendar arrows, Hebrew birthday as independent event, formatHebrewBirthdayDisplay) existed only in the local working directory and were never committed or pushed.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Committed all Bug Fix 1 local changes: gematriya(d) label in day dropdown, formatHebrewBirthdayDisplay utility, HebrewBirthday display row in ContactDetailScreen, BirthdayEntry type + RTL arrows in CalendarScreen.
