@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Save, Trash2, User, Globe, BarChart2, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
@@ -105,6 +105,13 @@ export function ContactFormScreen() {
     } else {
       set('hebrewBirthday', undefined as unknown as string)
     }
+  }
+
+  const lastContactRef = useRef<HTMLInputElement>(null)
+  const birthdayRef = useRef<HTMLInputElement>(null)
+
+  const openDatePicker = (ref: React.RefObject<HTMLInputElement | null>) => {
+    try { ref.current?.showPicker() } catch { ref.current?.click() }
   }
 
   const findDuplicate = (): Contact | null => {
@@ -373,11 +380,13 @@ export function ContactFormScreen() {
             ]}
           />
           <Input
+            ref={lastContactRef}
             label={t('contactForm_lastContact')}
             type="date"
             dir="ltr"
             value={form.lastContactDate ?? ''}
             onChange={e => set('lastContactDate', e.target.value)}
+            onClick={() => openDatePicker(lastContactRef)}
           />
         </div>
 
@@ -387,11 +396,13 @@ export function ContactFormScreen() {
             style={{ borderLeft: '3px solid #F59E0B' }}>
             <SectionHeader icon={Crown} title={t('contactForm_premiumDetails')} color="#F59E0B" />
             <Input
+              ref={birthdayRef}
               label={t('contactForm_birthday')}
               type="date"
               dir="ltr"
               value={form.birthday ?? ''}
               onChange={e => set('birthday', e.target.value)}
+              onClick={() => openDatePicker(birthdayRef)}
             />
             {/* Hebrew Birthday — shown for Jewish contacts or when already set */}
             {(form.religion === 'Judaism' || form.hebrewBirthday) && (

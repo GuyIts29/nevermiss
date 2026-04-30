@@ -298,7 +298,8 @@ html, body {
   color: var(--color-text-muted);
 }
 
-select.form-input {
+select.form-input,
+input[type="date"].form-input {
   cursor: pointer;
 }
 

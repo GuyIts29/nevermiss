@@ -423,3 +423,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Added `--calendar-picker-invert` CSS variable (value `1` when `isDark`, else `0`) in `applyTheme`. Added CSS rules for `input[type="date"]::-webkit-calendar-picker-indicator`: 20×20px, opacity 0.65→1 on hover, `filter: invert(var(--calendar-picker-invert))` to flip to white in dark mode, `background-color: var(--color-surface-2)` on hover. Default `--calendar-picker-invert: 0` added to `:root`. No hardcoded colors. No value logic changes.
+
+---
+
+### BUG-056 — Date fields require clicking the small calendar icon; full field area not clickable
+- **Date:** 2026-04-30 | **Time:** 14:00 | **Status:** ✅ fixed
+- **File:** `src/screens/ContactFormScreen.tsx`, `src/index.css`
+- **Bug:** Clicking the text area of a `type="date"` input moved the cursor inside the field text but did not open the calendar picker. Users had to click the small calendar icon on the right edge. Affected: "תאריך קשר אחרון" and "תאריך לידה לועזי" fields.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Added `useRef` refs (`lastContactRef`, `birthdayRef`) to both date inputs and a shared `openDatePicker` helper that calls `ref.current?.showPicker()` (with `ref.current?.click()` fallback) from each field's `onClick` handler. This forces the picker to open on any click/tap of the field area. Added `cursor: pointer` to `input[type="date"].form-input` in index.css, consistent with how `select.form-input` is already styled. Date value and storage logic unchanged.

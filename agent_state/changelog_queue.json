@@ -1251,5 +1251,26 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוסף BUG-055 — אייקון לוח שנה לא גלוי בתמה כהה; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T14:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "תוקן BUG-056 — נוספו refs (lastContactRef, birthdayRef) ופונקציית openDatePicker עם showPicker()/click() לשדות תאריך; onClick על כל שדה פותח לוח שנה בלחיצה בכל מקום"
+  },
+  {
+    "timestamp": "2026-04-30T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/index.css",
+    "description": "נוסף cursor: pointer ל-input[type='date'].form-input בהתאם לסגנון select.form-input הקיים"
+  },
+  {
+    "timestamp": "2026-04-30T14:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-056 — שדות תאריך לא פותחים לוח שנה בלחיצה על כל השדה; סומן כ-fixed"
   }
 ]
