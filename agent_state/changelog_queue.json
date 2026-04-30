@@ -1167,5 +1167,26 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוסף BUG-050 — כפתור 'שדרג עכשיו' לא גלוי מעל חלק הקופון ב-UpgradeScreen; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T11:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "תוקן BUG-051 — הוסר כפתור upgrade_cta/CreditCard הכפול; נשמר רק כפתור upgrade_now/Crown מעל חלק הקופון; הוסר import של CreditCard שלא בשימוש"
+  },
+  {
+    "timestamp": "2026-04-30T11:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/PaymeScreen.tsx",
+    "description": "תוקן BUG-052 — שינויי מצב הדגמה של PaymeScreen לא הועלו ל-git; הועלה הגרסה הנכונה: מסך הדגמה עם payme_demoNotice ו-payme_activateDemo ללא form/createPaymentLink"
+  },
+  {
+    "timestamp": "2026-04-30T11:31:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוספו BUG-051 ו-BUG-052 — כפתור CTA כפול ב-UpgradeScreen וגרסת PaymeScreen שלא הועלתה; שניהם סומנו כ-fixed"
   }
 ]

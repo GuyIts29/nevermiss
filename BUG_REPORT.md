@@ -373,3 +373,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Added a full-width h-14 gradient (amber→orange) button using `t('upgrade_now')` immediately above the coupon section. Added i18n key `upgrade_now` (EN: 'Upgrade Now' / HE: 'שדרג עכשיו') to both locales. Button navigates to `/payment`.
+
+---
+
+### BUG-051 — Duplicate Upgrade CTA buttons in UpgradeScreen
+- **Date:** 2026-04-30 | **Time:** 11:30 | **Status:** ✅ fixed
+- **File:** `src/screens/UpgradeScreen.tsx`
+- **Bug:** Two upgrade CTA buttons existed side-by-side: the original `upgrade_cta` button (CreditCard icon) from Sprint 10, and the newly added `upgrade_now` button (Crown icon) from BUG-050 fix. Both navigated to `/payment` and were visually identical.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Removed the older `upgrade_cta`/CreditCard button block. Kept only the `upgrade_now`/Crown button directly above the coupon section. Removed unused `CreditCard` import.
+
+---
+
+### BUG-052 — PaymeScreen demo mode changes never committed
+- **Date:** 2026-04-30 | **Time:** 11:30 | **Status:** ✅ fixed
+- **File:** `src/screens/PaymeScreen.tsx`
+- **Bug:** PaymeScreen was rewritten to demo mode locally (BUG-049 fix) but the file was never staged or committed. The pushed repository still contained the broken original with name/email inputs and `createPaymentLink()`.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Committed the local demo-mode PaymeScreen.tsx. Screen now shows amber demo notice (`payme_demoNotice`) and "הפעל פרימיום (הדגמה)" button (`payme_activateDemo`) that calls `activatePremium()` and navigates to `/dashboard`.
