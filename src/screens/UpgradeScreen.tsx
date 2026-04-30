@@ -199,6 +199,19 @@ export function UpgradeScreen() {
                 {t('upgrade_cta')}
               </button>
 
+              {/* Upgrade Now CTA */}
+              <button
+                onClick={() => navigate('/payment')}
+                className="w-full h-14 rounded-[var(--border-radius)] text-white font-bold text-base flex items-center justify-center gap-2.5 shadow-lg hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, #F59E0B, #F97316)',
+                  boxShadow: '0 6px 24px rgba(245,158,11,0.35)',
+                }}
+              >
+                <Crown size={18} />
+                {t('upgrade_now')}
+              </button>
+
               {/* Coupon Section */}
               <div className="space-y-2">
                 <button

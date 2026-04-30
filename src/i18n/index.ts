@@ -163,6 +163,7 @@ export const translations = {
     contactDetail_email: 'Email',
     contactDetail_lastContact: 'Last contact',
     contactDetail_birthday: 'Birthday',
+    contactDetail_hebrewBirthday: 'Hebrew Birthday',
     contactDetail_frequency: 'Check-in frequency',
     contactDetail_notes: 'Notes',
     contactDetail_upcomingHolidays: 'Upcoming Holidays',
@@ -282,6 +283,7 @@ export const translations = {
     upgrade_unlockDemo: 'Unlock Premium (Demo)',
     upgrade_free: 'Free',
     upgrade_cta: 'Upgrade Now',
+    upgrade_now: 'Upgrade Now',
 
     // ─── PayMe Payment (BL-032) ───────────────────────────────────────────
     payme_title: 'Complete Your Upgrade',
@@ -303,6 +305,8 @@ export const translations = {
     payme_alreadyActiveDesc: 'You have full access to all premium features.',
     payme_securedBy: 'Secured by PayMe · ILS only',
     payme_goPayMe: 'Pay with PayMe',
+    payme_demoNotice: 'This is a demo version — no real payment is required',
+    payme_activateDemo: 'Activate Premium (Demo)',
 
     // ─── WhatsApp ─────────────────────────────────────────────────────────
     whatsapp_title: 'Send WhatsApp Message',
@@ -897,6 +901,7 @@ export const translations = {
     contactDetail_email: 'דוא"ל',
     contactDetail_lastContact: 'קשר אחרון',
     contactDetail_birthday: 'יום הולדת',
+    contactDetail_hebrewBirthday: 'יום הולדת עברי',
     contactDetail_frequency: 'תדירות מעקב',
     contactDetail_notes: 'הערות',
     contactDetail_upcomingHolidays: 'חגים קרובים',
@@ -1016,6 +1021,7 @@ export const translations = {
     upgrade_unlockDemo: 'הפעל פרמיום (הדגמה)',
     upgrade_free: 'חינמי',
     upgrade_cta: 'שדרג עכשיו',
+    upgrade_now: 'שדרג עכשיו',
 
     // ─── PayMe Payment (BL-032) ───────────────────────────────────────────
     payme_title: 'השלם את השדרוג',
@@ -1037,6 +1043,8 @@ export const translations = {
     payme_alreadyActiveDesc: 'יש לך גישה מלאה לכל תכונות הפרמיום.',
     payme_securedBy: 'מאובטח על ידי PayMe · ₪ בלבד',
     payme_goPayMe: 'שלם עם PayMe',
+    payme_demoNotice: 'זוהי גרסת הדגמה — לא נדרש תשלום אמיתי',
+    payme_activateDemo: 'הפעל פרימיום (הדגמה)',
 
     // ─── WhatsApp ─────────────────────────────────────────────────────────
     whatsapp_title: 'שלח הודעת WhatsApp',

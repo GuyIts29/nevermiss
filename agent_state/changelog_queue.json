@@ -1069,5 +1069,103 @@
     "action": "modified",
     "file": "src/screens/DashboardScreen.tsx",
     "description": "BL-065: נוסף relationshipType: contact.relationshipType ל-getAISuggestions call ב-openQuickSend"
+  },
+  {
+    "timestamp": "2026-04-30T10:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תוקן RTL: חצי ניווט חודש (הקודם/הבא) מחליפים אייקון ב-RTL — ChevronLeft/Right מתחלפים לפי lang==='he'; dir='ltr' על div הניווט למניעת היפוך flex; ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-04-30T10:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תוקן לוגיקת birthdayMap — Hebrew ו-Gregorian birthday מטופלים כעת כשני אירועים עצמאיים; איש קשר עם שניהם יופיע פעמיים בלוח השנה; שינוי type ל-BirthdayEntry[]"
+  },
+  {
+    "timestamp": "2026-04-30T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/utils/hebrewDateUtils.ts",
+    "description": "נוספה formatHebrewBirthdayDisplay() — ממירה 'DD-MM' לפורמט תצוגה 'כ״א בטבת' (גמטריה + שם חודש עברי)"
+  },
+  {
+    "timestamp": "2026-04-30T10:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "תוקן dropdown יום בלידה עברית — מציג גמטריה (א, ב... ל) במקום מספרים; ייבוא gematriya מ-@hebcal/core"
+  },
+  {
+    "timestamp": "2026-04-30T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "נוסף שורת 'יום הולדת עברי' בפרטי איש קשר (Premium) — מציג פורמט כ״א בטבת; ייבוא formatHebrewBirthdayDisplay"
+  },
+  {
+    "timestamp": "2026-04-30T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוסף מפתח contactDetail_hebrewBirthday — EN: 'Hebrew Birthday', HE: 'יום הולדת עברי'"
+  },
+  {
+    "timestamp": "2026-04-30T10:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "agent_state/qa_status.json",
+    "description": "נוספו T121 (RTL calendar arrows) ו-T122 (Hebrew birthday display) — שניהם ✅"
+  },
+  {
+    "timestamp": "2026-04-30T10:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/PaymeScreen.tsx",
+    "description": "תוקן BUG-049 — PaymeScreen שוכתב כמסך הדגמה: הוסרו form/plan picker/createPaymentLink; נוסף באנר הדגמה עם payme_demoNotice ו-כפתור 'הפעל פרימיום (הדגמה)' שמפעיל activatePremium() ומנווט ל-/dashboard"
+  },
+  {
+    "timestamp": "2026-04-30T10:30:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 2 מפתחות i18n: payme_demoNotice (EN: 'This is a demo version — no real payment is required' / HE: 'זוהי גרסת הדגמה — לא נדרש תשלום אמיתי') ו-payme_activateDemo (EN/HE: 'Activate Premium (Demo)' / 'הפעל פרימיום (הדגמה)')"
+  },
+  {
+    "timestamp": "2026-04-30T10:31:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-049 — PaymeScreen זורק שגיאת תשלום; משתמשים לא יכולים לגשת לפרמיום ללא קוד קופון; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T10:32:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "agent_state/qa_status.json",
+    "description": "נוסף T123 (Premium upgrade path — demo activation flow) — ✅"
+  },
+  {
+    "timestamp": "2026-04-30T11:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "תוקן BUG-050 — נוסף כפתור 'שדרג עכשיו' (upgrade_now) גדול ורחב מלא מעל חלק הקופון ב-UpgradeScreen; כפתור gradient amber→orange, מנווט ל-/payment"
+  },
+  {
+    "timestamp": "2026-04-30T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוסף מפתח i18n upgrade_now — EN: 'Upgrade Now' / HE: 'שדרג עכשיו' — בשני הלוקאלים"
+  },
+  {
+    "timestamp": "2026-04-30T11:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-050 — כפתור 'שדרג עכשיו' לא גלוי מעל חלק הקופון ב-UpgradeScreen; סומן כ-fixed"
   }
 ]

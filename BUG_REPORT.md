@@ -353,3 +353,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-29 (Sprint 10 bug report)
 - **Fixed by:** Agent 1 — 2026-04-29 (Sprint 10 hotfix)
 - **Fix:** Changed `upgrade_unlockEverything` HE value from `'פתח הכל'` to `'שדרג לפרמיום'` ("Upgrade to Premium") in `src/i18n/index.ts`. EN value ('Unlock Everything') unchanged.
+
+---
+
+### BUG-049 — PaymeScreen throws payment error; users cannot access Premium without coupon
+- **Date:** 2026-04-30 | **Time:** 10:30 | **Status:** ✅ fixed
+- **File:** `src/screens/PaymeScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** `/payment` screen rendered a name+email form that called `createPaymentLink()` — a stub that always threw an error. Users who clicked "Upgrade Now" on the UpgradeScreen saw "Payment service coming soon. Use a coupon code." with no path to activate Premium. The demo activation button on UpgradeScreen was guarded by `import.meta.env.DEV` — invisible in production.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Rewrote `PaymeScreen.tsx` as a demo-mode screen: removed form, plan picker, and `createPaymentLink()` call. Added amber demo notice banner (`payme_demoNotice`: "זוהי גרסת הדגמה — לא נדרש תשלום אמיתי") and "הפעל פרימיום (הדגמה)" button that calls `activatePremium()` + navigates to `/dashboard`. Added 2 new i18n keys (`payme_demoNotice`, `payme_activateDemo`) in EN + HE. UpgradeScreen unchanged — its "שדרג עכשיו" CTA was already correct.
+
+---
+
+### BUG-050 — Upgrade Now CTA button not visible above coupon section in UpgradeScreen
+- **Date:** 2026-04-30 | **Time:** 11:00 | **Status:** ✅ fixed
+- **File:** `src/screens/UpgradeScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** The primary "שדרג עכשיו" / "Upgrade Now" CTA button was not visible immediately above the coupon section in the UpgradeScreen production build. Users saw only the coupon toggle and "המשך בחינמי" button.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Added a full-width h-14 gradient (amber→orange) button using `t('upgrade_now')` immediately above the coupon section. Added i18n key `upgrade_now` (EN: 'Upgrade Now' / HE: 'שדרג עכשיו') to both locales. Button navigates to `/payment`.
