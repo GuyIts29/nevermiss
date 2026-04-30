@@ -159,5 +159,6 @@ export function applyTheme(theme: Theme): void {
   root.style.setProperty('--shadow-color', theme.shadowColor)
   root.style.setProperty('--border-radius', theme.borderRadius)
   root.style.setProperty('--border-radius-lg', theme.borderRadiusLg)
+  root.style.setProperty('--calendar-picker-invert', theme.isDark ? '1' : '0')
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme.primary)
 }

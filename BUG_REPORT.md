@@ -413,3 +413,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Committed all Bug Fix 1 local changes: gematriya(d) label in day dropdown, formatHebrewBirthdayDisplay utility, HebrewBirthday display row in ContactDetailScreen, BirthdayEntry type + RTL arrows in CalendarScreen.
+
+---
+
+### BUG-055 — Calendar picker icon invisible in dark mode (Midnight theme)
+- **Date:** 2026-04-30 | **Time:** 13:00 | **Status:** ✅ fixed
+- **File:** `src/index.css`, `src/data/themes.ts`
+- **Bug:** The browser-native `::-webkit-calendar-picker-indicator` icon on `type="date"` inputs renders as a dark icon by default. In the Midnight dark theme (background: #080818, surface: #12123A) it was invisible. In all themes it was also small and lacked hover affordance.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Added `--calendar-picker-invert` CSS variable (value `1` when `isDark`, else `0`) in `applyTheme`. Added CSS rules for `input[type="date"]::-webkit-calendar-picker-indicator`: 20×20px, opacity 0.65→1 on hover, `filter: invert(var(--calendar-picker-invert))` to flip to white in dark mode, `background-color: var(--color-surface-2)` on hover. Default `--calendar-picker-invert: 0` added to `:root`. No hardcoded colors. No value logic changes.

@@ -1230,5 +1230,26 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוספו BUG-053 ו-BUG-054 — שדות תאריך לא פותחים לוח שנה ב-RTL; יום עברי לא בגמטריה (שינויים לא הועלו); שניהם סומנו כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T13:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/index.css",
+    "description": "תוקן BUG-055 — נוספו עיצוב CSS ל-::-webkit-calendar-picker-indicator: גודל 20×20px, opacity 0.65, hover עם רקע var(--color-surface-2), filter: invert(var(--calendar-picker-invert)) לנראות בתמה כהה"
+  },
+  {
+    "timestamp": "2026-04-30T13:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/data/themes.ts",
+    "description": "נוספה משתנה CSS --calendar-picker-invert ב-applyTheme: '1' לתמות כהות (isDark), '0' לתמות בהירות"
+  },
+  {
+    "timestamp": "2026-04-30T13:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-055 — אייקון לוח שנה לא גלוי בתמה כהה; סומן כ-fixed"
   }
 ]
