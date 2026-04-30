@@ -1286,5 +1286,19 @@
     "action": "modified",
     "file": "BUG_REPORT.md",
     "description": "נוסף BUG-057 — דרופדאון יום הולדת עברי מתאפסים לאחר בחירה חלקית; סומן כ-fixed"
+  },
+  {
+    "timestamp": "2026-04-30T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/ui/Modal.tsx",
+    "description": "תוקן BUG-058 — שדה תיאור בטופס קבוצה מאבד פוקוס אחרי כל תו: הוסר onClose מ-dependency array של useEffect הראשי; הוחלף ב-onCloseRef שמתעדכן ב-useEffect נפרד. הפוקוס-טרפ מופעל רק בפתיחה/סגירה של המודאל"
+  },
+  {
+    "timestamp": "2026-04-30T16:01:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "נוסף BUG-058 — שדה תיאור בטופס קבוצה מאבד פוקוס; סומן כ-fixed"
   }
 ]

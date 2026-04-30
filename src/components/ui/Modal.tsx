@@ -27,6 +27,8 @@ const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:n
 export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose, footer, danger }: ModalProps) {
   const sheetRef = useRef<HTMLDivElement>(null)
   const previousFocus = useRef<Element | null>(null)
+  const onCloseRef = useRef(onClose)
+  useEffect(() => { onCloseRef.current = onClose }, [onClose])
   const t = useT()
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose
     })
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return }
+      if (e.key === 'Escape') { onCloseRef.current(); return }
       if (e.key !== 'Tab') return
       const focusable = Array.from(sheetRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? [])
       if (focusable.length === 0) return
@@ -59,7 +61,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md', hideClose
       window.removeEventListener('keydown', onKey)
       ;(previousFocus.current as HTMLElement | null)?.focus()
     }
-  }, [isOpen, onClose])
+  }, [isOpen])
 
   if (!isOpen) return null
 

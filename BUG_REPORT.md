@@ -443,3 +443,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-04-30 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
 - **Fix:** Replaced the `hbParts` useMemo with two `useState` variables (`hbDay`, `hbMonth`) initialized from `existing.hebrewBirthday`. Dropdowns now bind to local state (always reflect the user's last selection) while `setHebBirthday` still only writes to the form when both parts are valid. Clear button resets both local state and form. `useMemo` import removed. Storage logic unchanged.
+
+---
+
+### BUG-058 — Group form description field loses focus after every character typed
+- **Date:** 2026-04-30 | **Time:** 16:00 | **Status:** ✅ fixed
+- **File:** `src/components/ui/Modal.tsx`
+- **Bug:** Typing any character in the description (or name) field inside the "צור קבוצה" modal caused focus to jump away immediately. Root cause: Modal's `useEffect` had `[isOpen, onClose]` as its dependency array. The `onClose` prop (`() => setShowForm(false)`) is an inline arrow function in GroupsScreen — a new reference is created on every render. Each keystroke → `setForm` → GroupsScreen re-renders → new `onClose` reference → Modal's `useEffect` re-runs → `requestAnimationFrame(() => first?.focus())` fires → focus moved to the first focusable element (the close button), stealing it from the description field.
+- **Found by:** User — 2026-04-30 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-04-30 (Bug Fix Mode)
+- **Fix:** Added `onCloseRef` to Modal. A separate `useEffect([onClose])` keeps the ref current. The focus-trap effect now depends only on `[isOpen]`, so it re-runs only when the modal opens or closes — never on prop reference churn. The Escape key handler reads `onCloseRef.current` (always latest value). This fix applies to ALL modals in the app that use this component.
