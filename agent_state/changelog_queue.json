@@ -1587,5 +1587,12 @@
     "action": "fixed",
     "file": "src/screens/GroupsScreen.tsx",
     "description": "תוקן BUG-073 — כפתורי עריכה ומחיקה של קבוצות קיבלו aria-label לנגישות"
+  },
+  {
+    "timestamp": "2026-05-01T15:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/ui/Input.tsx",
+    "description": "תיקון BUG-074: ממשק Input לא היה מודע ל-RTL — האייקונים הופיעו בצד הלא נכון בעברית. הוספת useLang ו-isRTL לניהול מיקום האייקון והריפוד בהתאם לכיוון הטקסט."
   }
 ]

@@ -605,3 +605,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode accessibility scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added `aria-label={t('groups_editGroup')}` and `aria-label={t('groups_deleteGroup')}` using existing i18n keys.
+
+---
+
+### BUG-074 — Input component icon positioning not RTL-aware
+- **Date:** 2026-05-01 | **Time:** 15:30 | **Status:** ✅ fixed
+- **File:** `src/components/ui/Input.tsx`
+- **Bug:** The `Input` component always placed the leading icon on the left and the trailing icon on the right using physical CSS classes (`left-3`, `right-3`, `pl-10`, `pr-10`). In Hebrew/RTL mode, search icons and other input icons appeared on the wrong side, with input text padding also on the wrong side.
+- **Found by:** Developer — Bug Fix Mode RTL scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added `useLang` import and `isRTL` flag. Replaced all physical positioning classes with RTL-conditional equivalents: icon uses `right-3`/`left-3` in RTL, iconRight uses `left-3`/`right-3` in RTL. Input padding flips accordingly.

@@ -1,5 +1,6 @@
 import { forwardRef, type InputHTMLAttributes, type ReactNode } from 'react'
 import { clsx } from 'clsx'
+import { useLang } from '@/context/LanguageContext'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -20,6 +21,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   ...props
 }, ref) => {
   const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
+  const { lang } = useLang()
+  const isRTL = lang === 'he'
+
   return (
     <div className="form-field">
       {label && (
@@ -29,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
       )}
       <div className="relative">
         {icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] pointer-events-none">
+          <div className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] pointer-events-none`}>
             {icon}
           </div>
         )}
@@ -38,15 +42,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
           id={inputId}
           className={clsx(
             'form-input',
-            icon && 'pl-10',
-            iconRight && 'pr-10',
+            icon && (isRTL ? 'pr-10' : 'pl-10'),
+            iconRight && (isRTL ? 'pl-10' : 'pr-10'),
             error && 'border-red-400 focus:ring-red-400',
             className
           )}
           {...props}
         />
         {iconRight && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]">
+          <div className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]`}>
             {iconRight}
           </div>
         )}
