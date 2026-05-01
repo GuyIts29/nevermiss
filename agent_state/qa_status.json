@@ -583,5 +583,32 @@
     "status": "done",
     "completedAt": "2026-05-01T20:00:00",
     "description": "Dynamic Hebcal-driven holiday generation — replaces all hardcoded Hebrew-calendar dates with runtime @hebcal/core generation for YEAR_RANGE; backward-compatible IDs and Holiday interface"
+  },
+  "T136": {
+    "status": "✅",
+    "notes": "BL-046 תוקן — כפתור ייבוא בכרטיסיית אנשי קשר מוצג לכל המשתמשים; גייט Premium נשמר בנתיב"
+  },
+  "T137": {
+    "status": "✅",
+    "notes": "BL-047 אומת — תווית CSV בלבד מוצגת ליד אזור ההעלאה; תרגום עברי קיים"
+  },
+  "T138": {
+    "status": "✅",
+    "notes": "BL-048 אומת — כרטיסיית ייבוא ממכשיר מוצגת בראש המסך עם גרדיאנט כחול ואייקון סמארטפון"
+  },
+  "BL-046": {
+    "status": "done",
+    "sprint": 15,
+    "completedAt": "2026-05-01T22:00:00"
+  },
+  "BL-047": {
+    "status": "done",
+    "sprint": 15,
+    "completedAt": "2026-05-01T22:01:00"
+  },
+  "BL-048": {
+    "status": "done",
+    "sprint": 15,
+    "completedAt": "2026-05-01T22:02:00"
   }
 }

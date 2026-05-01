@@ -32,6 +32,7 @@ const CATEGORIES = [
   { id: 'sprint12', emoji: '🪪', name: 'Sprint 12 — Personal User Layer (BL-067) + AI Personalization MVP (BL-065)' },
   { id: 'bugfix',  emoji: '🐞', name: 'Bug Fixes & Improvements — Sprint Suspension Mode' },
   { id: 'sprint14', emoji: '⚡', name: 'Sprint 14 — חגים דינמיים BL-077 (Hebcal)' },
+  { id: 'sprint15', emoji: '📥', name: 'Sprint 15 — ייבוא אנשי קשר UX: BL-046, BL-047, BL-048' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -204,6 +205,9 @@ const TESTS = [
   { id: 'T133', cat: 'bugfix',  name: 'BUG-080: כפילויות חגים ב-Event Type dropdown — useMemo dedup by name (upcoming-first) ב-GreetingEditorScreen' },
   { id: 'T134', cat: 'feature', name: "BL-064: שליחה מהירה — ChannelPicker ב-Quick Send Panel; כפתור 'שלח ברכה' על כרטיסי חג היום/מחר; 2 מפתחות i18n EN+HE" },
   { id: 'T135', cat: 'sprint14', name: 'BL-077: חגים יהודיים דינמיים — 17 תבניות Hebcal; YEAR_RANGE=[שנה-1..שנה+2]; IDs ו-Holiday interface זהים; build+lint ✅' },
+  { id: 'T136', cat: 'sprint15', name: 'BL-046: כפתור ייבוא אנשי קשר מוצג בכרטיסיית אנשי קשר לכל המשתמשים; גייט Premium נשמר בנתיב /import' },
+  { id: 'T137', cat: 'sprint15', name: 'BL-047: תווית "כרגע ניתן לייבא קובץ CSV בלבד" מוצגת ליד אזור ההעלאה ב-ImportContactsScreen; תרגום עברי קיים' },
+  { id: 'T138', cat: 'sprint15', name: 'BL-048: כרטיסיית ייבוא ממכשיר (גרדיאנט כחול, סמארטפון) מוצגת בראש ImportContactsScreen; נגישות ויזואלית מלאה' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

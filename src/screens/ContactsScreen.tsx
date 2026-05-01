@@ -90,15 +90,13 @@ export function ContactsScreen() {
         subtitle={`${contacts.length} ${contacts.length === 1 ? t('groups_group') : t('groups_groups')}`}
         right={
           <div className="flex items-center gap-2">
-            {isPremium && (
-              <button
-                onClick={() => navigate('/import')}
-                className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
-                aria-label={t('settings_importContacts')}
-              >
-                <FileUp size={18} className="text-[var(--color-text-secondary)]" />
-              </button>
-            )}
+            <button
+              onClick={() => navigate('/import')}
+              className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl hover:bg-[var(--color-surface-2)] transition-all active:scale-90"
+              aria-label={t('settings_importContacts')}
+            >
+              <FileUp size={18} className="text-[var(--color-text-secondary)]" />
+            </button>
             <button
               onClick={() => canAddContact ? navigate('/contacts/new') : navigate('/upgrade')}
               className={clsx(
@@ -184,16 +182,14 @@ export function ContactsScreen() {
                 onClick: () => navigate('/contacts/new'),
               }}
             />
-            {isPremium && (
-              <button
-                type="button"
-                onClick={() => navigate('/import')}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-[var(--border-radius)] border border-dashed border-[var(--color-border)] text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"
-              >
-                <FileUp size={14} />
-                {t('settings_importContacts')}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => navigate('/import')}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-[var(--border-radius)] border border-dashed border-[var(--color-border)] text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"
+            >
+              <FileUp size={14} />
+              {t('settings_importContacts')}
+            </button>
           </>
         ) : filtered.length === 0 ? (
           <EmptyState

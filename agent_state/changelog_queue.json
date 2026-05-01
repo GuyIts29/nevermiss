@@ -1741,5 +1741,26 @@
     "action": "modified",
     "file": "src/data/holidays.ts",
     "description": "BL-077 תיקון: (1) 3 hebcalMatch שגויים תוקנו — simchat-torah: Shmini Atzeret, shiva-asar-btammuz: Tzom Tammuz, israel-independence-day: Yom HaAtzma'ut; (2) הוחלפה לוגיקת startsWith בטבלת mapping מבוקרת (exact match בלבד); (3) נוסף erevAdjust לשחזור תאריכי ערב (Rosh Hashana/Yom Kippur/Sukkot/Passover/Shavuot/Simchat Torah); (4) אומת: 21 השוואות BEFORE vs AFTER — אפס הבדלים"
+  },
+  {
+    "timestamp": "2026-05-01T22:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactsScreen.tsx",
+    "description": "BL-046 — הוסרה הגבלת isPremium מכפתורי הייבוא בכרטיסיית אנשי קשר; כפתור הייבוא בכותרת ובמצב ריק מוצגים לכל המשתמשים; שמירת גייט ה-Premium בנתיב /import ברמת הנתיב"
+  },
+  {
+    "timestamp": "2026-05-01T22:01:00",
+    "agent": "Reviewer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-047 — אומת: מפתח import_csvOnly (כרגע ניתן לייבא קובץ CSV בלבד) מוצג בתוך אזור ההעלאה; תרגום עברי קיים ב-i18n; אין שינוי קוד נדרש"
+  },
+  {
+    "timestamp": "2026-05-01T22:02:00",
+    "agent": "Reviewer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-048 — אומת: כרטיסיית ייבוא מאנשי קשר במכשיר (גרדיאנט כחול, אייקון סמארטפון) מוצגת בראש המסך; נגישות ויזואלית מלאה; אין שינוי קוד נדרש"
   }
 ]
