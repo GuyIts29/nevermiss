@@ -637,5 +637,32 @@
   "T141": {
     "status": "✅",
     "notes": "BL-080 תוקן — parseDateLocal() מונע הסטת UTC; safeguards לתאריך חסר; build+lint ✅"
+  },
+  "BL-081": {
+    "status": "done",
+    "sprint": 18,
+    "completedAt": "2026-05-01T12:30:00"
+  },
+  "BL-075": {
+    "status": "done",
+    "sprint": 18,
+    "completedAt": "2026-05-01T12:30:00"
+  },
+  "BL-049": {
+    "status": "done",
+    "sprint": 18,
+    "completedAt": "2026-05-01T12:30:00"
+  },
+  "T142": {
+    "status": "✅",
+    "notes": "BL-081 תוקן — ImportContactsScreen: 3 מופעי ArrowRight הוחלפו ב-lang==='he' ? ArrowLeft : ArrowRight; useLang() נוסף; build+lint ✅"
+  },
+  "T143": {
+    "status": "✅",
+    "notes": "BL-075 יושם — ContactCard: 3-dot MoreVertical menu עם Edit+Delete; close on outside click + Escape; delete confirmation modal; aria-label contacts_moreOptions; RTL-correct dropdown position; build+lint ✅"
+  },
+  "T144": {
+    "status": "✅",
+    "notes": "BL-049 שופר — BottomNav active tab: box-shadow inset 0 2px 0 var(--color-primary) נוסף; opacity-20 (מ-15); active indication ברור יותר; build+lint ✅"
   }
 }

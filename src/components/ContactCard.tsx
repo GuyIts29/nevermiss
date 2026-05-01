@@ -1,9 +1,12 @@
-import { memo } from 'react'
+import { memo, useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MessageCircle, Crown, Building2 } from 'lucide-react'
+import { MessageCircle, Crown, Building2, MoreVertical } from 'lucide-react'
 import type { Contact, RelationshipScore, SuggestedActionType } from '@/types'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 import { useT, useLang } from '@/context/LanguageContext'
+import { useApp } from '@/context/AppContext'
+import { Modal } from '@/components/ui/Modal'
+import { Button } from '@/components/ui/Button'
 import type { TranslationKey } from '@/i18n'
 
 interface ContactCardProps {
@@ -26,7 +29,30 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
   const navigate = useNavigate()
   const t = useT()
   const { lang } = useLang()
+  const { deleteContact } = useApp()
   const handleClick = onClick ?? (() => navigate(`/contacts/${contact.id}`))
+
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [showDelete, setShowDelete] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+    function handleOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', handleOutside)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [menuOpen])
 
   const urgencyColor = score
     ? score.urgencyLevel === 'critical' ? '#EF4444'
@@ -51,78 +77,151 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
     ? `stagger-${Math.min(staggerIndex + 1, 5)}`
     : 'animate-slide-up'
 
-  return (
-    <button
-      type="button"
-      className={`card card-interactive flex items-center gap-3 w-full text-start ${staggerClass}`}
-      style={{
-        [lang === 'he' ? 'borderRight' : 'borderLeft']: `3px solid ${urgencyColor}`,
-        background: urgencyGlow !== 'transparent'
-          ? `linear-gradient(135deg, var(--color-surface), ${urgencyGlow})`
-          : undefined,
-      }}
-      onClick={handleClick}
-    >
-      {/* Avatar */}
-      <div
-        className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm"
-        style={{ background: avatarGradient }}
-      >
-        {getInitials(contact.name)}
-      </div>
+  const handleDelete = () => {
+    deleteContact(contact.id)
+    setShowDelete(false)
+  }
 
-      {/* Info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5 mb-0.5">
-          <span className="font-bold text-sm text-[var(--color-text-primary)] truncate">
-            {contact.name}
-          </span>
-          {contact.importanceLevel === 'vip' && (
-            <Crown size={12} className="text-amber-500 shrink-0" aria-hidden="true" />
+  return (
+    <>
+      <div
+        className={`card card-interactive flex items-center gap-3 w-full text-start ${staggerClass}`}
+        style={{
+          [lang === 'he' ? 'borderRight' : 'borderLeft']: `3px solid ${urgencyColor}`,
+          background: urgencyGlow !== 'transparent'
+            ? `linear-gradient(135deg, var(--color-surface), ${urgencyGlow})`
+            : undefined,
+        }}
+      >
+        {/* Main clickable area */}
+        <button
+          type="button"
+          className="flex items-center gap-3 flex-1 min-w-0 text-start"
+          onClick={handleClick}
+        >
+          {/* Avatar */}
+          <div
+            className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm"
+            style={{ background: avatarGradient }}
+          >
+            {getInitials(contact.name)}
+          </div>
+
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <span className="font-bold text-sm text-[var(--color-text-primary)] truncate">
+                {contact.name}
+              </span>
+              {contact.importanceLevel === 'vip' && (
+                <Crown size={12} className="text-amber-500 shrink-0" aria-hidden="true" />
+              )}
+              {contact.contactType === 'internal' && (
+                <Building2 size={12} className="text-[var(--color-primary)] shrink-0" aria-hidden="true" />
+              )}
+            </div>
+            <p className="text-xs text-[var(--color-text-muted)] capitalize">
+              {contact.relationshipType.replace('_', ' ')}
+              {contact.department && ` · ${contact.department}`}
+            </p>
+            {score && (
+              <p className="text-xs text-[var(--color-text-muted)] mt-0.5 truncate">
+                {t(ACTION_KEY[score.suggestedAction.type])}
+              </p>
+            )}
+            {score && (
+              <div className="score-bar-track mt-1.5">
+                <div
+                  className="score-bar-fill"
+                  style={{
+                    width: `${scorePercent}%`,
+                    background: `linear-gradient(90deg, ${urgencyColor}, ${urgencyColor}88)`,
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </button>
+
+        {/* Right: score, phone, 3-dot */}
+        <div className="flex flex-col items-end gap-1.5 shrink-0 relative" ref={menuRef}>
+          {score && (
+            <span
+              className="text-xs font-bold px-2 py-0.5 rounded-full"
+              style={{
+                backgroundColor: `${urgencyColor}20`,
+                color: urgencyColor === 'var(--color-border)' ? 'var(--color-text-muted)' : urgencyColor,
+              }}
+            >
+              {score.total}
+            </span>
           )}
-          {contact.contactType === 'internal' && (
-            <Building2 size={12} className="text-[var(--color-primary)] shrink-0" aria-hidden="true" />
+          {contact.phone && (
+            <MessageCircle size={13} className="text-green-500" />
+          )}
+
+          {/* 3-dot button */}
+          <button
+            type="button"
+            className="min-w-[32px] min-h-[32px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+            aria-label={t('contacts_moreOptions')}
+            aria-expanded={menuOpen}
+            onClick={e => { e.stopPropagation(); setMenuOpen(o => !o) }}
+          >
+            <MoreVertical size={14} className="text-[var(--color-text-muted)]" />
+          </button>
+
+          {/* Dropdown menu */}
+          {menuOpen && (
+            <div
+              className="absolute z-50 top-full mt-1 rounded-[var(--border-radius)] shadow-xl border border-[var(--color-border)] overflow-hidden"
+              style={{
+                background: 'var(--color-surface)',
+                [lang === 'he' ? 'left' : 'right']: 0,
+                minWidth: '120px',
+              }}
+            >
+              <button
+                type="button"
+                className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-surface-2)] transition-colors"
+                onClick={e => { e.stopPropagation(); setMenuOpen(false); navigate(`/contacts/${contact.id}`) }}
+              >
+                {t('edit')}
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                onClick={e => { e.stopPropagation(); setMenuOpen(false); setShowDelete(true) }}
+              >
+                {t('delete')}
+              </button>
+            </div>
           )}
         </div>
-        <p className="text-xs text-[var(--color-text-muted)] capitalize">
-          {contact.relationshipType.replace('_', ' ')}
-          {contact.department && ` · ${contact.department}`}
-        </p>
-        {score && (
-          <p className="text-xs text-[var(--color-text-muted)] mt-0.5 truncate">
-            {t(ACTION_KEY[score.suggestedAction.type])}
-          </p>
-        )}
-        {score && (
-          <div className="score-bar-track mt-1.5">
-            <div
-              className="score-bar-fill"
-              style={{
-                width: `${scorePercent}%`,
-                background: `linear-gradient(90deg, ${urgencyColor}, ${urgencyColor}88)`,
-              }}
-            />
-          </div>
-        )}
       </div>
 
-      {/* Right */}
-      <div className="flex flex-col items-end gap-1.5 shrink-0">
-        {score && (
-          <span
-            className="text-xs font-bold px-2 py-0.5 rounded-full"
-            style={{
-              backgroundColor: `${urgencyColor}20`,
-              color: urgencyColor === 'var(--color-border)' ? 'var(--color-text-muted)' : urgencyColor,
-            }}
-          >
-            {score.total}
-          </span>
-        )}
-        {contact.phone && (
-          <MessageCircle size={13} className="text-green-500" />
-        )}
-      </div>
-    </button>
+      {/* Delete confirmation modal */}
+      <Modal
+        isOpen={showDelete}
+        onClose={() => setShowDelete(false)}
+        title={t('contactForm_deleteContact')}
+        size="sm"
+        danger
+        footer={
+          <div className="flex gap-2">
+            <Button variant="ghost" size="sm" fullWidth onClick={() => setShowDelete(false)}>
+              {t('cancel')}
+            </Button>
+            <Button variant="danger" size="sm" fullWidth onClick={handleDelete}>
+              {t('delete')}
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+          {t('contactForm_deleteConfirm', { name: contact.name })}
+        </p>
+      </Modal>
+    </>
   )
 })

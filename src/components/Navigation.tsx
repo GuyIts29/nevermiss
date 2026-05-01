@@ -30,7 +30,7 @@ export function BottomNav() {
             <div className="relative flex items-center justify-center w-8 h-8">
               {active && (
                 <div
-                  className="absolute inset-0 rounded-xl opacity-15"
+                  className="absolute inset-0 rounded-xl opacity-20"
                   style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
                 />
               )}

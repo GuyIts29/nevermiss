@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, CheckCircle, AlertCircle, ArrowRight, FileText, Smartphone, Download, FolderOpen } from 'lucide-react'
+import { Upload, CheckCircle, AlertCircle, ArrowRight, ArrowLeft, FileText, Smartphone, Download, FolderOpen } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useLang, useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -92,6 +92,7 @@ export function ImportContactsScreen() {
   const navigate = useNavigate()
   const { addContact, groups, updateGroup } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const CONTACT_FIELDS = [
@@ -185,7 +186,7 @@ export function ImportContactsScreen() {
               {t('import_fromPhoneDesc')}
             </p>
           </div>
-          <ArrowRight size={16} className="text-white shrink-0" />
+          {lang === 'he' ? <ArrowLeft size={16} className="text-white shrink-0" /> : <ArrowRight size={16} className="text-white shrink-0" />}
         </button>
 
         <div className="flex items-center gap-3">
@@ -289,7 +290,7 @@ export function ImportContactsScreen() {
               <p className="text-xs font-bold text-[var(--color-text-primary)]">{t('import_downloadTemplate')}</p>
               <p className="text-[10px] text-[var(--color-text-muted)]">{t('import_templateHint')}</p>
             </div>
-            <ArrowRight size={12} className="text-[var(--color-text-muted)] shrink-0" />
+            {lang === 'he' ? <ArrowLeft size={12} className="text-[var(--color-text-muted)] shrink-0" /> : <ArrowRight size={12} className="text-[var(--color-text-muted)] shrink-0" />}
           </button>
           </>
         )}
@@ -331,7 +332,7 @@ export function ImportContactsScreen() {
                       className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
                       style={{ background: 'linear-gradient(135deg, #3B82F6, #0EA5E9)' }}
                     >
-                      <ArrowRight size={12} className="text-white" />
+                      {lang === 'he' ? <ArrowLeft size={12} className="text-white" /> : <ArrowRight size={12} className="text-white" />}
                     </div>
                     {/* Target field */}
                     <div className="flex-1">

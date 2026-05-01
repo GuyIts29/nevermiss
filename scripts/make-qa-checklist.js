@@ -212,6 +212,9 @@ const TESTS = [
   { id: 'T139', cat: 'sprint16', name: 'BL-067: UserSetupScreen first-launch, nm_user_name persist, dashboard_hello/pending/first_greeting EN+HE, pendingItems clickable, empty states graceful; DoD מלא ✅' },
   { id: 'T140', cat: 'bugfix',  name: 'BUG-081: showPremiumUI=!TEMP_PREMIUM_UNLOCK — Crown + "פרמיום" מוסתרים ב-ContactForm ו-Settings כשגייט MVP פתוח; הפיכה ל-false משחזרת הכל' },
   { id: 'T141', cat: 'bugfix',  name: 'BL-080/BUG-082: parseDateLocal() מחליף new Date(string) — מונע הסטת UTC ב-Asia/Jerusalem; safeguards לתאריך חסר/לא תקין; Hebcal Israel mode אומת כנכון' },
+  { id: 'T142', cat: 'sprint18', name: 'BL-081: ImportContactsScreen — 3 ArrowRight הוחלפו ב-lang==="he" ? ArrowLeft : ArrowRight; כפתור מכשיר, הורד תבנית, עמודת מיפוי כולם RTL-נכון' },
+  { id: 'T143', cat: 'sprint18', name: 'BL-075: ContactCard — 3-dot MoreVertical menu; Edit מנווט לטופס; Delete פותח confirm modal; סגירה על-ידי outside click + Escape; aria-label; dropdown RTL-aware' },
+  { id: 'T144', cat: 'sprint18', name: 'BL-049: BottomNav active tab — box-shadow inset 0 2px 0 var(--color-primary) + opacity-20 icon glow; active tab ברור ומובחן; ללא רגרסיה' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

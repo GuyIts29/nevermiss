@@ -1818,5 +1818,75 @@
     "action": "fixed",
     "file": "src/services/notificationService.ts",
     "description": "BL-080 / BUG-082 תוקן — new Date(\"YYYY-MM-DD\") הוחלף ב-parseDateLocal() שמפרש תאריכים כחצות שעון מקומי; מונע הסטה של יום בגלל UTC+3 (Asia/Jerusalem); נוספו בטיחות: דילוג על holiday.date ריק/לא תקין; Hebcal Israel mode כבר היה נכון"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-081 נוסף לבאקלוג — באג: אייקוני כיוון (ArrowRight) ב-ImportContactsScreen.tsx לא מודעים ל-RTL; 3 מופעים בשורות 188, 292, 334; כל שאר המסכים כבר נכונים"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.csv",
+    "description": "BL-081 נוסף ל-BACKLOG.csv עם עדיפות High"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-081 תוקן — 3 מופעי ArrowRight קשוחים הוחלפו ב-lang==='he' ? ArrowLeft : ArrowRight; נוסף useLang() ו-ArrowLeft לייבואים; כפתור ייבוא ממכשיר, הורד תבנית, עמודת מיפוי — כולם RTL-נכון"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/components/ContactCard.tsx",
+    "description": "BL-075 יושם — ContactCard קיבל 3-dot overflow menu (MoreVertical); לחיצה פותחת תפריט עם עריכה + מחיקה; מחיקה פותחת Modal אישור; סגירה על-ידי outside click + Escape; aria-label contacts_moreOptions; dropdown מיוצב RTL-aware"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/i18n/index.ts",
+    "description": "BL-075 — נוסף מפתח contacts_moreOptions ('More options' / 'אפשרויות נוספות') לשני הלוקאלים"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/index.css",
+    "description": "BL-049 — .bottom-nav-item.active קיבל box-shadow: inset 0 2px 0 var(--color-primary); מוסיף פס אינדיקטור עליון ברור לטאב הפעיל"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/Navigation.tsx",
+    "description": "BL-049 — גלו רקע לאייקון הפעיל שודרג מ-opacity-15 ל-opacity-20 לניגודיות גבוהה יותר"
+  },
+  {
+    "timestamp": "2026-05-01T12:35:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-082 נוסף לבאקלוג — שיפור: מערכת הנקודות לא מוסברת; calculateRelationshipScore() ב-scoringSystem.ts; דרוש הסבר UX בעברית ואנגלית"
+  },
+  {
+    "timestamp": "2026-05-01T12:35:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "BL-079 הורחב — כולל כעת drilldown בין Language ל-Religion ב-UI dropdowns ומקור אחד של אמת (shared config) בנוסף לתבנית ה-CSV"
+  },
+  {
+    "timestamp": "2026-05-01T12:35:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "Sprint 18 סגור — BL-081/BL-075/BL-049 עודכנו ל-Done"
   }
 ]
