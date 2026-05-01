@@ -1,17 +1,15 @@
 import { HebrewCalendar } from '@hebcal/core'
 import type { Holiday } from '@/types'
 
-function hebcalDate(hebrewYear: number, desc: string, fallback: string, exact = false): string {
+function hebcalDate(hebrewYear: number, desc: string): string {
   try {
     const events = HebrewCalendar.getHolidaysForYearArray(hebrewYear, true)
-    const ev = exact
-      ? events.find(e => e.getDesc() === desc)
-      : events.find(e => e.getDesc().startsWith(desc))
-    if (!ev) return fallback
+    const ev = events.find(e => e.getDesc() === desc)
+    if (!ev) return ''
     const g = ev.getDate().greg()
     return `${g.getFullYear()}-${String(g.getMonth() + 1).padStart(2, '0')}-${String(g.getDate()).padStart(2, '0')}`
   } catch {
-    return fallback
+    return ''
   }
 }
 
@@ -24,10 +22,14 @@ function addDays(dateStr: string, days: number): string {
 const THIS_YEAR = new Date().getFullYear()
 const YEAR_RANGE: number[] = [THIS_YEAR - 1, THIS_YEAR, THIS_YEAR + 1, THIS_YEAR + 2]
 
+// Controlled mapping table — every hebcalName is the EXACT string @hebcal/core returns in Israel mode.
+// hebcalYearSuffix: Rosh Hashana events are named "Rosh Hashana 5786" (year appended) — match dynamically.
+// erevAdjust: old implementation stored the Erev (eve) date; subtract 1 from Hebcal first-day to restore that.
 type HebrewTemplate = Omit<Holiday, 'id' | 'date' | 'endDate' | 'year'> & {
   baseId: string
-  hebcalMatch: string
-  hebcalExact?: boolean
+  hebcalName: string
+  hebcalYearSuffix?: boolean
+  erevAdjust?: boolean
   endDayOffset?: number
 }
 
@@ -35,7 +37,9 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   // ─── Major holidays ──────────────────────────────────────────────────────────
   {
     baseId: 'rosh-hashana',
-    hebcalMatch: 'Rosh Hashana',
+    hebcalName: 'Rosh Hashana',
+    hebcalYearSuffix: true,
+    erevAdjust: true,
     endDayOffset: 2,
     name: 'Rosh Hashana',
     alternativeNames: ['Jewish New Year', 'ראש השנה', 'Head of the Year'],
@@ -58,7 +62,8 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'yom-kippur',
-    hebcalMatch: 'Yom Kippur',
+    hebcalName: 'Yom Kippur',
+    erevAdjust: true,
     endDayOffset: 1,
     name: 'Yom Kippur',
     alternativeNames: ['Day of Atonement', 'יום כיפור', 'The Holiest Day'],
@@ -81,8 +86,8 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'sukkot',
-    hebcalMatch: 'Sukkot I',
-    hebcalExact: true,
+    hebcalName: 'Sukkot I',
+    erevAdjust: true,
     endDayOffset: 7,
     name: 'Sukkot',
     alternativeNames: ['Feast of Tabernacles', 'סוכות', 'Festival of Booths', 'שמיני עצרת'],
@@ -102,7 +107,8 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'simchat-torah',
-    hebcalMatch: 'Simchat Torah',
+    hebcalName: 'Shmini Atzeret',
+    erevAdjust: true,
     name: 'Simchat Torah',
     alternativeNames: ['שמחת תורה', 'Rejoicing of the Torah', 'Shemini Atzeret'],
     religion: 'Judaism',
@@ -121,8 +127,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'hanukkah',
-    hebcalMatch: 'Chanukah: 1 Candle',
-    hebcalExact: true,
+    hebcalName: 'Chanukah: 1 Candle',
     endDayOffset: 8,
     name: 'Hanukkah',
     alternativeNames: ['חנוכה', 'Festival of Lights', 'Chanukah'],
@@ -143,8 +148,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'purim',
-    hebcalMatch: 'Purim',
-    hebcalExact: true,
+    hebcalName: 'Purim',
     name: 'Purim',
     alternativeNames: ['פורים', 'Festival of Lots'],
     religion: 'Judaism',
@@ -163,8 +167,8 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'passover',
-    hebcalMatch: 'Pesach I',
-    hebcalExact: true,
+    hebcalName: 'Pesach I',
+    erevAdjust: true,
     endDayOffset: 8,
     name: 'Passover',
     alternativeNames: ['פסח', 'Pesach', 'Chag HaMatzot'],
@@ -185,7 +189,8 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'shavuot',
-    hebcalMatch: 'Shavuot',
+    hebcalName: 'Shavuot',
+    erevAdjust: true,
     endDayOffset: 2,
     name: 'Shavuot',
     alternativeNames: ['שבועות', 'Feast of Weeks', 'Festival of First Fruits'],
@@ -206,7 +211,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   // ─── Minor holidays & fast days ──────────────────────────────────────────────
   {
     baseId: 'lag-baomer',
-    hebcalMatch: 'Lag BaOmer',
+    hebcalName: 'Lag BaOmer',
     name: "Lag Ba'Omer",
     alternativeNames: ['ל"ג בעומר', 'Lag BaOmer', '33rd Day of the Omer'],
     religion: 'Judaism',
@@ -224,7 +229,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'tisha-bav',
-    hebcalMatch: "Tish'a B'Av",
+    hebcalName: "Tish'a B'Av",
     name: "Tisha B'Av",
     alternativeNames: ["ט' באב", "Tish'a B'Av", 'Ninth of Av', 'Fast of Av'],
     religion: 'Judaism',
@@ -246,7 +251,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'shiva-asar-btammuz',
-    hebcalMatch: "Shiva Asar B'Tammuz",
+    hebcalName: 'Tzom Tammuz',
     name: '17th of Tammuz',
     alternativeNames: ['שבעה עשר בתמוז', "Shiva Asar B'Tammuz", 'Tzom Tammuz', 'Fast of Tammuz'],
     religion: 'Judaism',
@@ -265,7 +270,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'asara-btevet',
-    hebcalMatch: "Asara B'Tevet",
+    hebcalName: "Asara B'Tevet",
     name: '10th of Tevet',
     alternativeNames: ['עשרה בטבת', "Asara B'Tevet", "Tzom Asara B'Tevet", 'Fast of Tevet'],
     religion: 'Judaism',
@@ -284,7 +289,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'taanit-esther',
-    hebcalMatch: "Ta'anit Esther",
+    hebcalName: "Ta'anit Esther",
     name: 'Fast of Esther',
     alternativeNames: ['תענית אסתר', "Ta'anit Esther", 'Fast Before Purim'],
     religion: 'Judaism',
@@ -303,7 +308,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'tzom-gedaliah',
-    hebcalMatch: 'Tzom Gedaliah',
+    hebcalName: 'Tzom Gedaliah',
     name: 'Fast of Gedaliah',
     alternativeNames: ['צום גדליה', 'Tzom Gedaliah', 'Fast of Gedalyahu'],
     religion: 'Judaism',
@@ -323,7 +328,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   // ─── Israeli national observances (Hebrew-calendar dates) ────────────────────
   {
     baseId: 'yom-hashoah',
-    hebcalMatch: 'Yom HaShoah',
+    hebcalName: 'Yom HaShoah',
     name: 'Yom HaShoah',
     alternativeNames: ['יום השואה', 'Holocaust Remembrance Day', 'Holocaust and Heroism Remembrance Day'],
     religion: 'Secular',
@@ -342,7 +347,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'yom-hazikaron',
-    hebcalMatch: 'Yom HaZikaron',
+    hebcalName: 'Yom HaZikaron',
     name: 'Yom HaZikaron',
     alternativeNames: ['יום הזיכרון', "Israel's Memorial Day", 'Fallen Soldiers Memorial Day'],
     religion: 'Secular',
@@ -361,7 +366,7 @@ const HEBREW_TEMPLATES: HebrewTemplate[] = [
   },
   {
     baseId: 'israel-independence-day',
-    hebcalMatch: "HaAtzma'ut",
+    hebcalName: "Yom HaAtzma'ut",
     name: 'Israel Independence Day',
     alternativeNames: ['יום העצמאות', "Yom Ha'atzmaut"],
     religion: 'Secular',
@@ -385,16 +390,18 @@ function generateHebrewHolidays(gregYears: number[]): Holiday[] {
   const holidays: Holiday[] = []
   for (const gregYear of gregYears) {
     for (const tmpl of HEBREW_TEMPLATES) {
-      const { baseId, hebcalMatch, hebcalExact = false, endDayOffset, ...metadata } = tmpl
+      const { baseId, hebcalName, hebcalYearSuffix = false, erevAdjust = false, endDayOffset, ...metadata } = tmpl
       let dateStr = ''
       for (const hy of [gregYear + 3760, gregYear + 3761]) {
-        const candidate = hebcalDate(hy, hebcalMatch, '', hebcalExact)
+        const exactName = hebcalYearSuffix ? `${hebcalName} ${hy}` : hebcalName
+        const candidate = hebcalDate(hy, exactName)
         if (candidate && new Date(candidate).getFullYear() === gregYear) {
           dateStr = candidate
           break
         }
       }
       if (!dateStr) continue
+      if (erevAdjust) dateStr = addDays(dateStr, -1)
       const h: Holiday = { id: `${baseId}-${gregYear}`, date: dateStr, year: gregYear, ...metadata }
       if (endDayOffset !== undefined) h.endDate = addDays(dateStr, endDayOffset)
       holidays.push(h)

@@ -1734,5 +1734,12 @@
     "action": "modified",
     "file": "src/data/holidays.ts",
     "description": "BL-077: הוחלפה שיטת הגדרת חגים יהודיים — מ-hardcoded תאריכים שנתיים לגנרציה דינמית ב-runtime ע״י @hebcal/core (Israel mode); 17 תבניות Hebrew (HebrewTemplate) + YEAR_RANGE=[שנה-1..שנה+2]; תאריכים גרגוריאניים (חג המולד, רמדאן וכו׳) נשארים סטטיים; כל IDs, exports וממשקי Holiday נשמרו ללא שינוי"
+  },
+  {
+    "timestamp": "2026-05-01T21:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/data/holidays.ts",
+    "description": "BL-077 תיקון: (1) 3 hebcalMatch שגויים תוקנו — simchat-torah: Shmini Atzeret, shiva-asar-btammuz: Tzom Tammuz, israel-independence-day: Yom HaAtzma'ut; (2) הוחלפה לוגיקת startsWith בטבלת mapping מבוקרת (exact match בלבד); (3) נוסף erevAdjust לשחזור תאריכי ערב (Rosh Hashana/Yom Kippur/Sukkot/Passover/Shavuot/Simchat Torah); (4) אומת: 21 השוואות BEFORE vs AFTER — אפס הבדלים"
   }
 ]
