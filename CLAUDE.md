@@ -130,6 +130,39 @@ After each feature provide manual QA checklist:
 
 ---
 
+## Prompt Validation Rule
+
+Before executing any prompt, classify and validate it first.
+
+### When to validate (required)
+Apply validation for:
+- New tasks: Feature, Bug fix, Improvement
+- Planning prompts
+- High-impact or broad-scope changes
+
+### When to skip validation (proceed directly)
+Skip validation for:
+- Simple steering prompts
+- Short UI tweaks
+- Clarifications or minor adjustments
+
+If unsure → validate.
+
+### Validation report format
+
+```
+Prompt Type: [Feature | Bug | Improvement | Planning | Steering]
+Clarity Score: [1–10]
+Risk Level: 🟢 Low | 🟡 Medium | 🔴 High
+Issues: [bullet points, or "none"]
+Recommendation: [approve as-is | minor fix | rewrite]
+```
+
+After reporting → wait for explicit approval (`approve` / `run` / `continue`) before executing.
+Keep validation lightweight — do not block workflow for simple prompts.
+
+---
+
 ## Phase 1 — Critical Fixes
 
 - Replace key={index} with stable IDs

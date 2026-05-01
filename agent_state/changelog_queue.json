@@ -1335,5 +1335,12 @@
     "action": "modified",
     "file": "src/screens/GroupsScreen.tsx",
     "description": "תוקן BUG-061 — ביטול כפילויות ברשימת חגים; תרגום שמות חגים ותוויות דת לפי שפה פעילה"
+  },
+  {
+    "timestamp": "2026-05-01T10:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "CLAUDE.md",
+    "description": "נוסף כלל אימות פרומפטים — validation נדרש לפיצ'רים/באגים/שיפורים ותכנון בלבד; דילוג על steering פשוט, UI קטן, הבהרות; פורמט דוח עם Prompt Type/Clarity/Risk/Issues/Recommendation"
   }
 ]
