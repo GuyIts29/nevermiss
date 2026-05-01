@@ -619,5 +619,14 @@
     "status": "done",
     "sprint": 16,
     "completedAt": "2026-05-01T23:30:00"
+  },
+  "BUG-081": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T23:45:00",
+    "description": "Premium UI labels and Crown icons hidden when TEMP_PREMIUM_UNLOCK=true via showPremiumUI context flag"
+  },
+  "T140": {
+    "status": "✅",
+    "notes": "BUG-081 תוקן — showPremiumUI=!TEMP_PREMIUM_UNLOCK; Crown+פרמיום מוסתרים ב-ContactForm ו-Settings; build+lint ✅"
   }
 }

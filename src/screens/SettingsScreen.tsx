@@ -18,7 +18,7 @@ import { exportContactsToCSV } from '@/services/exportService'
 
 export function SettingsScreen() {
   const navigate = useNavigate()
-  const { isPremium, deactivatePremium, premiumExpiresAt, settings, saveSettings, contacts, isDemoMode, clearDemo } = useApp()
+  const { isPremium, showPremiumUI, deactivatePremium, premiumExpiresAt, settings, saveSettings, contacts, isDemoMode, clearDemo } = useApp()
   const [exportDone, setExportDone] = useState(false)
   const [backupDone, setBackupDone] = useState(false)
   const [restoreStatus, setRestoreStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -196,77 +196,79 @@ export function SettingsScreen() {
           </Card>
         </section>
 
-        {/* Premium */}
-        <section>
-          <h3 className="section-title mb-2 flex items-center gap-1.5">
-            <span className="w-4 h-4 rounded flex items-center justify-center bg-gradient-to-br from-amber-400 to-orange-500">
-              <Crown size={10} color="white" />
-            </span>
-            {t('settings_premium')}
-          </h3>
-          <Card noPadding>
-            {isPremium ? (
-              <div>
-                {/* Gold gradient banner */}
-                <div
-                  className="p-4 flex items-center gap-3 rounded-t-[var(--border-radius-lg)]"
-                  style={{ background: 'linear-gradient(135deg, #F59E0B, #F97316)' }}
-                >
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                    <Crown size={20} color="white" />
+        {/* Premium — hidden when showPremiumUI is false (TEMP_PREMIUM_UNLOCK active) */}
+        {showPremiumUI && (
+          <section>
+            <h3 className="section-title mb-2 flex items-center gap-1.5">
+              <span className="w-4 h-4 rounded flex items-center justify-center bg-gradient-to-br from-amber-400 to-orange-500">
+                <Crown size={10} color="white" />
+              </span>
+              {t('settings_premium')}
+            </h3>
+            <Card noPadding>
+              {isPremium ? (
+                <div>
+                  {/* Gold gradient banner */}
+                  <div
+                    className="p-4 flex items-center gap-3 rounded-t-[var(--border-radius-lg)]"
+                    style={{ background: 'linear-gradient(135deg, #F59E0B, #F97316)' }}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                      <Crown size={20} color="white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white">{t('settings_premiumActive')}</p>
+                      <p className="text-xs text-white/80">{t('settings_allUnlocked')}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">{t('settings_premiumActive')}</p>
-                    <p className="text-xs text-white/80">{t('settings_allUnlocked')}</p>
+                  <div className="p-3">
+                    {premiumExpiresAt && (
+                      <div className="flex items-center gap-2 mt-2 px-1">
+                        <Calendar size={13} className="text-[var(--color-text-muted)] shrink-0" />
+                        <p className="text-xs text-[var(--color-text-muted)]">
+                          {t('coupon_active_until', {
+                            date: new Date(premiumExpiresAt).toLocaleDateString(undefined, {
+                              day: 'numeric', month: 'long', year: 'numeric'
+                            })
+                          })}
+                        </p>
+                      </div>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      fullWidth
+                      onClick={deactivatePremium}
+                    >
+                      {t('settings_restoreFree')}
+                    </Button>
                   </div>
                 </div>
+              ) : (
                 <div className="p-3">
-                  {premiumExpiresAt && (
-                    <div className="flex items-center gap-2 mt-2 px-1">
-                      <Calendar size={13} className="text-[var(--color-text-muted)] shrink-0" />
-                      <p className="text-xs text-[var(--color-text-muted)]">
-                        {t('coupon_active_until', {
-                          date: new Date(premiumExpiresAt).toLocaleDateString(undefined, {
-                            day: 'numeric', month: 'long', year: 'numeric'
-                          })
-                        })}
-                      </p>
-                    </div>
-                  )}
                   <Button
-                    variant="ghost"
-                    size="sm"
+                    variant="primary"
+                    size="md"
                     fullWidth
-                    onClick={deactivatePremium}
+                    icon={<Sparkles size={14} />}
+                    onClick={() => navigate('/upgrade')}
                   >
-                    {t('settings_restoreFree')}
+                    {t('upgrade')} — <span dir="ltr">{APP_CONFIG.pricing.monthly}{t('upgrade_month')}</span>
                   </Button>
                 </div>
-              </div>
-            ) : (
-              <div className="p-3">
-                <Button
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                  icon={<Sparkles size={14} />}
-                  onClick={() => navigate('/upgrade')}
-                >
-                  {t('upgrade')} — <span dir="ltr">{APP_CONFIG.pricing.monthly}{t('upgrade_month')}</span>
-                </Button>
-              </div>
-            )}
-          </Card>
-        </section>
+              )}
+            </Card>
+          </section>
+        )}
 
         {/* Premium features nav */}
         {isPremium && (
           <section>
-            <h3 className="section-title mb-2">{t('settings_premiumFeatures')}</h3>
+            {showPremiumUI && <h3 className="section-title mb-2">{t('settings_premiumFeatures')}</h3>}
             <Card noPadding>
               {[
                 { label: t('settings_importContacts'), icon: Download, to: '/import' },
-                { label: t('settings_birthdayCenter'), icon: Crown, to: '/birthdays' },
+                { label: t('settings_birthdayCenter'), icon: showPremiumUI ? Crown : Sparkles, to: '/birthdays' },
                 { label: t('reminders_title'), icon: Bell, to: '/reminders' },
               ].map(({ label, icon: Icon, to }) => (
                 <button

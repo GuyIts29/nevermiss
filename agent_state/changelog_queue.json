@@ -1783,5 +1783,26 @@
     "action": "modified",
     "file": "src/screens/UserSetupScreen.tsx / src/screens/DashboardScreen.tsx / src/services/userProfileService.ts",
     "description": "BL-067 אומת — DoD מלא: מסך הגדרת שם (first-launch), שמירה ב-nm_user_name, ברכה אישית ב-Dashboard, פאנל ברכות ממתינות עם קליקביליות, מצבי ריק תקינים, EN+HE i18n מלא, build+lint ✅"
+  },
+  {
+    "timestamp": "2026-05-01T23:45:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/context/AppContext.tsx",
+    "description": "BUG-081 — נוסף showPremiumUI = !TEMP_PREMIUM_UNLOCK לקונטקסט; מסתיר תיוג Premium כשהגייט הזמני פתוח; לא משפיע על גישה לתכונות"
+  },
+  {
+    "timestamp": "2026-05-01T23:45:01",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "BUG-081 — כותרת \"פרטי פרמיום\" + Crown + גבול ענבר מוסתרים כששוPremiumUI=false; שדות הטופס נשארים גלויים"
+  },
+  {
+    "timestamp": "2026-05-01T23:45:02",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BUG-081 — סעיף Premium (Crown + באנר זהב + \"Premium Active\") מוסתר כשshowPremiumUI=false; כותרת \"Premium Features\" מוסתרת; אייקון Crown של Birthday Center הוחלף ב-Sparkles במצב MVP"
   }
 ]

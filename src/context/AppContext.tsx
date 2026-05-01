@@ -36,6 +36,7 @@ interface AppContextValue {
   activatePremium: () => void
   deactivatePremium: () => void
   isPremium: boolean
+  showPremiumUI: boolean
   canAddContact: boolean
   canAddGroup: boolean
   redeemCoupon: (code: string) => { success: boolean; error: string | null }
@@ -67,6 +68,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   // TEMP: premium gates disabled for MVP testing — revert before production
   const TEMP_PREMIUM_UNLOCK = true
   const isPremium = TEMP_PREMIUM_UNLOCK || premium.isPremium
+  // showPremiumUI: false when TEMP_PREMIUM_UNLOCK is on — hides Premium labels/icons without removing Premium logic
+  const showPremiumUI = !TEMP_PREMIUM_UNLOCK
   const canAddContact = isPremium || contacts.length < LIMITS.free.contacts
   const canAddGroup = isPremium || groups.length < LIMITS.free.groups
 
@@ -150,7 +153,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     drafts, saveDraft, deleteDraft,
     settings, saveSettings: updateSettings,
     premium, activatePremium: activatePremiumFn, deactivatePremium: deactivatePremiumFn,
-    isPremium, canAddContact, canAddGroup,
+    isPremium, showPremiumUI, canAddContact, canAddGroup,
     redeemCoupon: redeemCouponFn,
     premiumExpiresAt: premium.expiresAt,
     holidays: HOLIDAYS,
@@ -162,7 +165,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     drafts, saveDraft, deleteDraft,
     settings, updateSettings,
     premium, activatePremiumFn, deactivatePremiumFn,
-    isPremium, canAddContact, canAddGroup,
+    isPremium, showPremiumUI, canAddContact, canAddGroup,
     redeemCouponFn,
     dashboardData, refreshDashboard,
     isDemo, enableDemoFn, clearDemoFn,

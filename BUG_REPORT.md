@@ -684,3 +684,16 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Feature:** Added one-tap greeting flow to all dashboard alert cards. (1) Today's holiday highlight card: added inline "Send Greeting" CTA button that opens Greeting Editor pre-filled with the holiday. (2) Tomorrow's holiday banner: same CTA added. (3) Quick Send panel: replaced direct WhatsApp button with a "Send" button that opens ChannelPicker pre-filled with the selected message — enabling WhatsApp, SMS, Email, Copy, and Share from the quick send panel. Added 2 i18n keys (EN+HE): `dashboard_quick_send_channel`, `dashboard_send_greeting`.
 - **Found by:** Sprint 13 planned feature
 - **Fixed by:** Developer — 2026-05-01
+
+---
+
+### BUG-081 — Premium UI labels visible when TEMP_PREMIUM_UNLOCK = true
+
+- **Date:** 2026-05-01 | **Time:** 23:45 | **Status:** ✅ fixed
+- **Files:** `src/context/AppContext.tsx`, `src/screens/ContactFormScreen.tsx`, `src/screens/SettingsScreen.tsx`
+- **Bug:** When `TEMP_PREMIUM_UNLOCK = true` (all users have all features), the UI still showed Premium-branded indicators: "פרטי פרימיום" section header with Crown icon in ContactFormScreen; "Premium" section with gold "Premium Active" banner and Crown icons in SettingsScreen; "Premium Features" nav section title in SettingsScreen. This creates a confusing mismatch — users see Premium labels even though no subscription exists.
+- **Root cause:** UI components used `isPremium` (which is `true` for all users when temp unlocked) to show premium features, but had no separate signal for whether to *label* those features as Premium.
+- **Fix:** Added `showPremiumUI = !TEMP_PREMIUM_UNLOCK` to AppContext. Conditioned all premium labels and Crown icons on `showPremiumUI`. Feature access unchanged — only labels/icons hidden. Reversing `TEMP_PREMIUM_UNLOCK` to `false` restores full premium UI automatically.
+- **Affected components:** ContactFormScreen (Premium Details header), SettingsScreen (Premium section + features nav). PremiumBadge component not used directly — not changed.
+- **Found by:** User report — 2026-05-01
+- **Fixed by:** Developer — 2026-05-01

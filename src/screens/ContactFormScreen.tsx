@@ -48,7 +48,7 @@ function SectionHeader({ icon: Icon, title, color }: SectionHeaderProps) {
 export function ContactFormScreen() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const { contacts, addContact, updateContact, deleteContact, isPremium } = useApp()
+  const { contacts, addContact, updateContact, deleteContact, isPremium, showPremiumUI } = useApp()
   const t = useT()
   const { lang } = useLang()
   const { theme } = useTheme()
@@ -399,8 +399,8 @@ export function ContactFormScreen() {
         {/* Premium fields */}
         {isPremium ? (
           <div className="card space-y-3"
-            style={{ [lang === 'he' ? 'borderRight' : 'borderLeft']: '3px solid #F59E0B' }}>
-            <SectionHeader icon={Crown} title={t('contactForm_premiumDetails')} color="#F59E0B" />
+            style={showPremiumUI ? { [lang === 'he' ? 'borderRight' : 'borderLeft']: '3px solid #F59E0B' } : undefined}>
+            {showPremiumUI && <SectionHeader icon={Crown} title={t('contactForm_premiumDetails')} color="#F59E0B" />}
             <Input
               ref={birthdayRef}
               label={t('contactForm_birthday')}
