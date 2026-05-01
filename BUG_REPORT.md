@@ -635,3 +635,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode RTL scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Replaced all physical margin classes with logical equivalents: `ml-*` → `ms-*`, `mr-*` → `me-*`, `ml-auto` → `ms-auto`, `text-right` → `text-end`. Simplified RTL-conditional margin ternary to `ms-2`.
+
+---
+
+### BUG-077 — WhatsApp emoji encoding — investigation
+- **Date:** 2026-05-01 | **Time:** 16:30 | **Status:** ✅ verified (no code change)
+- **File:** `src/services/communicationService.ts`
+- **Bug:** Reported: WhatsApp sharing does not preserve emojis (🎂 🎉 ❤️ ✨).
+- **Found by:** User report
+- **Investigation:** `buildWhatsAppUrl` (line 15) already uses `encodeURIComponent(message)`. All WhatsApp call sites — `ChannelPicker`, `WhatsAppButton`, `DashboardScreen` quick-send — funnel through `openWhatsApp` → `buildWhatsAppUrl`. Emoji encoding is correct: `encodeURIComponent('🎂')` → `%F0%9F%8E%82`, which WhatsApp decodes correctly.
+- **Resolution:** No code change required. Encoding was already present and correct at all call sites.
+
+---
+
+### BUG-078 — Voice message flow unclear after WhatsApp opens
+- **Date:** 2026-05-01 | **Time:** 16:35 | **Status:** ✅ fixed
+- **Files:** `src/components/ChannelPicker.tsx`, `src/components/WhatsAppButton.tsx`, `src/i18n/index.ts`
+- **Bug:** When a voice (audio) media attachment exists, tapping WhatsApp sends the text but gives no guidance on how to attach the audio manually. WhatsApp does not support audio attachment via URL — user was left with no instructions.
+- **Found by:** User report
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added a post-send `Modal` (stays visible until explicitly dismissed, RTL-ready) to both `ChannelPicker` and `WhatsAppButton`. The modal fires when `media?.type === 'audio'` after WhatsApp is opened. Uses new i18n keys `whatsapp_voice_hint_title` and `whatsapp_voice_hint_body` (EN+HE). Text-only WhatsApp flow is unchanged.

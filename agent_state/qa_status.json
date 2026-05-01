@@ -529,5 +529,23 @@
     "status": "fixed",
     "fixedAt": "2026-05-01T16:00:00",
     "description": "Remaining physical CSS margins not using logical properties"
+  },
+  "T130": {
+    "status": "✅",
+    "notes": "BUG-077 אומת — buildWhatsAppUrl משתמש ב-encodeURIComponent; כל נתיבי WhatsApp (ChannelPicker, WhatsAppButton, DashboardScreen) עוברים דרך openWhatsApp → buildWhatsAppUrl. אין שינוי קוד נדרש."
+  },
+  "T131": {
+    "status": "✅",
+    "notes": "BUG-078 תוקן — Modal הקלטה קולית נוסף ל-ChannelPicker ו-WhatsAppButton; מופיע לאחר פתיחת WhatsApp כשmedia.type===audio; נשאר עד סגירה ידנית; RTL; 2 מפתחות i18n (EN+HE). build+lint ✅"
+  },
+  "BUG-077": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T16:30:00",
+    "description": "WhatsApp emoji encoding — verified encodeURIComponent already present, no code change needed"
+  },
+  "BUG-078": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T16:35:00",
+    "description": "Voice message unclear UX — added post-send Modal in ChannelPicker and WhatsAppButton"
   }
 }

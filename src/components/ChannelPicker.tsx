@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { X, Mic } from 'lucide-react'
 import { useT } from '@/context/LanguageContext'
+import { Modal } from '@/components/ui/Modal'
+import { Button } from '@/components/ui/Button'
 import {
   getAvailableChannels,
   openWhatsApp,
@@ -26,6 +28,7 @@ interface ChannelPickerProps {
 export function ChannelPicker({ contact, message, media, onClose }: ChannelPickerProps) {
   const t = useT()
   const [copied, setCopied] = useState(false)
+  const [showVoiceHint, setShowVoiceHint] = useState(false)
 
   const lastUsed = getLastUsedChannel(contact.id)
   const channels = getAvailableChannels(contact)
@@ -48,7 +51,11 @@ export function ChannelPicker({ contact, message, media, onClose }: ChannelPicke
     switch (channel) {
       case 'whatsapp':
         openWhatsApp(contact.phone!, message)
-        onClose()
+        if (media?.type === 'audio') {
+          setShowVoiceHint(true)
+        } else {
+          onClose()
+        }
         break
       case 'sms':
         openSms(contact.phone!, message)
@@ -164,6 +171,31 @@ export function ChannelPicker({ contact, message, media, onClose }: ChannelPicke
           </p>
         </div>
       </div>
+
+      {/* Voice message manual-attach hint — stays visible until dismissed */}
+      <Modal
+        isOpen={showVoiceHint}
+        onClose={onClose}
+        title={t('whatsapp_voice_hint_title')}
+        size="sm"
+        footer={
+          <Button variant="primary" size="sm" fullWidth onClick={onClose}>
+            {t('done')}
+          </Button>
+        }
+      >
+        <div className="flex flex-col items-center gap-4 py-2 text-center">
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}
+          >
+            <Mic size={26} className="text-white" />
+          </div>
+          <p className="text-sm text-[var(--color-text-primary)] leading-relaxed">
+            {t('whatsapp_voice_hint_body')}
+          </p>
+        </div>
+      </Modal>
     </div>
   )
 }

@@ -1671,5 +1671,33 @@
     "action": "modified",
     "file": "scripts/make-qa-checklist.js",
     "description": "הוספת T127/T128/T129 למערך TESTS — בדיקות QA עבור BUG-074/075/076."
+  },
+  {
+    "timestamp": "2026-05-01T16:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/services/communicationService.ts",
+    "description": "BUG-077 verified — encodeURIComponent in buildWhatsAppUrl confirmed; all WhatsApp paths funnel through it; no code change needed."
+  },
+  {
+    "timestamp": "2026-05-01T16:35:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/ChannelPicker.tsx",
+    "description": "BUG-078: added voice hint Modal shown after WhatsApp opens when media.type===audio; stays until dismissed; RTL-ready."
+  },
+  {
+    "timestamp": "2026-05-01T16:35:01",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/WhatsAppButton.tsx",
+    "description": "BUG-078: added showVoiceHint Modal; fires on handleSend when media.type===audio; same pattern as image clipboard hint."
+  },
+  {
+    "timestamp": "2026-05-01T16:35:02",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BUG-078: added 2 i18n keys EN+HE: whatsapp_voice_hint_title, whatsapp_voice_hint_body."
   }
 ]

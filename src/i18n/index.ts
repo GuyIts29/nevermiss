@@ -584,6 +584,8 @@ export const translations = {
     whatsapp_image_ready_title: 'Image Ready to Paste',
     whatsapp_image_paste_hint: 'Image copied to clipboard — long-press in the chat and paste the image.',
     whatsapp_image_paste_steps: 'Open WhatsApp → find the chat → long-press in the message box → tap Paste.',
+    whatsapp_voice_hint_title: 'Voice Message — Manual Attachment Required',
+    whatsapp_voice_hint_body: 'WhatsApp does not support automatic audio attachment via a link. Please save the file and attach it manually in WhatsApp.',
 
     // ─── Dashboard (inline strings) ───────────────────────────────────────
     dashboard_today_highlights: "Today's Highlights",
@@ -1337,6 +1339,8 @@ export const translations = {
     whatsapp_image_ready_title: 'התמונה מוכנה להדבקה',
     whatsapp_image_paste_hint: 'התמונה הועתקה ללוח — לחץ לחיצה ארוכה בשיחה והדבק את התמונה.',
     whatsapp_image_paste_steps: 'פתח WhatsApp ← מצא את השיחה ← לחץ לחיצה ארוכה בתיבת ההודעות ← בחר הדבק.',
+    whatsapp_voice_hint_title: 'הודעה קולית — יש לצרף ידנית',
+    whatsapp_voice_hint_body: 'WhatsApp לא מאפשרת צירוף אוטומטי של הודעה קולית. יש לשמור את הקובץ ולצרף אותו ידנית ב-WhatsApp.',
 
     // ─── Group Holiday Assignment ─────────────────────────────────────────
     group_holidays: 'חגים משויכים',

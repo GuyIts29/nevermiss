@@ -197,6 +197,8 @@ const TESTS = [
   { id: 'T127', cat: 'bugfix',  name: 'BUG-074: Input — מיקום אייקון RTL-aware (ימין בעברית, שמאל באנגלית); ריפוד מותאם' },
   { id: 'T128', cat: 'bugfix',  name: 'BUG-075: PrivacyScreen — 10 סעיפים + hero/badge/intro/footer מתורגמים לעברית (25 מפתחות i18n)' },
   { id: 'T129', cat: 'bugfix',  name: 'BUG-076: מחלקות CSS פיזיות (ml-*/mr-*/text-right) הוחלפו במחלקות לוגיות (ms-*/me-*/text-end) ב-6 קבצים' },
+  { id: 'T130', cat: 'bugfix',  name: 'BUG-077: WhatsApp emoji encoding — אומת: encodeURIComponent קיים ב-buildWhatsAppUrl; כל נתיבי השליחה מוסדרים דרכו' },
+  { id: 'T131', cat: 'bugfix',  name: 'BUG-078: Voice message — Modal "צירוף ידני" מוצג לאחר פתיחת WhatsApp כשיש הקלטה; RTL; נשאר עד סגירה ידנית' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

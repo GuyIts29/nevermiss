@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MessageCircle, AlertTriangle, X, ExternalLink, ClipboardCheck } from 'lucide-react'
+import { MessageCircle, AlertTriangle, X, ExternalLink, ClipboardCheck, Mic } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
 import { openWhatsApp } from '@/services/communicationService'
@@ -29,6 +29,7 @@ async function copyImageToClipboard(dataUrl: string): Promise<boolean> {
 export function WhatsAppButton({ phone, message, contactName, size = 'md', fullWidth, media }: WhatsAppButtonProps) {
   const [showWarning, setShowWarning] = useState(false)
   const [showCopied, setShowCopied] = useState(false)
+  const [showVoiceHint, setShowVoiceHint] = useState(false)
   const t = useT()
 
   const handleSend = async () => {
@@ -37,6 +38,8 @@ export function WhatsAppButton({ phone, message, contactName, size = 'md', fullW
     if (media?.type === 'image') {
       await copyImageToClipboard(media.dataUrl)
       setShowCopied(true)
+    } else if (media?.type === 'audio') {
+      setShowVoiceHint(true)
     }
   }
 
@@ -82,6 +85,31 @@ export function WhatsAppButton({ phone, message, contactName, size = 'md', fullW
           </p>
           <p className="text-xs text-[var(--color-text-muted)]">
             {t('whatsapp_image_paste_steps')}
+          </p>
+        </div>
+      </Modal>
+
+      {/* Post-send: voice message manual-attach instruction (stays until dismissed) */}
+      <Modal
+        isOpen={showVoiceHint}
+        onClose={() => setShowVoiceHint(false)}
+        title={t('whatsapp_voice_hint_title')}
+        size="sm"
+        footer={
+          <Button variant="primary" size="sm" fullWidth onClick={() => setShowVoiceHint(false)}>
+            {t('done')}
+          </Button>
+        }
+      >
+        <div className="flex flex-col items-center gap-4 py-2 text-center">
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)' }}
+          >
+            <Mic size={26} className="text-white" />
+          </div>
+          <p className="text-sm text-[var(--color-text-primary)] leading-relaxed">
+            {t('whatsapp_voice_hint_body')}
           </p>
         </div>
       </Modal>
