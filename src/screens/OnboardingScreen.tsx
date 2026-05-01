@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Heart, PartyPopper, Building2, Sparkles } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Heart, PartyPopper, Building2, Sparkles } from 'lucide-react'
 import { markOnboardingDone } from '@/services/storageService'
 import { useTheme } from '@/context/ThemeContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { useApp } from '@/context/AppContext'
 import { APP_CONFIG } from '@/config/appConfig'
 
@@ -17,6 +17,7 @@ export function OnboardingScreen() {
   const navigate = useNavigate()
   const { theme } = useTheme()
   const t = useT()
+  const { lang } = useLang()
   const { enableDemo } = useApp()
   const isLast = slide === 3
 
@@ -113,7 +114,7 @@ export function OnboardingScreen() {
           style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
         >
           {isLast ? t('onboarding_getStarted') : t('continue')}
-          <ChevronRight size={18} />
+          {lang === 'he' ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
         </button>
 
         {isLast && (

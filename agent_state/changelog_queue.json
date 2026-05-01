@@ -1503,5 +1503,19 @@
     "action": "fixed",
     "file": "src/screens/premium/ImportContactsScreen.tsx",
     "description": "תוקן BUG-068 — text-left בכותרות טבלת CSV הוחלף ב-text-start"
+  },
+  {
+    "timestamp": "2026-05-01T13:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "תוקן BUG-069 — 5 סמלי ChevronRight בפריטי רשימה עטופו בתנאי RTL (ChevronLeft בעברית); נוסף ייבוא ChevronLeft"
+  },
+  {
+    "timestamp": "2026-05-01T13:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/OnboardingScreen.tsx",
+    "description": "תוקן BUG-069 — ChevronRight בכפתור המשך עבר ל-ChevronLeft בעברית; נוסף ייבוא useLang"
   }
 ]

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
-import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, Sparkles, Globe, Check, Calendar, Bell, ArchiveRestore } from 'lucide-react'
+import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, ChevronLeft, Sparkles, Globe, Check, Calendar, Bell, ArchiveRestore } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useTheme } from '@/context/ThemeContext'
 import { useLang, useT } from '@/context/LanguageContext'
@@ -276,7 +276,7 @@ export function SettingsScreen() {
                 >
                   <Icon size={16} className="text-[var(--color-primary)]" />
                   <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">{label}</span>
-                  <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                  {lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />}
                 </button>
               ))}
               <button
@@ -293,7 +293,7 @@ export function SettingsScreen() {
                 </span>
                 {exportDone
                   ? <Check size={14} className="text-green-500" />
-                  : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                  : lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 }
               </button>
               <button
@@ -310,7 +310,7 @@ export function SettingsScreen() {
                 </span>
                 {backupDone
                   ? <Check size={14} className="text-green-500" />
-                  : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                  : lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 }
               </button>
               <input
@@ -348,7 +348,7 @@ export function SettingsScreen() {
                   ? <Check size={14} className="text-green-500" />
                   : restoreStatus === 'error'
                   ? <span className="text-xs text-red-500">✕</span>
-                  : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                  : lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 }
               </button>
             </Card>
@@ -400,7 +400,7 @@ export function SettingsScreen() {
               >
                 <Icon size={16} className="text-[var(--color-text-muted)]" />
                 <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">{label}</span>
-                <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
+                {lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />}
               </button>
             ))}
           </Card>

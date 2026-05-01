@@ -555,3 +555,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Replaced all `text-left` occurrences with `text-start` (Tailwind logical property = `text-align: start`, resolves to left in LTR and right in RTL). Also fixed `border-l-2` → `border-s-2` on SettingsScreen DEV danger-zone accent.
+
+---
+
+### BUG-069 — Disclosure/navigation ChevronRight icons don't flip in RTL
+- **Date:** 2026-05-01 | **Time:** 13:30 | **Status:** ✅ fixed
+- **Files:** `src/screens/SettingsScreen.tsx`, `src/screens/OnboardingScreen.tsx`
+- **Bug:** SettingsScreen list items and the OnboardingScreen continue button used `ChevronRight` (→) as a directional indicator. In RTL flex layout, these icons appear on the left side of content but still point right — the opposite of the RTL "forward" direction.
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added `ChevronLeft` import. SettingsScreen: all 5 disclosure chevrons wrapped in `lang === 'he' ? ChevronLeft : ChevronRight` ternary. OnboardingScreen: added `useLang` import + `const { lang } = useLang()`, continue button chevron conditionally renders `ChevronLeft` in Hebrew.
