@@ -696,15 +696,16 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Fix:** Added `showPremiumUI = !TEMP_PREMIUM_UNLOCK` to AppContext. Conditioned all premium labels and Crown icons on `showPremiumUI`. Feature access unchanged — only labels/icons hidden. Reversing `TEMP_PREMIUM_UNLOCK` to `false` restores full premium UI automatically.
 - **Affected components:** ContactFormScreen (Premium Details header), SettingsScreen (Premium section + features nav). PremiumBadge component not used directly — not changed.
 - **Found by:** User report — 2026-05-01
+- **Fixed by:** Developer — 2026-05-02
 - **Fixed by:** Developer — 2026-05-01
 
 ---
 
 ### BUG-082 — Incorrect notification timing for Israeli holidays
 
-- **Date:** 2026-05-01 | **Time:** 23:59 | **Status:** 🔴 open
+- **Date:** 2026-05-01 | **Time:** 23:59 | **Status:** ✅ fixed
 - **Files:** TBD (notification scheduling logic, holiday date source)
 - **Bug:** Notifications triggered on the wrong date for Yom HaZikaron and Yom HaAtzmaut. Suspected causes: Hebcal not running in Israel mode (`il: true`), or timezone not set to Asia/Jerusalem in notification scheduling logic.
 - **Root cause:** Under investigation. @hebcal/core must be called with `il: true` for Israeli date rules. Notification trigger must use Asia/Jerusalem timezone. A missing-date safeguard is also absent.
-- **Fix:** Not yet implemented — tracked as BL-080 in backlog (🔴 High, unassigned sprint).
+- **Fix:** parseDateLocal() helper replaces all new Date("YYYY-MM-DD") calls in notificationService.ts. Parses date strings as local midnight (new Date(y, m-1, d)) avoiding UTC offset shift. Added missing-date safeguards for holiday.date. Hebcal Israel mode (il:true) was already correct — no change needed. Fixed Sprint 17.
 - **Found by:** User report — 2026-05-01

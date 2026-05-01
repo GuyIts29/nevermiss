@@ -3,6 +3,15 @@ import type { TranslationKey } from '@/i18n'
 
 const SENT_KEY = 'nm_notif_sent'
 
+// Parse "YYYY-MM-DD" as LOCAL midnight to avoid UTC-offset date shifts (e.g. Asia/Jerusalem UTC+3).
+// new Date("YYYY-MM-DD") is parsed as UTC, which shifts the date back by the local UTC offset.
+function parseDateLocal(dateStr: string): Date | null {
+  if (!dateStr) return null
+  const parts = dateStr.split('-').map(Number)
+  if (parts.length !== 3 || parts.some(isNaN)) return null
+  return new Date(parts[0], parts[1] - 1, parts[2])
+}
+
 function getSentToday(): Set<string> {
   try {
     const raw = localStorage.getItem(SENT_KEY)
@@ -65,7 +74,8 @@ export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn):
   for (const contact of contacts) {
     if (!contact.birthday) continue
 
-    const bday = new Date(contact.birthday)
+    const bday = parseDateLocal(contact.birthday)
+    if (!bday) continue
     bday.setFullYear(today.getFullYear())
     bday.setHours(0, 0, 0, 0)
     if (bday < today) bday.setFullYear(today.getFullYear() + 1)
@@ -78,8 +88,9 @@ export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn):
         t('notif_birthday_today_body'),
       )
     } else if (daysUntil > 0 && daysUntil <= 7) {
-      const daysSince = contact.lastContactDate
-        ? Math.round((today.getTime() - new Date(contact.lastContactDate).getTime()) / 86_400_000)
+      const lastContactParsed = contact.lastContactDate ? parseDateLocal(contact.lastContactDate) : null
+      const daysSince = lastContactParsed
+        ? Math.round((today.getTime() - lastContactParsed.getTime()) / 86_400_000)
         : 999
       if (daysSince >= 30) {
         fire(
@@ -94,10 +105,12 @@ export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn):
   // ── Overdue contact reminders ───────────────────────────────────────────
   for (const contact of contacts) {
     if (!contact.lastContactDate) continue
-    const daysSince = Math.round((today.getTime() - new Date(contact.lastContactDate).getTime()) / 86_400_000)
+    const lastContact = parseDateLocal(contact.lastContactDate)
+    if (!lastContact) continue
+    const daysSince = Math.round((today.getTime() - lastContact.getTime()) / 86_400_000)
     if (daysSince < 45) continue
     // skip if birthday reminder already covers this contact today
-    const bday = contact.birthday ? new Date(contact.birthday) : null
+    const bday = contact.birthday ? parseDateLocal(contact.birthday) : null
     if (bday) {
       bday.setFullYear(today.getFullYear())
       bday.setHours(0, 0, 0, 0)
@@ -114,7 +127,9 @@ export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn):
 
   // ── Holiday reminders ───────────────────────────────────────────────────
   for (const holiday of holidays) {
-    const hDate = new Date(holiday.date)
+    if (!holiday.date) continue                    // safeguard: skip if date missing/uncertain
+    const hDate = parseDateLocal(holiday.date)
+    if (!hDate) continue                           // safeguard: skip if date fails to parse
     hDate.setFullYear(today.getFullYear())
     hDate.setHours(0, 0, 0, 0)
     if (hDate < today) hDate.setFullYear(today.getFullYear() + 1)

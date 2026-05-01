@@ -628,5 +628,14 @@
   "T140": {
     "status": "✅",
     "notes": "BUG-081 תוקן — showPremiumUI=!TEMP_PREMIUM_UNLOCK; Crown+פרמיום מוסתרים ב-ContactForm ו-Settings; build+lint ✅"
+  },
+  "BUG-082": {
+    "status": "fixed",
+    "fixedAt": "2026-05-02T00:30:00",
+    "description": "parseDateLocal() replaces new Date(string) — fixes UTC off-by-one in Asia/Jerusalem; adds missing-date safeguards"
+  },
+  "T141": {
+    "status": "✅",
+    "notes": "BL-080 תוקן — parseDateLocal() מונע הסטת UTC; safeguards לתאריך חסר; build+lint ✅"
   }
 }

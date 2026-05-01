@@ -1811,5 +1811,12 @@
     "action": "added",
     "file": "BACKLOG.md / BACKLOG.csv",
     "description": "BL-080 נוסף לבקלוג — BUG: תזמון שגוי של התראות לחגים ישראליים (יום הזיכרון / יום העצמאות); עדיפות 🔴 גבוהה; לא יושם — ממתין לספרינט מאושר"
+  },
+  {
+    "timestamp": "2026-05-02T00:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/services/notificationService.ts",
+    "description": "BL-080 / BUG-082 תוקן — new Date(\"YYYY-MM-DD\") הוחלף ב-parseDateLocal() שמפרש תאריכים כחצות שעון מקומי; מונע הסטה של יום בגלל UTC+3 (Asia/Jerusalem); נוספו בטיחות: דילוג על holiday.date ריק/לא תקין; Hebcal Israel mode כבר היה נכון"
   }
 ]

@@ -211,6 +211,7 @@ const TESTS = [
   { id: 'T138', cat: 'sprint15', name: 'BL-048: כרטיסיית ייבוא ממכשיר (גרדיאנט כחול, סמארטפון) מוצגת בראש ImportContactsScreen; נגישות ויזואלית מלאה' },
   { id: 'T139', cat: 'sprint16', name: 'BL-067: UserSetupScreen first-launch, nm_user_name persist, dashboard_hello/pending/first_greeting EN+HE, pendingItems clickable, empty states graceful; DoD מלא ✅' },
   { id: 'T140', cat: 'bugfix',  name: 'BUG-081: showPremiumUI=!TEMP_PREMIUM_UNLOCK — Crown + "פרמיום" מוסתרים ב-ContactForm ו-Settings כשגייט MVP פתוח; הפיכה ל-false משחזרת הכל' },
+  { id: 'T141', cat: 'bugfix',  name: 'BL-080/BUG-082: parseDateLocal() מחליף new Date(string) — מונע הסטת UTC ב-Asia/Jerusalem; safeguards לתאריך חסר/לא תקין; Hebcal Israel mode אומת כנכון' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────
