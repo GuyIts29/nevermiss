@@ -1,13 +1,15 @@
 import { Sparkles, Zap, Wrench, Shield } from 'lucide-react'
 import { PageHeader } from '@/components/Navigation'
 import { CHANGELOG } from '@/data/changelog'
-import { useT } from '@/context/LanguageContext'
+import { useLang, useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import type { ChangeType } from '@/types'
 
 export function WhatsNewScreen() {
   const t = useT()
+  const { lang } = useLang()
   const { theme } = useTheme()
+  const isRTL = lang === 'he'
 
   const TYPE_META: Record<ChangeType, { icon: React.ElementType; color: string; bg: string; label: string }> = {
     feature:     { icon: Sparkles, color: '#fff', bg: 'linear-gradient(135deg, #3B82F6, #8B5CF6)', label: t('changelog_feature') },
@@ -37,16 +39,19 @@ export function WhatsNewScreen() {
         <div className="relative">
           {/* Vertical timeline line */}
           <div
-            className="absolute left-[19px] top-0 bottom-0 w-0.5 rounded-full"
-            style={{ background: `linear-gradient(180deg, ${theme.primary}, transparent)` }}
+            className="absolute top-0 bottom-0 w-0.5 rounded-full"
+            style={{
+              background: `linear-gradient(180deg, ${theme.primary}, transparent)`,
+              [isRTL ? 'right' : 'left']: '19px',
+            }}
           />
 
           <div className="space-y-6">
             {CHANGELOG.map((entry, idx) => (
-              <div key={entry.version} className={`relative pl-10 stagger-${Math.min(idx + 1, 5)}`}>
+              <div key={entry.version} className={`relative ${isRTL ? 'pr-10' : 'pl-10'} stagger-${Math.min(idx + 1, 5)}`}>
                 {/* Timeline dot */}
                 <div
-                  className="absolute left-0 top-1 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-extrabold shadow-sm z-10"
+                  className={`absolute ${isRTL ? 'right-0' : 'left-0'} top-1 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-extrabold shadow-sm z-10`}
                   style={{
                     background: idx === 0
                       ? `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`
@@ -79,7 +84,7 @@ export function WhatsNewScreen() {
                         {entry.title}
                       </p>
                     </div>
-                    <span className="text-xs text-[var(--color-text-muted)] shrink-0 ml-2">{entry.date}</span>
+                    <span className={`text-xs text-[var(--color-text-muted)] shrink-0 ${isRTL ? 'mr-2' : 'ml-2'}`}>{entry.date}</span>
                   </div>
 
                   {/* Changes list */}

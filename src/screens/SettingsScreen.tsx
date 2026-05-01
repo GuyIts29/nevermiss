@@ -252,7 +252,7 @@ export function SettingsScreen() {
                   icon={<Sparkles size={14} />}
                   onClick={() => navigate('/upgrade')}
                 >
-                  {t('upgrade')} — {APP_CONFIG.pricing.monthly}/mo
+                  {t('upgrade')} — <span dir="ltr">{APP_CONFIG.pricing.monthly}{t('upgrade_month')}</span>
                 </Button>
               </div>
             )}

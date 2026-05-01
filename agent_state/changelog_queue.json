@@ -1356,5 +1356,33 @@
     "action": "modified",
     "file": "BACKLOG.md",
     "description": "נוסף BL-070 — משימת תזכורת pre-launch: השבת TEMP_PREMIUM_UNLOCK לפני פרודקשן"
+  },
+  {
+    "timestamp": "2026-05-01T11:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "תוקן BUG-062 — כפתור שדרוג בהגדרות הציג mo/₪29 ב-RTL; הוחלף /mo ב-t('upgrade_month') ועטוף ב-span dir=ltr"
+  },
+  {
+    "timestamp": "2026-05-01T11:10:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/WhatsNewScreen.tsx",
+    "description": "תוקן BUG-063 — ציר זמן ב-WhatsNew היה בצד שמאל גם ב-RTL; נוסף isRTL flag; ציר, נקודה ו-padding מחליפים צד לפי כיוון שפה"
+  },
+  {
+    "timestamp": "2026-05-01T11:15:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BUG_REPORT.md",
+    "description": "עודכן סטטוס BUG-047 ו-BUG-048 מ-open ל-fixed (תוקנו ב-Sprint 11 — תיעוד היה מאחור); נוספו BUG-062 ו-BUG-063"
+  },
+  {
+    "timestamp": "2026-05-01T11:15:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "BL-063 סומן ✅ Done (היה 📋 Backlog בטעות — תוקן ב-Sprint 11)"
   }
 ]

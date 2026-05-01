@@ -317,22 +317,24 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 ---
 
 ### BUG-047 — Greeting type not applied: switching tier does not regenerate message
-- **Date:** 2026-04-29 | **Time:** 16:20 | **Status:** 📋 open (planned Sprint 11)
+- **Date:** 2026-04-29 | **Time:** 16:20 | **Status:** ✅ fixed (Sprint 11)
 - **File:** `src/screens/GreetingEditorScreen.tsx`
 - **Bug:** Clicking a different tier (VIP / Professional / Casual) correctly calls `setTone(tier.value)`, which updates the `tone` React state and re-highlights the selected card. However, the already-displayed greeting text is NOT regenerated — it keeps the tone from when Generate was last clicked. The user has no indication that they need to re-click Generate. As a result, switching tiers appears to have no effect on the output.
-- **Root cause:** No `useEffect` or reactive path re-invokes `generate()` on `tone` changes. The `generate()` function only runs on explicit user action.
+- **Root cause:** No `useEffect` or reactive path re-invoked `generate()` on `tone` changes.
 - **Found by:** User — 2026-04-29 (Sprint 11 bug report)
-- **Fix (planned):** Auto-regenerate the message whenever `tone` changes AND a message is already displayed (`message !== ''`). Use a `useEffect([tone])` guard to avoid generating on initial mount before the user has selected a contact.
+- **Fixed by:** Developer — 2026-04-29 (Sprint 11)
+- **Fix:** Added `useEffect([tone])` in `GreetingEditorScreen.tsx` (line ~189–193) that calls `generate()` whenever tone changes and a message is already displayed.
 
 ---
 
 ### BUG-048 — Hebrew `friendly` greeting templates contain unnatural / grammatically incorrect phrasing
-- **Date:** 2026-04-29 | **Time:** 16:21 | **Status:** 📋 open (planned Sprint 11)
+- **Date:** 2026-04-29 | **Time:** 16:21 | **Status:** ✅ fixed (Sprint 11)
 - **File:** `src/services/greetingService.ts`
 - **Bug:** Several Hebrew body templates in the `friendly` generic pool use awkward or grammatically incorrect phrasing. Confirmed example: `"סתם חשבתי עליך ורציתי לברר מה שלומך."` — "לברר" (to clarify/find out) is semantically wrong; natural Hebrew would use "לאחל", "לשאול", or "לדעת". Additional templates contain similar issues. Other tone pools (business, vip) should also be reviewed.
 - **Root cause:** Template strings written without native Hebrew speaker review.
 - **Found by:** User — 2026-04-29 (Sprint 11 bug report)
-- **Fix (planned):** Rewrite affected Hebrew body templates in `buildGenericBody()` and `buildHolidayBody()` using natural, grammatically correct phrasing. Examples provided by user: `"סתם חשבתי עליך ורציתי לאחל לך יום נפלא. מה שלומך?"` / `"רציתי לאחל לך חג שמח! מקווה שאתה בטוב 😊"`. No AI API — template strings only.
+- **Fixed by:** Developer — 2026-04-29 (Sprint 11)
+- **Fix:** Rewrote affected Hebrew body templates in `greetingService.ts`: `'לברר'` → `'לדעת'`, `'שכל טוב'` → `'שיהיה הכל טוב'`; business `'שלחתי ידו/ת'` → `'פניתי'`. No AI API — template strings only.
 
 ---
 
@@ -473,6 +475,26 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-05-01 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
 - **Fix:** Added `heDescription?: string` to the Holiday type. Added Hebrew descriptions (`heDescription`) to all 46 holiday entries in holidays.ts. Updated HolidayDetailScreen to import `useLang` and render `holiday.heDescription` when `lang === 'he'` and the field exists, falling back to the English `description` otherwise.
+
+---
+
+### BUG-062 — SettingsScreen upgrade button shows broken price in RTL (`mo/₪29 – –`)
+- **Date:** 2026-05-01 | **Time:** 11:00 | **Status:** ✅ fixed
+- **File:** `src/screens/SettingsScreen.tsx`
+- **Bug:** The upgrade CTA button in Settings displayed `שדרג — — mo/₪29` in Hebrew RTL mode instead of `שדרג — ₪29/חודש`. Root cause: `/mo` was a hardcoded English string, and the price+period were not wrapped in `dir="ltr"`, causing the bidi algorithm to visually reverse the order and duplicate the em dash.
+- **Found by:** User screenshot — 2026-05-01 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
+- **Fix:** Replaced `/mo` with `{t('upgrade_month')}` (existing i18n key: EN `/month`, HE `/חודש`). Wrapped the price+period in `<span dir="ltr">` to prevent bidi reversal. Price now renders correctly in both locales.
+
+---
+
+### BUG-063 — WhatsNew timeline on wrong side in RTL (dot and line stay on left)
+- **Date:** 2026-05-01 | **Time:** 11:10 | **Status:** ✅ fixed
+- **File:** `src/screens/WhatsNewScreen.tsx`
+- **Bug:** The vertical timeline line (`absolute left-[19px]`), timeline dot (`absolute left-0`), and entry padding (`pl-10`) all used physical `left`/`padding-left` values. In Hebrew RTL mode, the timeline appeared on the LEFT side of the screen while content flowed from the RIGHT — visually disconnected.
+- **Found by:** User screenshot — 2026-05-01 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
+- **Fix:** Added `useLang()` and `isRTL` flag. Timeline line uses inline style `{ [isRTL ? 'right' : 'left']: '19px' }`. Entry div uses `pr-10` in RTL / `pl-10` in LTR. Dot uses `right-0` in RTL / `left-0` in LTR. Date badge margin flips from `ml-2` to `mr-2` in RTL.
 
 ---
 
