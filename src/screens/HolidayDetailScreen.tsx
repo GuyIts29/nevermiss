@@ -197,7 +197,7 @@ export function HolidayDetailScreen() {
         {holiday.sensitivityNotes && (
           <div
             className="card stagger-4 flex gap-3"
-            style={{ borderLeft: `3px solid #F59E0B` }}
+            style={{ [lang === 'he' ? 'borderRight' : 'borderLeft']: `3px solid #F59E0B` }}
           >
             <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
               style={{ background: 'rgba(245,158,11,0.12)' }}>

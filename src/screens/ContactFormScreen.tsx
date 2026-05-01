@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Save, Trash2, User, Globe, BarChart2, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import { PageHeader } from '@/components/Navigation'
 import { Input } from '@/components/ui/Input'
@@ -50,6 +50,7 @@ export function ContactFormScreen() {
   const { id } = useParams<{ id: string }>()
   const { contacts, addContact, updateContact, deleteContact, isPremium } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const { theme } = useTheme()
 
   const existing = id ? contacts.find(c => c.id === id) : undefined
@@ -398,7 +399,7 @@ export function ContactFormScreen() {
         {/* Premium fields */}
         {isPremium ? (
           <div className="card space-y-3"
-            style={{ borderLeft: '3px solid #F59E0B' }}>
+            style={{ [lang === 'he' ? 'borderRight' : 'borderLeft']: '3px solid #F59E0B' }}>
             <SectionHeader icon={Crown} title={t('contactForm_premiumDetails')} color="#F59E0B" />
             <Input
               ref={birthdayRef}

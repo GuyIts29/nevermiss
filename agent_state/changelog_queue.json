@@ -1433,5 +1433,47 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "נוספו 6 מפתחות i18n לעדויות משתמשים ב-UpgradeScreen (upgrade_testimonial_1/2_name/role/quote) — EN + HE"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תוקן BUG-067 — borderLeft של כרטיסי ימי הולדת עבר לצד הנכון ב-RTL באמצעות computed property key"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "תוקן BUG-067 — borderLeft של כרטיסי התראות חגים עבר ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "תוקן BUG-067 — borderLeft של בלוק ציטוט חג עבר ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "תוקן BUG-067 — borderLeft של קטע שדות Premium עבר ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "תוקן BUG-067 — borderLeft של הערות רגישות עבר ל-RTL"
+  },
+  {
+    "timestamp": "2026-05-01T12:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "תוקן BUG-067 — borderLeft של כרטיסי קבוצות עבר ל-RTL"
   }
 ]

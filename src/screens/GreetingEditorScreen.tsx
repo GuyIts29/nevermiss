@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Wand2, Copy, Check, RefreshCw, Save, ChevronDown, Pen, Send, Sparkles, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import { PageHeader } from '@/components/Navigation'
 import { Button } from '@/components/ui/Button'
@@ -95,6 +95,7 @@ export function GreetingEditorScreen() {
   const navigate = useNavigate()
   const { contacts, holidays, saveDraft, isPremium } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const { theme } = useTheme()
 
   const contactId = searchParams.get('contactId')
@@ -605,7 +606,7 @@ export function GreetingEditorScreen() {
                 <p
                   key={i}
                   className="text-sm text-[var(--color-text-secondary)] p-3 rounded-[var(--border-radius)] leading-relaxed"
-                  style={{ background: `${selectedHoliday.color}0d`, borderLeft: `2px solid ${selectedHoliday.color}` }}
+                  style={{ background: `${selectedHoliday.color}0d`, ...(lang === 'he' ? { borderRight: `2px solid ${selectedHoliday.color}` } : { borderLeft: `2px solid ${selectedHoliday.color}` }) }}
                 >
                   {g}
                 </p>

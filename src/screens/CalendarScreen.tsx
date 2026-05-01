@@ -309,7 +309,7 @@ export function CalendarScreen() {
                   <div
                     key={`${c.id}-${birthdayType}`}
                     className="card !p-3 flex items-center gap-3"
-                    style={{ borderLeft: '3px solid #EC4899' }}
+                    style={{ [isRTL ? 'borderRight' : 'borderLeft']: '3px solid #EC4899' }}
                   >
                     <span className="text-xl shrink-0">🎂</span>
                     <div>

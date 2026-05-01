@@ -172,7 +172,7 @@ export function GroupsScreen() {
                   key={group.id}
                   className="card card-interactive cursor-pointer overflow-hidden w-full text-left"
                   style={{
-                    borderLeft: `4px solid ${group.color}`,
+                    ...(lang === 'he' ? { borderRight: `4px solid ${group.color}` } : { borderLeft: `4px solid ${group.color}` }),
                     background: `linear-gradient(135deg, var(--color-surface) 70%, ${group.color}11)`,
                   }}
                   onClick={() => setExpandedId(isExpanded ? null : group.id)}

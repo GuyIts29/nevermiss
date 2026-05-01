@@ -4,7 +4,7 @@ import { Plus, Crown, Zap, Calendar, Users, RefreshCw, Bell, Star, Send, Copy, C
 import { format, differenceInDays } from 'date-fns'
 import { useApp } from '@/context/AppContext'
 import { useTheme } from '@/context/ThemeContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
 import { EmptyState } from '@/components/EmptyState'
@@ -22,6 +22,7 @@ export function DashboardScreen() {
   const { contacts, groups, holidays, dashboardData, isPremium, refreshDashboard } = useApp()
   const { theme } = useTheme()
   const t = useT()
+  const { lang } = useLang()
   const now = new Date()
 
   const hour = now.getHours()
@@ -324,7 +325,7 @@ export function DashboardScreen() {
               <div
                 key={`${holiday.id}-${group.id}`}
                 className="card !p-3 flex items-start gap-3"
-                style={{ borderLeft: `3px solid ${holiday.color}` }}
+                style={{ [lang === 'he' ? 'borderRight' : 'borderLeft']: `3px solid ${holiday.color}` }}
               >
                 <span className="text-2xl leading-none mt-0.5">{holiday.emoji}</span>
                 <div className="flex-1 min-w-0">

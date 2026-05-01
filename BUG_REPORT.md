@@ -535,3 +535,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added 6 i18n keys (`upgrade_testimonial_1/2_name/role/quote`) in both EN and HE locales. UpgradeScreen now renders testimonials via `t()` so they display in the active language.
+
+---
+
+### BUG-067 — Physical `borderLeft` accent bars not adapted for RTL across 6 screens
+- **Date:** 2026-05-01 | **Time:** 12:30 | **Status:** ✅ fixed
+- **Files:** `CalendarScreen.tsx`, `DashboardScreen.tsx`, `GreetingEditorScreen.tsx`, `ContactFormScreen.tsx`, `HolidayDetailScreen.tsx`, `GroupsScreen.tsx`
+- **Bug:** Decorative left-side accent borders (`borderLeft: '3px solid ...'`) on cards and sections remained on the left in RTL, where they should visually appear on the right (start side).
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Each `borderLeft` replaced with a conditional computed property key: `[lang === 'he' ? 'borderRight' : 'borderLeft']`. For files that lacked `useLang`, added the import and `const { lang } = useLang()` hook call (DashboardScreen, GreetingEditorScreen, ContactFormScreen).
