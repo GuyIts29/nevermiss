@@ -1776,5 +1776,12 @@
     "action": "added",
     "file": "BACKLOG.md / BACKLOG.csv",
     "description": "BL-079 נוסף לבקלוג — שיפור: הוספת תפריט בחירה של שפה ודת לתבנית ייבוא Excel/CSV; עדיפות 🟡 בינונית; לא יושם בספרינט הנוכחי"
+  },
+  {
+    "timestamp": "2026-05-01T23:30:00",
+    "agent": "Reviewer",
+    "action": "modified",
+    "file": "src/screens/UserSetupScreen.tsx / src/screens/DashboardScreen.tsx / src/services/userProfileService.ts",
+    "description": "BL-067 אומת — DoD מלא: מסך הגדרת שם (first-launch), שמירה ב-nm_user_name, ברכה אישית ב-Dashboard, פאנל ברכות ממתינות עם קליקביליות, מצבי ריק תקינים, EN+HE i18n מלא, build+lint ✅"
   }
 ]

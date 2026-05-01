@@ -610,5 +610,14 @@
     "status": "done",
     "sprint": 15,
     "completedAt": "2026-05-01T22:02:00"
+  },
+  "T139": {
+    "status": "✅",
+    "notes": "BL-067 DoD מלא אומת — UserSetupScreen first-launch, nm_user_name persist, dashboard_hello/pending/first_greeting keys EN+HE, pendingItems clickable, empty states graceful"
+  },
+  "BL-067": {
+    "status": "done",
+    "sprint": 16,
+    "completedAt": "2026-05-01T23:30:00"
   }
 }
