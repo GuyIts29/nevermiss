@@ -1804,5 +1804,12 @@
     "action": "modified",
     "file": "src/screens/SettingsScreen.tsx",
     "description": "BUG-081 — סעיף Premium (Crown + באנר זהב + \"Premium Active\") מוסתר כשshowPremiumUI=false; כותרת \"Premium Features\" מוסתרת; אייקון Crown של Birthday Center הוחלף ב-Sparkles במצב MVP"
+  },
+  {
+    "timestamp": "2026-05-02T00:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md / BACKLOG.csv",
+    "description": "BL-080 נוסף לבקלוג — BUG: תזמון שגוי של התראות לחגים ישראליים (יום הזיכרון / יום העצמאות); עדיפות 🔴 גבוהה; לא יושם — ממתין לספרינט מאושר"
   }
 ]

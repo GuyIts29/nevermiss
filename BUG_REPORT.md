@@ -697,3 +697,14 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Affected components:** ContactFormScreen (Premium Details header), SettingsScreen (Premium section + features nav). PremiumBadge component not used directly — not changed.
 - **Found by:** User report — 2026-05-01
 - **Fixed by:** Developer — 2026-05-01
+
+---
+
+### BUG-082 — Incorrect notification timing for Israeli holidays
+
+- **Date:** 2026-05-01 | **Time:** 23:59 | **Status:** 🔴 open
+- **Files:** TBD (notification scheduling logic, holiday date source)
+- **Bug:** Notifications triggered on the wrong date for Yom HaZikaron and Yom HaAtzmaut. Suspected causes: Hebcal not running in Israel mode (`il: true`), or timezone not set to Asia/Jerusalem in notification scheduling logic.
+- **Root cause:** Under investigation. @hebcal/core must be called with `il: true` for Israeli date rules. Notification trigger must use Asia/Jerusalem timezone. A missing-date safeguard is also absent.
+- **Fix:** Not yet implemented — tracked as BL-080 in backlog (🔴 High, unassigned sprint).
+- **Found by:** User report — 2026-05-01
