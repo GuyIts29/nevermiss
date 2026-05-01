@@ -8,15 +8,22 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { parseCSV, autoDetectColumns, processImport } from '@/services/importService'
 import { trackEvent } from '@/services/analyticsService'
+import { getLanguageDisplayValue, getReligionDisplayValue } from '@/data/contactConfig'
 import type { ImportPreview, ImportColumn } from '@/types'
 import { clsx } from 'clsx'
 
-const CSV_TEMPLATE_HEADERS = 'שם,טלפון,אימייל,יום הולדת,מחלקה,תפקיד,דת,שפה,הערות\n'
-const CSV_TEMPLATE_EXAMPLE = 'ישראל ישראלי,0501234567,israel@example.com,1990-05-15,פיתוח,מפתח,Judaism,hebrew,\n'
-
-function downloadCSVTemplate() {
+function downloadCSVTemplate(locale: 'en' | 'he') {
+  const isHe = locale === 'he'
+  const headers = isHe
+    ? 'שם,טלפון,אימייל,יום הולדת,מחלקה,תפקיד,דת,שפה,הערות'
+    : 'Name,Phone,Email,Birthday,Department,Role,Religion,Language,Notes'
+  const religion = getReligionDisplayValue('Judaism', locale)
+  const language = getLanguageDisplayValue(isHe ? 'hebrew' : 'english', locale)
+  const example = isHe
+    ? `ישראל ישראלי,0501234567,israel@example.com,1990-05-15,פיתוח,מנהל,${religion},${language},`
+    : `John Doe,0501234567,john@example.com,1990-05-15,Development,Manager,${religion},${language},`
   const bom = '﻿'
-  const blob = new Blob([bom + CSV_TEMPLATE_HEADERS + CSV_TEMPLATE_EXAMPLE], { type: 'text/csv;charset=utf-8;' })
+  const blob = new Blob([bom + headers + '\n' + example + '\n'], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -279,7 +286,7 @@ export function ImportContactsScreen() {
           {/* BL-051: CSV template download */}
           <button
             type="button"
-            onClick={e => { e.stopPropagation(); downloadCSVTemplate() }}
+            onClick={e => { e.stopPropagation(); downloadCSVTemplate(lang === 'he' ? 'he' : 'en') }}
             className="w-full flex items-center gap-3 p-3 rounded-[var(--border-radius)] transition-all hover:opacity-80 active:scale-[0.99]"
             style={{ background: 'var(--color-surface-2)', border: '1px dashed var(--color-border)' }}
           >

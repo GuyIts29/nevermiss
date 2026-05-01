@@ -1,6 +1,7 @@
 import Papa from 'papaparse'
-import type { Contact, ImportPreview, ImportResult, ImportColumn, Language, Religion, InteractionFrequency } from '@/types'
+import type { Contact, ImportPreview, ImportResult, ImportColumn, InteractionFrequency } from '@/types'
 import { generateId } from './storageService'
+import { normalizeLanguage, normalizeReligion } from '@/data/contactConfig'
 
 const DETECTABLE_FIELDS: Array<{ field: keyof Contact; patterns: string[] }> = [
   { field: 'name', patterns: ['name', 'full name', 'fullname', 'contact name', 'שם'] },
@@ -81,9 +82,9 @@ export async function processImport(
             id: generateId(),
             name: mapped.name!,
             phone: mapped.phone ?? '',
-            language: (mapped.language as Language) ?? 'english',
+            language: normalizeLanguage(mapped.language) ?? 'english',
             relationshipType: 'colleague',
-            religion: mapped.religion as Religion | undefined,
+            religion: normalizeReligion(mapped.religion),
             notes: mapped.notes,
             importanceLevel: 'normal',
             interactionFrequency: 'monthly' as InteractionFrequency,

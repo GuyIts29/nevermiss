@@ -664,5 +664,14 @@
   "T144": {
     "status": "✅",
     "notes": "BL-049 שופר — BottomNav active tab: box-shadow inset 0 2px 0 var(--color-primary) נוסף; opacity-20 (מ-15); active indication ברור יותר; build+lint ✅"
+  },
+  "BL-079": {
+    "status": "done",
+    "sprint": 19,
+    "completedAt": "2026-05-01T13:30:00"
+  },
+  "T145": {
+    "status": "✅",
+    "notes": "BL-079 יושם — contactConfig.ts: LANGUAGE_KEYS/RELIGION_KEYS/LANGUAGE_RELIGION_ORDER/normalizeLanguage/normalizeReligion/getLanguageDisplayValue/getReligionDisplayValue; importService.ts: normalizeLanguage+normalizeReligion במקום cast ישיר; ImportContactsScreen.tsx: CSV headers+example row מלוקלים לפי lang; ContactFormScreen.tsx: Religion dropdown מסודר לפי LANGUAGE_RELIGION_ORDER; build+lint ✅; normalization tests ✅"
   }
 }

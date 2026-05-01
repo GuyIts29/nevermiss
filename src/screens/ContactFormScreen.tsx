@@ -16,7 +16,7 @@ import { trackEvent } from '@/services/analyticsService'
 import { hapticSuccess } from '@/services/hapticService'
 import { gematriya } from '@hebcal/core'
 import type { Contact, RelationshipType, ImportanceLevel, InteractionFrequency, ContactType, Language, Religion, CelebrationType } from '@/types'
-import { RELIGION_LABELS } from '@/data/holidays'
+import { LANGUAGE_RELIGION_ORDER } from '@/data/contactConfig'
 import type { TranslationKey } from '@/i18n'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 
@@ -340,7 +340,7 @@ export function ContactFormScreen() {
             onChange={e => set('religion', e.target.value as Religion || undefined)}
             options={[
               { value: '', label: t('contactForm_notSpecified') },
-              ...Object.keys(RELIGION_LABELS).map(v => ({ value: v, label: t(`religion_${v}` as TranslationKey) })),
+              ...LANGUAGE_RELIGION_ORDER[(form.language ?? 'english') as Language].map(v => ({ value: v, label: t(`religion_${v}` as TranslationKey) })),
             ]}
           />
           <Select
