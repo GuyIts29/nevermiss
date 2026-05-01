@@ -209,12 +209,14 @@ export function GroupsScreen() {
                       <button
                         onClick={e => { e.stopPropagation(); openForm(group) }}
                         className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
+                        aria-label={t('groups_editGroup')}
                       >
                         <Edit size={13} className="text-[var(--color-text-muted)]" />
                       </button>
                       <button
                         onClick={e => { e.stopPropagation(); setShowDelete(group.id) }}
                         className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-red-50 transition-colors"
+                        aria-label={t('groups_deleteGroup')}
                       >
                         <Trash2 size={13} className="text-red-400" />
                       </button>

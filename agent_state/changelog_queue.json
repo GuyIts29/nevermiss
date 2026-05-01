@@ -1580,5 +1580,12 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "נוספו 13 מפתחות i18n לייבוא אנשי קשר (import_field_* + import_stat_*) — EN + HE"
+  },
+  {
+    "timestamp": "2026-05-01T15:15:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "תוקן BUG-073 — כפתורי עריכה ומחיקה של קבוצות קיבלו aria-label לנגישות"
   }
 ]

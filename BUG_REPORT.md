@@ -595,3 +595,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added 13 i18n keys (`import_field_*`, `import_stat_*`) in EN + HE. Moved `CONTACT_FIELDS` inside main component to use `t()`. Added `useT()` to `StepIndicator` to use existing `import_upload/map/done` keys. Replaced 3 hardcoded stats labels with `t()`.
+
+---
+
+### BUG-073 — GroupsScreen edit/delete icon buttons missing aria-label
+- **Date:** 2026-05-01 | **Time:** 15:15 | **Status:** ✅ fixed
+- **File:** `src/screens/GroupsScreen.tsx`
+- **Bug:** The Edit and Delete icon buttons on group cards had no `aria-label`, making them inaccessible to screen readers.
+- **Found by:** Developer — Bug Fix Mode accessibility scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added `aria-label={t('groups_editGroup')}` and `aria-label={t('groups_deleteGroup')}` using existing i18n keys.
