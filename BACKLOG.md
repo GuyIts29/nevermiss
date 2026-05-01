@@ -1,5 +1,5 @@
 # NeverMiss — Product Backlog
-_Last updated: 2026-04-29 | Maintained by Agent 4 (Changelog Manager / Documentation Owner / Backlog Curator)_
+_Last updated: 2026-05-01 | Maintained by Agent 4 (Changelog Manager / Documentation Owner / Backlog Curator)_
 
 ## Recently Completed (Sprint 2 — Iterations 16–18)
 
@@ -119,6 +119,7 @@ All Sprint 2 tasks are done. See "Recently Completed" section above.
 | BL-067 | Personal user layer — first-use setup + personalized entry screen | 🔴 High | 📋 Backlog | Sprint 12+ | Feature | Agent 1 | On first visit, ask the user their name (single input screen, no auth). Store in localStorage. On all subsequent visits, show a personalized entry: "Hey {name} 👋 / יאללה {name} 👋" + "You have X greetings to send today" / "שלחת ברכה ל-X אנשים החודש". If no upcoming events: "Let's send your first greeting" / "בוא נשלח את הברכה הראשונה שלך". Context panel on dashboard: upcoming events (next 7 days), pending greetings (contacts with birthday/holiday within 3 days not yet greeted), recent contacts (last 3 greeted). No auth, no backend — localStorage only. Hebrew/RTL required. | Name prompt shown on first launch only; name persisted across sessions; personalized greeting shown on entry; context panel visible on dashboard; empty states handle no-data gracefully; build+lint pass |
 | BL-068 | Add contacts to group from group screen | 🟡 Medium | 📋 Backlog | — | Feature | Agent 1 | When viewing or creating a group, allow the user to select which contacts belong to the group. Show a searchable list of existing contacts with checkboxes. Selected contacts are assigned to the group on save. Hebrew/RTL required. | Contacts list visible in group form; searchable; checkboxes work; selected contacts saved to group; build+lint pass |
 | BL-069 | Assign contact to group when adding a new contact | 🟡 Medium | 📋 Backlog | — | Feature | Agent 1 | When adding a new contact, add an optional field to assign the contact to an existing group. The contact is assigned to the selected group upon save. Hebrew/RTL required. | Group field visible in contact form; optional (not required); existing groups listed; contact saved with group assignment; build+lint pass |
+| BL-070 | ⚠️ TEMP: Re-enable Premium gates before production launch | 🔴 High | 📋 Backlog | pre-launch | Configuration | Developer | Set `TEMP_PREMIUM_UNLOCK = false` (or remove the constant) in `src/context/AppContext.tsx` line ~67. Added 2026-05-01 as part of MVP testing unlock. All premium gates restore automatically. Also remove the `// TEMP` comment. | `TEMP_PREMIUM_UNLOCK` removed or set to `false`; all premium gates enforced; build+lint pass; verified on UpgradeScreen and PremiumFeaturePrompt |
 
 ---
 

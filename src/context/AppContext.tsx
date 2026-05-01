@@ -64,7 +64,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<AppSettings>(() => storage.getSettings())
   const [premium, setPremium] = useState<PremiumState>(() => storage.checkAndExpirePremium())
 
-  const isPremium = premium.isPremium
+  // TEMP: premium gates disabled for MVP testing — revert before production
+  const TEMP_PREMIUM_UNLOCK = true
+  const isPremium = TEMP_PREMIUM_UNLOCK || premium.isPremium
   const canAddContact = isPremium || contacts.length < LIMITS.free.contacts
   const canAddGroup = isPremium || groups.length < LIMITS.free.groups
 

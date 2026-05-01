@@ -1342,5 +1342,19 @@
     "action": "modified",
     "file": "CLAUDE.md",
     "description": "נוסף כלל אימות פרומפטים — validation נדרש לפיצ'רים/באגים/שיפורים ותכנון בלבד; דילוג על steering פשוט, UI קטן, הבהרות; פורמט דוח עם Prompt Type/Clarity/Risk/Issues/Recommendation"
+  },
+  {
+    "timestamp": "2026-05-01T10:30:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/context/AppContext.tsx",
+    "description": "TEMP BL-070: נוסף TEMP_PREMIUM_UNLOCK = true — כל שערי Premium מושבתים זמנית לצורך בדיקות MVP; שורה אחת להחזרה ל-false לפני פרודקשן"
+  },
+  {
+    "timestamp": "2026-05-01T10:30:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "נוסף BL-070 — משימת תזכורת pre-launch: השבת TEMP_PREMIUM_UNLOCK לפני פרודקשן"
   }
 ]
