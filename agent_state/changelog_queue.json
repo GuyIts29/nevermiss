@@ -1657,5 +1657,19 @@
     "action": "fixed",
     "file": "src/screens/CalendarScreen.tsx",
     "description": "תיקון: החלפת mr-1 ml-1 (מרווחים פיזיים סימטריים) ב-mx-1 (מרווח אופקי לוגי) על span תאריך לידה עברי."
+  },
+  {
+    "timestamp": "2026-05-01T16:15:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "agent_state/qa_status.json",
+    "description": "עדכון qa_status.json — הוספת רשומות BUG-074/075/076 (status: fixed + fixedAt) ורשומות T127/T128/T129 לרשימת ה-QA."
+  },
+  {
+    "timestamp": "2026-05-01T16:15:01",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "scripts/make-qa-checklist.js",
+    "description": "הוספת T127/T128/T129 למערך TESTS — בדיקות QA עבור BUG-074/075/076."
   }
 ]

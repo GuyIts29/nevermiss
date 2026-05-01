@@ -502,5 +502,32 @@
   "T126": {
     "status": "✅",
     "notes": "BUG-061 תוקן — GroupsScreen מציג חג ייחודי אחד (ללא כפילות שנה), שם עברי כשhe, דת מתורגמת"
+  },
+  "T127": {
+    "status": "✅",
+    "notes": "BUG-074 תוקן — Input.tsx: useLang + isRTL; אייקון ב-right-3/left-3 בהתאם לכיוון; ריפוד pr-10/pl-10 מתאים. build+lint ✅"
+  },
+  "T128": {
+    "status": "✅",
+    "notes": "BUG-075 תוקן — PrivacyScreen: SECTIONS הועבר לתוך הקומפוננטה; 25 מפתחות i18n חדשים (EN+HE) לכל הכותרות, גוף הטקסט, hero, badge, intro, footer. build+lint ✅"
+  },
+  "T129": {
+    "status": "✅",
+    "notes": "BUG-076 תוקן — מחלקות CSS פיזיות (ml-*/mr-*/text-right) הוחלפו במחלקות לוגיות (ms-*/me-*/text-end) ב-BirthdayGreetingEditorScreen, App.tsx, DashboardScreen, MediaAttachmentPicker, GreetingEditorScreen, WhatsNewScreen, CalendarScreen. build+lint ✅"
+  },
+  "BUG-074": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T15:30:00",
+    "description": "Input RTL icon positioning"
+  },
+  "BUG-075": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T15:45:00",
+    "description": "PrivacyScreen hardcoded English content"
+  },
+  "BUG-076": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T16:00:00",
+    "description": "Remaining physical CSS margins not using logical properties"
   }
 }

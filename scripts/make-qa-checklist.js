@@ -194,6 +194,9 @@ const TESTS = [
   { id: 'T124', cat: 'bugfix',  name: 'BUG-059: Google Translate — translate=no + notranslate על html ו-root מונעים תרגום אוטומטי' },
   { id: 'T125', cat: 'bugfix',  name: 'BUG-060: תיאורי חגים בעברית — heDescription ב-46 חגים; HolidayDetailScreen מציג עברית כשheLang' },
   { id: 'T126', cat: 'bugfix',  name: 'BUG-061: קבוצות — רשימת חגים ללא כפילויות; שמות עבריים; דת מתורגמת' },
+  { id: 'T127', cat: 'bugfix',  name: 'BUG-074: Input — מיקום אייקון RTL-aware (ימין בעברית, שמאל באנגלית); ריפוד מותאם' },
+  { id: 'T128', cat: 'bugfix',  name: 'BUG-075: PrivacyScreen — 10 סעיפים + hero/badge/intro/footer מתורגמים לעברית (25 מפתחות i18n)' },
+  { id: 'T129', cat: 'bugfix',  name: 'BUG-076: מחלקות CSS פיזיות (ml-*/mr-*/text-right) הוחלפו במחלקות לוגיות (ms-*/me-*/text-end) ב-6 קבצים' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────
