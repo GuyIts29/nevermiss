@@ -1594,5 +1594,19 @@
     "action": "fixed",
     "file": "src/components/ui/Input.tsx",
     "description": "תיקון BUG-074: ממשק Input לא היה מודע ל-RTL — האייקונים הופיעו בצד הלא נכון בעברית. הוספת useLang ו-isRTL לניהול מיקום האייקון והריפוד בהתאם לכיוון הטקסט."
+  },
+  {
+    "timestamp": "2026-05-01T15:45:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/PrivacyScreen.tsx",
+    "description": "תיקון BUG-075: כל תוכן מסך הפרטיות היה קשיח באנגלית. הועבר מערך SECTIONS לתוך הקומפוננטה עם שימוש ב-t() לכל הכותרות ותוכן הסעיפים."
+  },
+  {
+    "timestamp": "2026-05-01T15:45:01",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "תיקון BUG-075: הוספת 25 מפתחות i18n חדשים (EN+HE) עבור מסך הפרטיות: privacy_hero_title, privacy_last_updated, privacy_badge, privacy_intro, privacy_footer, privacy_s1 עד privacy_s10 (כותרות וגוף טקסט)."
   }
 ]

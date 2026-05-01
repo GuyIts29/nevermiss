@@ -615,3 +615,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode RTL scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added `useLang` import and `isRTL` flag. Replaced all physical positioning classes with RTL-conditional equivalents: icon uses `right-3`/`left-3` in RTL, iconRight uses `left-3`/`right-3` in RTL. Input padding flips accordingly.
+
+---
+
+### BUG-075 — PrivacyScreen all content hardcoded in English
+- **Date:** 2026-05-01 | **Time:** 15:45 | **Status:** ✅ fixed
+- **Files:** `src/screens/PrivacyScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** The entire PrivacyScreen was locked to English: all 10 section titles and body texts were hardcoded in the module-level `SECTIONS` array, plus the hero title, "Last updated:" prefix, privacy badge, intro paragraph, and footer text.
+- **Found by:** Developer — Bug Fix Mode i18n scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added 25 i18n keys (`privacy_hero_title`, `privacy_last_updated`, `privacy_badge`, `privacy_intro`, `privacy_footer`, `privacy_s1_title/body` through `privacy_s10_title/body`) in EN + HE. Moved `SECTIONS` array inside component to use `t()`. All strings now localize to Hebrew.

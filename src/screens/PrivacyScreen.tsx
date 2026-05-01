@@ -4,22 +4,22 @@ import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import { APP_CONFIG } from '@/config/appConfig'
 
-const SECTIONS = [
-  { icon: Lock,         title: '1. Data Storage',            color: '#8B5CF6', body: "All data — including your contacts, groups, settings, and drafts — is stored exclusively on your device using the browser's localStorage. This data never leaves your device unless you explicitly export it." },
-  { icon: Shield,       title: '2. No Data Collection',      color: '#10B981', body: 'NeverMiss does not collect any personal information. We have no servers that receive your contact data, relationship notes, or any other information you enter into the app.' },
-  { icon: BarChart2,    title: '3. No Analytics or Tracking',color: '#3B82F6', body: 'We do not use analytics tools, crash reporters, user session tracking, or any form of behavioral monitoring. Your usage of the app is entirely private.' },
-  { icon: Eye,          title: '4. No Advertisements',       color: '#F59E0B', body: 'NeverMiss contains no advertisements and is not part of any advertising network. Your data is not sold or shared with advertisers.' },
-  { icon: MessageCircle,title: '5. WhatsApp Integration',    color: '#25D366', body: 'When you use the WhatsApp feature, NeverMiss opens WhatsApp with a pre-filled message using the standard "wa.me" link. Your message and phone number go directly to WhatsApp (operated by Meta). NeverMiss does not see, store, or intercept these messages. You must manually press "Send" in WhatsApp.' },
-  { icon: FileUp,       title: '6. Contact Import',          color: '#0EA5E9', body: "(Premium feature) When you import contacts from a CSV or Excel file, the file is processed entirely on your device. The file is never uploaded to any server. Imported data is saved to your device's localStorage." },
-  { icon: WifiOff,      title: '7. Fonts and External Resources', color: '#6366F1', body: "The app uses Google Fonts (Inter) which may be loaded from Google's servers in the web version. On mobile, fonts may be bundled. No personal data is sent with these requests." },
-  { icon: Smartphone,   title: '8. Your Rights',             color: '#F43F5E', body: 'Since we hold no data about you, there is nothing to request, delete, or correct on our end. You have full control of your data — you can clear all app data at any time from Settings → Clear All Data.' },
-  { icon: RefreshCw,    title: '9. Changes to This Policy',  color: '#F97316', body: 'We will update this policy if our practices change. The date at the top of this policy reflects the most recent revision.' },
-  { icon: Mail,         title: '10. Contact',                color: '#A855F7', body: "If you have privacy questions, you can reach us through the app's support channels." },
-]
-
 export function PrivacyScreen() {
   const t = useT()
   const { theme } = useTheme()
+
+  const SECTIONS = [
+    { icon: Lock,          title: t('privacy_s1_title'),  color: '#8B5CF6', body: t('privacy_s1_body') },
+    { icon: Shield,        title: t('privacy_s2_title'),  color: '#10B981', body: t('privacy_s2_body') },
+    { icon: BarChart2,     title: t('privacy_s3_title'),  color: '#3B82F6', body: t('privacy_s3_body') },
+    { icon: Eye,           title: t('privacy_s4_title'),  color: '#F59E0B', body: t('privacy_s4_body') },
+    { icon: MessageCircle, title: t('privacy_s5_title'),  color: '#25D366', body: t('privacy_s5_body') },
+    { icon: FileUp,        title: t('privacy_s6_title'),  color: '#0EA5E9', body: t('privacy_s6_body') },
+    { icon: WifiOff,       title: t('privacy_s7_title'),  color: '#6366F1', body: t('privacy_s7_body') },
+    { icon: Smartphone,    title: t('privacy_s8_title'),  color: '#F43F5E', body: t('privacy_s8_body') },
+    { icon: RefreshCw,     title: t('privacy_s9_title'),  color: '#F97316', body: t('privacy_s9_body') },
+    { icon: Mail,          title: t('privacy_s10_title'), color: '#A855F7', body: t('privacy_s10_body') },
+  ]
 
   return (
     <div className="screen-container">
@@ -35,14 +35,14 @@ export function PrivacyScreen() {
           <div className="absolute -bottom-4 -left-4 w-14 h-14 rounded-full bg-white/10 pointer-events-none" />
           <div className="relative">
             <div className="text-4xl mb-2 animate-float inline-block">🔒</div>
-            <h2 className="text-lg font-extrabold text-white tracking-tight">{APP_CONFIG.appName} Privacy Policy</h2>
-            <p className="text-white/75 text-xs mt-1">Last updated: {APP_CONFIG.releaseDate}</p>
+            <h2 className="text-lg font-extrabold text-white tracking-tight">{t('privacy_hero_title')}</h2>
+            <p className="text-white/75 text-xs mt-1">{t('privacy_last_updated')} {APP_CONFIG.releaseDate}</p>
             <div
               className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full text-xs font-bold"
               style={{ background: 'rgba(255,255,255,0.2)', color: '#fff' }}
             >
               <Shield size={10} />
-              Privacy-first · No data collection · Fully local
+              {t('privacy_badge')}
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@ export function PrivacyScreen() {
         {/* Intro */}
         <div className="card stagger-1">
           <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-            {APP_CONFIG.appName} is designed with privacy as a core principle. We do not collect, store, or transmit your personal data.
+            {t('privacy_intro', { appName: APP_CONFIG.appName })}
           </p>
         </div>
 
@@ -78,8 +78,8 @@ export function PrivacyScreen() {
           style={{ background: 'var(--color-surface-2)' }}
         >
           <p className="text-xs text-[var(--color-text-muted)]">
-            <BookOpen size={10} className="inline mr-1" />
-            Questions? See Settings → About for contact details
+            <BookOpen size={10} className="inline me-1" />
+            {t('privacy_footer')}
           </p>
         </div>
       </div>
