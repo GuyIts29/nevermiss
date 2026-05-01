@@ -1769,5 +1769,12 @@
     "action": "added",
     "file": "BACKLOG.md / BACKLOG.csv",
     "description": "BL-078 נוסף לבקלוג — UX: תיקון הודעת \"מצריכה מובייל\" המטעה במדפדפן מובייל לייבוא אנשי קשר ממכשיר; עדיפות 🟢 נמוכה; לא יושם בספרינט הנוכחי"
+  },
+  {
+    "timestamp": "2026-05-01T23:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md / BACKLOG.csv",
+    "description": "BL-079 נוסף לבקלוג — שיפור: הוספת תפריט בחירה של שפה ודת לתבנית ייבוא Excel/CSV; עדיפות 🟡 בינונית; לא יושם בספרינט הנוכחי"
   }
 ]
