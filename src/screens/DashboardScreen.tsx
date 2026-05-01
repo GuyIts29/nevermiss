@@ -11,9 +11,10 @@ import { EmptyState } from '@/components/EmptyState'
 import { ContactCard } from '@/components/ContactCard'
 import { HolidayCard } from '@/components/HolidayCard'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
+import { ChannelPicker } from '@/components/ChannelPicker'
 import { APP_CONFIG } from '@/config/appConfig'
 import { getAISuggestions } from '@/services/aiSuggestionsService'
-import { openWhatsApp, copyToClipboard } from '@/services/communicationService'
+import { copyToClipboard } from '@/services/communicationService'
 import { getUserName } from '@/services/userProfileService'
 import type { Contact, Holiday, GreetingTone } from '@/types'
 
@@ -51,6 +52,7 @@ export function DashboardScreen() {
   type QuickSendState = { contact: Contact; holiday?: Holiday; options: string[] } | null
   const [quickSend, setQuickSend] = useState<QuickSendState>(null)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+  const [channelPickerData, setChannelPickerData] = useState<{ contact: Contact; message: string } | null>(null)
 
   function resolveTone(contact: Contact): GreetingTone {
     if (contact.contactType === 'internal') return 'internal'
@@ -265,21 +267,34 @@ export function DashboardScreen() {
             </div>
             <div className="space-y-2">
               {todayHoliday && (
-                <button
-                  type="button"
-                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-start"
+                <div
+                  className="rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3"
                   style={{
                     background: `linear-gradient(135deg, ${todayHoliday.color}22, ${todayHoliday.color}0a)`,
                     border: `1px solid ${todayHoliday.color}40`,
                   }}
-                  onClick={() => navigate(`/calendar/${todayHoliday.id}`)}
                 >
-                  <span className="text-2xl animate-float">{todayHoliday.emoji}</span>
-                  <div className="flex-1">
-                    <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_holiday_is_today', { name: todayHoliday.name })}</p>
-                    <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_holiday_tap')}</p>
-                  </div>
-                </button>
+                  <button
+                    type="button"
+                    className="flex items-center gap-3 flex-1 text-start min-w-0"
+                    onClick={() => navigate(`/calendar/${todayHoliday.id}`)}
+                  >
+                    <span className="text-2xl animate-float shrink-0">{todayHoliday.emoji}</span>
+                    <div className="min-w-0">
+                      <p className="font-bold text-sm text-[var(--color-text-primary)]">{t('dashboard_holiday_is_today', { name: todayHoliday.name })}</p>
+                      <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_holiday_tap')}</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => navigate(`/greeting?holidayId=${todayHoliday.id}`)}
+                    className="shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg text-white"
+                    style={{ background: todayHoliday.color, minHeight: '36px' }}
+                    aria-label={t('dashboard_send_greeting')}
+                  >
+                    <Send size={11} aria-hidden="true" />
+                    {t('dashboard_send_greeting')}
+                  </button>
+                </div>
               )}
               {isPremium && dashboardData.todayBirthdays.map(contact => (
                 <div
@@ -486,20 +501,34 @@ export function DashboardScreen() {
         {/* Holiday-specific highlight card when one is tomorrow */}
         {tomorrowHoliday && !todayHoliday && (
           <div
-            className="rounded-[var(--border-radius-lg)] p-4 flex items-center gap-3 animate-slide-up cursor-pointer"
+            className="rounded-[var(--border-radius-lg)] p-4 flex items-center gap-3 animate-slide-up"
             style={{
               background: `linear-gradient(135deg, ${tomorrowHoliday.color}22, ${tomorrowHoliday.color}0a)`,
               border: `1px solid ${tomorrowHoliday.color}35`,
             }}
-            onClick={() => navigate(`/calendar/${tomorrowHoliday.id}`)}
           >
-            <span className="text-3xl">{tomorrowHoliday.emoji}</span>
-            <div>
-              <p className="font-bold text-sm text-[var(--color-text-primary)]">
-                {t('dashboard_isTomorrow', { name: tomorrowHoliday.name })}
-              </p>
-              <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_prepareGreetings')}</p>
-            </div>
+            <button
+              type="button"
+              className="flex items-center gap-3 flex-1 text-start min-w-0"
+              onClick={() => navigate(`/calendar/${tomorrowHoliday.id}`)}
+            >
+              <span className="text-3xl shrink-0">{tomorrowHoliday.emoji}</span>
+              <div className="min-w-0">
+                <p className="font-bold text-sm text-[var(--color-text-primary)]">
+                  {t('dashboard_isTomorrow', { name: tomorrowHoliday.name })}
+                </p>
+                <p className="text-xs text-[var(--color-text-muted)]">{t('dashboard_prepareGreetings')}</p>
+              </div>
+            </button>
+            <button
+              onClick={() => navigate(`/greeting?holidayId=${tomorrowHoliday.id}`)}
+              className="shrink-0 flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg text-white"
+              style={{ background: tomorrowHoliday.color, minHeight: '36px' }}
+              aria-label={t('dashboard_send_greeting')}
+            >
+              <Send size={11} aria-hidden="true" />
+              {t('dashboard_send_greeting')}
+            </button>
           </div>
         )}
 
@@ -518,6 +547,15 @@ export function DashboardScreen() {
       >
         <Plus size={24} className="text-white" />
       </button>
+
+      {/* Channel Picker — opens after selecting a quick-send option */}
+      {channelPickerData && (
+        <ChannelPicker
+          contact={channelPickerData.contact}
+          message={channelPickerData.message}
+          onClose={() => setChannelPickerData(null)}
+        />
+      )}
 
       {/* Quick Send overlay */}
       {quickSend && (
@@ -554,17 +592,18 @@ export function DashboardScreen() {
                   <p className="text-sm text-[var(--color-text-primary)] whitespace-pre-wrap leading-relaxed">
                     {option}
                   </p>
-                  <div className="flex gap-2">
-                    {quickSend.contact.phone && (
-                      <button
-                        onClick={() => { openWhatsApp(quickSend.contact.phone!, option); setQuickSend(null) }}
-                        className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white"
-                        style={{ background: '#25D366' }}
-                      >
-                        <Send size={11} aria-hidden="true" />
-                        {t('dashboard_quick_send_wa')}
-                      </button>
-                    )}
+                  <div className="flex gap-2 flex-wrap">
+                    <button
+                      onClick={() => {
+                        setChannelPickerData({ contact: quickSend.contact, message: option })
+                        setQuickSend(null)
+                      }}
+                      className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white"
+                      style={{ background: theme.primary }}
+                    >
+                      <Send size={11} aria-hidden="true" />
+                      {t('dashboard_quick_send_channel')}
+                    </button>
                     <button
                       onClick={() => handleCopyOption(option, i)}
                       className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors"

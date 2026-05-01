@@ -201,6 +201,7 @@ const TESTS = [
   { id: 'T131', cat: 'bugfix',  name: 'BUG-078: Voice message — Modal "צירוף ידני" מוצג לאחר פתיחת WhatsApp כשיש הקלטה; RTL; נשאר עד סגירה ידנית' },
   { id: 'T132', cat: 'bugfix',  name: "BUG-079: 14 חגים יהודיים חסרים נוספו — ל\"ג בעומר, שמחת תורה, תשעה באב, י\"ז בתמוז, י' בטבת, תענית אסתר, צום גדליה (2025+2026); hebcalDate(); type fast/minor/major" },
   { id: 'T133', cat: 'bugfix',  name: 'BUG-080: כפילויות חגים ב-Event Type dropdown — useMemo dedup by name (upcoming-first) ב-GreetingEditorScreen' },
+  { id: 'T134', cat: 'feature', name: "BL-064: שליחה מהירה — ChannelPicker ב-Quick Send Panel; כפתור 'שלח ברכה' על כרטיסי חג היום/מחר; 2 מפתחות i18n EN+HE" },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

@@ -675,3 +675,12 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User report — Sprint 13
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added `useMemo`-based deduplication to `GreetingEditorScreen`. Sorts holidays by date (upcoming-first), then filters to keep only the first occurrence of each unique `name`. This ensures each holiday appears exactly once, showing the most upcoming/relevant year entry. GroupsScreen already had its own deduplication.
+
+---
+
+### BL-064 — One-tap greeting send flow from dashboard alert cards
+- **Date:** 2026-05-01 | **Time:** 18:00 | **Status:** ✅ implemented
+- **Files:** `src/screens/DashboardScreen.tsx`, `src/i18n/index.ts`
+- **Feature:** Added one-tap greeting flow to all dashboard alert cards. (1) Today's holiday highlight card: added inline "Send Greeting" CTA button that opens Greeting Editor pre-filled with the holiday. (2) Tomorrow's holiday banner: same CTA added. (3) Quick Send panel: replaced direct WhatsApp button with a "Send" button that opens ChannelPicker pre-filled with the selected message — enabling WhatsApp, SMS, Email, Copy, and Share from the quick send panel. Added 2 i18n keys (EN+HE): `dashboard_quick_send_channel`, `dashboard_send_greeting`.
+- **Found by:** Sprint 13 planned feature
+- **Fixed by:** Developer — 2026-05-01

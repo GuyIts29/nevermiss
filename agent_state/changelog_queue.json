@@ -1713,5 +1713,19 @@
     "action": "modified",
     "file": "src/screens/GreetingEditorScreen.tsx",
     "description": "BUG-080 (BL-073): כפילות חגים בתפריט Event Type תוקנה - useMemo dedup by name (upcoming-first); יבוא useMemo נוסף"
+  },
+  {
+    "timestamp": "2026-05-01T18:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-064: ChannelPicker שולב ב-Quick Send Panel (מחליף כפתור WhatsApp ישיר); כפתור שלח ברכה נוסף לכרטיסי חג היום ומחר; ייבוא ChannelPicker וstate channelPickerData; הוסר openWhatsApp שאינו בשימוש"
+  },
+  {
+    "timestamp": "2026-05-01T18:01:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-064: 2 מפתחות i18n חדשים (EN+HE): dashboard_quick_send_channel, dashboard_send_greeting"
   }
 ]

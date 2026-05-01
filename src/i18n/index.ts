@@ -611,6 +611,8 @@ export const translations = {
     dashboard_quick_send_copy: 'Copy',
     dashboard_quick_send_copied: 'Copied!',
     dashboard_quick_send_open_editor: 'Open Editor',
+    dashboard_quick_send_channel: 'Send',
+    dashboard_send_greeting: 'Send Greeting',
 
     // ─── Personal user layer (BL-067) ────────────────────────────────────
     setup_title: "What's your name?",
@@ -1405,6 +1407,8 @@ export const translations = {
     dashboard_quick_send_copy: 'העתק',
     dashboard_quick_send_copied: 'הועתק!',
     dashboard_quick_send_open_editor: 'פתח עורך',
+    dashboard_quick_send_channel: 'שלח',
+    dashboard_send_greeting: 'שלח ברכה',
 
     // ─── Personal user layer (BL-067) ────────────────────────────────────
     setup_title: 'מה שמך?',

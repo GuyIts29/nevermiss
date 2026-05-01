@@ -565,5 +565,14 @@
     "status": "fixed",
     "fixedAt": "2026-05-01T17:15:00",
     "description": "Duplicate holiday names in Greeting Editor Event Type dropdown — useMemo dedup by name"
+  },
+  "T134": {
+    "status": "✅",
+    "notes": "BL-064 הושלם — (1) כרטיס חג 'היום' ו'מחר': נוסף כפתור 'שלח ברכה' inline → Greeting Editor עם holidayId. (2) Quick Send Panel: הוחלף כפתור WhatsApp ישיר ב-ChannelPicker (WhatsApp/SMS/Email/Copy/Share). 2 מפתחות i18n (EN+HE). build+lint ✅"
+  },
+  "BL-064": {
+    "status": "done",
+    "completedAt": "2026-05-01T18:00:00",
+    "description": "One-tap greeting send flow — ChannelPicker integrated into Quick Send panel; Send Greeting CTA on today/tomorrow holiday banners"
   }
 }
