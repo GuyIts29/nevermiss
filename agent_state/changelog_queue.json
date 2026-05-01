@@ -1699,5 +1699,19 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "BUG-078: added 2 i18n keys EN+HE: whatsapp_voice_hint_title, whatsapp_voice_hint_body."
+  },
+  {
+    "timestamp": "2026-05-01T17:00:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/data/holidays.ts",
+    "description": "BUG-079 (BL-074): 14 רשומות חגים יהודיים חסרים נוספו - לג בעומר, שמחת תורה, תשעה באב, 17 בתמוז, 10 בטבת, תענית אסתר, צום גדליה (2025+2026 לכל אחד); hebcalDate() לתאריכים; type fast/minor/major; EN+HE"
+  },
+  {
+    "timestamp": "2026-05-01T17:15:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BUG-080 (BL-073): כפילות חגים בתפריט Event Type תוקנה - useMemo dedup by name (upcoming-first); יבוא useMemo נוסף"
   }
 ]

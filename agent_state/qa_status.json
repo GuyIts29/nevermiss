@@ -547,5 +547,23 @@
     "status": "fixed",
     "fixedAt": "2026-05-01T16:35:00",
     "description": "Voice message unclear UX — added post-send Modal in ChannelPicker and WhatsAppButton"
+  },
+  "T132": {
+    "status": "✅",
+    "notes": "BUG-079 תוקן — 14 רשומות חגים יהודיים חסרים נוספו ל-holidays.ts: ל\"ג בעומר, שמחת תורה, תשעה באב, י\"ז בתמוז, י' בטבת, תענית אסתר, צום גדליה — 2 שנים לכל חג; hebcalDate() לתאריכים מדויקים; type: fast/minor/major; EN+HE. build+lint ✅"
+  },
+  "T133": {
+    "status": "✅",
+    "notes": "BUG-080 תוקן — GreetingEditorScreen: useMemo dedup holidays by name (upcoming-first) — כל חג מופיע פעם אחת בתפריט Event Type. build+lint ✅"
+  },
+  "BUG-079": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T17:00:00",
+    "description": "Missing Jewish minor holidays and fast days — added 14 entries to holidays.ts"
+  },
+  "BUG-080": {
+    "status": "fixed",
+    "fixedAt": "2026-05-01T17:15:00",
+    "description": "Duplicate holiday names in Greeting Editor Event Type dropdown — useMemo dedup by name"
   }
 }

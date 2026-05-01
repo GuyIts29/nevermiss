@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Wand2, Copy, Check, RefreshCw, Save, ChevronDown, Pen, Send, Sparkles, Crown } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
@@ -122,6 +122,24 @@ export function GreetingEditorScreen() {
 
   const selectedContact = contacts.find(c => c.id === selectedContactId)
   const selectedHoliday = getHolidayById(selectedHolidayId)
+
+  // Deduplicate holidays by name for the dropdown — keep the most upcoming entry per name
+  const uniqueHolidays = useMemo(() => {
+    const today = new Date().toISOString().split('T')[0]
+    const sorted = [...holidays].sort((a, b) => {
+      const aFuture = a.date >= today
+      const bFuture = b.date >= today
+      if (aFuture && !bFuture) return -1
+      if (!aFuture && bFuture) return 1
+      return aFuture ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)
+    })
+    const seen = new Set<string>()
+    return sorted.filter(h => {
+      if (seen.has(h.name)) return false
+      seen.add(h.name)
+      return true
+    })
+  }, [holidays])
 
   const fullMessage = signature.trim()
     ? `${message}\n\n– ${signature.trim()}`
@@ -254,7 +272,7 @@ export function GreetingEditorScreen() {
             onChange={e => setSelectedHolidayId(e.target.value)}
             options={[
               { value: '', label: t('greeting_noHoliday') },
-              ...holidays.map(h => ({ value: h.id, label: `${h.emoji} ${h.name}` })),
+              ...uniqueHolidays.map(h => ({ value: h.id, label: `${h.emoji} ${h.name}` })),
             ]}
           />
         </div>

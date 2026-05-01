@@ -199,6 +199,8 @@ const TESTS = [
   { id: 'T129', cat: 'bugfix',  name: 'BUG-076: מחלקות CSS פיזיות (ml-*/mr-*/text-right) הוחלפו במחלקות לוגיות (ms-*/me-*/text-end) ב-6 קבצים' },
   { id: 'T130', cat: 'bugfix',  name: 'BUG-077: WhatsApp emoji encoding — אומת: encodeURIComponent קיים ב-buildWhatsAppUrl; כל נתיבי השליחה מוסדרים דרכו' },
   { id: 'T131', cat: 'bugfix',  name: 'BUG-078: Voice message — Modal "צירוף ידני" מוצג לאחר פתיחת WhatsApp כשיש הקלטה; RTL; נשאר עד סגירה ידנית' },
+  { id: 'T132', cat: 'bugfix',  name: "BUG-079: 14 חגים יהודיים חסרים נוספו — ל\"ג בעומר, שמחת תורה, תשעה באב, י\"ז בתמוז, י' בטבת, תענית אסתר, צום גדליה (2025+2026); hebcalDate(); type fast/minor/major" },
+  { id: 'T133', cat: 'bugfix',  name: 'BUG-080: כפילויות חגים ב-Event Type dropdown — useMemo dedup by name (upcoming-first) ב-GreetingEditorScreen' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

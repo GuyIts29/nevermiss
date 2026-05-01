@@ -655,3 +655,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User report
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added a post-send `Modal` (stays visible until explicitly dismissed, RTL-ready) to both `ChannelPicker` and `WhatsAppButton`. The modal fires when `media?.type === 'audio'` after WhatsApp is opened. Uses new i18n keys `whatsapp_voice_hint_title` and `whatsapp_voice_hint_body` (EN+HE). Text-only WhatsApp flow is unchanged.
+
+---
+
+### BUG-079 — Missing Jewish minor holidays and fast days in calendar and greeting editor
+- **Date:** 2026-05-01 | **Time:** 17:00 | **Status:** ✅ fixed
+- **File:** `src/data/holidays.ts`
+- **Bug:** 7 Jewish observances had no entries in `holidays.ts`: Lag Ba'Omer, Simchat Torah, Tisha B'Av, 17th of Tammuz (Shiva Asar B'Tammuz), 10th of Tevet (Asara B'Tevet), Fast of Esther (Ta'anit Esther), Fast of Gedaliah (Tzom Gedaliah). Users could not select these as Event Types in the Greeting Editor, and they did not appear in the Calendar view.
+- **Found by:** User report — Sprint 13
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added 14 new holiday entries (2025+2026 pairs for each missing holiday) to `src/data/holidays.ts`. Used `hebcalDate()` with `@hebcal/core` for accurate Hebrew-calendar dates. All entries include EN+HE descriptions, greetings with transliterations, appropriate colors, and emojis. Types: `'minor'` for Lag Ba'Omer, `'major'` for Simchat Torah, `'fast'` for all 5 fast days.
+
+---
+
+### BUG-080 — Duplicate holiday names in Greeting Editor Event Type dropdown
+- **Date:** 2026-05-01 | **Time:** 17:15 | **Status:** ✅ fixed
+- **File:** `src/screens/GreetingEditorScreen.tsx`
+- **Bug:** The Event Type `<Select>` in GreetingEditorScreen showed duplicate holiday names (e.g. "Rosh Hashana" appeared twice) because the raw `HOLIDAYS` array contains both 2025 and 2026 entries with the same `name`. All major Jewish and other holidays were duplicated in the dropdown.
+- **Found by:** User report — Sprint 13
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added `useMemo`-based deduplication to `GreetingEditorScreen`. Sorts holidays by date (upcoming-first), then filters to keep only the first occurrence of each unique `name`. This ensures each holiday appears exactly once, showing the most upcoming/relevant year entry. GroupsScreen already had its own deduplication.
