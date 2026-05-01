@@ -463,3 +463,32 @@ Changelog: `node scripts/make-changelog.js` → writes `changelog.xlsx`.
 - `review_notes.md` — Reviewer writes findings; Developer reads and fixes
 - `changelog_queue.json` — append-only JSON array; Documentation writes after every sprint
 - `iteration_log.md` — one row per sprint: number, date, what each agent did
+
+---
+
+## Permanent Rules
+
+### Premium Logic — Excluded from All Development Sprints
+
+**Effective: 2026-05-01. Set by user. Cannot be overridden without explicit user instruction.**
+
+Premium-related tasks must NOT be included in any sprint unless explicitly requested by the user.
+
+This includes:
+- BL-070 (Re-enable Premium gates)
+- Any changes to `TEMP_PREMIUM_UNLOCK`
+- Any premium gating logic
+- Any monetization-related features or changes
+
+These tasks are considered pre-release only and out of scope for all development sprints.
+
+**Rules (apply at all times):**
+- Do NOT select premium tasks during sprint planning
+- Do NOT execute premium tasks
+- Do NOT modify premium gating logic directly or indirectly
+- Do NOT include premium-related refactors or incidental "small fixes"
+
+If a premium-related task appears during sprint planning or mid-sprint:
+- Skip it
+- Keep it in backlog only
+- Do not mention it as a candidate
