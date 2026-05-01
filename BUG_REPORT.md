@@ -515,3 +515,23 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** User — 2026-05-01 (Bug Fix Mode)
 - **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
 - **Fix:** Added `uniqueHolidays` useMemo that deduplicates by base holiday ID (strips year suffix), keeping the more recent year's entry. Added `getHolidayDisplayName` helper that finds the Hebrew name from `alternativeNames` (first string containing Hebrew Unicode chars) when `lang === 'he'`. Updated search filter to also match against `alternativeNames`. Changed religion label from `{h.religion}` to `{t(\`religion_${h.religion}\`)}` using existing i18n keys.
+
+---
+
+### BUG-065 — Physical `ml-*` margin classes not adapted for RTL across multiple screens
+- **Date:** 2026-05-01 | **Time:** 12:00 | **Status:** ✅ fixed
+- **Files:** `src/screens/UpgradeScreen.tsx`, `src/screens/CalendarScreen.tsx`, `src/screens/GreetingEditorScreen.tsx`
+- **Bug:** Several inline spans used `ml-1` / `ml-2` as the gap between adjacent text elements. In RTL these gaps ended up on the wrong (outer) side instead of between the elements, causing zero visual gap between them.
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Replaced all physical `ml-1`/`ml-2` "sibling gap" classes with Tailwind logical-property equivalents `ms-1`/`ms-2` (`margin-inline-start`), which automatically resolves to left margin in LTR and right margin in RTL.
+
+---
+
+### BUG-066 — Upgrade screen shows hardcoded English testimonials in Hebrew UI
+- **Date:** 2026-05-01 | **Time:** 12:00 | **Status:** ✅ fixed
+- **File:** `src/screens/UpgradeScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** The two testimonial cards in UpgradeScreen had hardcoded English names, roles, and quotes (David M., Sarah L., Sales Manager, HR Director) that displayed in English even when the app was in Hebrew mode.
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added 6 i18n keys (`upgrade_testimonial_1/2_name/role/quote`) in both EN and HE locales. UpgradeScreen now renders testimonials via `t()` so they display in the active language.

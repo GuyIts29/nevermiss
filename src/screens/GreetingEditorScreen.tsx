@@ -394,7 +394,7 @@ export function GreetingEditorScreen() {
             <div className="px-4 py-2.5 flex items-center gap-2" style={{ background: 'linear-gradient(135deg, #8B5CF618, #6366F108)' }}>
               <Sparkles size={13} style={{ color: '#8B5CF6' }} aria-hidden="true" />
               <p className="text-xs font-bold" style={{ color: '#7C3AED' }}>{t('ai_suggestions_title')}</p>
-              <p className="text-xs text-[var(--color-text-muted)] ml-1">{t('ai_suggestions_subtitle')}</p>
+              <p className="text-xs text-[var(--color-text-muted)] ms-1">{t('ai_suggestions_subtitle')}</p>
             </div>
             <div className="divide-y divide-[var(--color-border)] bg-[var(--color-surface)]">
               {aiSuggestions.map((suggestion, i) => (

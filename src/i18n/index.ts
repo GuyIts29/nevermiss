@@ -594,6 +594,12 @@ export const translations = {
     upgrade_most_popular: 'MOST POPULAR',
     upgrade_privacy_note: '🔒 Privacy-first · All data stored locally on your device · No tracking · No ads',
     upgrade_no_auto_send: '⚠️ This app never sends messages automatically',
+    upgrade_testimonial_1_quote: '"I never miss Eid, Rosh Hashana, or Christmas for my clients. It transformed my relationships."',
+    upgrade_testimonial_1_name: 'David M.',
+    upgrade_testimonial_1_role: 'Sales Manager',
+    upgrade_testimonial_2_quote: '"The birthday tracking feature means we never miss an employee birthday. Team morale improved noticeably."',
+    upgrade_testimonial_2_name: 'Sarah L.',
+    upgrade_testimonial_2_role: 'HR Director',
 
     // ─── Theme names ──────────────────────────────────────────────────────
     theme_ocean: 'Ocean Blue',
@@ -1330,6 +1336,12 @@ export const translations = {
     upgrade_most_popular: 'הכי פופולרי',
     upgrade_privacy_note: '🔒 פרטיות מלאה · כל הנתונים שמורים במכשיר שלך · ללא מעקב · ללא פרסומות',
     upgrade_no_auto_send: '⚠️ האפליקציה לעולם לא שולחת הודעות אוטומטית',
+    upgrade_testimonial_1_quote: '"אני לא מפספס אף יום — עיד אל-פיטר, ראש השנה, חג המולד ללקוחות שלי. זה שינה את מערכות היחסים שלי."',
+    upgrade_testimonial_1_name: 'דוד מ.',
+    upgrade_testimonial_1_role: 'מנהל מכירות',
+    upgrade_testimonial_2_quote: '"מעקב ימי ההולדת מבטיח שאנחנו לא מפספסים אף עובד. מורל הצוות השתפר בצורה ניכרת."',
+    upgrade_testimonial_2_name: 'שרה ל.',
+    upgrade_testimonial_2_role: 'מנהלת משאבי אנוש',
 
     // ─── Theme names ──────────────────────────────────────────────────────
     theme_ocean: 'כחול אוקיינוס',

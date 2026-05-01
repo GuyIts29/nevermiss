@@ -302,7 +302,7 @@ export function CalendarScreen() {
                   ? t('calendar_birthdaysOn', { date: format(selectedDate, 'MMMM d') })
                   : t('calendar_birthdays')
                 }
-                <span className="ml-2 text-[var(--color-text-muted)] font-normal">({bdays.length})</span>
+                <span className="ms-2 text-[var(--color-text-muted)] font-normal">({bdays.length})</span>
               </h3>
               <div className="space-y-2">
                 {bdays.map(({ contact: c, birthdayType }) => (
@@ -337,7 +337,7 @@ export function CalendarScreen() {
               ? t('calendar_holidaysOn', { date: format(selectedDate, 'MMMM d') })
               : t('calendar_allHolidaysIn', { month: format(currentMonth, 'MMMM') })
             }
-            <span className="ml-2 text-[var(--color-text-muted)] font-normal">
+            <span className="ms-2 text-[var(--color-text-muted)] font-normal">
               ({selectedHolidays.length})
             </span>
           </h3>

@@ -1398,5 +1398,40 @@
     "action": "fixed",
     "file": "src/screens/HolidayRemindersScreen.tsx",
     "description": "תוקן BUG-064 — 2 toggles (enabled + channels) תוקנו ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "תוקן BUG-065 — ml-1 הוחלף ב-ms-1 (margin-inline-start) כדי שהרווח יהיה בצד הנכון ב-RTL"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תוקן BUG-065 — שני ml-2 בכותרות קטגוריות הוחלפו ב-ms-2 כדי שספירת הפריטים תופיע בצד הנכון ב-RTL"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "תוקן BUG-065 — ml-1 בסרגל הצעות AI הוחלף ב-ms-1"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "תוקן BUG-066 — המלצות המשתמשים (testimonials) היו hardcoded באנגלית; הועברו למפתחות i18n עם תרגום לעברית"
+  },
+  {
+    "timestamp": "2026-05-01T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 6 מפתחות i18n לעדויות משתמשים ב-UpgradeScreen (upgrade_testimonial_1/2_name/role/quote) — EN + HE"
   }
 ]

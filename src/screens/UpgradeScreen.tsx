@@ -83,7 +83,7 @@ export function UpgradeScreen() {
             <div className="mt-4 inline-flex flex-col items-center bg-white/15 rounded-[var(--border-radius)] px-6 py-3">
               <div className="text-white">
                 <span className="text-4xl font-black">{APP_CONFIG.pricing.monthly}</span>
-                <span className="text-white/70 text-sm ml-1">{t('upgrade_month')}</span>
+                <span className="text-white/70 text-sm ms-1">{t('upgrade_month')}</span>
               </div>
               <p className="text-white/60 text-xs mt-0.5">
                 {t('upgrade_yearSave', { price: APP_CONFIG.pricing.annual })}
@@ -161,8 +161,8 @@ export function UpgradeScreen() {
         {/* Testimonials */}
         <div className="space-y-2">
           {[
-            { name: 'David M.', role: 'Sales Manager', emoji: '💼', quote: '"I never miss Eid, Rosh Hashana, or Christmas for my clients. It transformed my relationships."' },
-            { name: 'Sarah L.', role: 'HR Director', emoji: '🎂', quote: '"The birthday tracking feature means we never miss an employee birthday. Team morale improved noticeably."' },
+            { name: t('upgrade_testimonial_1_name'), role: t('upgrade_testimonial_1_role'), emoji: '💼', quote: t('upgrade_testimonial_1_quote') },
+            { name: t('upgrade_testimonial_2_name'), role: t('upgrade_testimonial_2_role'), emoji: '🎂', quote: t('upgrade_testimonial_2_quote') },
           ].map(({ name, role, emoji, quote }) => (
             <div key={name} className="card !p-3 animate-slide-up">
               <p className="text-xs text-[var(--color-text-muted)] mb-1.5">{emoji}</p>
