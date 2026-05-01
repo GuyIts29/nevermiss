@@ -579,7 +579,7 @@ export function DashboardScreen() {
                         navigate(`/greeting?contactId=${quickSend.contact.id}${quickSend.holiday ? `&holidayId=${quickSend.holiday.id}` : ''}`)
                         setQuickSend(null)
                       }}
-                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors ml-auto"
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-2)] transition-colors ms-auto"
                     >
                       {t('dashboard_quick_send_open_editor')}
                     </button>

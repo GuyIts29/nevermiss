@@ -215,7 +215,7 @@ export function BirthdayGreetingEditorScreen() {
                 </div>
               </div>
               <Textarea value={message} onChange={e => setMessage(e.target.value)} rows={7} className="text-sm" />
-              <p className="text-right text-[10px] text-[var(--color-text-muted)] mt-1.5">
+              <p className="text-end text-[10px] text-[var(--color-text-muted)] mt-1.5">
 {t('birthday_greeting_chars', { n: String(message.length) })}
               </p>
             </Card>

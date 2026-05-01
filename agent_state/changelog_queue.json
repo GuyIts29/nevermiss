@@ -1608,5 +1608,47 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "תיקון BUG-075: הוספת 25 מפתחות i18n חדשים (EN+HE) עבור מסך הפרטיות: privacy_hero_title, privacy_last_updated, privacy_badge, privacy_intro, privacy_footer, privacy_s1 עד privacy_s10 (כותרות וגוף טקסט)."
+  },
+  {
+    "timestamp": "2026-05-01T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/premium/BirthdayGreetingEditorScreen.tsx",
+    "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
+  },
+  {
+    "timestamp": "2026-05-01T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/App.tsx",
+    "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
+  },
+  {
+    "timestamp": "2026-05-01T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
+  },
+  {
+    "timestamp": "2026-05-01T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/MediaAttachmentPicker.tsx",
+    "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
+  },
+  {
+    "timestamp": "2026-05-01T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
+  },
+  {
+    "timestamp": "2026-05-01T16:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/WhatsNewScreen.tsx",
+    "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
   }
 ]

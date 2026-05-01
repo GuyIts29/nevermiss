@@ -84,7 +84,7 @@ export function WhatsNewScreen() {
                         {entry.title}
                       </p>
                     </div>
-                    <span className={`text-xs text-[var(--color-text-muted)] shrink-0 ${isRTL ? 'mr-2' : 'ml-2'}`}>{entry.date}</span>
+                    <span className="text-xs text-[var(--color-text-muted)] shrink-0 ms-2">{entry.date}</span>
                   </div>
 
                   {/* Changes list */}
@@ -101,7 +101,7 @@ export function WhatsNewScreen() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <span
-                              className="text-[10px] font-extrabold mr-1.5 uppercase tracking-wide"
+                              className="text-[10px] font-extrabold me-1.5 uppercase tracking-wide"
                               style={{ color: bg.includes('#3B82F6') ? '#3B82F6' : bg.includes('#10B981') ? '#10B981' : bg.includes('#F97316') ? '#F97316' : '#8B5CF6' }}
                             >
                               {label}

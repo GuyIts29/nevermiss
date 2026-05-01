@@ -297,7 +297,7 @@ export function MediaAttachmentPicker({ value, onChange, isPremium }: MediaAttac
                 </span>
                 <button
                   onClick={handleStopRecording}
-                  className="ml-auto flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-bold text-white"
+                  className="ms-auto flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-bold text-white"
                   style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)' }}
                 >
                   {t('media_record_stop')}

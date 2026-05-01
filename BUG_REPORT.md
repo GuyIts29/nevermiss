@@ -625,3 +625,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode i18n scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added 25 i18n keys (`privacy_hero_title`, `privacy_last_updated`, `privacy_badge`, `privacy_intro`, `privacy_footer`, `privacy_s1_title/body` through `privacy_s10_title/body`) in EN + HE. Moved `SECTIONS` array inside component to use `t()`. All strings now localize to Hebrew.
+
+---
+
+### BUG-076 — Remaining physical CSS margins not using logical properties
+- **Date:** 2026-05-01 | **Time:** 16:00 | **Status:** ✅ fixed
+- **Files:** `src/screens/premium/BirthdayGreetingEditorScreen.tsx`, `src/App.tsx`, `src/screens/DashboardScreen.tsx`, `src/components/MediaAttachmentPicker.tsx`, `src/screens/GreetingEditorScreen.tsx`, `src/screens/WhatsNewScreen.tsx`
+- **Bug:** Several files still used physical CSS margin/alignment classes that break RTL layout: `ml-auto`, `ml-2`, `ml-0.5`, `mr-0.5`, `mr-1.5`, `text-right`, and a conditional `${isRTL ? 'mr-2' : 'ml-2'}` that could be simplified.
+- **Found by:** Developer — Bug Fix Mode RTL scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Replaced all physical margin classes with logical equivalents: `ml-*` → `ms-*`, `mr-*` → `me-*`, `ml-auto` → `ms-auto`, `text-right` → `text-end`. Simplified RTL-conditional margin ternary to `ms-2`.

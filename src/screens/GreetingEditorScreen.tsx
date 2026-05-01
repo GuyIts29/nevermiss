@@ -371,10 +371,10 @@ export function GreetingEditorScreen() {
             <Sparkles size={14} className="text-amber-400" aria-hidden="true" />
             {t('ai_suggestions_btn')}
             <span
-              className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white ml-0.5"
+              className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white ms-0.5"
               style={{ background: 'linear-gradient(135deg, #F59E0B, #EF4444)' }}
             >
-              <Crown size={8} className="inline mr-0.5" aria-hidden="true" />PRO
+              <Crown size={8} className="inline me-0.5" aria-hidden="true" />PRO
             </span>
           </button>
         ) : (

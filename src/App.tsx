@@ -80,7 +80,7 @@ function DemoBanner() {
       <span>{t('demo_banner')}</span>
       <button
         onClick={clearDemo}
-        className="ml-2 underline underline-offset-2 hover:opacity-80 active:opacity-60 transition-opacity"
+        className="ms-2 underline underline-offset-2 hover:opacity-80 active:opacity-60 transition-opacity"
       >
         {t('demo_clear')}
       </button>
