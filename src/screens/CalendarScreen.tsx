@@ -317,7 +317,7 @@ export function CalendarScreen() {
                       <p className="text-xs text-[var(--color-text-muted)]">
                         {t('calendar_birthdayLabel')}
                         {birthdayType === 'hebrew' && c.hebrewBirthday && (
-                          <span className="mr-1 ml-1 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full" dir="rtl">
+                          <span className="mx-1 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full" dir="rtl">
                             {formatHebrewBirthdayDisplay(c.hebrewBirthday)}
                           </span>
                         )}

@@ -1650,5 +1650,12 @@
     "action": "fixed",
     "file": "src/screens/WhatsNewScreen.tsx",
     "description": "תיקון BUG-076: החלפת מחלקות CSS פיזיות (ml-*, mr-*, text-right) בתכונות לוגיות (ms-*, me-*, text-end) לתמיכה נכונה ב-RTL."
+  },
+  {
+    "timestamp": "2026-05-01T16:10:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תיקון: החלפת mr-1 ml-1 (מרווחים פיזיים סימטריים) ב-mx-1 (מרווח אופקי לוגי) על span תאריך לידה עברי."
   }
 ]
