@@ -361,7 +361,7 @@ export function ImportContactsScreen() {
                   <thead>
                     <tr style={{ background: 'var(--color-surface-2)' }}>
                       {preview.headers.map(h => (
-                        <th key={h} className="text-left p-2 text-[var(--color-text-muted)] font-semibold border-b border-[var(--color-border)]">{h}</th>
+                        <th key={h} className="text-start p-2 text-[var(--color-text-muted)] font-semibold border-b border-[var(--color-border)]">{h}</th>
                       ))}
                     </tr>
                   </thead>

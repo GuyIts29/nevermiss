@@ -192,7 +192,7 @@ export function DashboardScreen() {
                   key={`pending-${contact.id}-${holiday?.id ?? 'bday'}`}
                   type="button"
                   onClick={() => openQuickSend(contact, holiday)}
-                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-left"
+                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-start"
                 >
                   <span className="text-xl shrink-0">{holiday ? holiday.emoji : '🎂'}</span>
                   <div className="flex-1 min-w-0">
@@ -267,7 +267,7 @@ export function DashboardScreen() {
               {todayHoliday && (
                 <button
                   type="button"
-                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-left"
+                  className="card-interactive rounded-[var(--border-radius)] px-4 py-3 flex items-center gap-3 w-full text-start"
                   style={{
                     background: `linear-gradient(135deg, ${todayHoliday.color}22, ${todayHoliday.color}0a)`,
                     border: `1px solid ${todayHoliday.color}40`,
@@ -292,7 +292,7 @@ export function DashboardScreen() {
                 >
                   <button
                     type="button"
-                    className="flex items-center gap-3 flex-1 text-left min-w-0"
+                    className="flex items-center gap-3 flex-1 text-start min-w-0"
                     onClick={() => navigate(`/contacts/${contact.id}`)}
                   >
                     <span className="text-2xl animate-celebrate shrink-0">🎂</span>

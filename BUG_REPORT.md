@@ -545,3 +545,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Each `borderLeft` replaced with a conditional computed property key: `[lang === 'he' ? 'borderRight' : 'borderLeft']`. For files that lacked `useLang`, added the import and `const { lang } = useLang()` hook call (DashboardScreen, GreetingEditorScreen, ContactFormScreen).
+
+---
+
+### BUG-068 — Physical `text-left` alignment overrides ignore RTL direction
+- **Date:** 2026-05-01 | **Time:** 13:00 | **Status:** ✅ fixed
+- **Files:** `GroupsScreen.tsx`, `DashboardScreen.tsx`, `SettingsScreen.tsx`, `premium/ImportContactsScreen.tsx`
+- **Bug:** Several interactive buttons, list items, and table headers used `text-left` to override browser defaults. In RTL, `text-left` forces LTR alignment and makes Hebrew text appear on the wrong (left) side instead of the start (right).
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Replaced all `text-left` occurrences with `text-start` (Tailwind logical property = `text-align: start`, resolves to left in LTR and right in RTL). Also fixed `border-l-2` → `border-s-2` on SettingsScreen DEV danger-zone accent.

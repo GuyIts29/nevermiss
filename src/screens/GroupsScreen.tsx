@@ -170,7 +170,7 @@ export function GroupsScreen() {
                 <button
                   type="button"
                   key={group.id}
-                  className="card card-interactive cursor-pointer overflow-hidden w-full text-left"
+                  className="card card-interactive cursor-pointer overflow-hidden w-full text-start"
                   style={{
                     ...(lang === 'he' ? { borderRight: `4px solid ${group.color}` } : { borderLeft: `4px solid ${group.color}` }),
                     background: `linear-gradient(135deg, var(--color-surface) 70%, ${group.color}11)`,
@@ -392,7 +392,7 @@ export function GroupsScreen() {
                           onClick={() => setSelectedHolidayIds(prev =>
                             selected ? prev.filter(id => id !== h.id) : [...prev, h.id]
                           )}
-                          className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-left text-sm transition-colors"
+                          className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-start text-sm transition-colors"
                           style={selected ? { background: h.color + '22', border: `1px solid ${h.color}44` } : {}}
                         >
                           <div
@@ -454,7 +454,7 @@ function GroupDetailCard({ icon, label, count, color, onClick }: { icon: React.R
       style={{ backgroundColor: `${color}11` }}
     >
       <div style={{ color }}>{icon}</div>
-      <div className="text-left">
+      <div className="text-start">
         <div className="text-sm font-semibold text-[var(--color-text-primary)]">{count}</div>
         <div className="text-xs text-[var(--color-text-muted)]">{label}</div>
       </div>

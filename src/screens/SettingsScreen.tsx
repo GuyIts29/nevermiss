@@ -275,7 +275,7 @@ export function SettingsScreen() {
                   className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)] last:border-0"
                 >
                   <Icon size={16} className="text-[var(--color-primary)]" />
-                  <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">{label}</span>
+                  <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">{label}</span>
                   <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 </button>
               ))}
@@ -288,7 +288,7 @@ export function SettingsScreen() {
                 className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)]"
               >
                 <FileText size={16} className="text-[var(--color-primary)]" />
-                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">
                   {exportDone ? t('settings_exportSuccess') : t('settings_exportContacts')}
                 </span>
                 {exportDone
@@ -305,7 +305,7 @@ export function SettingsScreen() {
                 className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)]"
               >
                 <Download size={16} className="text-[var(--color-primary)]" />
-                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">
                   {backupDone ? t('settings_backupSuccess') : t('settings_backupData')}
                 </span>
                 {backupDone
@@ -337,7 +337,7 @@ export function SettingsScreen() {
                 className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors"
               >
                 <ArchiveRestore size={16} className={restoreStatus === 'error' ? 'text-red-500' : 'text-[var(--color-primary)]'} />
-                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">
                   {restoreStatus === 'success'
                     ? t('settings_restoreSuccess')
                     : restoreStatus === 'error'
@@ -399,7 +399,7 @@ export function SettingsScreen() {
                 className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)] last:border-0"
               >
                 <Icon size={16} className="text-[var(--color-text-muted)]" />
-                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-left">{label}</span>
+                <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">{label}</span>
                 <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
               </button>
             ))}
@@ -424,7 +424,7 @@ export function SettingsScreen() {
               style={{ backgroundColor: '#FFF1F2' }}
             >
               <h3 className="text-sm font-semibold text-red-600 mb-2 flex items-center gap-1.5">
-                <span className="w-3 h-full border-l-2 border-red-500 rounded-full" />
+                <span className="w-3 h-full border-s-2 border-red-500 rounded-full" />
                 {t('settings_dangerZone')}
               </h3>
               <Button
