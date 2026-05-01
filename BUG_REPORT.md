@@ -488,6 +488,16 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 
 ---
 
+### BUG-064 — Toggle switches have reversed semantics in RTL (dot always starts left)
+- **Date:** 2026-05-01 | **Time:** 11:30 | **Status:** ✅ fixed
+- **Files:** `src/screens/SettingsScreen.tsx`, `src/screens/HolidayRemindersScreen.tsx`
+- **Bug:** All toggle switch dots used `absolute left-0.5` and `translateX(20px)` when ON. In Hebrew RTL mode the dot always starts on the LEFT side regardless of state — the OFF/ON visual semantics are reversed (OFF looks active, ON looks inactive). Three toggles affected: notifications (SettingsScreen), reminders master switch (HolidayRemindersScreen), and channel toggles (HolidayRemindersScreen).
+- **Found by:** Developer code audit — 2026-05-01 (Bug Fix Mode)
+- **Fixed by:** Developer — 2026-05-01 (Bug Fix Mode)
+- **Fix:** Added `lang` from `useLang()` in both files. Toggle dot now uses `right-0.5` in RTL and `left-0.5` in LTR. Translation becomes `translateX(-20px)` when ON in RTL vs `translateX(20px)` in LTR. `useLang` import added to `HolidayRemindersScreen.tsx`.
+
+---
+
 ### BUG-063 — WhatsNew timeline on wrong side in RTL (dot and line stay on left)
 - **Date:** 2026-05-01 | **Time:** 11:10 | **Status:** ✅ fixed
 - **File:** `src/screens/WhatsNewScreen.tsx`

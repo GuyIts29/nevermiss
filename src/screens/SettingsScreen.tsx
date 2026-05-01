@@ -120,8 +120,8 @@ export function SettingsScreen() {
                 style={{ background: settings.notificationsEnabled ? theme.primary : 'var(--color-border)' }}
               >
                 <span
-                  className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform"
-                  style={{ transform: settings.notificationsEnabled ? 'translateX(20px)' : 'translateX(0)' }}
+                  className={`absolute top-0.5 ${lang === 'he' ? 'right-0.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-transform`}
+                  style={{ transform: settings.notificationsEnabled ? `translateX(${lang === 'he' ? '-20px' : '20px'})` : 'translateX(0)' }}
                 />
               </button>
             </div>

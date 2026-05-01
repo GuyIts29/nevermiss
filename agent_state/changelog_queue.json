@@ -1384,5 +1384,19 @@
     "action": "modified",
     "file": "BACKLOG.md",
     "description": "BL-063 סומן ✅ Done (היה 📋 Backlog בטעות — תוקן ב-Sprint 11)"
+  },
+  {
+    "timestamp": "2026-05-01T11:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "תוקן BUG-064 — נקודת toggle התחילה תמיד בשמאל גם ב-RTL; עדכון ל-right-0.5 + translateX(-20px) בעברית"
+  },
+  {
+    "timestamp": "2026-05-01T11:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/HolidayRemindersScreen.tsx",
+    "description": "תוקן BUG-064 — 2 toggles (enabled + channels) תוקנו ל-RTL; נוסף ייבוא useLang"
   }
 ]

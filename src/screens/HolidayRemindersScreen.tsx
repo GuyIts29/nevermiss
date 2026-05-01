@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Bell, Check, Info } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useLang, useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
 import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
@@ -18,6 +18,7 @@ const DAYS_OPTIONS: { value: 1 | 3 | 7; labelKey: 'reminders_1day' | 'reminders_
 export function HolidayRemindersScreen() {
   const { isPremium, contacts, holidays } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const { theme } = useTheme()
   const [settings, setSettings] = useState<HolidayReminderSettings>(() => getReminderSettings())
   const [saved, setSaved] = useState(false)
@@ -104,8 +105,8 @@ export function HolidayRemindersScreen() {
               style={{ background: settings.enabled ? theme.primary : 'var(--color-border)' }}
             >
               <span
-                className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform"
-                style={{ transform: settings.enabled ? 'translateX(20px)' : 'translateX(0)' }}
+                className={`absolute top-0.5 ${lang === 'he' ? 'right-0.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-transform`}
+                style={{ transform: settings.enabled ? `translateX(${lang === 'he' ? '-20px' : '20px'})` : 'translateX(0)' }}
               />
             </button>
           </div>
@@ -167,8 +168,8 @@ export function HolidayRemindersScreen() {
                       style={{ background: settings.channels[key] ? theme.primary : 'var(--color-border)' }}
                     >
                       <span
-                        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform"
-                        style={{ transform: settings.channels[key] ? 'translateX(20px)' : 'translateX(0)' }}
+                        className={`absolute top-0.5 ${lang === 'he' ? 'right-0.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-transform`}
+                        style={{ transform: settings.channels[key] ? `translateX(${lang === 'he' ? '-20px' : '20px'})` : 'translateX(0)' }}
                       />
                     </button>
                   </div>
