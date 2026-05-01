@@ -1762,5 +1762,12 @@
     "action": "modified",
     "file": "src/screens/premium/ImportContactsScreen.tsx",
     "description": "BL-048 — אומת: כרטיסיית ייבוא מאנשי קשר במכשיר (גרדיאנט כחול, אייקון סמארטפון) מוצגת בראש המסך; נגישות ויזואלית מלאה; אין שינוי קוד נדרש"
+  },
+  {
+    "timestamp": "2026-05-01T22:30:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md / BACKLOG.csv",
+    "description": "BL-078 נוסף לבקלוג — UX: תיקון הודעת \"מצריכה מובייל\" המטעה במדפדפן מובייל לייבוא אנשי קשר ממכשיר; עדיפות 🟢 נמוכה; לא יושם בספרינט הנוכחי"
   }
 ]
