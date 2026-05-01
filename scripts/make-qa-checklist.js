@@ -31,6 +31,7 @@ const CATEGORIES = [
   { id: 'sprint11', emoji: '✉️', name: 'Sprint 11 — Quick Send (BL-064) + Auto-Regenerate on Tone (BL-063) + UpgradeScreen CTA Fix (BL-062)' },
   { id: 'sprint12', emoji: '🪪', name: 'Sprint 12 — Personal User Layer (BL-067) + AI Personalization MVP (BL-065)' },
   { id: 'bugfix',  emoji: '🐞', name: 'Bug Fixes & Improvements — Sprint Suspension Mode' },
+  { id: 'sprint14', emoji: '⚡', name: 'Sprint 14 — חגים דינמיים BL-077 (Hebcal)' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -202,6 +203,7 @@ const TESTS = [
   { id: 'T132', cat: 'bugfix',  name: "BUG-079: 14 חגים יהודיים חסרים נוספו — ל\"ג בעומר, שמחת תורה, תשעה באב, י\"ז בתמוז, י' בטבת, תענית אסתר, צום גדליה (2025+2026); hebcalDate(); type fast/minor/major" },
   { id: 'T133', cat: 'bugfix',  name: 'BUG-080: כפילויות חגים ב-Event Type dropdown — useMemo dedup by name (upcoming-first) ב-GreetingEditorScreen' },
   { id: 'T134', cat: 'feature', name: "BL-064: שליחה מהירה — ChannelPicker ב-Quick Send Panel; כפתור 'שלח ברכה' על כרטיסי חג היום/מחר; 2 מפתחות i18n EN+HE" },
+  { id: 'T135', cat: 'sprint14', name: 'BL-077: חגים יהודיים דינמיים — 17 תבניות Hebcal; YEAR_RANGE=[שנה-1..שנה+2]; IDs ו-Holiday interface זהים; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

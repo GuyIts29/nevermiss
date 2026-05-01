@@ -1,11 +1,12 @@
 import { HebrewCalendar } from '@hebcal/core'
 import type { Holiday } from '@/types'
 
-/** Computes the Gregorian ISO date for a Hebrew calendar holiday using @hebcal/core rules. */
-function hebcalDate(hebrewYear: number, descContains: string, fallback: string): string {
+function hebcalDate(hebrewYear: number, desc: string, fallback: string, exact = false): string {
   try {
     const events = HebrewCalendar.getHolidaysForYearArray(hebrewYear, true)
-    const ev = events.find(e => e.getDesc().includes(descContains))
+    const ev = exact
+      ? events.find(e => e.getDesc() === desc)
+      : events.find(e => e.getDesc().startsWith(desc))
     if (!ev) return fallback
     const g = ev.getDate().greg()
     return `${g.getFullYear()}-${String(g.getMonth() + 1).padStart(2, '0')}-${String(g.getDate()).padStart(2, '0')}`
@@ -14,18 +15,32 @@ function hebcalDate(hebrewYear: number, descContains: string, fallback: string):
   }
 }
 
-// Holidays for 2025 and 2026. Jewish holidays use @hebcal/core for accurate Hebrew-calendar dates.
-export const HOLIDAYS: Holiday[] = [
-  // ─── JUDAISM ──────────────────────────────────────────────────────────────
+function addDays(dateStr: string, days: number): string {
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const date = new Date(y, m - 1, d + days)
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+const THIS_YEAR = new Date().getFullYear()
+const YEAR_RANGE: number[] = [THIS_YEAR - 1, THIS_YEAR, THIS_YEAR + 1, THIS_YEAR + 2]
+
+type HebrewTemplate = Omit<Holiday, 'id' | 'date' | 'endDate' | 'year'> & {
+  baseId: string
+  hebcalMatch: string
+  hebcalExact?: boolean
+  endDayOffset?: number
+}
+
+const HEBREW_TEMPLATES: HebrewTemplate[] = [
+  // ─── Major holidays ──────────────────────────────────────────────────────────
   {
-    id: 'rosh-hashana-2025',
+    baseId: 'rosh-hashana',
+    hebcalMatch: 'Rosh Hashana',
+    endDayOffset: 2,
     name: 'Rosh Hashana',
     alternativeNames: ['Jewish New Year', 'ראש השנה', 'Head of the Year'],
     religion: 'Judaism',
     type: 'major',
-    date: '2025-09-22',
-    endDate: '2025-09-24',
-    year: 2025,
     dateType: 'hebrew',
     description: 'The Jewish New Year, marking the beginning of the High Holy Days. A time of reflection, repentance, and renewal. Traditionally observed with the sounding of the shofar (ram\'s horn), special prayers, and festive meals featuring symbolic foods like apples and honey.',
     heDescription: 'ראש השנה הוא ראש השנה היהודי, פתיחת עשרת ימי תשובה. תוקעים בשופר, מתפללים לשנה טובה ומתוקה, ואוכלים תפוח בדבש.',
@@ -42,36 +57,13 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🍎',
   },
   {
-    id: 'rosh-hashana-2026',
-    name: 'Rosh Hashana',
-    alternativeNames: ['Jewish New Year', 'ראש השנה'],
-    religion: 'Judaism',
-    type: 'major',
-    date: '2026-09-11',
-    endDate: '2026-09-13',
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'The Jewish New Year, beginning the Days of Awe between Rosh Hashana and Yom Kippur.',
-    heDescription: 'ראש השנה תשפ"ז — פתיחת עשרת ימי תשובה. תוקעים בשופר ומאחלים שנה טובה ומתוקה.',
-    greetingGuidance: 'Warm, heartfelt greetings emphasizing a sweet and good new year.',
-    greetings: {
-      hebrew: ['שנה טובה ומתוקה', 'לשנה טובה תכתבו ותחתמו'],
-      english: ['Shana Tova! Wishing you a sweet and healthy New Year.', 'May this new year bring you joy, health, and all good things.'],
-      transliteration: ['Shana Tova u\'metuka'],
-    },
-    sensitivityNotes: 'Sacred holiday — businesses close, many families gather.',
-    color: '#D97706',
-    emoji: '🍎',
-  },
-  {
-    id: 'yom-kippur-2025',
+    baseId: 'yom-kippur',
+    hebcalMatch: 'Yom Kippur',
+    endDayOffset: 1,
     name: 'Yom Kippur',
     alternativeNames: ['Day of Atonement', 'יום כיפור', 'The Holiest Day'],
     religion: 'Judaism',
     type: 'major',
-    date: '2025-10-01',
-    endDate: '2025-10-02',
-    year: 2025,
     dateType: 'hebrew',
     description: 'The holiest day in the Jewish calendar — the Day of Atonement. A 25-hour fast during which Jews seek forgiveness from God and from one another. Streets go quiet in Israel. Synagogues fill. It is a solemn yet ultimately hopeful day.',
     heDescription: 'יום הכיפורים הוא היום הקדוש ביותר בלוח היהודי — 25 שעות של צום, תפילה וחשבון נפש. ישראל שותקת. מבקשים סליחה ומתחדשים.',
@@ -88,60 +80,17 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🕍',
   },
   {
-    id: 'yom-kippur-2026',
-    name: 'Yom Kippur',
-    alternativeNames: ['Day of Atonement', 'יום כיפור'],
-    religion: 'Judaism',
-    type: 'major',
-    date: '2026-09-20',
-    endDate: '2026-09-21',
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'The holiest day in the Jewish calendar — the Day of Atonement, observed with a 25-hour fast.',
-    heDescription: 'יום הכיפורים — יום הצום הגדול. 25 שעות של תפילה ובקשת סליחה, וסיום בנעילה ותקיעת שופר.',
-    greetingGuidance: 'Solemn and sincere. Wish an easy fast and a good sealing.',
-    greetings: {
-      hebrew: ['גמר חתימה טובה', 'צום קל'],
-      english: ['G\'mar Chatima Tova. May you be sealed in the Book of Life.', 'Wishing you an easy and meaningful fast.'],
-      transliteration: ['Gmar Chatima Tova', 'Tzom kal'],
-    },
-    sensitivityNotes: 'Israel comes to a near-complete stop on this day.',
-    color: '#7C3AED',
-    emoji: '🕍',
-  },
-  {
-    id: 'sukkot-2025',
-    name: 'Sukkot',
-    alternativeNames: ['Feast of Tabernacles', 'סוכות', 'Festival of Booths'],
-    religion: 'Judaism',
-    type: 'major',
-    date: '2025-10-06',
-    endDate: '2025-10-13',
-    year: 2025,
-    dateType: 'hebrew',
-    description: 'A joyful week-long harvest festival during which families build and dwell in temporary shelters (sukkot). The Four Species — lulav and etrog — are waved during prayer. Guests (both real and spiritual, the Ushpizin) are welcomed into the sukkah.',
-    heDescription: 'חג סוכות הוא חג קציר שמח שנמשך שבוע, ובו יושבים בסוכה ומניפים את ארבעת המינים. חג האסיף, האורחים והשמחה.',
-    greetingGuidance: 'Joyful and warm. Emphasize the festivity and the joy of the season.',
-    greetings: {
-      hebrew: ['חג סוכות שמח', 'מועדים לשמחה'],
-      english: ['Chag Sukkot Sameach! Wishing you a joyful Feast of Tabernacles.', 'May your sukkah be filled with joy, family, and blessings.'],
-      transliteration: ['Chag Sukkot Sameach', 'Moadim l\'simcha'],
-    },
-    color: '#16A34A',
-    emoji: '🌿',
-  },
-  {
-    id: 'sukkot-2026',
+    baseId: 'sukkot',
+    hebcalMatch: 'Sukkot I',
+    hebcalExact: true,
+    endDayOffset: 7,
     name: 'Sukkot',
     alternativeNames: ['Feast of Tabernacles', 'סוכות', 'Festival of Booths', 'שמיני עצרת'],
     religion: 'Judaism',
     type: 'major',
-    date: '2026-09-25',
-    endDate: '2026-10-02',
-    year: 2026,
     dateType: 'hebrew',
-    description: 'A joyful week-long harvest festival during which families build and dwell in temporary shelters (sukkot). The Four Species — lulav and etrog — are waved during prayer. Ends with Shemini Atzeret and Simchat Torah, a celebration of completing the Torah cycle.',
-    heDescription: 'חג סוכות — שבוע של שמחה בסוכה עם ארבעת המינים. מסתיים בשמיני עצרת ושמחת תורה, חגיגת סיום וחידוש מחזור הקריאה.',
+    description: 'A joyful week-long harvest festival during which families build and dwell in temporary shelters (sukkot). The Four Species — lulav and etrog — are waved during prayer. Guests (both real and spiritual, the Ushpizin) are welcomed into the sukkah. Ends with Shemini Atzeret and Simchat Torah.',
+    heDescription: 'חג סוכות הוא חג קציר שמח שנמשך שבוע, ובו יושבים בסוכה ומניפים את ארבעת המינים. חג האסיף, האורחים והשמחה. מסתיים בשמיני עצרת ושמחת תורה.',
     greetingGuidance: 'Joyful and warm. Emphasize the festivity and the joy of the season.',
     greetings: {
       hebrew: ['חג סוכות שמח', 'מועדים לשמחה', 'חג שמח'],
@@ -152,14 +101,33 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🌿',
   },
   {
-    id: 'hanukkah-2025',
+    baseId: 'simchat-torah',
+    hebcalMatch: 'Simchat Torah',
+    name: 'Simchat Torah',
+    alternativeNames: ['שמחת תורה', 'Rejoicing of the Torah', 'Shemini Atzeret'],
+    religion: 'Judaism',
+    type: 'major',
+    dateType: 'hebrew',
+    description: 'Simchat Torah celebrates the completion and immediate restart of the annual Torah reading cycle. Torah scrolls are danced around the synagogue (hakafot) in joyful processions. In Israel, it coincides with Shemini Atzeret on 22 Tishrei.',
+    heDescription: 'שמחת תורה חוגגת את סיום קריאת התורה ותחילתה מחדש. עושים הקפות שמחות עם ספרי התורה, שרים ורוקדים בבית הכנסת.',
+    greetingGuidance: 'Joyful and celebratory. Emphasize love of Torah and the joy of learning and renewal.',
+    greetings: {
+      hebrew: ['שמחת תורה שמח', 'חג שמח'],
+      english: ['Happy Simchat Torah! May the joy of the Torah fill your heart and home.', 'Wishing you a joyful Simchat Torah — dance and celebrate the Torah!'],
+      transliteration: ['Chag Sameach'],
+    },
+    color: '#2563EB',
+    emoji: '📜',
+  },
+  {
+    baseId: 'hanukkah',
+    hebcalMatch: 'Chanukah: 1 Candle',
+    hebcalExact: true,
+    endDayOffset: 8,
     name: 'Hanukkah',
     alternativeNames: ['חנוכה', 'Festival of Lights', 'Chanukah'],
     religion: 'Judaism',
     type: 'moderate',
-    date: '2025-12-14',
-    endDate: '2025-12-22',
-    year: 2025,
     dateType: 'hebrew',
     description: 'The eight-day Festival of Lights, celebrating the rededication of the Temple in Jerusalem and the miracle of oil that burned for eight nights. Families light the hanukkiah (menorah), play dreidel, eat fried foods like latkes and sufganiyot, and exchange gifts.',
     heDescription: 'חנוכה הוא חג האורות לשמונה ימים, המציין את נס פח השמן ונצחון החשמונאים. מדליקים חנוכייה, אוכלים סופגניות ולביבות, ומשחקים בסביבון.',
@@ -174,34 +142,13 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🕎',
   },
   {
-    id: 'hanukkah-2026',
-    name: 'Hanukkah',
-    alternativeNames: ['חנוכה', 'Festival of Lights', 'Chanukah'],
-    religion: 'Judaism',
-    type: 'moderate',
-    date: '2026-12-04',
-    endDate: '2026-12-12',
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'Eight-day Festival of Lights celebrating the miracle of the Temple oil.',
-    heDescription: 'חנוכה — חג האורות לשמונה ימים, חגיגת נס הנרות שדלקו. מדליקים חנוכייה ומשמחים את הלב.',
-    greetingGuidance: 'Festive and warm. International audience will recognize this holiday.',
-    greetings: {
-      hebrew: ['חנוכה שמח', 'חג אורים שמח'],
-      english: ['Happy Hanukkah! Wishing you eight nights of joy and light.'],
-      transliteration: ['Chag Urim Sameach'],
-    },
-    color: '#1E40AF',
-    emoji: '🕎',
-  },
-  {
-    id: 'purim-2026',
+    baseId: 'purim',
+    hebcalMatch: 'Purim',
+    hebcalExact: true,
     name: 'Purim',
     alternativeNames: ['פורים', 'Festival of Lots'],
     religion: 'Judaism',
     type: 'moderate',
-    date: '2026-03-03',
-    year: 2026,
     dateType: 'hebrew',
     description: 'A joyous holiday celebrating the salvation of the Jewish people in ancient Persia as told in the Book of Esther. Marked by costumes, feasting, giving gifts of food (mishloach manot), and charity to the poor.',
     heDescription: 'פורים חוגג את הצלת יהודי פרס על ידי אסתר ומרדכי. מתחפשים, שולחים משלוח מנות, קוראים מגילה ושמחים.',
@@ -215,14 +162,14 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🎭',
   },
   {
-    id: 'passover-2026',
+    baseId: 'passover',
+    hebcalMatch: 'Pesach I',
+    hebcalExact: true,
+    endDayOffset: 8,
     name: 'Passover',
     alternativeNames: ['פסח', 'Pesach', 'Chag HaMatzot'],
     religion: 'Judaism',
     type: 'major',
-    date: '2026-04-01',
-    endDate: '2026-04-09',
-    year: 2026,
     dateType: 'hebrew',
     description: 'The eight-day Festival of Freedom, commemorating the Exodus of the Israelites from Egypt. Celebrated with the Passover Seder — a ritual meal retelling the story of liberation. Leavened bread (chametz) is forbidden during the entire holiday.',
     heDescription: 'פסח מציין את יציאת מצרים ואת חירות עם ישראל. עורכים ליל סדר, אוכלים מצה ומספרים לדורות את סיפור הגאולה.',
@@ -237,15 +184,14 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🫓',
   },
   {
-    id: 'shavuot-2026',
+    baseId: 'shavuot',
+    hebcalMatch: 'Shavuot',
+    endDayOffset: 2,
     name: 'Shavuot',
     alternativeNames: ['שבועות', 'Feast of Weeks', 'Festival of First Fruits'],
     religion: 'Judaism',
     type: 'major',
-    date: '2026-05-21',
-    endDate: '2026-05-23',
-    year: 2026,
-    dateType: 'calculated',
+    dateType: 'hebrew',
     description: 'Celebrates the giving of the Torah at Mount Sinai and the spring harvest. Traditionally marked by all-night Torah study, decorating synagogues with flowers, and eating dairy foods.',
     heDescription: 'שבועות חוגג את מתן תורה בסיני ואת ביכורי הקציר. נוהגים ללמוד תורה כל הלילה ולאכול מאכלי חלב.',
     greetingGuidance: 'Joyful and spiritual. Celebrate learning, harvest, and receiving the Torah.',
@@ -257,16 +203,14 @@ export const HOLIDAYS: Holiday[] = [
     color: '#16A34A',
     emoji: '📜',
   },
-
-  // ─── JUDAISM — MINOR HOLIDAYS & FAST DAYS ─────────────────────────────────
+  // ─── Minor holidays & fast days ──────────────────────────────────────────────
   {
-    id: 'lag-baomer-2025',
+    baseId: 'lag-baomer',
+    hebcalMatch: 'Lag BaOmer',
     name: "Lag Ba'Omer",
     alternativeNames: ['ל"ג בעומר', 'Lag BaOmer', '33rd Day of the Omer'],
     religion: 'Judaism',
     type: 'minor',
-    date: hebcalDate(5785, 'Lag BaOmer', '2025-05-16'),
-    year: 2025,
     dateType: 'hebrew',
     description: "The 33rd day of the Omer — a joyous break in the semi-mourning period between Passover and Shavuot. Celebrated with bonfires, archery, and outdoor gatherings. Honors Rabbi Shimon bar Yochai, author of the Zohar. Traditional day for haircuts of 3-year-olds.",
     heDescription: 'ל"ג בעומר הוא היום ה-33 של ספירת העומר — יום שמחה בין פסח לשבועות. מדליקים מדורות, יוצאים לטבע ומציינים את פטירת רבי שמעון בר יוחאי.',
@@ -279,71 +223,12 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🔥',
   },
   {
-    id: 'lag-baomer-2026',
-    name: "Lag Ba'Omer",
-    alternativeNames: ['ל"ג בעומר', 'Lag BaOmer', '33rd Day of the Omer'],
-    religion: 'Judaism',
-    type: 'minor',
-    date: hebcalDate(5786, 'Lag BaOmer', '2026-05-06'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: "The 33rd day of the Omer — a joyous break in the semi-mourning period between Passover and Shavuot. Celebrated with bonfires, archery, and outdoor gatherings.",
-    heDescription: 'ל"ג בעומר — יום ה-33 של הספירה. מדורות, קשתות, תספורות ושמחה בטבע.',
-    greetingGuidance: 'Festive and joyful. Bonfires and outdoor celebrations.',
-    greetings: {
-      hebrew: ['ל"ג בעומר שמח', 'מועדים לשמחה'],
-      english: ["Happy Lag Ba'Omer! Wishing you a joyful celebration with bonfires and friends."],
-    },
-    color: '#F97316',
-    emoji: '🔥',
-  },
-  {
-    id: 'simchat-torah-2025',
-    name: 'Simchat Torah',
-    alternativeNames: ['שמחת תורה', 'Rejoicing of the Torah', 'Shemini Atzeret'],
-    religion: 'Judaism',
-    type: 'major',
-    date: hebcalDate(5786, 'Simchat Torah', '2025-10-13'),
-    year: 2025,
-    dateType: 'hebrew',
-    description: 'Simchat Torah celebrates the completion and immediate restart of the annual Torah reading cycle. Torah scrolls are danced around the synagogue (hakafot) in joyful processions. In Israel, it coincides with Shemini Atzeret on 22 Tishrei.',
-    heDescription: 'שמחת תורה חוגגת את סיום קריאת התורה ותחילתה מחדש. עושים הקפות שמחות עם ספרי התורה, שרים ורוקדים בבית הכנסת.',
-    greetingGuidance: 'Joyful and celebratory. Emphasize love of Torah and the joy of learning and renewal.',
-    greetings: {
-      hebrew: ['שמחת תורה שמח', 'חג שמח'],
-      english: ['Happy Simchat Torah! May the joy of the Torah fill your heart and home.', 'Wishing you a joyful Simchat Torah — dance and celebrate the Torah!'],
-      transliteration: ['Chag Sameach'],
-    },
-    color: '#2563EB',
-    emoji: '📜',
-  },
-  {
-    id: 'simchat-torah-2026',
-    name: 'Simchat Torah',
-    alternativeNames: ['שמחת תורה', 'Rejoicing of the Torah', 'Shemini Atzeret'],
-    religion: 'Judaism',
-    type: 'major',
-    date: hebcalDate(5787, 'Simchat Torah', '2026-10-02'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'Celebrates the completion and restart of the annual Torah reading cycle with joyful dancing (hakafot). In Israel, coincides with Shemini Atzeret.',
-    heDescription: 'שמחת תורה — חגיגת סיום מחזור קריאת התורה והתחלתו מחדש. הקפות שמחות בבית הכנסת.',
-    greetingGuidance: 'Joyful and celebratory.',
-    greetings: {
-      hebrew: ['שמחת תורה שמח', 'חג שמח'],
-      english: ['Happy Simchat Torah! Celebrate with joy and dance!'],
-    },
-    color: '#2563EB',
-    emoji: '📜',
-  },
-  {
-    id: 'tisha-bav-2025',
+    baseId: 'tisha-bav',
+    hebcalMatch: "Tish'a B'Av",
     name: "Tisha B'Av",
     alternativeNames: ["ט' באב", "Tish'a B'Av", 'Ninth of Av', 'Fast of Av'],
     religion: 'Judaism',
     type: 'fast',
-    date: hebcalDate(5785, "Tish'a B'Av", '2025-08-13'),
-    year: 2025,
     dateType: 'hebrew',
     description: "The saddest day in the Jewish calendar — a 25-hour fast commemorating the destruction of both the First and Second Temples in Jerusalem, along with many other tragedies. Observed with fasting, no bathing, no leather shoes, and recitation of Lamentations (Eicha).",
     heDescription: "תשעה באב הוא הצום הכבד ביותר ביהדות — 25 שעות צום לזכר חורבן שני בתי המקדש. קוראים איכה, יושבים על הרצפה ומתאבלים.",
@@ -360,33 +245,12 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🕯️',
   },
   {
-    id: 'tisha-bav-2026',
-    name: "Tisha B'Av",
-    alternativeNames: ["ט' באב", "Tish'a B'Av", 'Ninth of Av', 'Fast of Av'],
-    religion: 'Judaism',
-    type: 'fast',
-    date: hebcalDate(5786, "Tish'a B'Av", '2026-08-02'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: "25-hour fast commemorating the destruction of both Temples in Jerusalem and other major Jewish tragedies. Observed with fasting and the reading of Lamentations.",
-    heDescription: "תשעה באב — יום הצום הגדול לזכר חורבן בתי המקדש. 25 שעות צום, קריאת איכה ואבל לאומי.",
-    greetingGuidance: 'Solemn and mournful. No cheerful greetings.',
-    greetings: {
-      hebrew: ['צום קל'],
-      english: ["Wishing you an easy fast. May Tisha B'Av bring reflection and hope."],
-      transliteration: ['Tzom kal'],
-    },
-    color: '#374151',
-    emoji: '🕯️',
-  },
-  {
-    id: 'shiva-asar-btammuz-2025',
+    baseId: 'shiva-asar-btammuz',
+    hebcalMatch: "Shiva Asar B'Tammuz",
     name: '17th of Tammuz',
     alternativeNames: ['שבעה עשר בתמוז', "Shiva Asar B'Tammuz", 'Tzom Tammuz', 'Fast of Tammuz'],
     religion: 'Judaism',
     type: 'fast',
-    date: hebcalDate(5785, "Shiva Asar B'Tammuz", '2025-07-13'),
-    year: 2025,
     dateType: 'hebrew',
     description: "A minor fast day marking the breach of Jerusalem's walls by the Romans in 70 CE, beginning the Three Weeks — a period of increasing mourning culminating in Tisha B'Av. Also commemorates five other tragedies that occurred on this date.",
     heDescription: "שבעה עשר בתמוז הוא יום צום המציין את בקיעת חומות ירושלים בידי הרומאים. פותח את תקופת בין המצרים — שלושה שבועות של אבל עד תשעה באב.",
@@ -400,32 +264,12 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🕯️',
   },
   {
-    id: 'shiva-asar-btammuz-2026',
-    name: '17th of Tammuz',
-    alternativeNames: ['שבעה עשר בתמוז', "Shiva Asar B'Tammuz", 'Tzom Tammuz', 'Fast of Tammuz'],
-    religion: 'Judaism',
-    type: 'fast',
-    date: hebcalDate(5786, "Shiva Asar B'Tammuz", '2026-07-02'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: "Minor fast marking the breach of Jerusalem's walls, beginning the Three Weeks period of mourning before Tisha B'Av.",
-    heDescription: 'שבעה עשר בתמוז — צום המציין את בקיעת חומות ירושלים ופותח את תקופת בין המצרים.',
-    greetingGuidance: 'Minor fast day. Keep acknowledgment brief.',
-    greetings: {
-      hebrew: ['צום קל'],
-      english: ['Wishing you an easy fast.'],
-    },
-    color: '#6B7280',
-    emoji: '🕯️',
-  },
-  {
-    id: 'asara-btevet-2025',
+    baseId: 'asara-btevet',
+    hebcalMatch: "Asara B'Tevet",
     name: '10th of Tevet',
     alternativeNames: ['עשרה בטבת', "Asara B'Tevet", "Tzom Asara B'Tevet", 'Fast of Tevet'],
     religion: 'Judaism',
     type: 'fast',
-    date: hebcalDate(5786, "Asara B'Tevet", '2025-12-29'),
-    year: 2025,
     dateType: 'hebrew',
     description: "A minor fast day marking the beginning of the Babylonian siege of Jerusalem by Nebuchadnezzar II — an event that eventually led to the destruction of the First Temple. In Israel, also observed as the General Kaddish Day (Yom HaKaddish HaKlali) for Holocaust victims with unknown death dates.",
     heDescription: "עשרה בטבת הוא יום צום המציין את תחילת המצור על ירושלים בידי נבוכדנאצר. בישראל הוא גם יום הקדיש הכללי לשואה.",
@@ -439,32 +283,12 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🕯️',
   },
   {
-    id: 'asara-btevet-2026',
-    name: '10th of Tevet',
-    alternativeNames: ['עשרה בטבת', "Asara B'Tevet", "Tzom Asara B'Tevet", 'Fast of Tevet'],
-    religion: 'Judaism',
-    type: 'fast',
-    date: hebcalDate(5787, "Asara B'Tevet", '2026-12-18'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: "Minor fast marking the start of the Babylonian siege of Jerusalem. Also observed in Israel as the General Kaddish Day for Holocaust victims.",
-    heDescription: 'עשרה בטבת — צום לזכר תחילת המצור על ירושלים. משמש גם כיום הקדיש הכללי בישראל.',
-    greetingGuidance: 'Minor fast. Brief acknowledgment.',
-    greetings: {
-      hebrew: ['צום קל'],
-      english: ['Wishing you an easy fast.'],
-    },
-    color: '#6B7280',
-    emoji: '🕯️',
-  },
-  {
-    id: 'taanit-esther-2025',
+    baseId: 'taanit-esther',
+    hebcalMatch: "Ta'anit Esther",
     name: 'Fast of Esther',
-    alternativeNames: ["תענית אסתר", "Ta'anit Esther", 'Fast Before Purim'],
+    alternativeNames: ['תענית אסתר', "Ta'anit Esther", 'Fast Before Purim'],
     religion: 'Judaism',
     type: 'fast',
-    date: hebcalDate(5785, "Ta'anit Esther", '2025-03-13'),
-    year: 2025,
     dateType: 'hebrew',
     description: "A fast day observed on 13 Adar — the day before Purim. Commemorates the fast observed by Queen Esther and the Jewish people of Shushan before she approached King Ahasuerus to plead for her people's lives. Ends at nightfall when Purim begins.",
     heDescription: "תענית אסתר היא יום הצום ב-13 באדר — יום לפני פורים. מציינת את צום אסתר המלכה לפני גישתה למלך אחשוורוש להצלת עמה.",
@@ -478,32 +302,12 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '⭐',
   },
   {
-    id: 'taanit-esther-2026',
-    name: 'Fast of Esther',
-    alternativeNames: ["תענית אסתר", "Ta'anit Esther", 'Fast Before Purim'],
-    religion: 'Judaism',
-    type: 'fast',
-    date: hebcalDate(5786, "Ta'anit Esther", '2026-03-02'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: "Fast observed on 13 Adar, the day before Purim, commemorating the fast of Queen Esther and the Jewish people before she pleaded with King Ahasuerus.",
-    heDescription: "תענית אסתר — יום הצום ב-13 באדר, יום לפני פורים. מציינת את צום אסתר המלכה.",
-    greetingGuidance: 'Brief well-wishes for the fast, followed by Purim wishes.',
-    greetings: {
-      hebrew: ['צום קל', 'ופורים שמח'],
-      english: ['Wishing you an easy fast. Happy Purim tomorrow!'],
-    },
-    color: '#E11D48',
-    emoji: '⭐',
-  },
-  {
-    id: 'tzom-gedaliah-2025',
+    baseId: 'tzom-gedaliah',
+    hebcalMatch: 'Tzom Gedaliah',
     name: 'Fast of Gedaliah',
     alternativeNames: ['צום גדליה', 'Tzom Gedaliah', 'Fast of Gedalyahu'],
     religion: 'Judaism',
     type: 'fast',
-    date: hebcalDate(5786, 'Tzom Gedaliah', '2025-09-24'),
-    year: 2025,
     dateType: 'hebrew',
     description: "A minor fast on 3 Tishrei (the day after Rosh Hashana) mourning the assassination of Gedaliah ben Ahikam, the governor of Judah appointed by Nebuchadnezzar. His death ended the last remnant of Jewish autonomy after the destruction of the First Temple.",
     heDescription: "צום גדליה הוא יום צום ב-3 בתשרי לזכר רצח גדליה בן אחיקם, שריד האוטונומיה היהודית לאחר חורבן בית ראשון.",
@@ -516,27 +320,92 @@ export const HOLIDAYS: Holiday[] = [
     color: '#6B7280',
     emoji: '🕯️',
   },
+  // ─── Israeli national observances (Hebrew-calendar dates) ────────────────────
   {
-    id: 'tzom-gedaliah-2026',
-    name: 'Fast of Gedaliah',
-    alternativeNames: ['צום גדליה', 'Tzom Gedaliah', 'Fast of Gedalyahu'],
-    religion: 'Judaism',
-    type: 'fast',
-    date: hebcalDate(5787, 'Tzom Gedaliah', '2026-09-13'),
-    year: 2026,
+    baseId: 'yom-hashoah',
+    hebcalMatch: 'Yom HaShoah',
+    name: 'Yom HaShoah',
+    alternativeNames: ['יום השואה', 'Holocaust Remembrance Day', 'Holocaust and Heroism Remembrance Day'],
+    religion: 'Secular',
+    type: 'national',
     dateType: 'hebrew',
-    description: "Minor fast on 3 Tishrei mourning the assassination of Gedaliah ben Ahikam, the last Jewish governor of Judah after the First Temple's destruction.",
-    heDescription: "צום גדליה — יום צום ב-3 בתשרי לזכר רצח גדליה בן אחיקם.",
-    greetingGuidance: 'Minor fast. Brief acknowledgment.',
+    description: 'Israel\'s national Holocaust Remembrance Day, observed on 27 Nisan. Marked by a two-minute siren during which the entire country stands in silence. Memorial ceremonies are held throughout Israel and Jewish communities worldwide.',
+    heDescription: 'יום השואה הישראלי (כ"ז בניסן) מציין את השואה והגבורה. בשעה 10:00 שותקת המדינה כולה לשתי דקות זיכרון.',
+    greetingGuidance: 'Deeply solemn day. Appropriate only for messages of remembrance and solidarity. Never use cheerful or congratulatory language.',
+    sensitivityNotes: 'The two-minute nationwide siren at 10:00 AM brings Israel to a complete standstill. This is a national moment of silence.',
     greetings: {
-      hebrew: ['צום קל'],
-      english: ['Wishing you an easy fast.'],
+      hebrew: ['זכרונם לברכה', 'לא נשכח — יום השואה והגבורה', 'עם ישראל זוכר'],
+      english: ['In memory of the six million. Zachor — Remember.', 'On Yom HaShoah, we remember and we vow: Never Again.'],
     },
-    color: '#6B7280',
+    color: '#1F2937',
     emoji: '🕯️',
   },
+  {
+    baseId: 'yom-hazikaron',
+    hebcalMatch: 'Yom HaZikaron',
+    name: 'Yom HaZikaron',
+    alternativeNames: ['יום הזיכרון', "Israel's Memorial Day", 'Fallen Soldiers Memorial Day'],
+    religion: 'Secular',
+    type: 'national',
+    dateType: 'hebrew',
+    description: 'Israel\'s official Memorial Day for fallen soldiers and victims of terror, observed on 4 Iyar — the day before Yom Ha\'atzmaut. Marked by two nationwide sirens, memorial ceremonies, and a somber national atmosphere.',
+    heDescription: 'יום הזיכרון לחללי מערכות ישראל ולנפגעי פעולות האיבה. שתי סירנות וטקסי אבל ממלכתיים — מעבר לחגיגות יום העצמאות בשקיעה.',
+    greetingGuidance: 'Solemn and respectful. This is a day of mourning, not celebration. Appropriate for messages of solidarity and shared grief.',
+    sensitivityNotes: 'Sirens sound at 8:00 PM (start) and 11:00 AM. Entertainment venues close. The transition to Independence Day celebrations begins at sundown.',
+    greetings: {
+      hebrew: ['יום הזיכרון — נחרות בלבנו', 'זכרם לא יישכח', 'הזוכרים לא ישכחו'],
+      english: ['On Yom HaZikaron, we honor Israel\'s fallen with gratitude and sorrow.', 'We remember the fallen soldiers and victims of terror. Their memory is a blessing.'],
+    },
+    color: '#1E3A5F',
+    emoji: '🎗️',
+  },
+  {
+    baseId: 'israel-independence-day',
+    hebcalMatch: "HaAtzma'ut",
+    name: 'Israel Independence Day',
+    alternativeNames: ['יום העצמאות', "Yom Ha'atzmaut"],
+    religion: 'Secular',
+    type: 'national',
+    dateType: 'hebrew',
+    description: 'Israel\'s national independence day, marking the establishment of the State of Israel in 1948. Celebrated with fireworks, outdoor barbecues (mangal), concerts, and public ceremonies. Immediately follows Yom Hazikaron (Memorial Day).',
+    heDescription: 'יום העצמאות מציין את הקמת מדינת ישראל ב-1948. נחוג בזיקוקין, מנגלים, קונצרטים וטקסי מדינה — ביום שאחרי יום הזיכרון.',
+    greetingGuidance: 'Patriotic and celebratory. Appropriate for Israeli contacts and Jewish contacts with connection to Israel.',
+    greetings: {
+      hebrew: ['יום עצמאות שמח', 'חג עצמאות שמח'],
+      english: ['Happy Independence Day, Israel! Wishing you a joyful Yom Ha\'atzmaut!', 'Chag Ha\'atzmaut Sameach! May Israel continue to flourish.'],
+      transliteration: ['Yom Ha\'atzmaut Sameach'],
+    },
+    sensitivityNotes: 'Sensitive topic in some political contexts. Use judgment based on your relationship with the contact.',
+    color: '#3B82F6',
+    emoji: '🇮🇱',
+  },
+]
 
-  // ─── ISLAM ────────────────────────────────────────────────────────────────
+function generateHebrewHolidays(gregYears: number[]): Holiday[] {
+  const holidays: Holiday[] = []
+  for (const gregYear of gregYears) {
+    for (const tmpl of HEBREW_TEMPLATES) {
+      const { baseId, hebcalMatch, hebcalExact = false, endDayOffset, ...metadata } = tmpl
+      let dateStr = ''
+      for (const hy of [gregYear + 3760, gregYear + 3761]) {
+        const candidate = hebcalDate(hy, hebcalMatch, '', hebcalExact)
+        if (candidate && new Date(candidate).getFullYear() === gregYear) {
+          dateStr = candidate
+          break
+        }
+      }
+      if (!dateStr) continue
+      const h: Holiday = { id: `${baseId}-${gregYear}`, date: dateStr, year: gregYear, ...metadata }
+      if (endDayOffset !== undefined) h.endDate = addDays(dateStr, endDayOffset)
+      holidays.push(h)
+    }
+  }
+  return holidays
+}
+
+// ─── Static holidays (non-Hebrew-calendar) ────────────────────────────────────
+const STATIC_HOLIDAYS: Holiday[] = [
+  // ─── ISLAM ──────────────────────────────────────────────────────────────────
   {
     id: 'ramadan-2026',
     name: 'Ramadan',
@@ -555,7 +424,7 @@ export const HOLIDAYS: Holiday[] = [
       english: ['Ramadan Mubarak — blessed Ramadan!', 'Ramadan Kareem — may Ramadan be generous to you.', 'Wishing you a blessed and spiritually enriching Ramadan.'],
       transliteration: ['Ramadan Mubarak', 'Ramadan Kareem'],
     },
-    sensitivityNotes: 'Do not offer food or drink during daylight hours. Avoid scheduling business lunches. Work hours may be reduced in some regions. Patience — energy levels may be lower for those fasting.',
+    sensitivityNotes: 'Do not offer food or drink during daylight hours. Avoid scheduling business lunches. Work hours may be reduced in some regions.',
     doList: ['Send Ramadan greetings at the start of the month', 'Be understanding of changed schedules', 'If invited to Iftar (breaking fast) — attend, it is a great honor'],
     dontList: ['Do not eat or drink in front of fasting colleagues without sensitivity', 'Avoid scheduling intensive events during the last 10 nights'],
     color: '#0F766E',
@@ -571,7 +440,7 @@ export const HOLIDAYS: Holiday[] = [
     endDate: '2026-03-21',
     year: 2026,
     dateType: 'hijri',
-    description: 'The joyous celebration at the end of Ramadan. A three-day festival of gratitude, generosity, and community. Families gather for prayers, feasts, new clothes, gifts, and charitable giving (Zakat al-Fitr). It is one of the most important celebrations in Islam.',
+    description: 'The joyous celebration at the end of Ramadan. A three-day festival of gratitude, generosity, and community. Families gather for prayers, feasts, new clothes, gifts, and charitable giving (Zakat al-Fitr).',
     heDescription: 'עיד אל-פיטר הוא חג שבירת הצום של רמדאן — שלושה ימים של שמחה, תפילה, לבוש חדש, מתנות וצדקה.',
     greetingGuidance: 'Joyful and warm. This is a time of great celebration — match the energy!',
     greetings: {
@@ -645,8 +514,50 @@ export const HOLIDAYS: Holiday[] = [
     color: '#0F766E',
     emoji: '☪️',
   },
+  {
+    id: 'eid-al-fitr-2025',
+    name: 'Eid al-Fitr',
+    alternativeNames: ['عيد الفطر', 'Feast of Breaking Fast'],
+    religion: 'Islam',
+    type: 'major',
+    date: '2025-03-30',
+    endDate: '2025-04-01',
+    year: 2025,
+    dateType: 'hijri',
+    description: 'The joyous celebration at the end of Ramadan — the Feast of Breaking Fast.',
+    heDescription: 'עיד אל-פיטר — חג שבירת הצום של רמדאן. יום של שמחה, תפילה משפחתית, לבוש חדש ומתנות.',
+    greetingGuidance: 'Joyful and celebratory. Acknowledge the end of Ramadan with warmth.',
+    greetings: {
+      arabic: ['عيد مبارك', 'عيد سعيد', 'كل عام وأنتم بخير'],
+      english: ['Eid Mubarak! Wishing you and your family a joyful celebration.', 'Happy Eid al-Fitr — may this blessed day bring you peace and happiness.'],
+      transliteration: ['Eid Mubarak', 'Eid Saeed'],
+    },
+    color: '#0F766E',
+    emoji: '🌟',
+  },
+  {
+    id: 'eid-al-adha-2025',
+    name: 'Eid al-Adha',
+    alternativeNames: ['عيد الأضحى', 'Festival of Sacrifice', 'Greater Eid'],
+    religion: 'Islam',
+    type: 'major',
+    date: '2025-06-06',
+    endDate: '2025-06-09',
+    year: 2025,
+    dateType: 'hijri',
+    description: 'The Festival of Sacrifice, commemorating Ibrahim\'s willingness to sacrifice his son.',
+    heDescription: 'עיד אל-אדחא — חג הקורבן, המציין את נכונות אברהים להקריב את בנו. שוחטים בהמה ומחלקים בשר לנזקקים.',
+    greetingGuidance: 'Warm and acknowledging the spirit of faith and generosity.',
+    greetings: {
+      arabic: ['عيد الأضحى مبارك', 'عيد مبارك'],
+      english: ['Eid al-Adha Mubarak! May this festival bring blessings to you and your family.'],
+      transliteration: ['Eid al-Adha Mubarak'],
+    },
+    color: '#0F766E',
+    emoji: '🐑',
+  },
 
-  // ─── CHRISTIANITY ─────────────────────────────────────────────────────────
+  // ─── CHRISTIANITY ───────────────────────────────────────────────────────────
   {
     id: 'christmas-2025',
     name: 'Christmas',
@@ -713,7 +624,7 @@ export const HOLIDAYS: Holiday[] = [
     year: 2026,
     dateType: 'gregorian',
     description: 'Christmas as celebrated by Eastern Orthodox Churches using the Julian calendar. Observed by communities in Russia, Ukraine, Serbia, Ethiopia, and other Orthodox communities.',
-    heDescription: 'חג המולד האורתודוקסי נחוג לפי הלוח היוליאני על ידי קהילות אורתודוקסיות ברוסיה, אוקראינה, סרביה ועוד. מציין את לידת ישוע בנחת ובאמונה.',
+    heDescription: 'חג המולד האורתודוקסי נחוג לפי הלוח היוליאני על ידי קהילות אורתודוקסיות ברוסיה, אוקראינה, סרביה ועוד.',
     greetingGuidance: 'Warm and respectful of the Orthodox tradition.',
     greetings: {
       english: ['Merry Orthodox Christmas! Wishing you a blessed and peaceful Nativity season.', 'Happy Christmas to you and your family — may it be filled with peace and joy.'],
@@ -722,7 +633,7 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '⛪',
   },
 
-  // ─── HINDUISM ─────────────────────────────────────────────────────────────
+  // ─── HINDUISM ────────────────────────────────────────────────────────────────
   {
     id: 'holi-2026',
     name: 'Holi',
@@ -732,7 +643,7 @@ export const HOLIDAYS: Holiday[] = [
     date: '2026-03-04',
     year: 2026,
     dateType: 'lunar',
-    description: 'The vibrant Festival of Colors, celebrating the arrival of spring, the triumph of good over evil, and the blossoming of love. People gather to throw colored powder and water at each other. Preceded by Holika Dahan (the bonfire night). A joyous festival welcoming new beginnings.',
+    description: 'The vibrant Festival of Colors, celebrating the arrival of spring, the triumph of good over evil, and the blossoming of love. People gather to throw colored powder and water at each other. Preceded by Holika Dahan (the bonfire night).',
     heDescription: 'הולי הוא חג הצבעים ההינדי המבשר את בוא האביב ונצחון הטוב על הרע. מתאספים לזרוק אבקות צבעוניות ולשמוח יחד.',
     greetingGuidance: 'Colorful, playful, and joyful. Express the energy and vibrancy of the festival.',
     greetings: {
@@ -750,8 +661,8 @@ export const HOLIDAYS: Holiday[] = [
     date: '2026-11-08',
     year: 2026,
     dateType: 'lunar',
-    description: 'The Festival of Lights — one of the most beloved Hindu festivals, also celebrated by Jains, Sikhs, and some Buddhists. Over five days, homes are lit with oil lamps (diyas) and fireworks. Celebrates the victory of light over darkness, knowledge over ignorance. Lakshmi, the goddess of prosperity, is worshipped.',
-    heDescription: 'דיוולי הוא "חג האורות" — חמישה ימים של נרות שמן, זיקוקין ותפילה. מציין את נצחון האור על החושך, ומהחגיגות האהובות ביותר בהינדואיזם.',
+    description: 'The Festival of Lights — one of the most beloved Hindu festivals, also celebrated by Jains, Sikhs, and some Buddhists. Over five days, homes are lit with oil lamps (diyas) and fireworks. Celebrates the victory of light over darkness, knowledge over ignorance.',
+    heDescription: 'דיוולי הוא "חג האורות" — חמישה ימים של נרות שמן, זיקוקין ותפילה. מציין את נצחון האור על החושך.',
     greetingGuidance: 'Warm and celebratory. Wishes for light, prosperity, and happiness are perfect.',
     greetings: {
       english: ['Happy Diwali! May the festival of lights illuminate your life with joy and prosperity.', 'Wishing you and your family a brilliant and prosperous Diwali!', 'May Diwali fill your home with light, laughter, and blessings.'],
@@ -788,7 +699,7 @@ export const HOLIDAYS: Holiday[] = [
     date: '2026-10-19',
     year: 2026,
     dateType: 'lunar',
-    description: 'Celebrates the triumph of good over evil — Lord Rama\'s victory over the demon king Ravana. Marked by the burning of giant effigies of Ravana, public performances of the Ramlila, and the victory of Durga over Mahishasura.',
+    description: 'Celebrates the triumph of good over evil — Lord Rama\'s victory over the demon king Ravana. Marked by the burning of giant effigies of Ravana, public performances of the Ramlila.',
     heDescription: 'דשהרה מציין את נצחון רמה על הדמון רוואנה — ניצחון הצדק על הרשע. נשרפות דמויות ענק של רוואנה בחגיגות פומביות.',
     greetingGuidance: 'Celebratory and positive. Focus on the victory of righteousness.',
     greetings: {
@@ -798,51 +709,7 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🏹',
   },
 
-  // ─── ISLAM (more) ─────────────────────────────────────────────────────────
-  {
-    id: 'eid-al-fitr-2025',
-    name: 'Eid al-Fitr',
-    alternativeNames: ['عيد الفطر', 'Feast of Breaking Fast'],
-    religion: 'Islam',
-    type: 'major',
-    date: '2025-03-30',
-    endDate: '2025-04-01',
-    year: 2025,
-    dateType: 'hijri',
-    description: 'The joyous celebration at the end of Ramadan — the Feast of Breaking Fast.',
-    heDescription: 'עיד אל-פיטר — חג שבירת הצום של רמדאן. יום של שמחה, תפילה משפחתית, לבוש חדש ומתנות.',
-    greetingGuidance: 'Joyful and celebratory. Acknowledge the end of Ramadan with warmth.',
-    greetings: {
-      arabic: ['عيد مبارك', 'عيد سعيد', 'كل عام وأنتم بخير'],
-      english: ['Eid Mubarak! Wishing you and your family a joyful celebration.', 'Happy Eid al-Fitr — may this blessed day bring you peace and happiness.'],
-      transliteration: ['Eid Mubarak', 'Eid Saeed'],
-    },
-    color: '#0F766E',
-    emoji: '🌟',
-  },
-  {
-    id: 'eid-al-adha-2025',
-    name: 'Eid al-Adha',
-    alternativeNames: ['عيد الأضحى', 'Festival of Sacrifice', 'Greater Eid'],
-    religion: 'Islam',
-    type: 'major',
-    date: '2025-06-06',
-    endDate: '2025-06-09',
-    year: 2025,
-    dateType: 'hijri',
-    description: 'The Festival of Sacrifice, commemorating Ibrahim\'s willingness to sacrifice his son.',
-    heDescription: 'עיד אל-אדחא — חג הקורבן, המציין את נכונות אברהים להקריב את בנו. שוחטים בהמה ומחלקים בשר לנזקקים.',
-    greetingGuidance: 'Warm and acknowledging the spirit of faith and generosity.',
-    greetings: {
-      arabic: ['عيد الأضحى مبارك', 'عيد مبارك'],
-      english: ['Eid al-Adha Mubarak! May this festival bring blessings to you and your family.'],
-      transliteration: ['Eid al-Adha Mubarak'],
-    },
-    color: '#0F766E',
-    emoji: '🐑',
-  },
-
-  // ─── SIKHISM ─────────────────────────────────────────────────────────────
+  // ─── SIKHISM ─────────────────────────────────────────────────────────────────
   {
     id: 'vaisakhi-2026',
     name: 'Vaisakhi',
@@ -864,7 +731,7 @@ export const HOLIDAYS: Holiday[] = [
   },
   {
     id: 'guru-nanak-birthday-2026',
-    name: "Guru Nanak Jayanti",
+    name: 'Guru Nanak Jayanti',
     alternativeNames: ['Gurpurab', 'ਗੁਰੂ ਨਾਨਕ ਜਯੰਤੀ', "Guru Nanak's Birthday"],
     religion: 'Sikhism',
     type: 'major',
@@ -881,7 +748,7 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🙏',
   },
 
-  // ─── BUDDHISM ─────────────────────────────────────────────────────────────
+  // ─── BUDDHISM ────────────────────────────────────────────────────────────────
   {
     id: 'vesak-2026',
     name: 'Vesak',
@@ -923,8 +790,8 @@ export const HOLIDAYS: Holiday[] = [
   // ─── BAHÁ'Í FAITH ─────────────────────────────────────────────────────────
   {
     id: 'ridvan-2026',
-    name: "Ridván",
-    alternativeNames: ["Festival of Ridván", "Most Great Festival", "رضوان"],
+    name: 'Ridván',
+    alternativeNames: ['Festival of Ridván', 'Most Great Festival', 'رضوان'],
     religion: 'Bahai',
     type: 'major',
     date: '2026-04-20',
@@ -959,10 +826,10 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🌱',
   },
 
-  // ─── DRUZE ────────────────────────────────────────────────────────────────
+  // ─── DRUZE ───────────────────────────────────────────────────────────────────
   {
     id: 'eid-al-adha-druze-2026',
-    name: "Eid al-Adha (Druze)",
+    name: 'Eid al-Adha (Druze)',
     alternativeNames: ['عيد الأضحى الدرزي', 'Feast of the Sacrifice'],
     religion: 'Druze',
     type: 'major',
@@ -999,27 +866,7 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🕌',
   },
 
-  // ─── EAST ASIAN ───────────────────────────────────────────────────────────
-  {
-    id: 'chinese-new-year-2026',
-    name: 'Chinese New Year',
-    alternativeNames: ['Lunar New Year', 'Spring Festival', '春节', 'Chūnjié'],
-    religion: 'EastAsian',
-    type: 'major',
-    date: '2026-02-17',
-    year: 2026,
-    dateType: 'lunar',
-    description: 'The most important Chinese holiday, marking the beginning of the lunar new year. Celebrated by Chinese, Vietnamese (Tết), Korean (Seollal), and other East Asian communities worldwide. Two weeks of celebrations including family reunions, firecrackers, dragon dances, red envelopes (hóngbāo), and lantern festival. 2026 is the Year of the Horse.',
-    heDescription: 'ראש השנה הסיני הוא החג הגדול ביותר בתרבות הסינית — שבועיים של חגיגות עם מפגשי משפחה, ריקוד דרקון ומעטפות אדומות. 2026 — שנת הסוס.',
-    greetingGuidance: 'Festive and warm. Wishes for prosperity, health, and happiness are appropriate.',
-    greetings: {
-      english: ['Happy Chinese New Year! Gong Xi Fa Cai — wishing you prosperity and good fortune!', 'Xīn Nián Kuài Lè — Happy New Year! May the Year of the Horse bring you strength and success.', 'Wishing you a joyful Lunar New Year filled with happiness and good health!'],
-      transliteration: ['Gong Xi Fa Cai', 'Xin Nian Kuai Le', 'Chúc Mừng Năm Mới (Vietnamese)'],
-    },
-    sensitivityNotes: 'Shared by many East Asian cultures. Avoid assuming it is only Chinese — Vietnamese, Korean, and other Asian communities celebrate similar holidays.',
-    color: '#DC2626',
-    emoji: '🐴',
-  },
+  // ─── EAST ASIAN ──────────────────────────────────────────────────────────────
   {
     id: 'chinese-new-year-2025',
     name: 'Chinese New Year',
@@ -1038,6 +885,26 @@ export const HOLIDAYS: Holiday[] = [
     },
     color: '#DC2626',
     emoji: '🐍',
+  },
+  {
+    id: 'chinese-new-year-2026',
+    name: 'Chinese New Year',
+    alternativeNames: ['Lunar New Year', 'Spring Festival', '春节', 'Chūnjié'],
+    religion: 'EastAsian',
+    type: 'major',
+    date: '2026-02-17',
+    year: 2026,
+    dateType: 'lunar',
+    description: 'The most important Chinese holiday, marking the beginning of the lunar new year. Celebrated by Chinese, Vietnamese (Tết), Korean (Seollal), and other East Asian communities worldwide. Two weeks of celebrations including family reunions, firecrackers, dragon dances, red envelopes (hóngbāo), and lantern festival. 2026 is the Year of the Horse.',
+    heDescription: 'ראש השנה הסיני הוא החג הגדול ביותר בתרבות הסינית — שבועיים של חגיגות עם מפגשי משפחה, ריקוד דרקון ומעטפות אדומות. 2026 — שנת הסוס.',
+    greetingGuidance: 'Festive and warm. Wishes for prosperity, health, and happiness are appropriate.',
+    greetings: {
+      english: ['Happy Chinese New Year! Gong Xi Fa Cai — wishing you prosperity and good fortune!', 'Xīn Nián Kuài Lè — Happy New Year! May the Year of the Horse bring you strength and success.'],
+      transliteration: ['Gong Xi Fa Cai', 'Xin Nian Kuai Le', 'Chúc Mừng Năm Mới (Vietnamese)'],
+    },
+    sensitivityNotes: 'Shared by many East Asian cultures. Avoid assuming it is only Chinese — Vietnamese, Korean, and other Asian communities celebrate similar holidays.',
+    color: '#DC2626',
+    emoji: '🐴',
   },
   {
     id: 'mid-autumn-2026',
@@ -1059,11 +926,11 @@ export const HOLIDAYS: Holiday[] = [
     emoji: '🥮',
   },
 
-  // ─── SECULAR / NATIONAL ───────────────────────────────────────────────────
+  // ─── SECULAR / NATIONAL ──────────────────────────────────────────────────────
   {
     id: 'new-year-2026',
     name: "New Year's Day",
-    alternativeNames: ["New Year's", "January 1st", "Sylvester"],
+    alternativeNames: ["New Year's", 'January 1st', 'Sylvester'],
     religion: 'Secular',
     type: 'cultural',
     date: '2026-01-01',
@@ -1083,7 +950,7 @@ export const HOLIDAYS: Holiday[] = [
   {
     id: 'international-womens-day-2026',
     name: "International Women's Day",
-    alternativeNames: ["IWD", "March 8th"],
+    alternativeNames: ['IWD', 'March 8th'],
     religion: 'Secular',
     type: 'cultural',
     date: '2026-03-08',
@@ -1096,35 +963,14 @@ export const HOLIDAYS: Holiday[] = [
       hebrew: ['יום האישה הבינלאומי שמח', 'לאישה החזקה שבחיי'],
       english: ['Happy International Women\'s Day! Celebrating your strength, brilliance, and achievements.', 'Wishing you a wonderful Women\'s Day — thank you for making the world brighter.'],
     },
-    sensitivityNotes: 'Particularly important in Russian, Ukrainian, and many Middle Eastern cultures where it is equivalent to a holiday. Some men give flowers/gifts to women.',
+    sensitivityNotes: 'Particularly important in Russian, Ukrainian, and many Middle Eastern cultures where it is equivalent to a holiday.',
     color: '#EC4899',
     emoji: '🌸',
   },
   {
-    id: 'israel-independence-day-2026',
-    name: "Israel Independence Day",
-    alternativeNames: ['יום העצמאות', "Yom Ha'atzmaut"],
-    religion: 'Secular',
-    type: 'national',
-    date: hebcalDate(5786, "HaAtzma'ut", '2026-04-21'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'Israel\'s national independence day, marking the establishment of the State of Israel in 1948. Celebrated with fireworks, outdoor barbecues (mangal), concerts, and public ceremonies. Immediately follows Yom Hazikaron (Memorial Day).',
-    heDescription: 'יום העצמאות מציין את הקמת מדינת ישראל ב-1948. נחוג בזיקוקין, מנגלים, קונצרטים וטקסי מדינה — ביום שאחרי יום הזיכרון.',
-    greetingGuidance: 'Patriotic and celebratory. Appropriate for Israeli contacts and Jewish contacts with connection to Israel.',
-    greetings: {
-      hebrew: ['יום עצמאות שמח', 'חג עצמאות שמח'],
-      english: ['Happy Independence Day, Israel! Wishing you a joyful Yom Ha\'atzmaut!', 'Chag Ha\'atzmaut Sameach! May Israel continue to flourish.'],
-      transliteration: ['Yom Ha\'atzmaut Sameach'],
-    },
-    sensitivityNotes: 'Sensitive topic in some political contexts. Use judgment based on your relationship with the contact.',
-    color: '#3B82F6',
-    emoji: '🇮🇱',
-  },
-  {
     id: 'labor-day-2026',
     name: "International Workers' Day",
-    alternativeNames: ["Labor Day", "May Day", "International Labour Day"],
+    alternativeNames: ['Labor Day', 'May Day', 'International Labour Day'],
     religion: 'Secular',
     type: 'national',
     date: '2026-05-01',
@@ -1139,8 +985,6 @@ export const HOLIDAYS: Holiday[] = [
     color: '#DC2626',
     emoji: '⚒️',
   },
-
-  // ─── BL-060: SECULAR / NATIONAL — additional dates ───────────────────────
   {
     id: 'holocaust-remembrance-intl-2026',
     name: 'International Holocaust Remembrance Day',
@@ -1160,46 +1004,6 @@ export const HOLIDAYS: Holiday[] = [
     },
     color: '#374151',
     emoji: '🕯️',
-  },
-  {
-    id: 'yom-hashoah-2026',
-    name: 'Yom HaShoah',
-    alternativeNames: ['יום השואה', 'Holocaust Remembrance Day', 'Holocaust and Heroism Remembrance Day'],
-    religion: 'Secular',
-    type: 'national',
-    date: hebcalDate(5786, 'Yom HaShoah', '2026-04-23'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'Israel\'s national Holocaust Remembrance Day, observed on 27 Nisan. Marked by a two-minute siren during which the entire country stands in silence. Memorial ceremonies are held throughout Israel and Jewish communities worldwide.',
-    heDescription: 'יום השואה הישראלי (כ"ז בניסן) מציין את השואה והגבורה. בשעה 10:00 שותקת המדינה כולה לשתי דקות זיכרון.',
-    greetingGuidance: 'Deeply solemn day. Appropriate only for messages of remembrance and solidarity. Never use cheerful or congratulatory language.',
-    sensitivityNotes: 'The two-minute nationwide siren at 10:00 AM brings Israel to a complete standstill. This is a national moment of silence.',
-    greetings: {
-      hebrew: ['זכרונם לברכה', 'לא נשכח — יום השואה והגבורה', 'עם ישראל זוכר'],
-      english: ['In memory of the six million. Zachor — Remember.', 'On Yom HaShoah, we remember and we vow: Never Again.'],
-    },
-    color: '#1F2937',
-    emoji: '🕯️',
-  },
-  {
-    id: 'yom-hazikaron-2026',
-    name: 'Yom HaZikaron',
-    alternativeNames: ['יום הזיכרון', "Israel's Memorial Day", 'Fallen Soldiers Memorial Day'],
-    religion: 'Secular',
-    type: 'national',
-    date: hebcalDate(5786, 'Yom HaZikaron', '2026-04-20'),
-    year: 2026,
-    dateType: 'hebrew',
-    description: 'Israel\'s official Memorial Day for fallen soldiers and victims of terror, observed on 4 Iyar — the day before Yom Ha\'atzmaut. Marked by two nationwide sirens, memorial ceremonies, and a somber national atmosphere.',
-    heDescription: 'יום הזיכרון לחללי מערכות ישראל ולנפגעי פעולות האיבה. שתי סירנות וטקסי אבל ממלכתיים — מעבר לחגיגות יום העצמאות בשקיעה.',
-    greetingGuidance: 'Solemn and respectful. This is a day of mourning, not celebration. Appropriate for messages of solidarity and shared grief.',
-    sensitivityNotes: 'Sirens sound at 8:00 PM (start) and 11:00 AM. Entertainment venues close. The transition to Independence Day celebrations begins at sundown.',
-    greetings: {
-      hebrew: ['יום הזיכרון — נחרות בלבנו', 'זכרם לא יישכח', 'הזוכרים לא ישכחו'],
-      english: ['On Yom HaZikaron, we honor Israel\'s fallen with gratitude and sorrow.', 'We remember the fallen soldiers and victims of terror. Their memory is a blessing.'],
-    },
-    color: '#1E3A5F',
-    emoji: '🎗️',
   },
   {
     id: 'us-memorial-day-2026',
@@ -1228,15 +1032,20 @@ export const HOLIDAYS: Holiday[] = [
     date: '2026-07-04',
     year: 2026,
     dateType: 'gregorian',
-    description: 'The United States national holiday celebrating the Declaration of Independence on July 4, 1776. Marked with fireworks, barbecues, parades, concerts, and patriotic gatherings. One of the most widely celebrated national holidays in the US.',
+    description: 'The United States national holiday celebrating the Declaration of Independence on July 4, 1776. Marked with fireworks, barbecues, parades, concerts, and patriotic gatherings.',
     heDescription: 'יום העצמאות האמריקאי (4 ביולי) מציין את הכרזת העצמאות של ארה"ב ב-1776. נחוג בזיקוקין, מסיבות, מצעדים וקונצרטים.',
     greetingGuidance: 'Celebratory and patriotic. Appropriate for US contacts and anyone with American ties.',
     greetings: {
-      english: ['Happy 4th of July! Wishing you a day full of fireworks, family, and freedom.', 'Happy Independence Day! Hope your day is as bright as the fireworks tonight. 🎆', 'Celebrating 250 years of freedom — Happy Fourth of July!'],
+      english: ['Happy 4th of July! Wishing you a day full of fireworks, family, and freedom.', 'Happy Independence Day! Hope your day is as bright as the fireworks tonight.', 'Celebrating 250 years of freedom — Happy Fourth of July!'],
     },
     color: '#DC2626',
     emoji: '🎆',
   },
+]
+
+export const HOLIDAYS: Holiday[] = [
+  ...generateHebrewHolidays(YEAR_RANGE),
+  ...STATIC_HOLIDAYS,
 ]
 
 export function getHolidayById(id: string): Holiday | undefined {

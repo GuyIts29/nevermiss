@@ -574,5 +574,14 @@
     "status": "done",
     "completedAt": "2026-05-01T18:00:00",
     "description": "One-tap greeting send flow — ChannelPicker integrated into Quick Send panel; Send Greeting CTA on today/tomorrow holiday banners"
+  },
+  "T135": {
+    "status": "✅",
+    "notes": "BL-077 הושלם — חגים יהודיים נוצרים דינמית ע״י @hebcal/core; 17 תבניות; YEAR_RANGE=[שנה-1..שנה+2]; IDs ו-Holiday interface זהים; build+lint ✅"
+  },
+  "BL-077": {
+    "status": "done",
+    "completedAt": "2026-05-01T20:00:00",
+    "description": "Dynamic Hebcal-driven holiday generation — replaces all hardcoded Hebrew-calendar dates with runtime @hebcal/core generation for YEAR_RANGE; backward-compatible IDs and Holiday interface"
   }
 }

@@ -1727,5 +1727,12 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "BL-064: 2 מפתחות i18n חדשים (EN+HE): dashboard_quick_send_channel, dashboard_send_greeting"
+  },
+  {
+    "timestamp": "2026-05-01T20:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/data/holidays.ts",
+    "description": "BL-077: הוחלפה שיטת הגדרת חגים יהודיים — מ-hardcoded תאריכים שנתיים לגנרציה דינמית ב-runtime ע״י @hebcal/core (Israel mode); 17 תבניות Hebrew (HebrewTemplate) + YEAR_RANGE=[שנה-1..שנה+2]; תאריכים גרגוריאניים (חג המולד, רמדאן וכו׳) נשארים סטטיים; כל IDs, exports וממשקי Holiday נשמרו ללא שינוי"
   }
 ]

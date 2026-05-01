@@ -317,10 +317,11 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 ### Data
 
 #### Holiday Database (`src/data/holidays.ts`)
-- ~50+ holidays for 2025–2026
+- ~50+ holidays across dynamic year range (THIS_YEAR-1 → THIS_YEAR+2); auto-rolls forward every year ✅ _Sprint 14 (BL-077)_
 - Religions covered: Judaism, Islam, Christianity, Druze, Buddhism, Hinduism, Sikhism, Bahá'í, East Asian, Secular/National
 - Fields per holiday: name, alternativeNames, religion, type, date, endDate, year, dateType, description, greetingGuidance, greetings (hebrew/arabic/english/transliteration), sensitivityNotes, do/dontLists, color, emoji
-- **Jewish holiday dates computed via `@hebcal/core`** — no static Gregorian dates for Hebrew-calendar holidays
+- **Jewish holidays generated dynamically at runtime via `@hebcal/core` (Israel mode)** — 17 HebrewTemplates including all major holidays, fasts, and Israeli national days; zero hardcoded dates for Hebrew-calendar holidays ✅ _Sprint 14 (BL-077)_
+- Static Gregorian holidays (Christmas, Easter, Islamic, Hindu, etc.) remain as-is
 - **Yom HaAtzmaut 2026 fixed**: now correctly calculated as April 21 (ד׳ באייר תשפ״ו) ✅ _Sprint 2 (BUG-037)_
 
 #### Greeting Templates (`src/data/greetingTemplates.ts`)
