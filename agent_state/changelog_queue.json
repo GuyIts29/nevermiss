@@ -1566,5 +1566,19 @@
     "action": "fixed",
     "file": "src/screens/CalendarScreen.tsx",
     "description": "תוקן BUG-071 — aria-label של כפתור הסינון הוחלף ב-t('calendar_filterByReligion') במקום מחרוזת hardcoded"
+  },
+  {
+    "timestamp": "2026-05-01T15:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "תוקן BUG-072 — CONTACT_FIELDS הועבר לתוך הקומפוננטה עם t(); StepIndicator קיבל useT(); תוויות סטטיסטיקה הוחלפו ב-t()"
+  },
+  {
+    "timestamp": "2026-05-01T15:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 13 מפתחות i18n לייבוא אנשי קשר (import_field_* + import_stat_*) — EN + HE"
   }
 ]

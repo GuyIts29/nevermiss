@@ -25,26 +25,14 @@ function downloadCSVTemplate() {
   URL.revokeObjectURL(url)
 }
 
-const CONTACT_FIELDS = [
-  { value: '', label: '— Skip this column —' },
-  { value: 'name', label: 'Full Name *' },
-  { value: 'phone', label: 'Phone' },
-  { value: 'email', label: 'Email' },
-  { value: 'birthday', label: 'Birthday' },
-  { value: 'department', label: 'Department' },
-  { value: 'role', label: 'Role/Title' },
-  { value: 'religion', label: 'Religion' },
-  { value: 'language', label: 'Language' },
-  { value: 'notes', label: 'Notes' },
-]
-
 type Step = 'upload' | 'map' | 'done'
 
 function StepIndicator({ step }: { step: Step }) {
+  const t = useT()
   const steps: { key: Step; label: string; num: number }[] = [
-    { key: 'upload', label: 'Upload', num: 1 },
-    { key: 'map', label: 'Map', num: 2 },
-    { key: 'done', label: 'Done', num: 3 },
+    { key: 'upload', label: t('import_upload'), num: 1 },
+    { key: 'map', label: t('import_map'), num: 2 },
+    { key: 'done', label: t('import_done'), num: 3 },
   ]
 
   const currentIdx = steps.findIndex(s => s.key === step)
@@ -105,6 +93,19 @@ export function ImportContactsScreen() {
   const { addContact, groups, updateGroup } = useApp()
   const t = useT()
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const CONTACT_FIELDS = [
+    { value: '', label: t('import_field_skip') },
+    { value: 'name', label: t('import_field_name') },
+    { value: 'phone', label: t('import_field_phone') },
+    { value: 'email', label: t('import_field_email') },
+    { value: 'birthday', label: t('import_field_birthday') },
+    { value: 'department', label: t('import_field_department') },
+    { value: 'role', label: t('import_field_role') },
+    { value: 'religion', label: t('import_field_religion') },
+    { value: 'language', label: t('import_field_language') },
+    { value: 'notes', label: t('import_field_notes') },
+  ]
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<ImportPreview | null>(null)
   const [columns, setColumns] = useState<ImportColumn[]>([])
@@ -430,17 +431,17 @@ export function ImportContactsScreen() {
               <div className="flex gap-3 mt-4">
                 <div className="flex-1 bg-white/50 rounded-xl py-2 px-3">
                   <p className="text-2xl font-black text-green-700">{result.imported}</p>
-                  <p className="text-[10px] text-green-600 font-semibold uppercase tracking-wide">Imported</p>
+                  <p className="text-[10px] text-green-600 font-semibold uppercase tracking-wide">{t('import_stat_imported')}</p>
                 </div>
                 {result.skipped > 0 && (
                   <div className="flex-1 bg-white/50 rounded-xl py-2 px-3">
                     <p className="text-2xl font-black text-amber-600">{result.skipped}</p>
-                    <p className="text-[10px] text-amber-600 font-semibold uppercase tracking-wide">Skipped</p>
+                    <p className="text-[10px] text-amber-600 font-semibold uppercase tracking-wide">{t('import_stat_skipped')}</p>
                   </div>
                 )}
                 <div className="flex-1 bg-white/50 rounded-xl py-2 px-3">
                   <p className="text-2xl font-black text-blue-600">{result.imported + result.skipped}</p>
-                  <p className="text-[10px] text-blue-600 font-semibold uppercase tracking-wide">Total rows</p>
+                  <p className="text-[10px] text-blue-600 font-semibold uppercase tracking-wide">{t('import_stat_total')}</p>
                 </div>
               </div>
             </div>

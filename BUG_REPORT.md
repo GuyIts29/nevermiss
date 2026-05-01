@@ -585,3 +585,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added 14 new i18n keys (`birthday_greeting_*`, `birthday_tier_*`) in both EN and HE. Moved `BIRTHDAY_TIERS` array inside the component to use `t()`. Replaced all 8 hardcoded strings with `t()` calls. CalendarScreen filter button now uses `t('calendar_filterByReligion')` for `aria-label`.
+
+---
+
+### BUG-072 — ImportContactsScreen hardcoded English UI strings
+- **Date:** 2026-05-01 | **Time:** 15:00 | **Status:** ✅ fixed
+- **Files:** `src/screens/premium/ImportContactsScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** ImportContactsScreen had multiple hardcoded English strings: (1) `CONTACT_FIELDS` array with 10 column-mapping labels at module level; (2) `StepIndicator` subcomponent hardcoded "Upload"/"Map"/"Done" labels despite keys existing; (3) import result stats "Imported"/"Skipped"/"Total rows".
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added 13 i18n keys (`import_field_*`, `import_stat_*`) in EN + HE. Moved `CONTACT_FIELDS` inside main component to use `t()`. Added `useT()` to `StepIndicator` to use existing `import_upload/map/done` keys. Replaced 3 hardcoded stats labels with `t()`.
