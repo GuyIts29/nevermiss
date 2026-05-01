@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { format, differenceInDays } from 'date-fns'
 import type { Holiday } from '@/types'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import type { TranslationKey } from '@/i18n'
 import { getHebrewDateStr } from '@/utils/hebrewDateUtils'
 
@@ -21,6 +21,7 @@ function hexToRgb(hex: string) {
 export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps) {
   const navigate = useNavigate()
   const t = useT()
+  const { lang } = useLang()
   const daysUntil = differenceInDays(new Date(holiday.date), new Date())
   const staggerClass = staggerIndex != null ? `stagger-${Math.min(staggerIndex + 1, 5)}` : ''
 
@@ -35,7 +36,7 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
         style={{
           background: `linear-gradient(135deg, rgba(${hexToRgb(holiday.color)}, 0.10) 0%, rgba(${hexToRgb(holiday.color)}, 0.04) 100%)`,
           border: `1px solid rgba(${hexToRgb(holiday.color)}, 0.25)`,
-          borderLeft: `3px solid ${holiday.color}`,
+          [lang === 'he' ? 'borderRight' : 'borderLeft']: `3px solid ${holiday.color}`,
           boxShadow: `0 2px 8px rgba(${hexToRgb(holiday.color)}, 0.10)`,
           transition: 'all 0.2s ease',
         }}

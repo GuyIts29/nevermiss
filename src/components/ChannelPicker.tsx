@@ -129,7 +129,7 @@ export function ChannelPicker({ contact, message, media, onClose }: ChannelPicke
                   >
                     {icon}
                   </div>
-                  <span className="flex-1 text-left font-semibold text-[var(--color-text-primary)] text-sm">
+                  <span className="flex-1 text-start font-semibold text-[var(--color-text-primary)] text-sm">
                     {label}
                   </span>
                   {isLast && (

@@ -1517,5 +1517,33 @@
     "action": "fixed",
     "file": "src/screens/OnboardingScreen.tsx",
     "description": "תוקן BUG-069 — ChevronRight בכפתור המשך עבר ל-ChevronLeft בעברית; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T14:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/ContactCard.tsx",
+    "description": "תוקן BUG-070 — text-left → text-start; borderLeft של פס דחיפות עבר ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T14:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/HolidayCard.tsx",
+    "description": "תוקן BUG-070 — borderLeft של כרטיס חג מהיר עבר ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T14:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/ui/Card.tsx",
+    "description": "תוקן BUG-070 — prop accent: borderLeft עבר ל-RTL; נוסף ייבוא useLang"
+  },
+  {
+    "timestamp": "2026-05-01T14:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/components/ChannelPicker.tsx",
+    "description": "תוקן BUG-070 — text-left → text-start על ספן תוויות הערוצים"
   }
 ]

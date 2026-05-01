@@ -565,3 +565,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added `ChevronLeft` import. SettingsScreen: all 5 disclosure chevrons wrapped in `lang === 'he' ? ChevronLeft : ChevronRight` ternary. OnboardingScreen: added `useLang` import + `const { lang } = useLang()`, continue button chevron conditionally renders `ChevronLeft` in Hebrew.
+
+---
+
+### BUG-070 — RTL physical CSS issues in shared components (ContactCard, HolidayCard, Card, ChannelPicker)
+- **Date:** 2026-05-01 | **Time:** 14:00 | **Status:** ✅ fixed
+- **Files:** `src/components/ContactCard.tsx`, `src/components/HolidayCard.tsx`, `src/components/ui/Card.tsx`, `src/components/ChannelPicker.tsx`
+- **Bug:** Four shared components had physical CSS issues that affected every screen using them: (1) `ContactCard` used `text-left` and `borderLeft` urgency bar; (2) `HolidayCard` (compact mode) used `borderLeft` accent; (3) `Card` component used `borderLeft` for the `accent` prop; (4) `ChannelPicker` used `text-left` on label spans.
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added `useLang` + `const { lang }` to ContactCard, HolidayCard, and Card. Changed all `borderLeft` to computed key `[lang === 'he' ? 'borderRight' : 'borderLeft']`. Changed `text-left` to `text-start` in ContactCard and ChannelPicker.

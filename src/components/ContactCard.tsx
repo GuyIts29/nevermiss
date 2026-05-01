@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { MessageCircle, Crown, Building2 } from 'lucide-react'
 import type { Contact, RelationshipScore, SuggestedActionType } from '@/types'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import type { TranslationKey } from '@/i18n'
 
 interface ContactCardProps {
@@ -25,6 +25,7 @@ const ACTION_KEY: Record<SuggestedActionType, TranslationKey> = {
 export const ContactCard = memo(function ContactCard({ contact, score, onClick, staggerIndex }: ContactCardProps) {
   const navigate = useNavigate()
   const t = useT()
+  const { lang } = useLang()
   const handleClick = onClick ?? (() => navigate(`/contacts/${contact.id}`))
 
   const urgencyColor = score
@@ -53,9 +54,9 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
   return (
     <button
       type="button"
-      className={`card card-interactive flex items-center gap-3 w-full text-left ${staggerClass}`}
+      className={`card card-interactive flex items-center gap-3 w-full text-start ${staggerClass}`}
       style={{
-        borderLeft: `3px solid ${urgencyColor}`,
+        [lang === 'he' ? 'borderRight' : 'borderLeft']: `3px solid ${urgencyColor}`,
         background: urgencyGlow !== 'transparent'
           ? `linear-gradient(135deg, var(--color-surface), ${urgencyGlow})`
           : undefined,

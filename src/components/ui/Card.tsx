@@ -1,5 +1,6 @@
 import { type HTMLAttributes, type ReactNode } from 'react'
 import { clsx } from 'clsx'
+import { useLang } from '@/context/LanguageContext'
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
@@ -10,6 +11,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function Card({ children, elevated, interactive, noPadding, accent, className, ...props }: CardProps) {
+  const { lang } = useLang()
   return (
     <div
       className={clsx(
@@ -19,7 +21,7 @@ export function Card({ children, elevated, interactive, noPadding, accent, class
         noPadding && '!p-0',
         className
       )}
-      style={accent ? { borderLeft: `4px solid ${accent}` } : undefined}
+      style={accent ? { [lang === 'he' ? 'borderRight' : 'borderLeft']: `4px solid ${accent}` } : undefined}
       {...props}
     >
       {children}
