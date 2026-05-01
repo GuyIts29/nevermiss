@@ -1,14 +1,19 @@
 # NeverMiss — Claude Code Instructions
 
-You are improving the NeverMiss app. Work using a 4-agent pipeline.
+You are improving the NeverMiss app. Work using a 6-agent pipeline.
 
 ## Agents
+
+### Prompt Validator
+Runs first on every new prompt that involves a task, bug, feature, improvement, or plan.
+Classifies the prompt, scores clarity, flags risk, and either approves or blocks.
+Does not run for questions, clarifications, or simple steering.
 
 ### Developer
 Implements all changes: features, foundational setup, i18n keys, type definitions, bug fixes.
 Works to full DoD — no partial implementations. Both locales (EN + HE) required on every change that touches strings.
 
-### Quality Gate
+### Reviewer (Quality Gate)
 Validates every Developer change. Runs after Developer, before Documentation.
 
 **Technical checks:**
@@ -24,25 +29,32 @@ Validates every Developer change. Runs after Developer, before Documentation.
 - UX flow is clear and unbroken
 - Feature achieves its stated user goal (technically working is not enough)
 
-Quality Gate may fix mechanical errors (build, lint, types) directly.
-Quality Gate flags logic, architectural, and product issues to Developer for fix, then re-runs the full check.
+Reviewer may fix mechanical errors (build, lint, types) directly.
+Reviewer flags logic, architectural, and product issues to Developer for fix, then re-runs the full check.
 Partial approval is not permitted. Either all checks pass or the sprint is blocked.
 
-**Failure → sprint blocked. Developer fixes. Quality Gate re-runs.**
+**Failure → sprint blocked. Developer fixes. Reviewer re-runs.**
 
-### Documentation
-Runs after Quality Gate approves. Closes the sprint. All steps are required — none may be skipped.
+### Bug Hunter
+Runs alongside the Reviewer during the Quality Gate pass.
+Scans for regressions, edge cases, and flows that technically compile but break in practice.
+Reports findings to Reviewer — does not implement fixes.
+
+### Documentation Owner
+Runs after Reviewer approves. Closes the sprint. All steps are required — none may be skipped.
 
 - Append entries to `agent_state/changelog_queue.json` (append-only — NEVER overwrite or delete entries)
-- Update `agent_state/qa_status.json` with new test statuses for the sprint
+- Update `agent_state/qa_status.json` — add BUG-keyed entry (`status: "fixed"`, `fixedAt`) AND T-entry for each bug fixed
 - Update `scripts/make-qa-checklist.js` TESTS array to match new test IDs
 - Update `BUG_REPORT.md` immediately when a bug is found or fixed (real-time, not batched)
+- Update `FEATURES.md` when a feature is added or changed
+- Update `BACKLOG.md` and `BACKLOG.csv` to mark completed items as Done
 - Run `npm run changelog` → regenerates `changelog.xlsx`
 - Run `npm run qa` → regenerates `NeverMiss_QA_Checklist.xlsx`
 
 **Sprint is NOT complete until all Documentation steps are done.**
 
-### Research & UX *(optional — post-sprint only)*
+### Product/UX Agent
 Runs after a sprint is complete, before the next sprint plan. Never runs during implementation.
 Produces max 3 findings per sprint covering technical issues (memory leaks, logic gaps, architectural risks) and/or UX issues (user flows, audience fit, onboarding clarity).
 Writes to `agent_state/research_notes.md`. No code changes, ever.
@@ -53,15 +65,57 @@ If more than 3 findings are submitted, only the top 3 by impact are kept.
 ## Execution Order (STRICT)
 
 ```
-Developer → Quality Gate → Documentation
+Prompt Validator → Developer → Reviewer + Bug Hunter → Documentation Owner
 ```
 
-Research & UX runs only after Documentation closes the sprint — never during.
+Product/UX Agent runs only after Documentation closes the sprint — never during.
 
 After sprint complete:
-1. Research & UX produces findings (if applicable) → feeds next sprint plan
+1. Product/UX Agent produces findings (if applicable) → feeds next sprint plan
 2. Present full sprint summary
-3. Wait for user confirmation before starting next sprint
+3. **Wait for user confirmation before starting next sprint**
+
+---
+
+## Sprint Planning (REQUIRED)
+
+Before every sprint, present the plan and **stop for approval**. Do not start without `approve` / `run` / `continue`.
+
+### Required plan format
+
+```
+## Sprint [N] — Plan
+
+### Sprint Goal
+One sentence.
+
+### Selected Backlog Items
+| BL ID | Type | Priority | Description | Reason selected |
+
+### Agent Responsibilities
+| Agent | Responsibility in this sprint |
+
+### Deferred Items
+| BL ID | Reason deferred |
+```
+
+---
+
+## Backlog Selection
+
+Select from `BACKLOG.md` / `BACKLOG.csv`. Priority is enforced strictly:
+
+1. 🔴 High bugs / broken flows
+2. 🔴 High Hebrew/RTL/accessibility issues
+3. 🔴 High core product issues
+4. 🟡 Medium bugs / UX issues — **only if no High tasks remain open**
+5. 🟡 Medium improvements — capacity only
+6. 🟢 Low — **requires explicit user approval**
+
+**Limit:** 3–5 tasks per sprint unless approved for more.
+
+**Never select:** bugs with status `fixed` / `resolved` / `closed`.
+If a fixed bug reappears → treat as a **new bug** with a **new ID**. Reference original: "Regression of BUG-XXX".
 
 ---
 
@@ -104,15 +158,18 @@ ALL of the following must pass:
 - NEVER skip this step — QA checklist is a required Documentation artifact
 
 ### Auto-recovery protocol
-- If a Quality Gate check fails: Quality Gate attempts to fix mechanical errors (build/lint/types) directly
+- If a Quality Gate check fails: Reviewer attempts to fix mechanical errors (build/lint/types) directly
 - If fixed within 2 attempts → continue automatically
 - If NOT fixed after 2 attempts → STOP and wait for user confirmation
 
 ### Stop conditions (immediate halt)
-- Build fails
-- Lint fails
-- Quality Gate flags a critical issue (technical or product)
+- Build fails and cannot auto-recover within 2 attempts
+- Lint fails and cannot auto-recover within 2 attempts
+- Reviewer flags a critical issue (technical or product)
 - Unexpected file changes occur
+- Critical ambiguity discovered mid-sprint
+- Major scope change required
+- Sprint complete → wait for approval before next sprint
 
 ---
 
@@ -132,26 +189,24 @@ After each feature provide manual QA checklist:
 
 ## Prompt Validation Rule
 
-Before executing any prompt, classify and validate it first.
+Prompt Validator runs first on every new task, bug, feature, improvement, or planning prompt.
 
 ### When to validate (required)
-Apply validation for:
 - New tasks: Feature, Bug fix, Improvement
 - Planning prompts
 - High-impact or broad-scope changes
 
 ### When to skip validation (proceed directly)
-Skip validation for:
-- Simple steering prompts
-- Short UI tweaks
+- Questions → answer only, do not change sprint
 - Clarifications or minor adjustments
+- Simple steering (safe, non-disruptive)
 
 If unsure → validate.
 
 ### Validation report format
 
 ```
-Prompt Type: [Feature | Bug | Improvement | Planning | Steering]
+Prompt Type: [Feature | Bug | Improvement | Planning | Steering | Question]
 Clarity Score: [1–10]
 Risk Level: 🟢 Low | 🟡 Medium | 🔴 High
 Issues: [bullet points, or "none"]
@@ -160,6 +215,34 @@ Recommendation: [approve as-is | minor fix | rewrite]
 
 After reporting → wait for explicit approval (`approve` / `run` / `continue`) before executing.
 Keep validation lightweight — do not block workflow for simple prompts.
+
+### Mid-sprint prompt handling
+
+If a prompt arrives during a sprint:
+
+| Type | Action |
+|------|--------|
+| Question | Answer only. Sprint continues unchanged. |
+| Steering | Apply only if safe and non-disruptive. No interruption. |
+| Bug (non-critical) | Add to BACKLOG with priority. Include in current sprint only if higher priority than remaining tasks and capacity allows. |
+| Bug (critical) | Pause sprint. Fix. Resume. |
+| Feature / Improvement | Add to BACKLOG. Do NOT interrupt current task. |
+
+---
+
+## Bug Lifecycle (CRITICAL)
+
+When fixing a bug, ALL of the following are required:
+
+1. Mark as FIXED in `BUG_REPORT.md`
+2. Update `agent_state/qa_status.json`:
+   - Add `BUG-XXX` entry: `{ "status": "fixed", "fixedAt": "YYYY-MM-DDTHH:MM:SS", "description": "..." }`
+   - Add `T-entry` for the QA checklist: `{ "status": "✅", "notes": "BUG-XXX תוקן — ..." }`
+3. Add entry to `agent_state/changelog_queue.json`
+4. Add test ID to `scripts/make-qa-checklist.js` TESTS array
+5. Update `BACKLOG.md` / `BACKLOG.csv` status to Done
+
+**Never select a fixed bug again.** If it reappears → new ID, reference original.
 
 ---
 
@@ -310,7 +393,7 @@ Documentation appends **after every single change** — not just at the end of a
 ```json
 {
   "timestamp": "YYYY-MM-DDTHH:MM:SS",
-  "agent": "Developer | QualityGate | Documentation | ResearchUX",
+  "agent": "Developer | Reviewer | BugHunter | Documentation | ProductUX | PromptValidator",
   "action": "added | modified | deleted | fixed",
   "file": "relative/path/to/file",
   "description": "תיאור בעברית של מה שנעשה"
@@ -353,11 +436,16 @@ Run `npm run qa` to regenerate. Update `agent_state/qa_status.json` first with n
 
 ## Output Format (Mandatory)
 
-After each sprint:
-- What was done
-- Files changed
-- What remains
-- QA checklist
+After each sprint, provide:
+1. Sprint summary
+2. Completed BL items
+3. Bugs fixed
+4. Changes made
+5. Files changed
+6. Commits
+7. Remaining items / open decisions
+
+Then **wait for approval before next sprint**.
 
 ---
 
@@ -371,7 +459,7 @@ Changelog: `node scripts/make-changelog.js` → writes `changelog.xlsx`.
 
 ## Coordination Files (all in `agent_state/`)
 
-- `research_notes.md` — Research & UX writes; Developer reads before sprint planning
-- `review_notes.md` — Quality Gate writes findings; Developer reads and fixes
+- `research_notes.md` — Product/UX Agent writes; Developer reads before sprint planning
+- `review_notes.md` — Reviewer writes findings; Developer reads and fixes
 - `changelog_queue.json` — append-only JSON array; Documentation writes after every sprint
 - `iteration_log.md` — one row per sprint: number, date, what each agent did
