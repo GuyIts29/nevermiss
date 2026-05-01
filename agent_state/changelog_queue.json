@@ -1545,5 +1545,26 @@
     "action": "fixed",
     "file": "src/components/ChannelPicker.tsx",
     "description": "תוקן BUG-070 — text-left → text-start על ספן תוויות הערוצים"
+  },
+  {
+    "timestamp": "2026-05-01T14:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/premium/BirthdayGreetingEditorScreen.tsx",
+    "description": "תוקן BUG-071 — כל המחרוזות האנגליות hardcoded הועברו למפתחות i18n (כותרת, סגנונות, תצוגה מקדימה, ספירת תווים)"
+  },
+  {
+    "timestamp": "2026-05-01T14:30:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "נוספו 14 מפתחות i18n לעורך ברכות יום הולדת (birthday_greeting_* + birthday_tier_*) — EN + HE"
+  },
+  {
+    "timestamp": "2026-05-01T14:30:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/CalendarScreen.tsx",
+    "description": "תוקן BUG-071 — aria-label של כפתור הסינון הוחלף ב-t('calendar_filterByReligion') במקום מחרוזת hardcoded"
   }
 ]

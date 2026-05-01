@@ -575,3 +575,13 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Found by:** Developer — Bug Fix Mode scan
 - **Fixed by:** Developer — 2026-05-01
 - **Fix:** Added `useLang` + `const { lang }` to ContactCard, HolidayCard, and Card. Changed all `borderLeft` to computed key `[lang === 'he' ? 'borderRight' : 'borderLeft']`. Changed `text-left` to `text-start` in ContactCard and ChannelPicker.
+
+---
+
+### BUG-071 — BirthdayGreetingEditorScreen has hardcoded English UI strings (not translated to Hebrew)
+- **Date:** 2026-05-01 | **Time:** 14:30 | **Status:** ✅ fixed
+- **Files:** `src/screens/premium/BirthdayGreetingEditorScreen.tsx`, `src/i18n/index.ts`, `src/screens/CalendarScreen.tsx`
+- **Bug:** BirthdayGreetingEditorScreen showed English strings in a Hebrew-first app: tier names (Heartfelt/Celebratory/Elegant), descriptions, page subtitle "Birthday Greeting", prompt text, "Choose Style", "Preview", "Birthday Message", and character count. CalendarScreen filter button had hardcoded `aria-label="Filter by religion"` despite the key existing in i18n.
+- **Found by:** Developer — Bug Fix Mode scan
+- **Fixed by:** Developer — 2026-05-01
+- **Fix:** Added 14 new i18n keys (`birthday_greeting_*`, `birthday_tier_*`) in both EN and HE. Moved `BIRTHDAY_TIERS` array inside the component to use `t()`. Replaced all 8 hardcoded strings with `t()` calls. CalendarScreen filter button now uses `t('calendar_filterByReligion')` for `aria-label`.

@@ -20,18 +20,18 @@ interface TierOption {
   desc: string
 }
 
-const BIRTHDAY_TIERS: TierOption[] = [
-  { value: 'friendly', label: 'Heartfelt', emoji: '💝', desc: 'Warm & personal' },
-  { value: 'internal', label: 'Celebratory', emoji: '🎉', desc: 'Fun & festive' },
-  { value: 'vip', label: 'Elegant', emoji: '🌹', desc: 'Formal & refined' },
-]
-
 export function BirthdayGreetingEditorScreen() {
   const { id } = useParams<{ id: string }>()
   const { contacts } = useApp()
 
   const contact = contacts.find(c => c.id === id)
   const t = useT()
+
+  const BIRTHDAY_TIERS: TierOption[] = [
+    { value: 'friendly', label: t('birthday_tier_heartfelt'), emoji: '💝', desc: t('birthday_tier_heartfelt_desc') },
+    { value: 'internal', label: t('birthday_tier_celebratory'), emoji: '🎉', desc: t('birthday_tier_celebratory_desc') },
+    { value: 'vip', label: t('birthday_tier_elegant'), emoji: '🌹', desc: t('birthday_tier_elegant_desc') },
+  ]
   const [tone, setTone] = useState<GreetingTone>('friendly')
   const [language, setLanguage] = useState<Language>(contact?.language ?? 'english')
   const [message, setMessage] = useState('')
@@ -75,7 +75,7 @@ export function BirthdayGreetingEditorScreen() {
 
   return (
     <div className="screen-container">
-      <PageHeader title={`🎂 ${contact.name}`} subtitle="Birthday Greeting" back />
+      <PageHeader title={`🎂 ${contact.name}`} subtitle={t('birthday_greeting_subtitle')} back />
 
       <div className="page-content space-y-4 pb-10">
         {/* Birthday themed header */}
@@ -94,7 +94,7 @@ export function BirthdayGreetingEditorScreen() {
             </div>
             <div className="flex-1">
               <p className="text-white font-bold text-base leading-tight">{contact.name}</p>
-              <p className="text-white/75 text-xs mt-0.5">Craft a perfect birthday message</p>
+              <p className="text-white/75 text-xs mt-0.5">{t('birthday_greeting_craft')}</p>
             </div>
             <span className="text-3xl animate-float">🎂</span>
           </div>
@@ -102,7 +102,7 @@ export function BirthdayGreetingEditorScreen() {
 
         {/* Tier selector */}
         <div>
-          <p className="form-label mb-2">Choose Style</p>
+          <p className="form-label mb-2">{t('birthday_greeting_choose_style')}</p>
           <div className="flex gap-2">
             {BIRTHDAY_TIERS.map(tier => (
               <button
@@ -163,7 +163,7 @@ export function BirthdayGreetingEditorScreen() {
           <div className="space-y-3 animate-slide-up">
             {/* Live gift card preview */}
             <div>
-              <p className="form-label mb-2">Preview</p>
+              <p className="form-label mb-2">{t('birthday_greeting_preview')}</p>
               <div
                 className="relative rounded-[var(--border-radius-lg)] p-4"
                 style={{
@@ -173,7 +173,7 @@ export function BirthdayGreetingEditorScreen() {
               >
                 <div className="flex items-center gap-2 mb-2.5">
                   <span className="text-lg">{activeTier.emoji}</span>
-                  <span className="text-xs font-semibold text-[#EC4899]">Birthday Message — {activeTier.label}</span>
+                  <span className="text-xs font-semibold text-[#EC4899]">{t('birthday_greeting_preview_badge')} — {activeTier.label}</span>
                 </div>
                 <p className="text-sm text-[var(--color-text-primary)] leading-relaxed whitespace-pre-wrap">{message}</p>
                 {/* Chat bubble tail */}
@@ -195,14 +195,14 @@ export function BirthdayGreetingEditorScreen() {
                   <button
                     onClick={generate}
                     className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors"
-                    title="Regenerate"
+                    aria-label={t('greeting_regenerate')}
                   >
                     <RefreshCw size={13} className="text-[var(--color-text-muted)]" />
                   </button>
                   <button
                     onClick={handleCopy}
                     className="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-lg hover:bg-[var(--color-surface-2)] transition-colors relative"
-                    title="Copy"
+                    aria-label={t('greeting_copy')}
                   >
                     {showConfetti && (
                       <span className="absolute -top-1 -right-1 text-base animate-confetti pointer-events-none">🎉</span>
@@ -216,7 +216,7 @@ export function BirthdayGreetingEditorScreen() {
               </div>
               <Textarea value={message} onChange={e => setMessage(e.target.value)} rows={7} className="text-sm" />
               <p className="text-right text-[10px] text-[var(--color-text-muted)] mt-1.5">
-                {message.length} characters
+{t('birthday_greeting_chars', { n: String(message.length) })}
               </p>
             </Card>
           </div>
