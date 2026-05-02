@@ -216,6 +216,7 @@ const TESTS = [
   { id: 'T143', cat: 'sprint18', name: 'BL-075: ContactCard — 3-dot MoreVertical menu; Edit מנווט לטופס; Delete פותח confirm modal; סגירה על-ידי outside click + Escape; aria-label; dropdown RTL-aware' },
   { id: 'T144', cat: 'sprint18', name: 'BL-049: BottomNav active tab — box-shadow inset 0 2px 0 var(--color-primary) + opacity-20 icon glow; active tab ברור ומובחן; ללא רגרסיה' },
   { id: 'T145', cat: 'sprint19', name: 'BL-079: contactConfig.ts single source of truth; normalizeLanguage/normalizeReligion מקבלים raw key / EN label / HE label; CSV template מלוקלי לפי app lang; Religion dropdown ב-ContactForm מסודר לפי שפת הקשר; build+lint ✅' },
+  { id: 'T146', cat: 'sprint20', name: 'BL-076: Hebrew Birthday column בתבנית CSV (EN+HE); DETECTABLE_FIELDS: hebrewBirthday לפני birthday; processImport כותב hebrewBirthday; round-trip export↔import תקין; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

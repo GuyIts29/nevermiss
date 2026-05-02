@@ -15,13 +15,13 @@ import { clsx } from 'clsx'
 function downloadCSVTemplate(locale: 'en' | 'he') {
   const isHe = locale === 'he'
   const headers = isHe
-    ? 'שם,טלפון,אימייל,יום הולדת,מחלקה,תפקיד,דת,שפה,הערות'
-    : 'Name,Phone,Email,Birthday,Department,Role,Religion,Language,Notes'
+    ? 'שם,טלפון,אימייל,יום הולדת,יום הולדת עברי (יום-חודש),מחלקה,תפקיד,דת,שפה,הערות'
+    : 'Name,Phone,Email,Birthday,Hebrew Birthday (DD-MM),Department,Role,Religion,Language,Notes'
   const religion = getReligionDisplayValue('Judaism', locale)
   const language = getLanguageDisplayValue(isHe ? 'hebrew' : 'english', locale)
   const example = isHe
-    ? `ישראל ישראלי,0501234567,israel@example.com,1990-05-15,פיתוח,מנהל,${religion},${language},`
-    : `John Doe,0501234567,john@example.com,1990-05-15,Development,Manager,${religion},${language},`
+    ? `ישראל ישראלי,0501234567,israel@example.com,1990-05-15,14-07,פיתוח,מנהל,${religion},${language},`
+    : `John Doe,0501234567,john@example.com,1990-05-15,14-07,Development,Manager,${religion},${language},`
   const bom = '﻿'
   const blob = new Blob([bom + headers + '\n' + example + '\n'], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)

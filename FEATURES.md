@@ -279,6 +279,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Auto-detect column names (multi-language patterns including Hebrew)
 - Column validation (name required)
 - Contact object creation from mapped columns
+- **Hebrew Birthday column support** ✅ _Sprint 20 (BL-076)_ — `hebrewBirthday` auto-detected from "Hebrew Birthday" / "יום הולדת עברי" headers; written to Contact; `hebrewBirthday` pattern ordered before `birthday` to prevent false match
 
 #### Notification Service (`src/services/notificationService.ts`)
 - Browser Notification API wrapper

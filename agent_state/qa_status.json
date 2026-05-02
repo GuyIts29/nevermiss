@@ -673,5 +673,9 @@
   "T145": {
     "status": "✅",
     "notes": "BL-079 יושם — contactConfig.ts: LANGUAGE_KEYS/RELIGION_KEYS/LANGUAGE_RELIGION_ORDER/normalizeLanguage/normalizeReligion/getLanguageDisplayValue/getReligionDisplayValue; importService.ts: normalizeLanguage+normalizeReligion במקום cast ישיר; ImportContactsScreen.tsx: CSV headers+example row מלוקלים לפי lang; ContactFormScreen.tsx: Religion dropdown מסודר לפי LANGUAGE_RELIGION_ORDER; build+lint ✅; normalization tests ✅"
+  },
+  "T146": {
+    "status": "✅",
+    "notes": "BL-076 יושם — importService.ts: hebrewBirthday ב-DETECTABLE_FIELDS (לפני birthday) + processImport; ImportContactsScreen.tsx: עמודת Hebrew Birthday (DD-MM) בתבנית EN+HE; round-trip export↔import תקין; build+lint ✅"
   }
 }

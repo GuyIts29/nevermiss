@@ -1923,5 +1923,26 @@
     "action": "modified",
     "file": "BACKLOG.md",
     "description": "BL-079 עודכן ל-Done Sprint 19"
+  },
+  {
+    "timestamp": "2026-05-02T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/services/importService.ts",
+    "description": "BL-076 — נוסף hebrewBirthday ל-DETECTABLE_FIELDS (לפני birthday כדי למנוע התאמה שגויה); processImport כותב hebrewBirthday לאובייקט Contact"
+  },
+  {
+    "timestamp": "2026-05-02T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/premium/ImportContactsScreen.tsx",
+    "description": "BL-076 — נוסף עמודת 'Hebrew Birthday (DD-MM)' / 'יום הולדת עברי (יום-חודש)' לתבנית CSV להורדה; שורת הדוגמה מציגה 14-07 כדוגמת פורמט"
+  },
+  {
+    "timestamp": "2026-05-02T10:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "BL-076 עודכן ל-Done Sprint 20"
   }
 ]
