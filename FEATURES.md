@@ -48,6 +48,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Free section: name, phone, relationship type, contact type (internal/external), religion, language, importance, interaction frequency, last contact date, notes
 - Premium section (amber border, locked fields): birthday, Hebrew birthday (Judaism contacts), email, department, role, team
 - **Hebrew Birthday field** (optional, `"DD-MM"` format): Day + Month dropdowns for Hebrew calendar; shown for Judaism contacts or when already set; stored as `hebrewBirthday` on Contact; clear button ✅ _FEATURE_
+- **Group assignment** ✅ _Sprint 21 (BL-069)_ — optional group selector for new contacts only; selected group's contactIds updated on save; shown only when groups exist
 - Auto-focus on name for new contacts
 - Save bar with gradient fade
 
@@ -68,6 +69,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Gradient emoji circle (w-12 h-12)
 - Contact count + holiday count pills
 - Create/edit group modal (name, description, color picker, emoji picker)
+- **Contact picker in group modal** ✅ _Sprint 21 (BL-068)_ — searchable list of contacts with checkboxes in create/edit modal; selectedContactIds initialized from group; saved to contactIds on submit
 - Free-tier limit: 2 groups
 - Group cards are `<button>` elements (keyboard accessible) ✅ _Iteration 12_
 
@@ -168,6 +170,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Urgency badge as colored pill
 - `<button>` element (WCAG 2.1.1 keyboard accessible) ✅ _Iteration 8_
 - Crown and Building2 icons have `aria-hidden="true"` ✅ _Iteration 12_
+- **Score badge is tappable** ✅ _Sprint 21 (BL-082)_ — tap opens tooltip explaining score (title + body); EN+HE; click-outside/Escape close
 
 #### HolidayCard (`src/components/HolidayCard.tsx`)
 - Compact: gradient-tinted background + left color border
@@ -280,6 +283,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Column validation (name required)
 - Contact object creation from mapped columns
 - **Hebrew Birthday column support** ✅ _Sprint 20 (BL-076)_ — `hebrewBirthday` auto-detected from "Hebrew Birthday" / "יום הולדת עברי" headers; written to Contact; `hebrewBirthday` pattern ordered before `birthday` to prevent false match
+- **Birthday normalization** ✅ _Sprint 21 (BL-084)_ — `normalizeBirthday()` normalizes CSV birthday strings to YYYY-MM-DD; handles ISO, DD/MM/YYYY, and other common formats; prevents RangeError crash in ContactDetailScreen
 
 #### Notification Service (`src/services/notificationService.ts`)
 - Browser Notification API wrapper

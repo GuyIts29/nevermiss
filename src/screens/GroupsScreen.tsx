@@ -31,6 +31,8 @@ export function GroupsScreen() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [selectedHolidayIds, setSelectedHolidayIds] = useState<string[]>([])
   const [holidaySearch, setHolidaySearch] = useState('')
+  const [selectedContactIds, setSelectedContactIds] = useState<string[]>([])
+  const [contactSearch, setContactSearch] = useState('')
 
   const uniqueHolidays = useMemo(() => {
     const seen = new Map<string, typeof holidays[0]>()
@@ -75,12 +77,15 @@ export function GroupsScreen() {
       setEditingGroup(group)
       setForm({ name: group.name, description: group.description ?? '', color: group.color, emoji: group.emoji, purpose: group.purpose })
       setSelectedHolidayIds(group.holidayIds ?? [])
+      setSelectedContactIds(group.contactIds ?? [])
     } else {
       setEditingGroup(null)
       setForm({ name: '', description: '', color: GROUP_COLORS[0], emoji: GROUP_EMOJIS[0], purpose: undefined })
       setSelectedHolidayIds([])
+      setSelectedContactIds([])
     }
     setHolidaySearch('')
+    setContactSearch('')
     setShowForm(true)
   }
 
@@ -88,8 +93,9 @@ export function GroupsScreen() {
     if (!form.name.trim()) return
     const now = new Date().toISOString()
     const resolvedHolidayIds = isPremium ? selectedHolidayIds : (editingGroup?.holidayIds ?? [])
+    const resolvedContactIds = isPremium ? selectedContactIds : (editingGroup?.contactIds ?? [])
     if (editingGroup) {
-      updateGroup({ ...editingGroup, ...form, holidayIds: resolvedHolidayIds, updatedAt: now })
+      updateGroup({ ...editingGroup, ...form, holidayIds: resolvedHolidayIds, contactIds: resolvedContactIds, updatedAt: now })
     } else {
       addGroup({
         id: generateId(),
@@ -98,7 +104,7 @@ export function GroupsScreen() {
         color: form.color,
         emoji: form.emoji,
         purpose: form.purpose,
-        contactIds: [],
+        contactIds: resolvedContactIds,
         holidayIds: resolvedHolidayIds,
         createdAt: now,
         updatedAt: now,
@@ -353,6 +359,67 @@ export function GroupsScreen() {
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Contact Members */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-base">👥</span>
+              <p className="font-semibold text-sm">{t('groups_membersSection')}</p>
+              {!isPremium && <Crown size={13} className="text-amber-500" />}
+            </div>
+            {!isPremium ? (
+              <p className="text-xs text-[var(--color-text-muted)] italic">
+                {t('groups_membersSection')} — Premium only
+              </p>
+            ) : (
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  placeholder={t('groups_searchContacts')}
+                  value={contactSearch}
+                  onChange={e => setContactSearch(e.target.value)}
+                  className="w-full px-3 py-1.5 text-sm rounded-[var(--border-radius)] border border-[var(--color-border)] bg-[var(--color-surface)]"
+                />
+                <div className="max-h-48 overflow-y-auto space-y-1 rounded-[var(--border-radius)] border border-[var(--color-border)] p-1">
+                  {contacts
+                    .filter(c => {
+                      const q = contactSearch.toLowerCase()
+                      return !q || c.name.toLowerCase().includes(q)
+                    })
+                    .map(c => {
+                      const selected = selectedContactIds.includes(c.id)
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => setSelectedContactIds(prev =>
+                            selected ? prev.filter(id => id !== c.id) : [...prev, c.id]
+                          )}
+                          className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-start text-sm transition-colors"
+                          style={selected ? { background: form.color + '22', border: `1px solid ${form.color}44` } : {}}
+                        >
+                          <div
+                            className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0"
+                            style={selected ? { borderColor: 'var(--color-primary)', background: 'var(--color-primary)' } : { borderColor: 'var(--color-border)' }}
+                          >
+                            {selected && <span className="text-white text-[10px]">✓</span>}
+                          </div>
+                          <span className="flex-1 truncate">{c.name}</span>
+                          {c.department && (
+                            <span className="text-[10px] text-[var(--color-text-muted)] shrink-0">{c.department}</span>
+                          )}
+                        </button>
+                      )
+                    })}
+                </div>
+                {selectedContactIds.length > 0 && (
+                  <p className="text-xs" style={{ color: theme.primary }}>
+                    {t('groups_membersSelected', { n: selectedContactIds.length })}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Holiday Assignment */}

@@ -709,3 +709,15 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 - **Root cause:** Under investigation. @hebcal/core must be called with `il: true` for Israeli date rules. Notification trigger must use Asia/Jerusalem timezone. A missing-date safeguard is also absent.
 - **Fix:** parseDateLocal() helper replaces all new Date("YYYY-MM-DD") calls in notificationService.ts. Parses date strings as local midnight (new Date(y, m-1, d)) avoiding UTC offset shift. Added missing-date safeguards for holiday.date. Hebcal Israel mode (il:true) was already correct — no change needed. Fixed Sprint 17.
 - **Found by:** User report — 2026-05-01
+
+---
+
+### BUG-084 — Imported contact opens error page (RangeError on invalid birthday)
+
+- **Date:** 2026-05-02 | **Time:** 11:00 | **Status:** ✅ fixed
+- **Files:** `src/services/importService.ts`, `src/screens/ContactDetailScreen.tsx`
+- **Bug:** Clicking an imported contact navigated to the contact detail screen which crashed with an unhandled `RangeError: Invalid time value`. The ErrorBoundary caught it and showed "😔 משהו השתבש". Root cause: `date-fns` `format()` throws on `Invalid Date` objects; contact.birthday stored from CSV as-is (e.g. `15/05/1990` DD/MM/YYYY) was not in ISO format, producing `Invalid Date` when passed to `new Date()`.
+- **Root cause:** Two gaps: (1) importService.ts stored raw CSV birthday string without format normalization; (2) ContactDetailScreen had no validity guard before calling `format(new Date(contact.birthday), 'MMMM d')`.
+- **Fix:** (1) Added `normalizeBirthday()` in importService.ts — parses common date formats and converts to YYYY-MM-DD, returns undefined for unparseable values. (2) Added `!isNaN(new Date(contact.birthday).getTime())` guard in ContactDetailScreen.tsx before the `format()` call (defense-in-depth for existing bad data).
+- **Found by:** User report — 2026-05-02
+- **Fixed by:** Developer — Sprint 21 (2026-05-02)

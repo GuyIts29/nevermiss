@@ -261,7 +261,7 @@ export function ContactDetailScreen() {
                 value={`${format(new Date(contact.lastContactDate), 'MMM d, yyyy')} (${formatDistanceToNow(new Date(contact.lastContactDate))} ago)`}
               />
             )}
-            {contact.birthday && isPremium && (
+            {contact.birthday && isPremium && !isNaN(new Date(contact.birthday).getTime()) && (
               <DetailRow icon={<Gift size={14} />} label={t('contactDetail_birthday')} value={format(new Date(contact.birthday), 'MMMM d')} />
             )}
             {contact.hebrewBirthday && isPremium && (

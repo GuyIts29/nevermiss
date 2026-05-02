@@ -677,5 +677,26 @@
   "T146": {
     "status": "✅",
     "notes": "BL-076 יושם — importService.ts: hebrewBirthday ב-DETECTABLE_FIELDS (לפני birthday) + processImport; ImportContactsScreen.tsx: עמודת Hebrew Birthday (DD-MM) בתבנית EN+HE; round-trip export↔import תקין; build+lint ✅"
+  },
+  "BUG-084": {
+    "status": "fixed",
+    "fixedAt": "2026-05-02T11:00:00",
+    "description": "ContactDetailScreen קרס כאשר contact.birthday לא היה בפורמט ISO (למשל DD/MM/YYYY מ-CSV); format() של date-fns זרק RangeError על Invalid Date. תוקן ב-importService.ts (normalizeBirthday) וב-ContactDetailScreen.tsx (isNaN guard)"
+  },
+  "T147": {
+    "status": "✅",
+    "notes": "BL-084 תוקן — normalizeBirthday() ב-importService.ts; isNaN guard ב-ContactDetailScreen.tsx; מונע קריסה על תאריכים בפורמט שגוי; build+lint ✅"
+  },
+  "T148": {
+    "status": "✅",
+    "notes": "BL-082 יושם — תג הציון ב-ContactCard הפך ל-button; tooltip עם score_tipTitle/score_tipBody בלחיצה; EN+HE; click-outside סוגר; build+lint ✅"
+  },
+  "T149": {
+    "status": "✅",
+    "notes": "BL-068 יושם — contact picker ב-GroupsScreen modal; selectedContactIds state; openForm מאתחל מ-group.contactIds; handleSave שומר; EN+HE; build+lint ✅"
+  },
+  "T150": {
+    "status": "✅",
+    "notes": "BL-069 יושם — group selector ב-ContactFormScreen (חדש בלבד); לאחר addContact מעדכן group.contactIds; EN+HE; build+lint ✅"
   }
 }

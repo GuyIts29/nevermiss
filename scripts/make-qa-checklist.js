@@ -217,6 +217,10 @@ const TESTS = [
   { id: 'T144', cat: 'sprint18', name: 'BL-049: BottomNav active tab — box-shadow inset 0 2px 0 var(--color-primary) + opacity-20 icon glow; active tab ברור ומובחן; ללא רגרסיה' },
   { id: 'T145', cat: 'sprint19', name: 'BL-079: contactConfig.ts single source of truth; normalizeLanguage/normalizeReligion מקבלים raw key / EN label / HE label; CSV template מלוקלי לפי app lang; Religion dropdown ב-ContactForm מסודר לפי שפת הקשר; build+lint ✅' },
   { id: 'T146', cat: 'sprint20', name: 'BL-076: Hebrew Birthday column בתבנית CSV (EN+HE); DETECTABLE_FIELDS: hebrewBirthday לפני birthday; processImport כותב hebrewBirthday; round-trip export↔import תקין; build+lint ✅' },
+  { id: 'T147', cat: 'sprint21', name: 'BL-084: normalizeBirthday() ב-importService.ts; isNaN guard ב-ContactDetailScreen.tsx; קשר מיובא עם תאריך לא-ISO נפתח ללא קריסה; build+lint ✅' },
+  { id: 'T148', cat: 'sprint21', name: 'BL-082: תג ציון ב-ContactCard הפך ל-button; לחיצה מציגה tooltip עם הסבר ציון; click-outside/Escape סוגרים; EN+HE; build+lint ✅' },
+  { id: 'T149', cat: 'sprint21', name: 'BL-068: contact picker ב-GroupsScreen modal (Premium); selectedContactIds נשמרים ב-handleSave; חיפוש אנשי קשר; EN+HE; build+lint ✅' },
+  { id: 'T150', cat: 'sprint21', name: 'BL-069: group selector ב-ContactFormScreen לאנשי קשר חדשים; לאחר addContact מעדכן group.contactIds; EN+HE; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

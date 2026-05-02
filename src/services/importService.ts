@@ -50,6 +50,22 @@ export async function parseCSV(file: File): Promise<ImportPreview> {
   })
 }
 
+function normalizeBirthday(raw: string | undefined): string | undefined {
+  if (!raw) return undefined
+  const trimmed = raw.trim()
+  if (!trimmed) return undefined
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    const d = new Date(trimmed)
+    return isNaN(d.getTime()) ? undefined : trimmed
+  }
+  const parsed = new Date(trimmed)
+  if (isNaN(parsed.getTime())) return undefined
+  const y = parsed.getFullYear()
+  const m = String(parsed.getMonth() + 1).padStart(2, '0')
+  const day = String(parsed.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
 export async function processImport(
   file: File,
   columns: ImportColumn[]
@@ -92,7 +108,7 @@ export async function processImport(
             contactType: 'external',
             createdAt: now,
             updatedAt: now,
-            birthday: mapped.birthday,
+            birthday: normalizeBirthday(mapped.birthday),
             hebrewBirthday: mapped.hebrewBirthday,
             email: mapped.email,
             department: mapped.department,

@@ -48,7 +48,7 @@ function SectionHeader({ icon: Icon, title, color }: SectionHeaderProps) {
 export function ContactFormScreen() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const { contacts, addContact, updateContact, deleteContact, isPremium, showPremiumUI } = useApp()
+  const { contacts, groups, addContact, updateContact, deleteContact, updateGroup, isPremium, showPremiumUI } = useApp()
   const t = useT()
   const { lang } = useLang()
   const { theme } = useTheme()
@@ -85,6 +85,7 @@ export function ContactFormScreen() {
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false)
   const [duplicateContact, setDuplicateContact] = useState<Contact | null>(null)
   const [useGradientAvatar, setUseGradientAvatar] = useState(!existing?.avatarColor)
+  const [selectedGroupId, setSelectedGroupId] = useState('')
 
   const set = <K extends keyof Contact>(key: K, value: Contact[K]) => {
     setForm(f => ({ ...f, [key]: value }))
@@ -167,6 +168,12 @@ export function ContactFormScreen() {
     if (isNew) {
       addContact(contact)
       trackEvent('contact_created')
+      if (selectedGroupId) {
+        const group = groups.find(g => g.id === selectedGroupId)
+        if (group) {
+          updateGroup({ ...group, contactIds: [...group.contactIds, contact.id], updatedAt: now })
+        }
+      }
     } else {
       updateContact(contact)
     }
@@ -490,6 +497,21 @@ export function ContactFormScreen() {
             rows={3}
           />
         </div>
+
+        {/* Group assignment — new contacts only */}
+        {isNew && groups.length > 0 && (
+          <div className="card">
+            <Select
+              label={t('contactForm_assignGroup')}
+              value={selectedGroupId}
+              onChange={e => setSelectedGroupId(e.target.value)}
+              options={[
+                { value: '', label: t('contactForm_noGroup') },
+                ...groups.map(g => ({ value: g.id, label: `${g.emoji} ${g.name}` })),
+              ]}
+            />
+          </div>
+        )}
       </div>
 
       {/* Fixed save bar */}

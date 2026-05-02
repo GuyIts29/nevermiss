@@ -34,17 +34,19 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
+  const [showScoreTip, setShowScoreTip] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!menuOpen) return
+    if (!menuOpen && !showScoreTip) return
     function handleOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setMenuOpen(false)
+        setShowScoreTip(false)
       }
     }
     function handleEscape(e: KeyboardEvent) {
-      if (e.key === 'Escape') setMenuOpen(false)
+      if (e.key === 'Escape') { setMenuOpen(false); setShowScoreTip(false) }
     }
     document.addEventListener('mousedown', handleOutside)
     document.addEventListener('keydown', handleEscape)
@@ -52,7 +54,7 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
       document.removeEventListener('mousedown', handleOutside)
       document.removeEventListener('keydown', handleEscape)
     }
-  }, [menuOpen])
+  }, [menuOpen, showScoreTip])
 
   const urgencyColor = score
     ? score.urgencyLevel === 'critical' ? '#EF4444'
@@ -146,15 +148,32 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
         {/* Right: score, phone, 3-dot */}
         <div className="flex flex-col items-end gap-1.5 shrink-0 relative" ref={menuRef}>
           {score && (
-            <span
-              className="text-xs font-bold px-2 py-0.5 rounded-full"
+            <button
+              type="button"
+              className="text-xs font-bold px-2 py-0.5 rounded-full min-h-[28px] transition-opacity hover:opacity-80"
               style={{
                 backgroundColor: `${urgencyColor}20`,
                 color: urgencyColor === 'var(--color-border)' ? 'var(--color-text-muted)' : urgencyColor,
               }}
+              aria-label={t('score_tipTitle')}
+              onClick={e => { e.stopPropagation(); setMenuOpen(false); setShowScoreTip(v => !v) }}
             >
               {score.total}
-            </span>
+            </button>
+          )}
+          {showScoreTip && (
+            <div
+              className="absolute z-50 top-full mt-1 rounded-[var(--border-radius)] shadow-xl border border-[var(--color-border)] p-3 text-xs"
+              style={{
+                background: 'var(--color-surface)',
+                [lang === 'he' ? 'left' : 'right']: 0,
+                minWidth: '200px',
+                maxWidth: '240px',
+              }}
+            >
+              <p className="font-bold text-[var(--color-text-primary)] mb-1">{t('score_tipTitle')}</p>
+              <p className="text-[var(--color-text-secondary)] leading-relaxed">{t('score_tipBody')}</p>
+            </div>
           )}
           {contact.phone && (
             <MessageCircle size={13} className="text-green-500" />

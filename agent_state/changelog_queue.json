@@ -1944,5 +1944,61 @@
     "action": "modified",
     "file": "BACKLOG.md",
     "description": "BL-076 עודכן ל-Done Sprint 20"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/services/importService.ts",
+    "description": "BL-084 / BUG-084 — נוסף normalizeBirthday() שמנרמלת תאריכים לפורמט YYYY-MM-DD; מונע שגיאת RangeError כאשר תאריך ה-CSV אינו בפורמט ISO"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-084 / BUG-084 — נוסף !isNaN guard לפני format(new Date(contact.birthday)) כדי למנוע קריסה על תאריכים שגויים בנתונים קיימים"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-082 — נוספו מפתחות score_tipTitle ו-score_tipBody ב-EN וב-HE לתיאור ציון הקשר"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/ContactCard.tsx",
+    "description": "BL-082 — הפיכת תג הציון ל-button ניתן ללחיצה; הוסף tooltip עם הסבר על חישוב הציון; showScoreTip state + click-outside handler"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-068 — נוספו מפתחות groups_membersSection, groups_searchContacts, groups_membersSelected ב-EN וב-HE"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "BL-068 — נוסף contact picker ב-modal יצירת/עריכת קבוצה; selectedContactIds state; openForm מאתחל מ-group.contactIds; handleSave שומר contactIds"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-069 — נוספו מפתחות contactForm_assignGroup ו-contactForm_noGroup ב-EN וב-HE"
+  },
+  {
+    "timestamp": "2026-05-02T11:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "BL-069 — נוסף group selector ב-form (מוצג רק לאנשי קשר חדשים); לאחר addContact מעדכן group.contactIds אם נבחרה קבוצה"
   }
 ]
