@@ -2000,5 +2000,47 @@
     "action": "modified",
     "file": "src/screens/ContactFormScreen.tsx",
     "description": "BL-069 — נוסף group selector ב-form (מוצג רק לאנשי קשר חדשים); לאחר addContact מעדכן group.contactIds אם נבחרה קבוצה"
+  },
+  {
+    "timestamp": "2026-05-02T12:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "BL-050 ו-BL-052 עודכנו ל-Done — שניהם יושמו בעבר (Sprint 5) אך נשארו בטעות ב-Backlog"
+  },
+  {
+    "timestamp": "2026-05-02T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/services/importService.ts",
+    "description": "BL-092 — נוסף celebrationType ל-DETECTABLE_FIELDS; normalizeCelebrationType() ממפה ערכים (Jewish/Christian/Muslim/Druze/Secular); processImport כותב celebrationType לאיש הקשר"
+  },
+  {
+    "timestamp": "2026-05-02T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/services/importService.ts",
+    "description": "BL-090 — נוסף normalizeHebrewBirthday() שמאמת פורמט DD-MM; processImport עכשיו מנרמל hebrewBirthday לפני שמירה; ערכים לא תקינים מוחזרים כ-undefined"
+  },
+  {
+    "timestamp": "2026-05-02T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-090 — נוסף regex guard /^\\d{1,2}-\\d{1,2}$/ לפני הצגת hebrewBirthday; מונע הצגת שורה ריקה על ערכים לא תקינים"
+  },
+  {
+    "timestamp": "2026-05-02T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-091 — נוסף מפתח settings_exportGroupWarning ב-EN וב-HE; מזהיר את המשתמש ששיוך לקבוצות לא נכלל בייצוא CSV"
+  },
+  {
+    "timestamp": "2026-05-02T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BL-091 — נוסף טקסט אזהרה מתחת לכפתור ייצוא CSV: 'שיוך לקבוצות לא נכלל בייצוא ה-CSV'"
   }
 ]

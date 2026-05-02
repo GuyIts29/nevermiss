@@ -698,5 +698,17 @@
   "T150": {
     "status": "✅",
     "notes": "BL-069 יושם — group selector ב-ContactFormScreen (חדש בלבד); לאחר addContact מעדכן group.contactIds; EN+HE; build+lint ✅"
+  },
+  "T151": {
+    "status": "✅",
+    "notes": "BL-092 יושם — celebrationType ב-DETECTABLE_FIELDS; normalizeCelebrationType() ממפה ערכים; processImport כותב celebrationType; round-trip export-import תקין; build+lint ✅"
+  },
+  "T152": {
+    "status": "✅",
+    "notes": "BL-090 יושם — normalizeHebrewBirthday() מאמת פורמט DD-MM בייבוא; regex guard ב-ContactDetailScreen מונע הצגת ערך לא תקין; build+lint ✅"
+  },
+  "T153": {
+    "status": "✅",
+    "notes": "BL-091 יושם — settings_exportGroupWarning EN+HE; טקסט אזהרה מתחת לכפתור ייצוא CSV ב-SettingsScreen; build+lint ✅"
   }
 }

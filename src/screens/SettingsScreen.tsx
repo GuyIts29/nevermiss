@@ -298,6 +298,9 @@ export function SettingsScreen() {
                   : lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                 }
               </button>
+              <p className="px-3 py-1.5 text-xs text-[var(--color-text-muted)] border-b border-[var(--color-border)]">
+                {t('settings_exportGroupWarning')}
+              </p>
               <button
                 onClick={() => {
                   exportBackupJSON()

@@ -284,6 +284,8 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Contact object creation from mapped columns
 - **Hebrew Birthday column support** ✅ _Sprint 20 (BL-076)_ — `hebrewBirthday` auto-detected from "Hebrew Birthday" / "יום הולדת עברי" headers; written to Contact; `hebrewBirthday` pattern ordered before `birthday` to prevent false match
 - **Birthday normalization** ✅ _Sprint 21 (BL-084)_ — `normalizeBirthday()` normalizes CSV birthday strings to YYYY-MM-DD; handles ISO, DD/MM/YYYY, and other common formats; prevents RangeError crash in ContactDetailScreen
+- **Hebrew birthday validation** ✅ _Sprint 22 (BL-090)_ — `normalizeHebrewBirthday()` validates DD-MM format; rejects malformed strings (returns `undefined`); prevents garbage data being stored from CSV import
+- **celebrationType round-trip** ✅ _Sprint 22 (BL-092)_ — `celebrationType` added to `DETECTABLE_FIELDS`; `normalizeCelebrationType()` maps common inputs to `CelebrationType` enum; `processImport` writes it to Contact; export↔import round-trip complete
 
 #### Notification Service (`src/services/notificationService.ts`)
 - Browser Notification API wrapper
@@ -386,7 +388,7 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Sprint 2 active.
 
 - **Capacitor Local Notifications** — birthdays + holidays; smart reminder with days-since-contact logic (BL-023)
 - **Haptic feedback** — Capacitor Haptics on save/send/coupon-success (BL-024)
-- **Export contacts to CSV** — Premium feature (BL-025)
+- **Export contacts to CSV** — Premium feature (BL-025); **group assignment warning** ✅ _Sprint 22 (BL-091)_ — note displayed below export button in SettingsScreen that group assignments are not included in the CSV
 - **celebrationType field** on Contact + holiday suggestions filter (BL-026)
 - **greetingService.ts refactor** — `HOLIDAY_SPECIFIC_BODIES` → already split to `src/data/greetingTemplates.ts` ✅
 - **date-fns named imports** — audit all imports for tree-shaking (BL-028)

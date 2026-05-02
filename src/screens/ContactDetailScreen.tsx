@@ -264,7 +264,7 @@ export function ContactDetailScreen() {
             {contact.birthday && isPremium && !isNaN(new Date(contact.birthday).getTime()) && (
               <DetailRow icon={<Gift size={14} />} label={t('contactDetail_birthday')} value={format(new Date(contact.birthday), 'MMMM d')} />
             )}
-            {contact.hebrewBirthday && isPremium && (
+            {contact.hebrewBirthday && isPremium && /^\d{1,2}-\d{1,2}$/.test(contact.hebrewBirthday) && (
               <DetailRow icon={<Gift size={14} />} label={t('contactDetail_hebrewBirthday')} value={formatHebrewBirthdayDisplay(contact.hebrewBirthday)} />
             )}
             <DetailRow

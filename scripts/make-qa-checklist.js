@@ -221,6 +221,9 @@ const TESTS = [
   { id: 'T148', cat: 'sprint21', name: 'BL-082: תג ציון ב-ContactCard הפך ל-button; לחיצה מציגה tooltip עם הסבר ציון; click-outside/Escape סוגרים; EN+HE; build+lint ✅' },
   { id: 'T149', cat: 'sprint21', name: 'BL-068: contact picker ב-GroupsScreen modal (Premium); selectedContactIds נשמרים ב-handleSave; חיפוש אנשי קשר; EN+HE; build+lint ✅' },
   { id: 'T150', cat: 'sprint21', name: 'BL-069: group selector ב-ContactFormScreen לאנשי קשר חדשים; לאחר addContact מעדכן group.contactIds; EN+HE; build+lint ✅' },
+  { id: 'T151', cat: 'sprint22', name: 'BL-092: celebrationType ב-DETECTABLE_FIELDS; normalizeCelebrationType(); processImport כותב celebrationType; round-trip export-import תקין; build+lint ✅' },
+  { id: 'T152', cat: 'sprint22', name: 'BL-090: normalizeHebrewBirthday() מאמת DD-MM בייבוא; regex guard ב-ContactDetailScreen; ערכים לא תקינים לא מוצגים; build+lint ✅' },
+  { id: 'T153', cat: 'sprint22', name: 'BL-091: settings_exportGroupWarning EN+HE; אזהרה מתחת לכפתור ייצוא CSV ב-SettingsScreen; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 import Papa from 'papaparse'
-import type { Contact, ImportPreview, ImportResult, ImportColumn, InteractionFrequency } from '@/types'
+import type { Contact, ImportPreview, ImportResult, ImportColumn, InteractionFrequency, CelebrationType } from '@/types'
 import { generateId } from './storageService'
 import { normalizeLanguage, normalizeReligion } from '@/data/contactConfig'
 
@@ -14,6 +14,7 @@ const DETECTABLE_FIELDS: Array<{ field: keyof Contact; patterns: string[] }> = [
   { field: 'religion', patterns: ['religion', 'faith', 'דת'] },
   { field: 'language', patterns: ['language', 'lang', 'שפה'] },
   { field: 'notes', patterns: ['notes', 'comments', 'remarks', 'הערות'] },
+  { field: 'celebrationType', patterns: ['celebration type', 'celebrationtype', 'celebration', 'סוג חגיגה'] },
 ]
 
 export function autoDetectColumns(headers: string[]): ImportColumn[] {
@@ -48,6 +49,25 @@ export async function parseCSV(file: File): Promise<ImportPreview> {
       error: reject,
     })
   })
+}
+
+const CELEBRATION_TYPE_MAP: Record<string, CelebrationType> = {
+  jewish: 'Jewish', jewish_celebration: 'Jewish',
+  christian: 'Christian',
+  muslim: 'Muslim', islam: 'Muslim', islamic: 'Muslim',
+  druze: 'Druze',
+  secular: 'Secular',
+}
+
+function normalizeCelebrationType(raw: string | undefined): CelebrationType | undefined {
+  if (!raw) return undefined
+  return CELEBRATION_TYPE_MAP[raw.trim().toLowerCase()] ?? undefined
+}
+
+function normalizeHebrewBirthday(raw: string | undefined): string | undefined {
+  if (!raw) return undefined
+  const trimmed = raw.trim()
+  return /^\d{1,2}-\d{1,2}$/.test(trimmed) ? trimmed : undefined
 }
 
 function normalizeBirthday(raw: string | undefined): string | undefined {
@@ -102,6 +122,7 @@ export async function processImport(
             language: normalizeLanguage(mapped.language) ?? 'english',
             relationshipType: 'colleague',
             religion: normalizeReligion(mapped.religion),
+            celebrationType: normalizeCelebrationType(mapped.celebrationType),
             notes: mapped.notes,
             importanceLevel: 'normal',
             interactionFrequency: 'monthly' as InteractionFrequency,
@@ -109,7 +130,7 @@ export async function processImport(
             createdAt: now,
             updatedAt: now,
             birthday: normalizeBirthday(mapped.birthday),
-            hebrewBirthday: mapped.hebrewBirthday,
+            hebrewBirthday: normalizeHebrewBirthday(mapped.hebrewBirthday),
             email: mapped.email,
             department: mapped.department,
             role: mapped.role,
