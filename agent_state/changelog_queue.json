@@ -2042,5 +2042,33 @@
     "action": "modified",
     "file": "src/screens/SettingsScreen.tsx",
     "description": "BL-091 — נוסף טקסט אזהרה מתחת לכפתור ייצוא CSV: 'שיוך לקבוצות לא נכלל בייצוא ה-CSV'"
+  },
+  {
+    "timestamp": "2026-05-02T15:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/context/AppContext.tsx",
+    "description": "BL-086 — תוקן deleteContact: מסיר את מזהה איש הקשר מכל הקבוצות שמכילות אותו לפני המחיקה; שומר על שלמות נתוני contactIds"
+  },
+  {
+    "timestamp": "2026-05-02T15:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/ContactsScreen.tsx",
+    "description": "BL-088 — תוקנה כותרת המשנה: מוצגות כעת 'X אנשי קשר' במקום 'X קבוצות'; שימוש במפתחות contacts_contact/contacts_contacts"
+  },
+  {
+    "timestamp": "2026-05-02T15:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactsScreen.tsx",
+    "description": "BL-087 — נוסף chip סינון קבוצה פעיל: מציג שם ואמוג'י של הקבוצה כשמגיעים מ-?group=X עם כפתור ניקוי; הרשימה מסוננת בהתאם"
+  },
+  {
+    "timestamp": "2026-05-02T15:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 23 — נוספו מפתחות contacts_contact, contacts_contacts, contacts_filterGroup, contacts_clearFilter ב-EN וב-HE"
   }
 ]

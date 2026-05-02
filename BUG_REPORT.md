@@ -712,6 +712,30 @@ _Agent 5 runs `npm run build` + `npm run lint` every iteration. New bugs logged 
 
 ---
 
+### BUG-086 — Group delete leaves stale contactIds on deleted contacts
+
+- **Date:** 2026-05-02 | **Time:** 15:00 | **Status:** ✅ fixed
+- **Files:** `src/context/AppContext.tsx`
+- **Bug:** Deleting a contact did not remove that contact's ID from any groups' `contactIds` array. The group retained a stale reference — invisible to the user in the GroupsScreen (which filters live contacts) but a data integrity issue affecting exports and future group-membership features.
+- **Root cause:** `deleteContact` in AppContext only removed the contact from storage and refreshed contacts state; it never iterated `groups` to purge the deleted ID.
+- **Fix:** After `storage.deleteContact(id)`, iterate all groups via `storage.getGroups()`, call `storage.updateGroup()` for any group that contains the ID, removing it from `contactIds`. Then refresh both contacts and groups state.
+- **Found by:** Gap analysis — 2026-05-02
+- **Fixed by:** Developer — Sprint 23 (2026-05-02)
+
+---
+
+### BUG-088 — ContactsScreen subtitle shows "groups" instead of "contacts"
+
+- **Date:** 2026-05-02 | **Time:** 15:00 | **Status:** ✅ fixed
+- **Files:** `src/screens/ContactsScreen.tsx`, `src/i18n/index.ts`
+- **Bug:** ContactsScreen subtitle used `t('groups_group')` / `t('groups_groups')` keys, causing Hebrew UI to display "5 קבוצות" (5 groups) on the contacts screen.
+- **Root cause:** Copy-paste from GroupsScreen during earlier development; contact-specific i18n keys did not exist.
+- **Fix:** Added `contacts_contact` / `contacts_contacts` keys to both EN and HE locales; updated ContactsScreen subtitle to use them.
+- **Found by:** BACKLOG gap analysis — 2026-05-02
+- **Fixed by:** Developer — Sprint 23 (2026-05-02)
+
+---
+
 ### BUG-084 — Imported contact opens error page (RangeError on invalid birthday)
 
 - **Date:** 2026-05-02 | **Time:** 11:00 | **Status:** ✅ fixed

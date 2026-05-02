@@ -710,5 +710,17 @@
   "T153": {
     "status": "✅",
     "notes": "BL-091 יושם — settings_exportGroupWarning EN+HE; טקסט אזהרה מתחת לכפתור ייצוא CSV ב-SettingsScreen; build+lint ✅"
+  },
+  "T154": {
+    "status": "✅",
+    "notes": "BL-086 תוקן — deleteContact ב-AppContext.tsx מנקה כעת contactIds בכל קבוצה שמכילה את המזהה שנמחק; שלמות נתונים נשמרת; build+lint ✅"
+  },
+  "T155": {
+    "status": "✅",
+    "notes": "BL-088 תוקן — כותרת המשנה ב-ContactsScreen מציגה 'X אנשי קשר' במקום 'X קבוצות'; מפתחות contacts_contact/contacts_contacts EN+HE; build+lint ✅"
+  },
+  "T156": {
+    "status": "✅",
+    "notes": "BL-087 יושם — chip סינון קבוצה ב-ContactsScreen: מוצג כש-?group=X; שם הקבוצה + אמוג'י + כפתור ניקוי; הרשימה מסוננת; build+lint ✅"
   }
 }

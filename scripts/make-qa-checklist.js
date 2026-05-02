@@ -34,6 +34,13 @@ const CATEGORIES = [
   { id: 'sprint14', emoji: '⚡', name: 'Sprint 14 — חגים דינמיים BL-077 (Hebcal)' },
   { id: 'sprint15', emoji: '📥', name: 'Sprint 15 — ייבוא אנשי קשר UX: BL-046, BL-047, BL-048' },
   { id: 'sprint16', emoji: '👤', name: 'Sprint 16 — שכבת משתמש אישית BL-067: UserSetupScreen, dashboard_hello, pendingItems' },
+  { id: 'sprint17', emoji: '🔧', name: 'Sprint 17 — BL-075: תיקוני BugHunter' },
+  { id: 'sprint18', emoji: '📱', name: 'Sprint 18 — RTL icons, contact card overflow, BottomNav active indicator' },
+  { id: 'sprint19', emoji: '🌐', name: 'Sprint 19 — BL-079: Language-Religion drilldown + CSV localization' },
+  { id: 'sprint20', emoji: '📅', name: 'Sprint 20 — BL-076: Hebrew Birthday import/export round-trip' },
+  { id: 'sprint21', emoji: '👥', name: 'Sprint 21 — BL-084/082/068/069: Import fix, Score tooltip, Group members, Assign group' },
+  { id: 'sprint22', emoji: '📦', name: 'Sprint 22 — BL-092/090/091: Import celebrationType + hebrewBirthday + export warning' },
+  { id: 'sprint23', emoji: '🧹', name: 'Sprint 23 — BL-086/088/087: Group delete cleanup, subtitle fix, group filter chip' },
 ]
 
 // ── Test definitions (57 total) ──────────────────────────────────────────────
@@ -224,6 +231,9 @@ const TESTS = [
   { id: 'T151', cat: 'sprint22', name: 'BL-092: celebrationType ב-DETECTABLE_FIELDS; normalizeCelebrationType(); processImport כותב celebrationType; round-trip export-import תקין; build+lint ✅' },
   { id: 'T152', cat: 'sprint22', name: 'BL-090: normalizeHebrewBirthday() מאמת DD-MM בייבוא; regex guard ב-ContactDetailScreen; ערכים לא תקינים לא מוצגים; build+lint ✅' },
   { id: 'T153', cat: 'sprint22', name: 'BL-091: settings_exportGroupWarning EN+HE; אזהרה מתחת לכפתור ייצוא CSV ב-SettingsScreen; build+lint ✅' },
+  { id: 'T154', cat: 'sprint23', name: 'BL-086: deleteContact מנקה contactIds בקבוצות; שלמות נתונים נשמרת; build+lint ✅' },
+  { id: 'T155', cat: 'sprint23', name: 'BL-088: כותרת משנה ב-ContactsScreen — contacts_contact/contacts_contacts EN+HE; תיקון מפתחות i18n; build+lint ✅' },
+  { id: 'T156', cat: 'sprint23', name: 'BL-087: chip סינון קבוצה ב-ContactsScreen; ?group=X מסנן + מציג chip; כפתור ניקוי; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

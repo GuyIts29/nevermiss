@@ -88,7 +88,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const deleteContact = useCallback((id: string) => {
     storage.deleteContact(id)
+    storage.getGroups().forEach(g => {
+      if (g.contactIds.includes(id)) {
+        storage.updateGroup({ ...g, contactIds: g.contactIds.filter(cid => cid !== id), updatedAt: new Date().toISOString() })
+      }
+    })
     setContacts(storage.getContacts())
+    setGroups(storage.getGroups())
   }, [])
 
   const addGroup = useCallback((g: Group) => {

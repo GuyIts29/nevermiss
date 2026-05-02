@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Plus, Search, SortAsc, FileUp } from 'lucide-react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Plus, Search, SortAsc, FileUp, X } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
 import { useTheme } from '@/context/ThemeContext'
@@ -19,12 +19,16 @@ type FilterType = 'all' | 'internal' | 'external' | 'vip'
 
 export function ContactsScreen() {
   const navigate = useNavigate()
-  const { contacts, canAddContact, isPremium } = useApp()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { contacts, groups, canAddContact, isPremium } = useApp()
   const t = useT()
   const { theme } = useTheme()
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortKey>('score')
   const [filter, setFilter] = useState<FilterType>('all')
+
+  const groupFilterId = searchParams.get('group')
+  const activeGroup = groupFilterId ? groups.find(g => g.id === groupFilterId) : null
 
   const scored = useMemo(() =>
     contacts.map(c => ({
@@ -36,6 +40,11 @@ export function ContactsScreen() {
 
   const filtered = useMemo(() => {
     let list = scored
+
+    if (activeGroup) {
+      list = list.filter(({ contact: c }) => activeGroup.contactIds.includes(c.id))
+    }
+
     if (search) {
       const q = search.toLowerCase()
       list = list.filter(({ contact: c }) =>
@@ -66,7 +75,7 @@ export function ContactsScreen() {
       }
     })
     return list
-  }, [scored, search, sort, filter])
+  }, [scored, search, sort, filter, activeGroup])
 
   const atLimit = !canAddContact
   const freeRemaining = APP_CONFIG.limits.free.contacts - contacts.length
@@ -83,11 +92,18 @@ export function ContactsScreen() {
     vip: t('contacts_filter_vip'),
   }
 
+  const subtitleCount = activeGroup ? activeGroup.contactIds.filter(id => contacts.some(c => c.id === id)).length : contacts.length
+  const subtitle = `${subtitleCount} ${subtitleCount === 1 ? t('contacts_contact') : t('contacts_contacts')}`
+
+  function clearGroupFilter() {
+    setSearchParams({})
+  }
+
   return (
     <div className="screen-container">
       <PageHeader
         title={t('contacts_title')}
-        subtitle={`${contacts.length} ${contacts.length === 1 ? t('groups_group') : t('groups_groups')}`}
+        subtitle={subtitle}
         right={
           <div className="flex items-center gap-2">
             <button
@@ -115,6 +131,26 @@ export function ContactsScreen() {
       />
 
       <div className="page-content space-y-3">
+        {/* Active group filter chip */}
+        {activeGroup && (
+          <div
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium"
+            style={{ backgroundColor: `${activeGroup.color}22`, color: activeGroup.color }}
+          >
+            <span className="flex-1">
+              {activeGroup.emoji} {t('contacts_filterGroup', { name: activeGroup.name })}
+            </span>
+            <button
+              type="button"
+              onClick={clearGroupFilter}
+              className="min-w-[32px] min-h-[32px] flex items-center justify-center rounded-full hover:bg-black/10 transition-colors"
+              aria-label={t('contacts_clearFilter')}
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
+
         {/* Limit warning */}
         {!isPremium && contacts.length > 0 && (
           <div className={clsx(
