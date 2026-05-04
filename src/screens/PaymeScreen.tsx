@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { Crown, Check, Unlock, Info } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
 import { useT } from '@/context/LanguageContext'
@@ -8,7 +8,7 @@ import { hapticSuccess } from '@/services/hapticService'
 
 export function PaymeScreen() {
   const navigate = useNavigate()
-  const { isPremium, activatePremium } = useApp()
+  const { isPremium, activatePremium, showPremiumUI } = useApp()
   const t = useT()
 
   const handleActivate = async () => {
@@ -16,6 +16,9 @@ export function PaymeScreen() {
     await hapticSuccess()
     navigate('/dashboard', { replace: true })
   }
+
+  // TEMP: Premium disabled for MVP phase — /payment redirects to dashboard
+  if (!showPremiumUI) return <Navigate to="/dashboard" replace />
 
   if (isPremium) {
     return (

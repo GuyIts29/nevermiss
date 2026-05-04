@@ -10,9 +10,12 @@ interface PremiumBadgeProps {
 }
 
 export function PremiumBadge({ size = 'sm', showLabel = true }: PremiumBadgeProps) {
-  const { isPremium } = useApp()
+  const { isPremium, showPremiumUI } = useApp()
   const navigate = useNavigate()
   const t = useT()
+
+  // TEMP: Premium disabled for MVP phase — hide all Premium badges
+  if (!showPremiumUI) return null
 
   if (!isPremium) {
     return (
@@ -47,8 +50,13 @@ export function PremiumGate({ children, fallback }: PremiumGateProps) {
 }
 
 export function PremiumFeaturePrompt({ feature }: { feature: string }) {
+  const { showPremiumUI } = useApp()
   const navigate = useNavigate()
   const t = useT()
+
+  // TEMP: Premium disabled for MVP phase — hide all Premium feature prompts
+  if (!showPremiumUI) return null
+
   return (
     <div
       className="rounded-[var(--border-radius-lg)] overflow-hidden cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-transform"

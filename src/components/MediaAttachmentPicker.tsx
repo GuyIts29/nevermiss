@@ -51,7 +51,8 @@ export function MediaAttachmentPicker({ value, onChange, isPremium }: MediaAttac
 
   // Auto-stop at 60 seconds is handled inside the setInterval in handleStartRecording
 
-  if (!isPremium) {
+  // TEMP: Premium disabled for MVP phase — media attachment available to all users
+  if ((false as boolean) && !isPremium) {
     return (
       <div
         className="rounded-[var(--border-radius-lg)] p-4 flex flex-col items-center gap-2 text-center"

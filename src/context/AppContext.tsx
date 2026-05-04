@@ -7,6 +7,8 @@ import { buildDashboardData } from '@/core/relationshipEngine'
 import type { DashboardData } from '@/types'
 import { DEMO_CONTACTS, DEMO_GROUPS } from '@/data/demoData'
 
+// TEMP: Premium disabled for MVP phase — LIMITS unused until premium gates re-enabled
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LIMITS = { free: { contacts: 20, groups: 2 } }
 
 interface AppContextValue {
@@ -70,8 +72,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const isPremium = TEMP_PREMIUM_UNLOCK || premium.isPremium
   // showPremiumUI: false when TEMP_PREMIUM_UNLOCK is on — hides Premium labels/icons without removing Premium logic
   const showPremiumUI = !TEMP_PREMIUM_UNLOCK
-  const canAddContact = isPremium || contacts.length < LIMITS.free.contacts
-  const canAddGroup = isPremium || groups.length < LIMITS.free.groups
+  // TEMP: Premium disabled for MVP phase — all users can add contacts and groups freely
+  const canAddContact = true
+  const canAddGroup = true
 
   const dashboardData = useMemo(() => buildDashboardData(contacts, HOLIDAYS), [contacts])
   const refreshDashboard = useCallback(() => {/* data is derived — no manual refresh needed */}, [])

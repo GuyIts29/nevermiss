@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import {
   Crown, Check, Unlock, X,
   Users, Group, Cake, FileUp,
@@ -21,7 +21,7 @@ interface PremiumFeatureItem {
 
 export function UpgradeScreen() {
   const navigate = useNavigate()
-  const { isPremium, activatePremium, deactivatePremium, redeemCoupon } = useApp()
+  const { isPremium, activatePremium, deactivatePremium, redeemCoupon, showPremiumUI } = useApp()
   const t = useT()
 
   const FREE_FEATURES = [
@@ -61,6 +61,9 @@ export function UpgradeScreen() {
     if (status === 'success') await hapticSuccess()
     else await hapticError()
   }
+
+  // TEMP: Premium disabled for MVP phase — /upgrade redirects to dashboard
+  if (!showPremiumUI) return <Navigate to="/dashboard" replace />
 
   return (
     <div className="screen-container">

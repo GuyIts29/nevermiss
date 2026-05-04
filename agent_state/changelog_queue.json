@@ -2070,5 +2070,68 @@
     "action": "modified",
     "file": "src/i18n/index.ts",
     "description": "Sprint 23 — נוספו מפתחות contacts_contact, contacts_contacts, contacts_filterGroup, contacts_clearFilter ב-EN וב-HE"
+  },
+  {
+    "timestamp": "2026-05-04T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 24 — נוספו מפתחות contactDetail_groups, group_religion_filter ב-EN וב-HE; עודכן group_purpose_hint לטקסט ברור יותר (BL-089, BL-093)"
+  },
+  {
+    "timestamp": "2026-05-04T10:01:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/ContactCard.tsx",
+    "description": "BL-089: הוספת chip קבוצת חברות לכרטיס איש הקשר — מציג עד 2 קבוצות עם צבע + אמוג'י; overflow +N; reverse-lookup דרך Group.contactIds"
+  },
+  {
+    "timestamp": "2026-05-04T10:02:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-089: נוסף חלק קבוצות במסך פרטי איש קשר — מציג כל הקבוצות שאיש הקשר שייך אליהן; useMemo עם id לפני return מוקדם"
+  },
+  {
+    "timestamp": "2026-05-04T10:03:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "BL-093 Phase 1: נוספו chips סינון לפי דת בחלק הוספת חגים לקבוצה (Premium); מסנן את רשימת החגים לפי הדתות שנבחרו; אין בחירה אוטומטית; מתאפס בפתיחת הטופס"
+  },
+  {
+    "timestamp": "2026-05-04T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/context/AppContext.tsx",
+    "description": "TEMP: בוטלו מגבלות פרמיום ל-MVP — canAddContact ו-canAddGroup מוגדרים כ-true ללא תלות ב-isPremium; LIMITS נשמר עם הערת eslint-disable"
+  },
+  {
+    "timestamp": "2026-05-04T12:01:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/PremiumBadge.tsx",
+    "description": "TEMP: PremiumBadge ו-PremiumFeaturePrompt מחזירים null כשshowPremiumUI=false — הסתרת כל תגיות ו-prompts פרמיום ב-MVP"
+  },
+  {
+    "timestamp": "2026-05-04T12:02:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/UpgradeScreen.tsx",
+    "description": "TEMP: מסך Upgrade מפנה ל-/dashboard כשshowPremiumUI=false — מניעת גישה למסך שדרוג ב-MVP"
+  },
+  {
+    "timestamp": "2026-05-04T12:03:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/PaymeScreen.tsx",
+    "description": "TEMP: מסך PayMe מפנה ל-/dashboard כשshowPremiumUI=false — מניעת גישה למסך תשלום ב-MVP"
+  },
+  {
+    "timestamp": "2026-05-04T12:04:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/MediaAttachmentPicker.tsx",
+    "description": "TEMP: שער isPremium ב-MediaAttachmentPicker הוחלף ב-(false as boolean) — צירוף מדיה זמין לכל המשתמשים ב-MVP"
   }
 ]
