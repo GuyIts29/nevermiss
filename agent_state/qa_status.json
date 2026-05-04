@@ -755,5 +755,13 @@
   "T161": {
     "status": "✅",
     "notes": "BL-096 תוקן ספרינט 25 — ניתן לשייך/להסיר קבוצות בעריכת איש קשר קיים דרך chips toggle"
+  },
+  "T162": {
+    "status": "✅",
+    "notes": "BL-098 תוקן ספרינט 26 — empty state ב-Dashboard ו-Contacts עם ניסוח רגשי/ערכי; CTA מוביל ל-QuickAddModal"
+  },
+  "T163": {
+    "status": "✅",
+    "notes": "BL-099 תוקן ספרינט 26 — QuickAddModal עם שם + טלפון; שמירה יוצרת איש קשר; קישור לטופס מלא; build+lint ✅"
   }
 }

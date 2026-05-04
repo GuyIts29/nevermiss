@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/Navigation'
 import { Input } from '@/components/ui/Input'
 import { ContactCard } from '@/components/ContactCard'
 import { EmptyState } from '@/components/EmptyState'
+import { QuickAddModal } from '@/components/QuickAddModal'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { calculateRelationshipScore } from '@/core/scoringSystem'
 import { HOLIDAYS } from '@/data/holidays'
@@ -27,6 +28,7 @@ export function ContactsScreen() {
   const [sort, setSort] = useState<SortKey>('score')
   const [filter, setFilter] = useState<FilterType>('all')
 
+  const [quickAddOpen, setQuickAddOpen] = useState(false)
   const groupFilterId = searchParams.get('group')
   const activeGroup = groupFilterId ? groups.find(g => g.id === groupFilterId) : null
 
@@ -209,13 +211,13 @@ export function ContactsScreen() {
         {filtered.length === 0 && contacts.length === 0 ? (
           <>
             <EmptyState
-              emoji="👥"
+              emoji="💛"
               title={t('contacts_noContacts')}
               description={t('contacts_noContactsDesc')}
               action={{
-                label: t('contacts_addFirst'),
+                label: t('quickAdd_save'),
                 icon: <Plus size={14} />,
-                onClick: () => navigate('/contacts/new'),
+                onClick: () => setQuickAddOpen(true),
               }}
             />
             <button
@@ -258,6 +260,8 @@ export function ContactsScreen() {
           <Plus size={24} className="text-white" />
         </button>
       )}
+
+      {quickAddOpen && <QuickAddModal onClose={() => setQuickAddOpen(false)} />}
     </div>
   )
 }

@@ -239,6 +239,8 @@ const TESTS = [
   { id: 'T159', cat: 'sprint25', name: 'BL-094: שמות חגים מוצגים בשפת הממשק בכל נקודות ה-UI דרך getHolidayDisplayName(); EN+HE; build+lint ✅' },
   { id: 'T160', cat: 'sprint25', name: 'BL-085: חגים קשורים בפרטי איש קשר ממוינים לפי קרבה לתאריך הנוכחי; build+lint ✅' },
   { id: 'T161', cat: 'sprint25', name: 'BL-096: שיוך/הסרה מקבוצות בעריכת איש קשר קיים — chips toggle + סנכרון בשמירה; build+lint ✅' },
+  { id: 'T162', cat: 'sprint26', name: 'BL-098: empty state ב-Dashboard ו-Contacts עם ניסוח רגשי/ערכי; CTA מוביל ל-QuickAddModal; build+lint ✅' },
+  { id: 'T163', cat: 'sprint26', name: 'BL-099: QuickAddModal — שם + טלפון בלבד; שמירה יוצרת איש קשר עם ברירות מחדל; קישור לטופס מלא; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

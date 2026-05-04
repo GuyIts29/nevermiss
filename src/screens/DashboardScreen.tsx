@@ -12,6 +12,7 @@ import { ContactCard } from '@/components/ContactCard'
 import { HolidayCard } from '@/components/HolidayCard'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { ChannelPicker } from '@/components/ChannelPicker'
+import { QuickAddModal } from '@/components/QuickAddModal'
 import { APP_CONFIG } from '@/config/appConfig'
 import { getAISuggestions } from '@/services/aiSuggestionsService'
 import { copyToClipboard } from '@/services/communicationService'
@@ -54,6 +55,7 @@ export function DashboardScreen() {
   const [quickSend, setQuickSend] = useState<QuickSendState>(null)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
   const [channelPickerData, setChannelPickerData] = useState<{ contact: Contact; message: string } | null>(null)
+  const [quickAddOpen, setQuickAddOpen] = useState(false)
 
   function resolveTone(contact: Contact): GreetingTone {
     if (contact.contactType === 'internal') return 'internal'
@@ -449,13 +451,13 @@ export function DashboardScreen() {
         {/* Empty state */}
         {contacts.length === 0 && (
           <EmptyState
-            emoji="👥"
+            emoji="💛"
             title={t('empty_startAdding')}
             description={t('empty_startAddingDesc')}
             action={{
-              label: t('contacts_addContact'),
+              label: t('quickAdd_save'),
               icon: <Plus size={14} />,
-              onClick: () => navigate('/contacts/new'),
+              onClick: () => setQuickAddOpen(true),
             }}
           />
         )}
@@ -548,6 +550,8 @@ export function DashboardScreen() {
       >
         <Plus size={24} className="text-white" />
       </button>
+
+      {quickAddOpen && <QuickAddModal onClose={() => setQuickAddOpen(false)} />}
 
       {/* Channel Picker — opens after selecting a quick-send option */}
       {channelPickerData && (

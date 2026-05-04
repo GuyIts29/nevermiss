@@ -91,7 +91,7 @@ export const translations = {
     contacts_title: 'Contacts',
     contacts_addFirst: 'Add First Contact',
     contacts_noContacts: 'No contacts yet',
-    contacts_noContactsDesc: 'Add your first contact to start tracking relationships.',
+    contacts_noContactsDesc: 'Start with someone you care about — a friend, family member, or colleague.',
     contacts_noResults: 'No results',
     contacts_noResultsDesc: 'Try a different search or filter.',
     contacts_searchPlaceholder: 'Search contacts...',
@@ -335,10 +335,20 @@ export const translations = {
     premium_featureSuffix: '— Premium Feature',
 
     // ─── Empty states ─────────────────────────────────────────────────────
-    empty_startAdding: 'Start adding contacts',
-    empty_startAddingDesc: 'Add your first contact to begin tracking relationships and sending personalized greetings.',
+    empty_startAdding: 'Who matters to you?',
+    empty_startAddingDesc: 'Add your first contact and NeverMiss will remind you to stay in touch at just the right moment.',
     empty_noGroups: 'No groups yet',
     empty_noGroupsDesc: 'Create groups to organize contacts by holiday or department.',
+
+    // ─── Quick Add Modal ──────────────────────────────────────────────────
+    quickAdd_title: 'Quick Add',
+    quickAdd_name: 'Name',
+    quickAdd_phone: 'Phone',
+    quickAdd_namePlaceholder: 'Full name',
+    quickAdd_phonePlaceholder: 'Phone number',
+    quickAdd_save: 'Add Contact',
+    quickAdd_required: 'Name and phone are required',
+    quickAdd_fullForm: 'Add more details',
 
     // ─── Onboarding ───────────────────────────────────────────────────────
     onboarding_skip: 'Skip',
@@ -904,7 +914,7 @@ export const translations = {
     contacts_title: 'אנשי קשר',
     contacts_addFirst: 'הוסף איש קשר ראשון',
     contacts_noContacts: 'אין אנשי קשר עדיין',
-    contacts_noContactsDesc: 'הוסף את איש הקשר הראשון שלך כדי להתחיל לעקוב אחר קשרים.',
+    contacts_noContactsDesc: 'התחל עם מישהו שחשוב לך — חבר, בן משפחה, או עמית.',
     contacts_noResults: 'אין תוצאות',
     contacts_noResultsDesc: 'נסה חיפוש או סינון אחר.',
     contacts_searchPlaceholder: 'חפש אנשי קשר...',
@@ -1148,10 +1158,20 @@ export const translations = {
     premium_featureSuffix: '— תכונת פרמיום',
 
     // ─── Empty states ─────────────────────────────────────────────────────
-    empty_startAdding: 'התחל להוסיף אנשי קשר',
-    empty_startAddingDesc: 'הוסף את איש הקשר הראשון שלך כדי להתחיל לעקוב אחר קשרים ולשלוח ברכות אישיות.',
+    empty_startAdding: 'מי חשוב לך?',
+    empty_startAddingDesc: 'הוסף את האיש קשר הראשון שלך ו-NeverMiss יזכיר לך לשמור על קשר ברגע הנכון.',
     empty_noGroups: 'אין קבוצות עדיין',
     empty_noGroupsDesc: 'צור קבוצות לארגון אנשי קשר לפי חג או מחלקה.',
+
+    // ─── Quick Add Modal ──────────────────────────────────────────────────
+    quickAdd_title: 'הוספה מהירה',
+    quickAdd_name: 'שם',
+    quickAdd_phone: 'טלפון',
+    quickAdd_namePlaceholder: 'שם מלא',
+    quickAdd_phonePlaceholder: 'מספר טלפון',
+    quickAdd_save: 'הוסף',
+    quickAdd_required: 'יש למלא שם וטלפון',
+    quickAdd_fullForm: 'הוסף פרטים נוספים',
 
     // ─── Onboarding ───────────────────────────────────────────────────────
     onboarding_skip: 'דלג',

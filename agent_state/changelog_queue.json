@@ -2210,5 +2210,47 @@
     "action": "modified",
     "file": "src/screens/ContactFormScreen.tsx",
     "description": "BL-096: נוספה אפשרות לשיוך/הסרה מקבוצות בעריכת איש קשר קיים — chips toggle UI + סנכרון בשמירה"
+  },
+  {
+    "timestamp": "2026-05-05T12:00:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/components/QuickAddModal.tsx",
+    "description": "BL-099: נוצר QuickAddModal — bottom sheet עם שדות שם + טלפון בלבד; שמירה יוצרת איש קשר עם ברירות מחדל; סגירה לאחר שמירה; קישור לטופס מלא"
+  },
+  {
+    "timestamp": "2026-05-05T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-098/099: עדכון מחרוזות empty state לניסוח רגשי/ערכי (EN+HE); נוספו 8 מפתחות quickAdd_* (title, name, phone, placeholders, save, required, fullForm) — EN+HE"
+  },
+  {
+    "timestamp": "2026-05-05T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-098/099: empty state ב-Dashboard משתמש ב-QuickAddModal במקום ניווט לטופס מלא; אייקון 💛; CTA מוביל להוספה מהירה"
+  },
+  {
+    "timestamp": "2026-05-05T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactsScreen.tsx",
+    "description": "BL-098/099: empty state ב-ContactsScreen משתמש ב-QuickAddModal במקום ניווט לטופס מלא; FAB ממשיך לנווט לטופס מלא"
+  },
+  {
+    "timestamp": "2026-05-05T12:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "BL-098 ו-BL-099 נוספו לבקלוג וסומנו Done — Sprint 26"
+  },
+  {
+    "timestamp": "2026-05-05T12:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.csv",
+    "description": "BL-098 ו-BL-099 נוספו לבקלוג.csv וסומנו Done — Sprint 26"
   }
 ]
