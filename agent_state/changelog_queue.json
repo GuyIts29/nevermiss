@@ -2252,5 +2252,68 @@
     "action": "modified",
     "file": "BACKLOG.csv",
     "description": "BL-098 ו-BL-099 נוספו לבקלוג.csv וסומנו Done — Sprint 26"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/ui/Select.tsx",
+    "description": "BL-100: הוספת שדות disabled ו-hidden לטיפוס option ב-Select — תומך ב-placeholder שלא ניתן לבחור"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BL-100: placeholder 'בחר איש קשר' ב-dropdown ה-contact עם disabled+hidden — לא ניתן לשמור עם placeholder"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/utils/featureGuideUtils.ts",
+    "description": "BL-083: עזרי localStorage לפיצ'ר guide — isGuideSeen, markGuideSeen, resetGuide עם מפתח nm_guide_seen"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/components/FeatureGuide.tsx",
+    "description": "BL-083: קומפוננטת FeatureGuide — 3 שקפים עם אמוג'י, כותרת, גוף; כפתור דלג (X) בכל שקף; מחוונים מנוקדים; ניווט RTL-aware; CTA 'בואו נתחיל'"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-083/BL-100: נוספו מפתחות guide_slide1_title/body, guide_slide2_title/body, guide_slide3_title/body, guide_next, guide_done, guide_viewGuide, greeting_selectContact — EN + HE"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-083: חיבור FeatureGuide — state showGuide מ-isGuideSeen(); מוצג בעלייה ראשונה לאפליקציה; נסגר ב-onDone"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/SettingsScreen.tsx",
+    "description": "BL-083: כפתור 'Feature Guide' בסעיף App info — מאפס nm_guide_seen ומנווט ל-Dashboard כדי שה-Guide יוצג מחדש"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.md",
+    "description": "BL-100 ו-BL-083 סומנו Done — Sprint 27"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.csv",
+    "description": "BL-100 ו-BL-083 עודכנו ל-Done — Sprint 27"
   }
 ]

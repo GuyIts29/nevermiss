@@ -15,6 +15,7 @@ import { useState } from 'react'
 import { clearAllData, exportBackupJSON, importBackupJSON } from '@/services/storageService'
 import { requestPermission, notificationPermission } from '@/services/notificationService'
 import { exportContactsToCSV } from '@/services/exportService'
+import { resetGuide } from '@/utils/featureGuideUtils'
 
 export function SettingsScreen() {
   const navigate = useNavigate()
@@ -392,6 +393,14 @@ export function SettingsScreen() {
             {t('settings_about')}
           </h3>
           <Card noPadding>
+            <button
+              onClick={() => { resetGuide(); navigate('/dashboard') }}
+              className="w-full flex items-center gap-3 p-3 hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)]"
+            >
+              <Sparkles size={16} className="text-[var(--color-text-muted)]" />
+              <span className="flex-1 text-sm text-[var(--color-text-primary)] text-start">{t('guide_viewGuide')}</span>
+              {lang === 'he' ? <ChevronLeft size={14} className="text-[var(--color-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--color-text-muted)]" />}
+            </button>
             {[
               { label: t('settings_whatsNew'), to: '/whats-new', icon: Sparkles },
               { label: t('settings_about'), to: '/about', icon: Info },

@@ -262,7 +262,7 @@ export function GreetingEditorScreen() {
             value={selectedContactId}
             onChange={e => setSelectedContactId(e.target.value)}
             options={[
-              { value: '', label: t('greeting_selectContact') },
+              { value: '', label: t('greeting_selectContact'), disabled: true, hidden: true },
               ...contacts.map(c => ({ value: c.id, label: c.name })),
             ]}
           />

@@ -13,6 +13,8 @@ import { HolidayCard } from '@/components/HolidayCard'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { ChannelPicker } from '@/components/ChannelPicker'
 import { QuickAddModal } from '@/components/QuickAddModal'
+import { FeatureGuide } from '@/components/FeatureGuide'
+import { isGuideSeen } from '@/utils/featureGuideUtils'
 import { APP_CONFIG } from '@/config/appConfig'
 import { getAISuggestions } from '@/services/aiSuggestionsService'
 import { copyToClipboard } from '@/services/communicationService'
@@ -56,6 +58,7 @@ export function DashboardScreen() {
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
   const [channelPickerData, setChannelPickerData] = useState<{ contact: Contact; message: string } | null>(null)
   const [quickAddOpen, setQuickAddOpen] = useState(false)
+  const [showGuide, setShowGuide] = useState(() => !isGuideSeen())
 
   function resolveTone(contact: Contact): GreetingTone {
     if (contact.contactType === 'internal') return 'internal'
@@ -552,6 +555,7 @@ export function DashboardScreen() {
       </button>
 
       {quickAddOpen && <QuickAddModal onClose={() => setQuickAddOpen(false)} />}
+      {showGuide && <FeatureGuide onDone={() => setShowGuide(false)} />}
 
       {/* Channel Picker — opens after selecting a quick-send option */}
       {channelPickerData && (

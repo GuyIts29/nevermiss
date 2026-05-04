@@ -350,6 +350,17 @@ export const translations = {
     quickAdd_required: 'Name and phone are required',
     quickAdd_fullForm: 'Add more details',
 
+    // ─── Feature Guide ────────────────────────────────────────────────────
+    guide_slide1_title: 'Never miss what matters',
+    guide_slide1_body: 'Stay in touch with the people who matter most — at just the right moment.',
+    guide_slide2_title: 'Add contacts, stay organized',
+    guide_slide2_body: 'Add people you care about and organize them into groups. NeverMiss tracks who needs your attention.',
+    guide_slide3_title: 'Send the perfect greeting',
+    guide_slide3_body: 'Get reminders for birthdays and holidays. Generate personalized messages and send with one tap.',
+    guide_next: 'Next',
+    guide_done: "Let's go",
+    guide_viewGuide: 'Feature Guide',
+
     // ─── Onboarding ───────────────────────────────────────────────────────
     onboarding_skip: 'Skip',
     onboarding_getStarted: 'Get Started',
@@ -1172,6 +1183,17 @@ export const translations = {
     quickAdd_save: 'הוסף',
     quickAdd_required: 'יש למלא שם וטלפון',
     quickAdd_fullForm: 'הוסף פרטים נוספים',
+
+    // ─── Feature Guide ────────────────────────────────────────────────────
+    guide_slide1_title: 'לא תחמיץ את מה שחשוב',
+    guide_slide1_body: 'שמור על קשר עם האנשים שחשובים לך — ברגע הנכון.',
+    guide_slide2_title: 'הוסף אנשי קשר, תישאר מאורגן',
+    guide_slide2_body: 'הוסף אנשים שאכפת לך מהם וארגן אותם לקבוצות. NeverMiss עוקב אחרי מי צריך את תשומת לבך.',
+    guide_slide3_title: 'שלח את הברכה המושלמת',
+    guide_slide3_body: 'קבל תזכורות לימי הולדת וחגים. צור הודעות אישיות ושלח בלחיצה אחת.',
+    guide_next: 'הבא',
+    guide_done: 'בואו נתחיל',
+    guide_viewGuide: 'מדריך למשתמש',
 
     // ─── Onboarding ───────────────────────────────────────────────────────
     onboarding_skip: 'דלג',

@@ -241,6 +241,8 @@ const TESTS = [
   { id: 'T161', cat: 'sprint25', name: 'BL-096: שיוך/הסרה מקבוצות בעריכת איש קשר קיים — chips toggle + סנכרון בשמירה; build+lint ✅' },
   { id: 'T162', cat: 'sprint26', name: 'BL-098: empty state ב-Dashboard ו-Contacts עם ניסוח רגשי/ערכי; CTA מוביל ל-QuickAddModal; build+lint ✅' },
   { id: 'T163', cat: 'sprint26', name: 'BL-099: QuickAddModal — שם + טלפון בלבד; שמירה יוצרת איש קשר עם ברירות מחדל; קישור לטופס מלא; build+lint ✅' },
+  { id: 'T164', cat: 'sprint27', name: 'BL-100: placeholder ב-dropdown בחירת איש קשר disabled+hidden; לא ניתן לשמור טופס עם placeholder; build+lint ✅' },
+  { id: 'T165', cat: 'sprint27', name: 'BL-083: FeatureGuide 3 שקפים — מוצג בכניסה ראשונה; ניתן לדלג; dots + ניווט RTL; View Guide ב-Settings; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

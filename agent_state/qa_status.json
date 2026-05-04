@@ -763,5 +763,13 @@
   "T163": {
     "status": "✅",
     "notes": "BL-099 תוקן ספרינט 26 — QuickAddModal עם שם + טלפון; שמירה יוצרת איש קשר; קישור לטופס מלא; build+lint ✅"
+  },
+  "T164": {
+    "status": "✅",
+    "notes": "BL-100 תוקן ספרינט 27 — placeholder ב-dropdown בחירת איש קשר ב-GreetingEditorScreen: disabled+hidden; Select component תומך disabled/hidden על options"
+  },
+  "T165": {
+    "status": "✅",
+    "notes": "BL-083 הושלם ספרינט 27 — FeatureGuide: 3 שקפים, dלג X, dots, RTL-aware; מוצג בכניסה ראשונה; ניתן להפעיל מחדש מ-Settings; build+lint ✅"
   }
 }
