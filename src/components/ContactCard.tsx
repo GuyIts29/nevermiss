@@ -29,7 +29,7 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
   const navigate = useNavigate()
   const t = useT()
   const { lang } = useLang()
-  const { deleteContact } = useApp()
+  const { deleteContact, groups } = useApp()
   const handleClick = onClick ?? (() => navigate(`/contacts/${contact.id}`))
 
   const [menuOpen, setMenuOpen] = useState(false)
@@ -79,6 +79,8 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
     ? `stagger-${Math.min(staggerIndex + 1, 5)}`
     : 'animate-slide-up'
 
+  const contactGroups = groups.filter(g => g.contactIds.includes(contact.id))
+
   const handleDelete = () => {
     deleteContact(contact.id)
     setShowDelete(false)
@@ -126,6 +128,22 @@ export const ContactCard = memo(function ContactCard({ contact, score, onClick, 
               {contact.relationshipType.replace('_', ' ')}
               {contact.department && ` · ${contact.department}`}
             </p>
+            {contactGroups.length > 0 && (
+              <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+                {contactGroups.slice(0, 2).map(g => (
+                  <span
+                    key={g.id}
+                    className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold"
+                    style={{ backgroundColor: `${g.color}22`, color: g.color }}
+                  >
+                    {g.emoji} {g.name}
+                  </span>
+                ))}
+                {contactGroups.length > 2 && (
+                  <span className="text-[10px] text-[var(--color-text-muted)]">+{contactGroups.length - 2}</span>
+                )}
+              </div>
+            )}
             {score && (
               <p className="text-xs text-[var(--color-text-muted)] mt-0.5 truncate">
                 {t(ACTION_KEY[score.suggestedAction.type])}

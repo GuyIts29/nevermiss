@@ -65,7 +65,7 @@ const DeviceContactsScreen = lazy(() => import('@/screens/DeviceContactsScreen')
 const HolidayRemindersScreen = lazy(() => import('@/screens/HolidayRemindersScreen').then(m => ({ default: m.HolidayRemindersScreen })))
 const PaymeScreen = lazy(() => import('@/screens/PaymeScreen').then(m => ({ default: m.PaymeScreen })))
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
 import { fireReminders } from '@/services/notificationService'
 
 function DemoBanner() {
@@ -108,11 +108,12 @@ function AppShell() {
   const onboardingDone = useMemo(() => isOnboardingDone(), [])
   const profileSetup = useMemo(() => isProfileSetup(), [])
   const t = useT()
+  const { lang } = useLang()
 
   useEffect(() => {
     trackEvent('app_open')
     if (settings.notificationsEnabled) {
-      fireReminders(contacts, holidays, t)
+      fireReminders(contacts, holidays, t, lang)
     }
   // Run once on mount; contacts/holidays/t are stable references on first load
   // eslint-disable-next-line react-hooks/exhaustive-deps

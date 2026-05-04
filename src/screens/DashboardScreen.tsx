@@ -17,6 +17,7 @@ import { getAISuggestions } from '@/services/aiSuggestionsService'
 import { copyToClipboard } from '@/services/communicationService'
 import { getUserName } from '@/services/userProfileService'
 import type { Contact, Holiday, GreetingTone } from '@/types'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 
 export function DashboardScreen() {
   const navigate = useNavigate()
@@ -200,7 +201,7 @@ export function DashboardScreen() {
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm text-[var(--color-text-primary)] truncate">{contact.name}</p>
                     <p className="text-xs text-[var(--color-text-muted)]">
-                      {holiday ? holiday.name : t('dashboard_birthday_wish')}
+                      {holiday ? getHolidayDisplayName(holiday, lang) : t('dashboard_birthday_wish')}
                     </p>
                   </div>
                   <Sparkles size={14} style={{ color: '#8B5CF6' }} aria-hidden="true" />
@@ -238,7 +239,7 @@ export function DashboardScreen() {
               <div className="flex items-center gap-1.5 mt-2">
                 <span className="text-lg">{nextHoliday.emoji}</span>
                 <p className="text-white/85 text-sm font-medium">
-                  {nextHoliday.name}
+                  {getHolidayDisplayName(nextHoliday, lang)}
                   {daysToNext === 0
                     ? ` ${t('dashboard_holiday_today_suffix')}`
                     : daysToNext === 1
@@ -344,7 +345,7 @@ export function DashboardScreen() {
               >
                 <span className="text-2xl leading-none mt-0.5">{holiday.emoji}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[var(--color-text-primary)] truncate">{holiday.name}</p>
+                  <p className="text-sm font-semibold text-[var(--color-text-primary)] truncate">{getHolidayDisplayName(holiday, lang)}</p>
                   <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
                     {daysUntil === 0
                       ? t('dashboard_today_exclaim')

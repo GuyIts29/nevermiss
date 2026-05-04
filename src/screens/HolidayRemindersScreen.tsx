@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { getReminderSettings, saveReminderSettings, type HolidayReminderSettings } from '@/services/reminderService'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 
 const DAYS_OPTIONS: { value: 1 | 3 | 7; labelKey: 'reminders_1day' | 'reminders_3days' | 'reminders_7days' }[] = [
   { value: 1, labelKey: 'reminders_1day' },
@@ -209,7 +210,7 @@ export function HolidayRemindersScreen() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-[var(--color-text-primary)] truncate">{contact.name}</p>
-                        <p className="text-xs text-[var(--color-text-muted)] truncate">{holiday.emoji} {holiday.name}</p>
+                        <p className="text-xs text-[var(--color-text-muted)] truncate">{holiday.emoji} {getHolidayDisplayName(holiday, lang)}</p>
                       </div>
                       <span
                         className="text-xs font-bold px-2 py-0.5 rounded-full shrink-0"

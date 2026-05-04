@@ -11,6 +11,7 @@ import { useT, useLang } from '@/context/LanguageContext'
 import { copyToClipboard } from '@/services/communicationService'
 import { getInitials, getAvatarGradient } from '@/utils/avatarUtils'
 import { getHebrewDateStr } from '@/utils/hebrewDateUtils'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 
 function hexToRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -51,7 +52,7 @@ export function HolidayDetailScreen() {
 
   return (
     <div className="screen-container">
-      <PageHeader title={holiday.name} back />
+      <PageHeader title={getHolidayDisplayName(holiday, lang)} back />
 
       <div className="page-content space-y-4 pb-8">
         {/* Hero banner */}
@@ -63,7 +64,7 @@ export function HolidayDetailScreen() {
           <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-white/10 pointer-events-none" />
           <div className="relative">
             <div className="text-5xl mb-2 animate-float inline-block">{holiday.emoji}</div>
-            <h2 className="text-xl font-extrabold text-white tracking-tight">{holiday.name}</h2>
+            <h2 className="text-xl font-extrabold text-white tracking-tight">{getHolidayDisplayName(holiday, lang)}</h2>
             {holiday.alternativeNames.length > 0 && (
               <p className="text-sm text-white/75 mt-1">
                 {holiday.alternativeNames.slice(0, 2).join(' · ')}

@@ -11,9 +11,10 @@ import { Modal } from '@/components/ui/Modal'
 import { EmptyState } from '@/components/EmptyState'
 import { PremiumFeaturePrompt } from '@/components/PremiumBadge'
 import { generateId } from '@/services/storageService'
-import type { Group, GroupPurpose } from '@/types'
+import type { Group, GroupPurpose, Religion } from '@/types'
 import { APP_CONFIG } from '@/config/appConfig'
 import { SUGGESTED_BASES } from '@/data/groupSuggestions'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 
 const GROUP_COLORS = ['#2563EB','#16A34A','#EA580C','#7C3AED','#E11D48','#0F766E','#D97706','#6366F1']
 const GROUP_EMOJIS = ['👥','🎉','🏢','🤝','🌍','⭐','💼','🎂']
@@ -33,6 +34,7 @@ export function GroupsScreen() {
   const [holidaySearch, setHolidaySearch] = useState('')
   const [selectedContactIds, setSelectedContactIds] = useState<string[]>([])
   const [contactSearch, setContactSearch] = useState('')
+  const [selectedReligions, setSelectedReligions] = useState<Religion[]>([])
 
   const uniqueHolidays = useMemo(() => {
     const seen = new Map<string, typeof holidays[0]>()
@@ -44,10 +46,10 @@ export function GroupsScreen() {
     return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name))
   }, [holidays])
 
-  const getHolidayDisplayName = (h: typeof holidays[0]) => {
-    if (lang !== 'he') return h.name
-    return h.alternativeNames.find(n => /[֐-׿]/.test(n)) ?? h.name
-  }
+  const availableReligions = useMemo<Religion[]>(() => {
+    const set = new Set(uniqueHolidays.map(h => h.religion))
+    return Array.from(set).sort() as Religion[]
+  }, [uniqueHolidays])
 
   const getSuggestedIds = (purpose: GroupPurpose | undefined): string[] => {
     if (!purpose) return []
@@ -86,6 +88,7 @@ export function GroupsScreen() {
     }
     setHolidaySearch('')
     setContactSearch('')
+    setSelectedReligions([])
     setShowForm(true)
   }
 
@@ -436,6 +439,31 @@ export function GroupsScreen() {
             ) : (
               <div className="space-y-2">
                 <p className="text-xs text-[var(--color-text-muted)]">{t('group_holidays_hint')}</p>
+                {/* Religion filter chips */}
+                <div>
+                  <p className="text-[10px] text-[var(--color-text-muted)] mb-1">{t('group_religion_filter')}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {availableReligions.map(r => {
+                      const active = selectedReligions.includes(r)
+                      return (
+                        <button
+                          key={r}
+                          type="button"
+                          onClick={() => setSelectedReligions(prev =>
+                            active ? prev.filter(x => x !== r) : [...prev, r]
+                          )}
+                          className="px-2 py-0.5 rounded-full text-[10px] font-semibold transition-all"
+                          style={active
+                            ? { background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})`, color: 'white' }
+                            : { background: 'var(--color-surface-2)', color: 'var(--color-text-secondary)' }
+                          }
+                        >
+                          {t(`religion_${r}` as Parameters<typeof t>[0])}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
                 <input
                   type="text"
                   placeholder={t('groups_searchHolidays')}
@@ -447,7 +475,9 @@ export function GroupsScreen() {
                   {uniqueHolidays
                     .filter(h => {
                       const q = holidaySearch.toLowerCase()
-                      return !q || h.name.toLowerCase().includes(q) || h.alternativeNames.some(n => n.toLowerCase().includes(q))
+                      const matchesSearch = !q || h.name.toLowerCase().includes(q) || h.alternativeNames.some(n => n.toLowerCase().includes(q))
+                      const matchesReligion = selectedReligions.length === 0 || selectedReligions.includes(h.religion)
+                      return matchesSearch && matchesReligion
                     })
                     .map(h => {
                       const selected = selectedHolidayIds.includes(h.id)
@@ -471,7 +501,7 @@ export function GroupsScreen() {
                             {selected && <span className="text-white text-[10px]">✓</span>}
                           </div>
                           <span className="text-base leading-none">{h.emoji}</span>
-                          <span className="flex-1 truncate">{getHolidayDisplayName(h)}</span>
+                          <span className="flex-1 truncate">{getHolidayDisplayName(h, lang)}</span>
                           {isSuggested && (
                             <span className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold shrink-0"
                               style={{ background: `${theme.primary}22`, color: theme.primary }}>

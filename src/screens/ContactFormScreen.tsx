@@ -86,6 +86,9 @@ export function ContactFormScreen() {
   const [duplicateContact, setDuplicateContact] = useState<Contact | null>(null)
   const [useGradientAvatar, setUseGradientAvatar] = useState(!existing?.avatarColor)
   const [selectedGroupId, setSelectedGroupId] = useState('')
+  const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>(() =>
+    isNew ? [] : groups.filter(g => g.contactIds.includes(existing?.id ?? '')).map(g => g.id)
+  )
 
   const set = <K extends keyof Contact>(key: K, value: Contact[K]) => {
     setForm(f => ({ ...f, [key]: value }))
@@ -176,6 +179,20 @@ export function ContactFormScreen() {
       }
     } else {
       updateContact(contact)
+      // BL-096: sync group memberships on edit
+      const originalGroupIds = groups.filter(g => g.contactIds.includes(contact.id)).map(g => g.id)
+      originalGroupIds
+        .filter(gid => !selectedGroupIds.includes(gid))
+        .forEach(gid => {
+          const g = groups.find(x => x.id === gid)
+          if (g) updateGroup({ ...g, contactIds: g.contactIds.filter(cid => cid !== contact.id), updatedAt: now })
+        })
+      selectedGroupIds
+        .filter(gid => !originalGroupIds.includes(gid))
+        .forEach(gid => {
+          const g = groups.find(x => x.id === gid)
+          if (g) updateGroup({ ...g, contactIds: [...g.contactIds, contact.id], updatedAt: now })
+        })
     }
     await hapticSuccess()
     setSaving(false)
@@ -510,6 +527,34 @@ export function ContactFormScreen() {
                 ...groups.map(g => ({ value: g.id, label: `${g.emoji} ${g.name}` })),
               ]}
             />
+          </div>
+        )}
+
+        {/* Group membership — edit contacts (BL-096) */}
+        {!isNew && groups.length > 0 && (
+          <div className="card">
+            <p className="text-sm font-semibold text-[var(--color-text-primary)] mb-2">{t('contactDetail_groups')}</p>
+            <div className="flex flex-wrap gap-2">
+              {groups.map(g => {
+                const active = selectedGroupIds.includes(g.id)
+                return (
+                  <button
+                    key={g.id}
+                    type="button"
+                    onClick={() => setSelectedGroupIds(prev =>
+                      active ? prev.filter(gid => gid !== g.id) : [...prev, g.id]
+                    )}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition-all"
+                    style={active
+                      ? { backgroundColor: `${g.color}22`, color: g.color, borderColor: g.color }
+                      : { borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', backgroundColor: 'transparent' }
+                    }
+                  >
+                    {g.emoji} {g.name}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         )}
       </div>

@@ -722,5 +722,38 @@
   "T156": {
     "status": "✅",
     "notes": "BL-087 יושם — chip סינון קבוצה ב-ContactsScreen: מוצג כש-?group=X; שם הקבוצה + אמוג'י + כפתור ניקוי; הרשימה מסוננת; build+lint ✅"
+  },
+  "T157": {
+    "status": "✅",
+    "notes": "BL-089 הושלם Sprint 24 — chip קבוצה על ContactCard + מקטע קבוצות ב-ContactDetailScreen; build+lint ✅"
+  },
+  "T158": {
+    "status": "✅",
+    "notes": "BL-093 Phase 1 הושלם Sprint 24 — עדכון טקסט מטרת קבוצה + chips סינון לפי דת בהוספת חגים לקבוצה; build+lint ✅"
+  },
+  "BL-089": {
+    "status": "done",
+    "sprint": 24,
+    "completedAt": "2026-05-04T10:00:00",
+    "description": "Group membership chip on ContactCard and ContactDetailScreen via reverse-lookup of Group.contactIds"
+  },
+  "BL-093": {
+    "status": "done",
+    "sprint": 24,
+    "phase": "Phase 1 only",
+    "completedAt": "2026-05-04T10:00:00",
+    "description": "Group purpose hint copy improved; religion filter chips added to holiday section in GroupsScreen (display filter only, no auto-selection)"
+  },
+  "T159": {
+    "status": "✅",
+    "notes": "BL-094 תוקן ספרינט 25 — שמות חגים מוצגים בשפת הממשק בכל נקודות ה-UI דרך getHolidayDisplayName()"
+  },
+  "T160": {
+    "status": "✅",
+    "notes": "BL-085 תוקן ספרינט 25 — חגים קשורים בפרטי איש קשר ממוינים לפי קרבה לתאריך הנוכחי"
+  },
+  "T161": {
+    "status": "✅",
+    "notes": "BL-096 תוקן ספרינט 25 — ניתן לשייך/להסיר קבוצות בעריכת איש קשר קיים דרך chips toggle"
   }
 }

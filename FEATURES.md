@@ -40,6 +40,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Related holidays list (upcoming 30 days)
 - "Mark Contacted" button (resets last contact date)
 - WhatsApp integration button
+- **Group membership section** ✅ _Sprint 24 (BL-089)_ — shows all groups the contact belongs to as colored chips (emoji + name); hidden when no groups; reverse-lookup via Group.contactIds
 
 #### Contact Form (`src/screens/ContactFormScreen.tsx`)
 - Live gradient avatar preview (name-hashed, 10-option palette)
@@ -70,6 +71,8 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - Contact count + holiday count pills
 - Create/edit group modal (name, description, color picker, emoji picker)
 - **Contact picker in group modal** ✅ _Sprint 21 (BL-068)_ — searchable list of contacts with checkboxes in create/edit modal; selectedContactIds initialized from group; saved to contactIds on submit
+- **Religion filter chips in holiday picker** ✅ _Sprint 24 (BL-093 Phase 1)_ — filter chips above holiday search filter the list by religion (display-only; no auto-selection); multi-select; clears on modal open
+- **Group purpose hint improved** ✅ _Sprint 24 (BL-093 Phase 1)_ — updated from generic "(optional)" to descriptive "Pre-selects relevant holidays" / "מסייע לבחור חגים רלוונטיים"
 - Free-tier limit: 2 groups
 - Group cards are `<button>` elements (keyboard accessible) ✅ _Iteration 12_
 
@@ -171,6 +174,7 @@ _Last updated: 2026-04-28 | Iteration 12+ | Auto-maintained by Agent Loop_
 - `<button>` element (WCAG 2.1.1 keyboard accessible) ✅ _Iteration 8_
 - Crown and Building2 icons have `aria-hidden="true"` ✅ _Iteration 12_
 - **Score badge is tappable** ✅ _Sprint 21 (BL-082)_ — tap opens tooltip explaining score (title + body); EN+HE; click-outside/Escape close
+- **Group membership chips** ✅ _Sprint 24 (BL-089)_ — shows up to 2 groups (emoji + name, group color) below relationship type; +N overflow for 3+ groups
 
 #### HolidayCard (`src/components/HolidayCard.tsx`)
 - Compact: gradient-tinted background + left color border

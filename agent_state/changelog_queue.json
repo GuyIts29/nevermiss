@@ -2133,5 +2133,82 @@
     "action": "modified",
     "file": "src/components/MediaAttachmentPicker.tsx",
     "description": "TEMP: שער isPremium ב-MediaAttachmentPicker הוחלף ב-(false as boolean) — צירוף מדיה זמין לכל המשתמשים ב-MVP"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/utils/holidayUtils.ts",
+    "description": "נוצר util משותף getHolidayDisplayName(holiday, lang) — מחזיר שם חג בשפת הממשק (עברית/אנגלית). BL-094"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/components/HolidayCard.tsx",
+    "description": "BL-094: שם חג מוצג דרך getHolidayDisplayName() — תמיכה בשתי שפות בכרטיס חג"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-094: 3 נקודות הצגת שם חג עברו ל-getHolidayDisplayName() — pending item, hero banner, group alert"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/HolidayDetailScreen.tsx",
+    "description": "BL-094: כותרת עמוד וכותרת hero מוצגות דרך getHolidayDisplayName()"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/HolidayRemindersScreen.tsx",
+    "description": "BL-094: שם חג בדף תזכורות חגים מוצג דרך getHolidayDisplayName()"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GreetingEditorScreen.tsx",
+    "description": "BL-094: dropdown בחירת חג מציג שם בשפת הממשק דרך getHolidayDisplayName()"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/GroupsScreen.tsx",
+    "description": "BL-094: הוסר duplicate מקומי של getHolidayDisplayName; מייבא עכשיו מ-holidayUtils"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactDetailScreen.tsx",
+    "description": "BL-094: שם חג בפעולת שליחת ברכה מוצג דרך getHolidayDisplayName(). BL-085: חגים קשורים ממוינים לפי תאריך"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/services/notificationService.ts",
+    "description": "BL-094: שמות חגים בהתראות מוצגים בשפת המשתמש — פרמטר lang נוסף ל-fireReminders()"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "BL-094: lang מ-useLang() מועבר ל-fireReminders() לתמיכה בהתראות בשפת המשתמש"
+  },
+  {
+    "timestamp": "2026-05-04T14:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/ContactFormScreen.tsx",
+    "description": "BL-096: נוספה אפשרות לשיוך/הסרה מקבוצות בעריכת איש קשר קיים — chips toggle UI + סנכרון בשמירה"
   }
 ]

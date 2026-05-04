@@ -1,5 +1,6 @@
 import type { Contact, Holiday } from '@/types'
 import type { TranslationKey } from '@/i18n'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 
 const SENT_KEY = 'nm_notif_sent'
 
@@ -64,7 +65,7 @@ function fire(id: string, title: string, body: string): void {
 
 type TFn = (key: TranslationKey, vars?: Record<string, string | number>) => string
 
-export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn): void {
+export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn, lang = 'en'): void {
   if (!canNotify()) return
 
   const today = new Date()
@@ -138,13 +139,13 @@ export function fireReminders(contacts: Contact[], holidays: Holiday[], t: TFn):
     if (daysUntil === 0) {
       fire(
         `holiday-today-${holiday.id}`,
-        t('notif_holiday_today', { emoji: holiday.emoji, name: holiday.name }),
+        t('notif_holiday_today', { emoji: holiday.emoji, name: getHolidayDisplayName(holiday, lang) }),
         t('notif_holiday_today_body'),
       )
     } else if (daysUntil === 1) {
       fire(
         `holiday-tomorrow-${holiday.id}`,
-        t('notif_holiday_tomorrow', { emoji: holiday.emoji, name: holiday.name }),
+        t('notif_holiday_tomorrow', { emoji: holiday.emoji, name: getHolidayDisplayName(holiday, lang) }),
         t('notif_holiday_tomorrow_body'),
       )
     }

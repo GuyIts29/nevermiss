@@ -14,6 +14,7 @@ import { generateGreeting } from '@/services/greetingService'
 import { getAISuggestions } from '@/services/aiSuggestionsService'
 import { copyToClipboard, CHANNEL_ICONS } from '@/services/communicationService'
 import { getHolidayById } from '@/data/holidays'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 import { generateId, getLastUsedChannel } from '@/services/storageService'
 import type { GreetingTone, Language, MediaAttachment } from '@/types'
 
@@ -272,7 +273,7 @@ export function GreetingEditorScreen() {
             onChange={e => setSelectedHolidayId(e.target.value)}
             options={[
               { value: '', label: t('greeting_noHoliday') },
-              ...uniqueHolidays.map(h => ({ value: h.id, label: `${h.emoji} ${h.name}` })),
+              ...uniqueHolidays.map(h => ({ value: h.id, label: `${h.emoji} ${getHolidayDisplayName(h, lang)}` })),
             ]}
           />
         </div>

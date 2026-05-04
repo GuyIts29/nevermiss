@@ -234,6 +234,11 @@ const TESTS = [
   { id: 'T154', cat: 'sprint23', name: 'BL-086: deleteContact מנקה contactIds בקבוצות; שלמות נתונים נשמרת; build+lint ✅' },
   { id: 'T155', cat: 'sprint23', name: 'BL-088: כותרת משנה ב-ContactsScreen — contacts_contact/contacts_contacts EN+HE; תיקון מפתחות i18n; build+lint ✅' },
   { id: 'T156', cat: 'sprint23', name: 'BL-087: chip סינון קבוצה ב-ContactsScreen; ?group=X מסנן + מציג chip; כפתור ניקוי; build+lint ✅' },
+  { id: 'T157', cat: 'sprint24', name: 'BL-089: chip קבוצה ב-ContactCard (עד 2 + overflow); מקטע קבוצות ב-ContactDetailScreen; reverse-lookup Group.contactIds; EN+HE; build+lint ✅' },
+  { id: 'T158', cat: 'sprint24', name: 'BL-093 Phase 1: עדכון טקסט מטרת קבוצה; chips סינון לפי דת בהוספת חגים; multi-select; אינו בוחר אוטומטית; build+lint ✅' },
+  { id: 'T159', cat: 'sprint25', name: 'BL-094: שמות חגים מוצגים בשפת הממשק בכל נקודות ה-UI דרך getHolidayDisplayName(); EN+HE; build+lint ✅' },
+  { id: 'T160', cat: 'sprint25', name: 'BL-085: חגים קשורים בפרטי איש קשר ממוינים לפי קרבה לתאריך הנוכחי; build+lint ✅' },
+  { id: 'T161', cat: 'sprint25', name: 'BL-096: שיוך/הסרה מקבוצות בעריכת איש קשר קיים — chips toggle + סנכרון בשמירה; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

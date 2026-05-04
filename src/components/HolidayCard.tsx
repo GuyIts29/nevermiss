@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { format, differenceInDays } from 'date-fns'
 import type { Holiday } from '@/types'
 import { useT, useLang } from '@/context/LanguageContext'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 import type { TranslationKey } from '@/i18n'
 import { getHebrewDateStr } from '@/utils/hebrewDateUtils'
 
@@ -51,7 +52,7 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
           {holiday.emoji}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-sm text-[var(--color-text-primary)] truncate">{holiday.name}</p>
+          <p className="font-bold text-sm text-[var(--color-text-primary)] truncate">{getHolidayDisplayName(holiday, lang)}</p>
           <p className="text-xs text-[var(--color-text-muted)]">
             {format(new Date(holiday.date), 'MMM d')} · {t(`religion_${holiday.religion}` as TranslationKey)}
           </p>
@@ -91,7 +92,7 @@ export function HolidayCard({ holiday, compact, staggerIndex }: HolidayCardProps
       >
         <div className="text-3xl animate-float">{holiday.emoji}</div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-white truncate">{holiday.name}</h3>
+          <h3 className="font-bold text-white truncate">{getHolidayDisplayName(holiday, lang)}</h3>
           <p className="text-xs text-white/75 mt-0.5">
             {t(`religion_${holiday.religion}` as TranslationKey)} · {format(new Date(holiday.date), 'MMMM d, yyyy')}
           </p>

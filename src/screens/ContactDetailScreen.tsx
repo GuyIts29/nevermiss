@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { format, formatDistanceToNow } from 'date-fns'
 import { Edit, MessageCircle, Calendar, Clock, Crown, Building2, Gift, Phone, Mail } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
-import { useT } from '@/context/LanguageContext'
+import { useT, useLang } from '@/context/LanguageContext'
+import { getHolidayDisplayName } from '@/utils/holidayUtils'
 import { useTheme } from '@/context/ThemeContext'
 import { PageHeader } from '@/components/Navigation'
 import { Card } from '@/components/ui/Card'
@@ -22,12 +23,14 @@ import { formatHebrewBirthdayDisplay } from '@/utils/hebrewDateUtils'
 export function ContactDetailScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { contacts, updateContact, isPremium } = useApp()
+  const { contacts, updateContact, isPremium, groups } = useApp()
   const t = useT()
+  const { lang } = useLang()
   const { theme } = useTheme()
   // Capture current timestamp once per mount via useState initializer (avoids impure Date.now() in render)
   const [nowMs] = useState<number>(() => Date.now())
   const [celebrating, setCelebrating] = useState(false)
+  const contactGroups = useMemo(() => groups.filter(g => g.contactIds.includes(id ?? '')), [groups, id])
 
   const contact = contacts.find(c => c.id === id)
   if (!contact) {
@@ -44,7 +47,7 @@ export function ContactDetailScreen() {
   const relatedHolidays = HOLIDAYS.filter(h => {
     const days = (new Date(h.date).getTime() - nowMs) / (1000 * 60 * 60 * 24)
     return h.religion === contact.religion && days >= 0 && days <= 60
-  })
+  }).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
   const translatedActionLabel = (() => {
     const action = score.suggestedAction
@@ -62,7 +65,7 @@ export function ContactDetailScreen() {
         const h = action.relatedHolidayId ? HOLIDAYS.find(x => x.id === action.relatedHolidayId) : undefined
         if (!h) return action.label
         const days = Math.max(0, Math.floor((new Date(h.date).getTime() - nowMs) / (1000 * 60 * 60 * 24)))
-        return t('action_wish_holiday_days', { name: h.name, n: days })
+        return t('action_wish_holiday_days', { name: getHolidayDisplayName(h, lang), n: days })
       }
       case 'reconnect':
         return t('action_reconnect_days', { n: score.daysSinceContact })
@@ -280,6 +283,24 @@ export function ContactDetailScreen() {
           <Card>
             <h3 className="font-semibold text-[var(--color-text-primary)] mb-2">{t('contactDetail_notes')}</h3>
             <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{contact.notes}</p>
+          </Card>
+        )}
+
+        {/* Group membership */}
+        {contactGroups.length > 0 && (
+          <Card>
+            <h3 className="font-semibold text-[var(--color-text-primary)] mb-2">{t('contactDetail_groups')}</h3>
+            <div className="flex flex-wrap gap-2">
+              {contactGroups.map(g => (
+                <span
+                  key={g.id}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"
+                  style={{ backgroundColor: `${g.color}22`, color: g.color }}
+                >
+                  {g.emoji} {g.name}
+                </span>
+              ))}
+            </div>
           </Card>
         )}
 
