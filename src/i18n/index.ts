@@ -361,6 +361,23 @@ export const translations = {
     guide_done: "Let's go",
     guide_viewGuide: 'Feature Guide',
 
+    // ─── Landing ──────────────────────────────────────────────────────────
+    landing_tagline: 'Never miss a meaningful moment',
+    landing_subtitle: 'All your relationships. Every important moment. One place.',
+    landing_cta_register: 'Get Started',
+    landing_cta_login: 'Log In (Coming Soon)',
+    landing_cta_demo: 'Try Demo',
+    landing_dont_show: "Don't show again",
+    landing_login_soon: 'Login is coming soon. Use Get Started or Try Demo to enter now.',
+    landing_scene_romantic: 'Partner',
+    landing_scene_family: 'Family',
+    landing_scene_friends: 'Friends',
+    landing_scene_work: 'Work',
+    landing_caption_romantic: "Don't miss her birthday",
+    landing_caption_family: "Because they're waiting for your call",
+    landing_caption_friends: 'The friendship that holds you',
+    landing_caption_work: "The colleague who's always there",
+
     // ─── Onboarding ───────────────────────────────────────────────────────
     onboarding_skip: 'Skip',
     onboarding_getStarted: 'Get Started',
@@ -1194,6 +1211,23 @@ export const translations = {
     guide_next: 'הבא',
     guide_done: 'בואו נתחיל',
     guide_viewGuide: 'מדריך למשתמש',
+
+    // ─── Landing ──────────────────────────────────────────────────────────
+    landing_tagline: 'לעולם אל תחמיץ רגע משמעותי',
+    landing_subtitle: 'כל הקשרים שלך. כל הרגעים החשובים. במקום אחד.',
+    landing_cta_register: 'התחל עכשיו',
+    landing_cta_login: 'התחבר (בקרוב)',
+    landing_cta_demo: 'נסה את ההדגמה',
+    landing_dont_show: 'אל תציג שוב',
+    landing_login_soon: 'כניסה תהיה זמינה בקרוב. השתמש בהתחל עכשיו או בהדגמה.',
+    landing_scene_romantic: 'בן/בת זוג',
+    landing_scene_family: 'משפחה',
+    landing_scene_friends: 'חברים',
+    landing_scene_work: 'עבודה',
+    landing_caption_romantic: 'לא תחמיץ את יום ההולדת שלה',
+    landing_caption_family: 'כי הם מחכים שתתקשר',
+    landing_caption_friends: 'הידידות שמחזיקה אותך',
+    landing_caption_work: 'הקולגה שתמיד שם בשבילך',
 
     // ─── Onboarding ───────────────────────────────────────────────────────
     onboarding_skip: 'דלג',

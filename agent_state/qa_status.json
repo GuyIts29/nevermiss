@@ -771,5 +771,9 @@
   "T165": {
     "status": "✅",
     "notes": "BL-083 הושלם ספרינט 27 — FeatureGuide: 3 שקפים, dלג X, dots, RTL-aware; מוצג בכניסה ראשונה; ניתן להפעיל מחדש מ-Settings; build+lint ✅"
+  },
+  "T166": {
+    "status": "✅",
+    "notes": "BL-097 הושלם ספרינט 28 — דף נחיתה: 4 תמונות קשרים WebP, tagline, CTA (התחל/התחבר בקרוב/הדגמה), dontShowLanding flag, דילוג אוטומטי למשתמש חוזר; build+lint ✅"
   }
 }

@@ -243,6 +243,7 @@ const TESTS = [
   { id: 'T163', cat: 'sprint26', name: 'BL-099: QuickAddModal — שם + טלפון בלבד; שמירה יוצרת איש קשר עם ברירות מחדל; קישור לטופס מלא; build+lint ✅' },
   { id: 'T164', cat: 'sprint27', name: 'BL-100: placeholder ב-dropdown בחירת איש קשר disabled+hidden; לא ניתן לשמור טופס עם placeholder; build+lint ✅' },
   { id: 'T165', cat: 'sprint27', name: 'BL-083: FeatureGuide 3 שקפים — מוצג בכניסה ראשונה; ניתן לדלג; dots + ניווט RTL; View Guide ב-Settings; build+lint ✅' },
+  { id: 'T166', cat: 'sprint28', name: 'BL-097: דף נחיתה — 4 תמונות קשרים, tagline, CTA (התחל/התחבר בקרוב/הדגמה), dontShowLanding flag, דילוג אוטומטי למשתמש חוזר; RTL; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

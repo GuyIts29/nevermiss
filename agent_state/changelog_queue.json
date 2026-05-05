@@ -2315,5 +2315,54 @@
     "action": "modified",
     "file": "BACKLOG.csv",
     "description": "BL-100 ו-BL-083 עודכנו ל-Done — Sprint 27"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/config/appConfig.ts",
+    "description": "Sprint 28 — BL-097: הוסף מפתח אחסון nm_dont_show_landing ל-storageKeys"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:01",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/services/storageService.ts",
+    "description": "Sprint 28 — BL-097: הוסף isDontShowLanding() ו-setDontShowLanding() לניהול דגל דף הנחיתה"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:02",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "Sprint 28 — BL-097: הוסף 14 מפתחות תרגום לדף הנחיתה — EN ו-HE (tagline, subtitle, CTAs, scene labels, captions)"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:03",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "Sprint 28 — BL-097: נוצר דף נחיתה — ערך רגשי, 4 תמונות קשרים (זוגיות/משפחה/חברים/עבודה), 3 כפתורי CTA, דגל dontShowLanding, דילוג אוטומטי למשתמש חוזר"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:04",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/assets/landing/",
+    "description": "Sprint 28 — BL-097: נוספו 4 תמונות WebP אופטימליות לדף הנחיתה (Romantic/Family/Friends/work)"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:05",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "Sprint 28 — BL-097: הוסף נתיב /landing ועדכן redirect שורש לבדיקת dontShowLanding לפני onboarding"
+  },
+  {
+    "timestamp": "2026-05-06T00:00:06",
+    "agent": "Reviewer",
+    "action": "fixed",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "Sprint 28 — תוקן lint: הסרת ייבוא isDontShowLanding שלא היה בשימוש ב-LandingScreen"
   }
 ]

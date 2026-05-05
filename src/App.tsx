@@ -3,7 +3,7 @@ import { AppProvider } from '@/context/AppContext'
 import { ThemeProvider } from '@/context/ThemeContext'
 import { LanguageProvider } from '@/context/LanguageContext'
 import { BottomNav } from '@/components/Navigation'
-import { isOnboardingDone } from '@/services/storageService'
+import { isOnboardingDone, isDontShowLanding } from '@/services/storageService'
 import { isProfileSetup } from '@/services/userProfileService'
 import { trackEvent } from '@/services/analyticsService'
 import { Component, lazy, Suspense, useMemo, useEffect, type ErrorInfo, type ReactNode } from 'react'
@@ -40,6 +40,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
 }
 
 // Eager screens — kept synchronous so the first frame always renders
+import { LandingScreen } from '@/screens/LandingScreen'
 import { OnboardingScreen } from '@/screens/OnboardingScreen'
 import { DashboardScreen } from '@/screens/DashboardScreen'
 import { UserSetupScreen } from '@/screens/UserSetupScreen'
@@ -105,6 +106,7 @@ function WithNav({ children }: { children: ReactNode }) {
 
 function AppShell() {
   const { isPremium, contacts, holidays, settings } = useApp()
+  const dontShowLanding = useMemo(() => isDontShowLanding(), [])
   const onboardingDone = useMemo(() => isOnboardingDone(), [])
   const profileSetup = useMemo(() => isProfileSetup(), [])
   const t = useT()
@@ -121,6 +123,7 @@ function AppShell() {
 
   return (
     <Routes>
+      <Route path="/landing" element={<LandingScreen />} />
       <Route path="/onboarding" element={<OnboardingScreen />} />
       <Route path="/setup" element={<UserSetupScreen />} />
       <Route path="/dashboard" element={<WithNav><DashboardScreen /></WithNav>} />
@@ -145,7 +148,12 @@ function AppShell() {
       <Route path="/reminders" element={<WithNav><HolidayRemindersScreen /></WithNav>} />
       <Route path="/payment" element={<WithNav><PaymeScreen /></WithNav>} />
       <Route path="/" element={
-        <Navigate to={!onboardingDone ? '/onboarding' : !profileSetup ? '/setup' : '/dashboard'} replace />
+        <Navigate to={
+          !dontShowLanding ? '/landing' :
+          !onboardingDone  ? '/onboarding' :
+          !profileSetup    ? '/setup' :
+          '/dashboard'
+        } replace />
       } />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

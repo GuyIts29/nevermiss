@@ -213,6 +213,14 @@ export function markOnboardingDone(): void {
   localStorage.setItem(K.onboarding, 'true')
 }
 
+export function isDontShowLanding(): boolean {
+  return localStorage.getItem(K.landing) === 'true'
+}
+
+export function setDontShowLanding(): void {
+  localStorage.setItem(K.landing, 'true')
+}
+
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 export function generateId(): string {

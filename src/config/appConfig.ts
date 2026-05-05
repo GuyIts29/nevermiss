@@ -54,6 +54,7 @@ export const APP_CONFIG = {
     lastSeenVersion: 'nm_last_version',
     usedCoupons: 'nm_used_coupons',
     lastChannels: 'nm_last_channels',
+    landing: 'nm_dont_show_landing',
   },
 
   // Domain suggestions

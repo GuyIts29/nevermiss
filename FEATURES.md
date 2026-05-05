@@ -419,6 +419,30 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Sprint 2 active.
 
 ---
 
+## ✅ Sprint 28 — Landing Page (BL-097)
+
+**Completed: 2026-05-06**
+
+### Landing Page (`src/screens/LandingScreen.tsx`)
+- Full-screen pre-app entry point shown to all first-time visitors
+- 4 relationship scene images (Romantic / Family / Friends / Work) — real WebP photos with gradient caption overlay
+- Hero tagline + subtitle communicating core product value
+- CTA buttons: Get Started (→ /onboarding), Log In Coming Soon (inline note, no fake auth), Try Demo (→ existing enableDemo() flow)
+- "Don't show again" link — sets `dontShowLanding` flag, routes to existing app flow
+- Returning user auto-skip: root `/` redirect checks `isDontShowLanding()` first
+- Full RTL support via `dir` attribute + `useLang()` hook
+- 14 i18n keys added — EN + HE
+
+### Storage (`src/services/storageService.ts`)
+- `isDontShowLanding()` — reads `nm_dont_show_landing` from localStorage
+- `setDontShowLanding()` — writes flag; used by all CTA paths
+
+### Assets (`src/assets/landing/`)
+- `Romantic.webp` (85 KB), `Family.webp` (75 KB), `Friends.webp` (119 KB), `work.webp` (63 KB)
+- All content-hashed by Vite at build time — zero external URLs
+
+---
+
 ## 🤖 Current Agent Activity
 
 | Agent | Role | Current Status |
