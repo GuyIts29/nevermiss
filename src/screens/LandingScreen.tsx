@@ -43,7 +43,7 @@ export function LandingScreen() {
 
   const handleRegister = () => {
     setDontShowLanding()
-    navigate('/onboarding')
+    navigate(postLandingDestination())
   }
 
   const handleLoginClick = () => {
