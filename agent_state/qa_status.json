@@ -775,5 +775,9 @@
   "T166": {
     "status": "✅",
     "notes": "BL-097 הושלם ספרינט 28 — דף נחיתה: 4 תמונות קשרים WebP, tagline, CTA (התחל/התחבר בקרוב/הדגמה), dontShowLanding flag, דילוג אוטומטי למשתמש חוזר; build+lint ✅"
+  },
+  "T167": {
+    "status": "✅",
+    "notes": "ספרינט 29 Phase 0 הושלם — תשתית Backend: AuthContext stub, dataService async interface, AppContext עם functional updates, userId? fields, crypto.randomUUID(), AuthProvider ב-App.tsx; build+lint ✅; אפס שינויים בסקרינים"
   }
 }

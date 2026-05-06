@@ -244,6 +244,7 @@ const TESTS = [
   { id: 'T164', cat: 'sprint27', name: 'BL-100: placeholder ב-dropdown בחירת איש קשר disabled+hidden; לא ניתן לשמור טופס עם placeholder; build+lint ✅' },
   { id: 'T165', cat: 'sprint27', name: 'BL-083: FeatureGuide 3 שקפים — מוצג בכניסה ראשונה; ניתן לדלג; dots + ניווט RTL; View Guide ב-Settings; build+lint ✅' },
   { id: 'T166', cat: 'sprint28', name: 'BL-097: דף נחיתה — 4 תמונות קשרים, tagline, CTA (התחל/התחבר בקרוב/הדגמה), dontShowLanding flag, דילוג אוטומטי למשתמש חוזר; RTL; build+lint ✅' },
+  { id: 'T167', cat: 'sprint29', name: 'ספרינט 29 Phase 0: AuthContext stub, dataService async interface, AppContext functional updates, userId? fields, crypto.randomUUID(), AuthProvider ב-App.tsx; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

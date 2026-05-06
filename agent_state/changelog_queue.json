@@ -2364,5 +2364,54 @@
     "action": "fixed",
     "file": "src/screens/LandingScreen.tsx",
     "description": "Sprint 28 — תוקן lint: הסרת ייבוא isDontShowLanding שלא היה בשימוש ב-LandingScreen"
+  },
+  {
+    "timestamp": "2026-05-06T09:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "מיקרו-פיקס FINDING-01 — handleRegister ניווט ל-/onboarding בלי לבדוק אם אונבורדינג כבר הושלם; תוקן ל-postLandingDestination() שמנתב למסך הנכון למשתמש חוזר"
+  },
+  {
+    "timestamp": "2026-05-06T10:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/types/index.ts",
+    "description": "ספרינט 29 Phase 0 — הוסף שדה userId?: string אופציונלי ל-Contact, Group, GreetingDraft; מזהה Supabase auth.uid() לשימוש עתידי; תואם לאחור עם נתוני localStorage קיימים"
+  },
+  {
+    "timestamp": "2026-05-06T10:01:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/services/storageService.ts",
+    "description": "ספרינט 29 Phase 0 — עדכון generateId() לשימוש ב-crypto.randomUUID() עם fallback לפורמט timestamp ישן; UUID תקני לכל הישויות החדשות"
+  },
+  {
+    "timestamp": "2026-05-06T10:02:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/context/AuthContext.tsx",
+    "description": "ספרינט 29 Phase 0 — יצירת AuthContext חדש: stub Phase 0 תמיד לא-מאומת (user: null); מכין את התשתית ל-Supabase magic link auth ב-Phase 1; מייצא AuthUser, AuthProvider, useAuth"
+  },
+  {
+    "timestamp": "2026-05-06T10:03:00",
+    "agent": "Developer",
+    "action": "added",
+    "file": "src/services/dataService.ts",
+    "description": "ספרינט 29 Phase 0 — יצירת dataService חדש: ממשק async לכל פעולות CRUD (contacts, groups, drafts, settings, premium); Phase 0 = קריאות synchronous ל-localStorage; פקקי Phase 2 ל-Supabase בכל פעולת כתיבה; deleteContactCascade מטפל במחיקה אטומית של איש קשר + ניקוי קבוצות"
+  },
+  {
+    "timestamp": "2026-05-06T10:04:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/context/AppContext.tsx",
+    "description": "ספרינט 29 Phase 0 — שידוד AppContext: כל 9 מוטציות CRUD מנותבות דרך dataService עם fire-and-forget; functional state updates (אין read-after-write); auth.user?.id מוצמד לישויות חדשות; useAuth() מיובא; ממשק AppContextValue ציבורי לא שונה — אפס שינויים בסקרינים"
+  },
+  {
+    "timestamp": "2026-05-06T10:05:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/App.tsx",
+    "description": "ספרינט 29 Phase 0 — הוסף AuthProvider wrapper בין LanguageProvider ל-ThemeProvider; AppProvider כעת רץ בתוך AuthContext"
   }
 ]

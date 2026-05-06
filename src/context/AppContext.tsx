@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
 import type { Contact, Group, GreetingDraft, AppSettings, PremiumState } from '@/types'
 import * as storage from '@/services/storageService'
+import * as dataService from '@/services/dataService'
+import { useAuth } from '@/context/AuthContext'
 import { HOLIDAYS } from '@/data/holidays'
 import type { Holiday } from '@/types'
 import { buildDashboardData } from '@/core/relationshipEngine'
@@ -60,75 +62,92 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
+  const auth = useAuth()
+
+  // ─── State initialization from localStorage (synchronous, once on mount) ────
   const [contacts, setContacts] = useState<Contact[]>(() => storage.getContacts())
-  const [groups, setGroups] = useState<Group[]>(() => storage.getGroups())
-  const [isDemo] = useState(() => storage.isDemoMode())
-  const [drafts, setDrafts] = useState<GreetingDraft[]>(() => storage.getDrafts())
+  const [groups, setGroups]     = useState<Group[]>(() => storage.getGroups())
+  const [isDemo]                = useState(() => storage.isDemoMode())
+  const [drafts, setDrafts]     = useState<GreetingDraft[]>(() => storage.getDrafts())
   const [settings, setSettings] = useState<AppSettings>(() => storage.getSettings())
-  const [premium, setPremium] = useState<PremiumState>(() => storage.checkAndExpirePremium())
+  const [premium, setPremium]   = useState<PremiumState>(() => storage.checkAndExpirePremium())
 
   // TEMP: premium gates disabled for MVP testing — revert before production
   const TEMP_PREMIUM_UNLOCK = true
-  const isPremium = TEMP_PREMIUM_UNLOCK || premium.isPremium
-  // showPremiumUI: false when TEMP_PREMIUM_UNLOCK is on — hides Premium labels/icons without removing Premium logic
-  const showPremiumUI = !TEMP_PREMIUM_UNLOCK
+  const isPremium    = TEMP_PREMIUM_UNLOCK || premium.isPremium
+  // showPremiumUI: false when TEMP_PREMIUM_UNLOCK is on — hides Premium labels/icons
+  const showPremiumUI  = !TEMP_PREMIUM_UNLOCK
   // TEMP: Premium disabled for MVP phase — all users can add contacts and groups freely
-  const canAddContact = true
-  const canAddGroup = true
+  const canAddContact  = true
+  const canAddGroup    = true
 
-  const dashboardData = useMemo(() => buildDashboardData(contacts, HOLIDAYS), [contacts])
-  const refreshDashboard = useCallback(() => {/* data is derived — no manual refresh needed */}, [])
+  const dashboardData    = useMemo(() => buildDashboardData(contacts, HOLIDAYS), [contacts])
+  const refreshDashboard = useCallback(() => { /* derived via useMemo — no manual refresh needed */ }, [])
+
+  // ─── Contacts ───────────────────────────────────────────────────────────────
 
   const addContact = useCallback((c: Contact) => {
-    storage.addContact(c)
-    setContacts(storage.getContacts())
-  }, [])
+    const contact: Contact = { ...c, ...(auth.user?.id && { userId: auth.user.id }) }
+    void dataService.addContact(contact).catch(e => console.error('[AppContext] addContact:', e))
+    setContacts(prev => [...prev, contact])
+  }, [auth.user])
 
   const updateContact = useCallback((c: Contact) => {
-    storage.updateContact(c)
-    setContacts(storage.getContacts())
+    void dataService.updateContact(c).catch(e => console.error('[AppContext] updateContact:', e))
+    setContacts(prev => prev.map(x => x.id === c.id ? c : x))
   }, [])
 
   const deleteContact = useCallback((id: string) => {
-    storage.deleteContact(id)
-    storage.getGroups().forEach(g => {
-      if (g.contactIds.includes(id)) {
-        storage.updateGroup({ ...g, contactIds: g.contactIds.filter(cid => cid !== id), updatedAt: new Date().toISOString() })
-      }
-    })
-    setContacts(storage.getContacts())
-    setGroups(storage.getGroups())
+    // deleteContactCascade handles both the contact deletion and group cleanup in storage.
+    // State is updated optimistically via functional updates below.
+    void dataService.deleteContactCascade(id).catch(e => console.error('[AppContext] deleteContact:', e))
+    setContacts(prev => prev.filter(c => c.id !== id))
+    setGroups(prev => prev.map(g =>
+      g.contactIds.includes(id)
+        ? { ...g, contactIds: g.contactIds.filter(cid => cid !== id), updatedAt: new Date().toISOString() }
+        : g
+    ))
   }, [])
+
+  // ─── Groups ─────────────────────────────────────────────────────────────────
 
   const addGroup = useCallback((g: Group) => {
-    storage.addGroup(g)
-    setGroups(storage.getGroups())
-  }, [])
+    const group: Group = { ...g, ...(auth.user?.id && { userId: auth.user.id }) }
+    void dataService.addGroup(group).catch(e => console.error('[AppContext] addGroup:', e))
+    setGroups(prev => [...prev, group])
+  }, [auth.user])
 
   const updateGroup = useCallback((g: Group) => {
-    storage.updateGroup(g)
-    setGroups(storage.getGroups())
+    void dataService.updateGroup(g).catch(e => console.error('[AppContext] updateGroup:', e))
+    setGroups(prev => prev.map(x => x.id === g.id ? g : x))
   }, [])
 
   const deleteGroup = useCallback((id: string) => {
-    storage.deleteGroup(id)
-    setGroups(storage.getGroups())
+    void dataService.deleteGroup(id).catch(e => console.error('[AppContext] deleteGroup:', e))
+    setGroups(prev => prev.filter(g => g.id !== id))
   }, [])
+
+  // ─── Drafts ─────────────────────────────────────────────────────────────────
 
   const saveDraft = useCallback((d: GreetingDraft) => {
-    storage.saveDraft(d)
-    setDrafts(storage.getDrafts())
-  }, [])
+    const draft: GreetingDraft = { ...d, ...(auth.user?.id && { userId: auth.user.id }) }
+    void dataService.saveDraft(draft).catch(e => console.error('[AppContext] saveDraft:', e))
+    setDrafts(prev => [draft, ...prev.filter(x => x.id !== draft.id)].slice(0, 50))
+  }, [auth.user])
 
   const deleteDraft = useCallback((id: string) => {
-    storage.deleteDraft(id)
-    setDrafts(storage.getDrafts())
+    void dataService.deleteDraft(id).catch(e => console.error('[AppContext] deleteDraft:', e))
+    setDrafts(prev => prev.filter(d => d.id !== id))
   }, [])
 
+  // ─── Settings ───────────────────────────────────────────────────────────────
+
   const updateSettings = useCallback((s: Partial<AppSettings>) => {
-    storage.saveSettings(s)
-    setSettings(storage.getSettings())
+    void dataService.saveSettings(s).catch(e => console.error('[AppContext] saveSettings:', e))
+    setSettings(prev => ({ ...prev, ...s }))
   }, [])
+
+  // ─── Premium (stays on storageService — Phase 4 moves server-side) ──────────
 
   const activatePremiumFn = useCallback(() => {
     storage.activatePremium()
@@ -146,6 +165,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return result
   }, [])
 
+  // ─── Demo mode (device-local — never synced to cloud) ───────────────────────
+
   const enableDemoFn = useCallback(() => {
     storage.enableDemoMode(DEMO_CONTACTS, DEMO_GROUPS)
     window.location.reload()
@@ -155,6 +176,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     storage.clearDemoMode()
     window.location.reload()
   }, [])
+
+  // ─── Context value ───────────────────────────────────────────────────────────
 
   const contextValue = useMemo<AppContextValue>(() => ({
     contacts, addContact, updateContact, deleteContact,

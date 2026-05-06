@@ -443,6 +443,47 @@ _All Sprint 1 items complete. QA score: 56✅ / 0❌ / 1⚠️. Sprint 2 active.
 
 ---
 
+## ✅ Sprint 29 — Backend Foundation Phase 0
+
+**Completed: 2026-05-06**
+
+### Auth Layer (`src/context/AuthContext.tsx`) — NEW
+- `AuthContext` with `AuthUser` type: `{ id, email, name }`
+- Phase 0 stub: always unauthenticated (`user: null`, `isAuthenticated: false`)
+- `signIn(email)` stub returns `{ error: 'auth_not_implemented' }` — Phase 1 replaces with Supabase magic link
+- `signOut()` no-op stub
+- `useAuth()` hook exported — throws if used outside `AuthProvider`
+- Wired into `App.tsx` as `<AuthProvider>` between `<LanguageProvider>` and `<ThemeProvider>`
+
+### Data Service (`src/services/dataService.ts`) — NEW
+- Async interface for all CRUD: contacts, groups, drafts, settings, premium state
+- Phase 0: all implementations are synchronous localStorage calls wrapped in async signatures
+- Demo mode guard structurally present in every write operation — demo data never reaches cloud
+- `deleteContactCascade(id)`: atomic contact delete + group membership cleanup in single function
+- Comment placeholders (`// Phase 2: await supabase.from(...)`) mark all future Supabase integration points
+- Swapping in Supabase in Phase 2 requires only changes inside dataService — zero screen changes needed
+
+### Type Layer (`src/types/index.ts`)
+- `userId?: string` added to `Contact`, `Group`, `GreetingDraft`
+- Stores Supabase `auth.uid()` — undefined in Phase 0 (local-only users)
+- Fully backward-compatible: existing localStorage data unmarshals cleanly
+
+### ID Generation (`src/services/storageService.ts`)
+- `generateId()` upgraded to `crypto.randomUUID()` with timestamp-based fallback
+- All new entities (contacts, groups, drafts) get standard UUID format
+
+### AppContext Refactor (`src/context/AppContext.tsx`)
+- All 9 CRUD mutations routed through `dataService.*` with fire-and-forget pattern (`void fn().catch(...)`)
+- Functional state updates throughout — no read-after-write from localStorage
+- `auth.user?.id` spread onto new entities (always `undefined` in Phase 0)
+- Public `AppContextValue` interface unchanged — zero screen changes required
+- Premium mutations remain on `storage.*` directly (Phase 4 concern)
+
+### Pre-sprint Micro-fix
+- `LandingScreen.tsx` — FINDING-01: `handleRegister` now calls `postLandingDestination()` instead of hardcoded `/onboarding`, correctly routing returning users past onboarding
+
+---
+
 ## 🤖 Current Agent Activity
 
 | Agent | Role | Current Status |

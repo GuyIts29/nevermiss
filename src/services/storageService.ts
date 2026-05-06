@@ -224,7 +224,11 @@ export function setDontShowLanding(): void {
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 export function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+  try {
+    return crypto.randomUUID()
+  } catch {
+    return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+  }
 }
 
 // ─── Last used channel ────────────────────────────────────────────────────────

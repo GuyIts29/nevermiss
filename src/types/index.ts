@@ -97,6 +97,7 @@ export type Language =
 
 export interface Contact {
   id: string
+  userId?: string            // Supabase auth.uid() — undefined for local-only users
   name: string
   phone: string
   language: Language
@@ -128,6 +129,7 @@ export type GroupPurpose = 'family' | 'friends' | 'work' | 'clients' | 'hr' | 'c
 
 export interface Group {
   id: string
+  userId?: string            // Supabase auth.uid() — undefined for local-only users
   name: string
   description?: string
   contactIds: string[]
@@ -165,6 +167,7 @@ export interface GreetingTemplate {
 
 export interface GreetingDraft {
   id: string
+  userId?: string            // Supabase auth.uid() — undefined for local-only users
   contactId: string
   holidayId?: string
   message: string

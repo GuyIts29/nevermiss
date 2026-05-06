@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AppProvider } from '@/context/AppContext'
 import { ThemeProvider } from '@/context/ThemeContext'
 import { LanguageProvider } from '@/context/LanguageContext'
+import { AuthProvider } from '@/context/AuthContext'
 import { BottomNav } from '@/components/Navigation'
 import { isOnboardingDone, isDontShowLanding } from '@/services/storageService'
 import { isProfileSetup } from '@/services/userProfileService'
@@ -164,13 +165,15 @@ export function App() {
   return (
     <BrowserRouter>
       <LanguageProvider>
-        <ThemeProvider>
-          <AppProvider>
-            <ErrorBoundary>
-              <AppShell />
-            </ErrorBoundary>
-          </AppProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <AppProvider>
+              <ErrorBoundary>
+                <AppShell />
+              </ErrorBoundary>
+            </AppProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>
   )
