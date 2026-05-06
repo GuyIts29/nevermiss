@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Environment variables — never commit credentials
+.env
+.env.local
+.env.*.local
