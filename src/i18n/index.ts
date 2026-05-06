@@ -365,10 +365,16 @@ export const translations = {
     landing_tagline: 'Never miss a meaningful moment',
     landing_subtitle: 'All your relationships. Every important moment. One place.',
     landing_cta_register: 'Get Started',
-    landing_cta_login: 'Log In (Coming Soon)',
+    landing_cta_login: 'Log In',
     landing_cta_demo: 'Try Demo',
     landing_dont_show: "Don't show again",
     landing_login_soon: 'Login is coming soon. Use Get Started or Try Demo to enter now.',
+    landing_login_email_placeholder: 'Enter your email',
+    landing_login_send: 'Send Magic Link',
+    landing_login_sending: 'Sending…',
+    landing_login_sent: 'Check your inbox — magic link sent!',
+    landing_login_error: 'Something went wrong. Try again.',
+    landing_login_cancel: 'Cancel',
     landing_scene_romantic: 'Partner',
     landing_scene_family: 'Family',
     landing_scene_friends: 'Friends',
@@ -799,6 +805,13 @@ export const translations = {
     celebrationType_Druze: 'Druze',
     celebrationType_Secular: 'Secular',
 
+    // ─── Account / Auth ───────────────────────────────────────────────────
+    settings_account: 'Account',
+    settings_signedIn: 'Signed in as',
+    settings_signOut: 'Sign Out',
+    settings_notSignedIn: 'Not signed in',
+    settings_signIn: 'Sign In',
+
     // ─── Settings footer ──────────────────────────────────────────────────
     settings_released: 'Released {date} · Privacy-first',
 
@@ -1216,10 +1229,16 @@ export const translations = {
     landing_tagline: 'לעולם אל תחמיץ רגע משמעותי',
     landing_subtitle: 'כל הקשרים שלך. כל הרגעים החשובים. במקום אחד.',
     landing_cta_register: 'התחל עכשיו',
-    landing_cta_login: 'התחבר (בקרוב)',
+    landing_cta_login: 'התחבר',
     landing_cta_demo: 'נסה את ההדגמה',
     landing_dont_show: 'אל תציג שוב',
     landing_login_soon: 'כניסה תהיה זמינה בקרוב. השתמש בהתחל עכשיו או בהדגמה.',
+    landing_login_email_placeholder: 'הכנס כתובת אימייל',
+    landing_login_send: 'שלח קישור כניסה',
+    landing_login_sending: 'שולח…',
+    landing_login_sent: 'בדוק את תיבת הדואר — קישור נשלח!',
+    landing_login_error: 'משהו השתבש. נסה שוב.',
+    landing_login_cancel: 'ביטול',
     landing_scene_romantic: 'בן/בת זוג',
     landing_scene_family: 'משפחה',
     landing_scene_friends: 'חברים',
@@ -1647,6 +1666,13 @@ export const translations = {
     celebrationType_Muslim: 'מוסלמי/ת',
     celebrationType_Druze: 'דרוזי/ה',
     celebrationType_Secular: 'חילוני/ת',
+
+    // ─── Account / Auth ───────────────────────────────────────────────────
+    settings_account: 'חשבון',
+    settings_signedIn: 'מחובר בתור',
+    settings_signOut: 'התנתק',
+    settings_notSignedIn: 'לא מחובר',
+    settings_signIn: 'התחבר',
 
     // ─── Settings footer ──────────────────────────────────────────────────
     settings_released: 'שוחרר {date} · פרטיות מלאה',

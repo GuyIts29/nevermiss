@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AppProvider } from '@/context/AppContext'
 import { ThemeProvider } from '@/context/ThemeContext'
 import { LanguageProvider } from '@/context/LanguageContext'
-import { AuthProvider } from '@/context/AuthContext'
+import { AuthProvider, useAuth } from '@/context/AuthContext'
 import { BottomNav } from '@/components/Navigation'
 import { isOnboardingDone, isDontShowLanding } from '@/services/storageService'
 import { isProfileSetup } from '@/services/userProfileService'
@@ -106,6 +106,7 @@ function WithNav({ children }: { children: ReactNode }) {
 }
 
 function AppShell() {
+  const { isLoading: authLoading } = useAuth()
   const { isPremium, contacts, holidays, settings } = useApp()
   const dontShowLanding = useMemo(() => isDontShowLanding(), [])
   const onboardingDone = useMemo(() => isOnboardingDone(), [])
@@ -121,6 +122,10 @@ function AppShell() {
   // Run once on mount; contacts/holidays/t are stable references on first load
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (authLoading) {
+    return <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--color-background)' }} />
+  }
 
   return (
     <Routes>

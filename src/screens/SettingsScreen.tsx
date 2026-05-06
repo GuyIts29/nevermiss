@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
-import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, ChevronLeft, Sparkles, Globe, Check, Calendar, Bell, ArchiveRestore } from 'lucide-react'
+import { Palette, Crown, Info, Shield, FileText, Download, Trash2, ChevronRight, ChevronLeft, Sparkles, Globe, Check, Calendar, Bell, ArchiveRestore, User, LogOut, LogIn } from 'lucide-react'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeContext'
 import { useLang, useT } from '@/context/LanguageContext'
 import { PageHeader } from '@/components/Navigation'
@@ -30,6 +31,14 @@ export function SettingsScreen() {
   const [showClearConfirm, setShowClearConfirm] = useState(false)
   const [cleared, setCleared] = useState(false)
   const [notifBlocked, setNotifBlocked] = useState(false)
+  const [signingOut, setSigningOut] = useState(false)
+  const { user, isAuthenticated, signOut } = useAuth()
+
+  const handleSignOut = async () => {
+    setSigningOut(true)
+    await signOut()
+    setSigningOut(false)
+  }
 
   const handleNotifToggle = async () => {
     if (settings.notificationsEnabled) {
@@ -380,6 +389,52 @@ export function SettingsScreen() {
             </div>
           </section>
         )}
+
+        {/* Account section */}
+        <section>
+          <h3 className="section-title mb-2 flex items-center gap-1.5">
+            <span
+              className="w-4 h-4 rounded flex items-center justify-center"
+              style={{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }}
+            >
+              <User size={10} color="white" />
+            </span>
+            {t('settings_account')}
+          </h3>
+          <Card>
+            {isAuthenticated && user ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-xs text-[var(--color-text-muted)]">{t('settings_signedIn')}</p>
+                  <p className="text-sm font-medium text-[var(--color-text-primary)] truncate mt-0.5" dir="ltr">
+                    {user.email}
+                  </p>
+                </div>
+                <button
+                  onClick={() => void handleSignOut()}
+                  disabled={signingOut}
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-opacity active:opacity-70 disabled:opacity-40"
+                  style={{ borderColor: theme.primary, color: theme.primary }}
+                >
+                  <LogOut size={13} />
+                  {t('settings_signOut')}
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm text-[var(--color-text-muted)]">{t('settings_notSignedIn')}</p>
+                <button
+                  onClick={() => navigate('/landing')}
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-opacity active:opacity-70"
+                  style={{ borderColor: theme.primary, color: theme.primary }}
+                >
+                  <LogIn size={13} />
+                  {t('settings_signIn')}
+                </button>
+              </div>
+            )}
+          </Card>
+        </section>
 
         {/* App info */}
         <section>

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@/context/ThemeContext'
 import { useT, useLang } from '@/context/LanguageContext'
 import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/context/AuthContext'
 import { type TranslationKey } from '@/i18n'
 import { setDontShowLanding, isOnboardingDone, markOnboardingDone } from '@/services/storageService'
 import { isProfileSetup } from '@/services/userProfileService'
@@ -26,6 +27,8 @@ const SCENES: Scene[] = [
   { key: 'work',     src: imgWork,     labelKey: 'landing_scene_work',     captionKey: 'landing_caption_work'     },
 ]
 
+type LoginStep = 'idle' | 'input' | 'sending' | 'sent' | 'error'
+
 function postLandingDestination(): string {
   if (!isOnboardingDone()) return '/onboarding'
   if (!isProfileSetup()) return '/setup'
@@ -38,16 +41,42 @@ export function LandingScreen() {
   const t = useT()
   const { lang } = useLang()
   const { enableDemo } = useApp()
-  const [showLoginNote, setShowLoginNote] = useState(false)
+  const { isAuthenticated, isLoading: authLoading, signIn } = useAuth()
   const isRtl = lang === 'he'
+
+  const [loginStep, setLoginStep] = useState<LoginStep>('idle')
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginError, setLoginError] = useState('')
+
+  // Authenticated users should not sit on landing — send them into the app
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      navigate(postLandingDestination(), { replace: true })
+    }
+  }, [authLoading, isAuthenticated, navigate])
 
   const handleRegister = () => {
     setDontShowLanding()
     navigate(postLandingDestination())
   }
 
-  const handleLoginClick = () => {
-    setShowLoginNote(true)
+  const handleSendLink = async () => {
+    const email = loginEmail.trim()
+    if (!email) return
+    setLoginStep('sending')
+    const { error } = await signIn(email)
+    if (error) {
+      setLoginError(error)
+      setLoginStep('error')
+    } else {
+      setLoginStep('sent')
+    }
+  }
+
+  const handleLoginCancel = () => {
+    setLoginStep('idle')
+    setLoginEmail('')
+    setLoginError('')
   }
 
   const handleDemo = () => {
@@ -61,6 +90,8 @@ export function LandingScreen() {
     setDontShowLanding()
     navigate(postLandingDestination())
   }
+
+  const isSending = loginStep === 'sending'
 
   return (
     <div
@@ -99,14 +130,12 @@ export function LandingScreen() {
               className="w-full h-full object-cover"
               style={{ display: 'block' }}
             />
-            {/* Gradient scrim for text legibility */}
             <div
               className="absolute inset-0"
               style={{
                 background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 50%, transparent 100%)',
               }}
             />
-            {/* Caption */}
             <div className="absolute bottom-0 left-0 right-0 px-3 pb-3">
               <p className="text-white text-xs font-semibold leading-tight">
                 {t(scene.labelKey)}
@@ -138,26 +167,63 @@ export function LandingScreen() {
           {t('landing_cta_register')}
         </button>
 
-        {/* Login — coming soon */}
-        <button
-          onClick={handleLoginClick}
-          className="w-full h-12 rounded-xl font-semibold text-base border-2 transition-opacity"
-          style={{
-            borderColor: theme.primary,
-            color: theme.primary,
-            opacity: 0.45,
-            cursor: 'default',
-          }}
-        >
-          {t('landing_cta_login')}
-        </button>
-        {showLoginNote && (
-          <p
-            className="text-center text-xs leading-relaxed -mt-1"
-            style={{ color: 'var(--color-text-muted)' }}
+        {/* Login — magic link flow */}
+        {loginStep === 'idle' && (
+          <button
+            onClick={() => setLoginStep('input')}
+            className="w-full h-12 rounded-xl font-semibold text-base border-2 transition-opacity active:opacity-70"
+            style={{ borderColor: theme.primary, color: theme.primary }}
           >
-            {t('landing_login_soon')}
-          </p>
+            {t('landing_cta_login')}
+          </button>
+        )}
+
+        {(loginStep === 'input' || loginStep === 'sending' || loginStep === 'error') && (
+          <div className="flex flex-col gap-2">
+            <input
+              type="email"
+              dir="ltr"
+              autoFocus
+              value={loginEmail}
+              onChange={e => setLoginEmail(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') void handleSendLink() }}
+              placeholder={t('landing_login_email_placeholder')}
+              disabled={isSending}
+              className="w-full h-12 px-4 rounded-xl border text-sm bg-[var(--color-surface)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:outline-none disabled:opacity-50"
+              style={{ textAlign: 'left' }}
+            />
+            {loginStep === 'error' && (
+              <p className="text-xs text-red-500 px-1">{loginError || t('landing_login_error')}</p>
+            )}
+            <button
+              onClick={() => void handleSendLink()}
+              disabled={isSending || !loginEmail.trim()}
+              className="w-full h-12 rounded-xl font-semibold text-white text-base transition-opacity active:opacity-80 disabled:opacity-50"
+              style={{ backgroundColor: theme.primary }}
+            >
+              {isSending ? t('landing_login_sending') : t('landing_login_send')}
+            </button>
+            <button
+              onClick={handleLoginCancel}
+              className="w-full py-2 text-sm transition-opacity active:opacity-60"
+              style={{ color: 'var(--color-text-muted)' }}
+            >
+              {t('landing_login_cancel')}
+            </button>
+          </div>
+        )}
+
+        {loginStep === 'sent' && (
+          <div
+            className="w-full rounded-xl p-4 text-center text-sm font-medium border"
+            style={{
+              backgroundColor: 'var(--color-surface)',
+              borderColor: theme.primary,
+              color: 'var(--color-text-primary)',
+            }}
+          >
+            {t('landing_login_sent')}
+          </div>
         )}
 
         {/* Demo — ghost */}
