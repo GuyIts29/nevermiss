@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, type ReactNode } from 'react'
 import type { Contact, Group, GreetingDraft, AppSettings, PremiumState } from '@/types'
 import * as storage from '@/services/storageService'
 import * as dataService from '@/services/dataService'
@@ -81,7 +81,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const canAddContact  = true
   const canAddGroup    = true
 
-  const dashboardData    = useMemo(() => buildDashboardData(contacts, HOLIDAYS), [contacts])
+  // BL-112: track calendar date so dashboardData recomputes when date changes after midnight
+  const [todayKey, setTodayKey] = useState(() => new Date().toDateString())
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        setTodayKey(new Date().toDateString())
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [])
+
+  // todayKey in deps forces recomputation when calendar date changes (visibilitychange after midnight)
+  const dashboardData    = useMemo(() => buildDashboardData(contacts, HOLIDAYS), [contacts, todayKey]) // eslint-disable-line react-hooks/exhaustive-deps
   const refreshDashboard = useCallback(() => { /* derived via useMemo — no manual refresh needed */ }, [])
 
   // ─── Contacts ───────────────────────────────────────────────────────────────
