@@ -204,11 +204,13 @@ export function LandingScreen() {
               className="w-full h-12 px-4 rounded-xl border text-sm bg-[var(--color-surface)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:outline-none disabled:opacity-50"
               style={{ textAlign: 'left' }}
             />
-            {loginStep === 'error' && (
-              <p className="text-xs text-red-500 px-1">
-                {loginError ? localizeAuthError(loginError) : t('landing_login_error')}
-              </p>
-            )}
+            <div className="min-h-[1.25rem] px-1">
+              {loginStep === 'error' && (
+                <p className="text-xs leading-relaxed text-red-600 break-words">
+                  {loginError ? localizeAuthError(loginError) : t('landing_login_error')}
+                </p>
+              )}
+            </div>
             <button
               onClick={() => void handleSendLink()}
               disabled={isSending || !loginEmail.trim()}
@@ -259,8 +261,8 @@ export function LandingScreen() {
         </button>
       </div>
 
-      {/* Bottom spacer */}
-      <div className="pb-10" />
+      {/* Bottom spacer — accounts for safe-area-inset-bottom on notched devices */}
+      <div style={{ height: 'max(2.5rem, calc(env(safe-area-inset-bottom) + 1rem))' }} />
     </div>
   )
 }

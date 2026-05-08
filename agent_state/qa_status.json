@@ -779,5 +779,41 @@
   "T167": {
     "status": "✅",
     "notes": "ספרינט 29 Phase 0 הושלם — תשתית Backend: AuthContext stub, dataService async interface, AppContext עם functional updates, userId? fields, crypto.randomUUID(), AuthProvider ב-App.tsx; build+lint ✅; אפס שינויים בסקרינים"
+  },
+  "T168": {
+    "status": "✅",
+    "notes": "BL-113 — dashboard event cards ממויינות עולה לפי daysUntil; sortedUpcomingHolidays useMemo; build+lint pass; ספרינט 31"
+  },
+  "T169": {
+    "status": "✅",
+    "notes": "BL-112 — dashboard countdowns מתרעננות אוטומטית ב-visibilitychange; todayKey state; cleanup ב-useEffect return; ספרינט 31"
+  },
+  "T170": {
+    "status": "✅",
+    "notes": "BL-122 — שגיאות auth Supabase ממופות להודעות עברית ידידותיות; rate limit + invalid email + fallback; EN+HE; ספרינט 31"
+  },
+  "T171": {
+    "status": "✅",
+    "notes": "BL-120 — כפתור המשך בלי חשבון גלוי מעל הגלילה, h-12 border; קישור אל תציג שוב הוסר; נתיב אנונימי ראשי; ספרינט 31"
+  },
+  "T172": {
+    "status": "✅",
+    "notes": "BL-124 — ErrorBoundary כבר קיים ב-App.tsx שורות 12–41; מסך שגיאה בעברית + Refresh; מאושר ב-audit ספרינט 31"
+  },
+  "T173": {
+    "status": "✅",
+    "notes": "BL-117 — disclaimer האפליקציה לא שולחת הודעות אוטומטית כבר קיים ב-ChannelPicker + AboutScreen + UpgradeScreen; מאושר ב-audit ספרינט 31"
+  },
+  "T174": {
+    "status": "✅",
+    "notes": "BL-115 — מסך מדיניות פרטיות (/privacy) כבר קיים; route ו-PrivacyScreen רשומים; מאושר ב-audit ספרינט 31"
+  },
+  "T175": {
+    "status": "✅",
+    "notes": "BL-116 — מסך תנאי שימוש (/terms) כבר קיים; route ו-TermsScreen רשומים; מאושר ב-audit ספרינט 31"
+  },
+  "T176": {
+    "status": "✅",
+    "notes": "BUG-mobile תוקן — הודעת שגיאה auth עם min-h wrapper; safe-area-inset-bottom ב-bottom spacer; leading-relaxed + break-words; build+lint ✅"
   }
 }
