@@ -245,6 +245,16 @@ const TESTS = [
   { id: 'T165', cat: 'sprint27', name: 'BL-083: FeatureGuide 3 שקפים — מוצג בכניסה ראשונה; ניתן לדלג; dots + ניווט RTL; View Guide ב-Settings; build+lint ✅' },
   { id: 'T166', cat: 'sprint28', name: 'BL-097: דף נחיתה — 4 תמונות קשרים, tagline, CTA (התחל/התחבר בקרוב/הדגמה), dontShowLanding flag, דילוג אוטומטי למשתמש חוזר; RTL; build+lint ✅' },
   { id: 'T167', cat: 'sprint29', name: 'ספרינט 29 Phase 0: AuthContext stub, dataService async interface, AppContext functional updates, userId? fields, crypto.randomUUID(), AuthProvider ב-App.tsx; build+lint ✅' },
+  { id: 'T168', cat: 'sprint31', name: 'BL-113: ממיין upcomingHolidays ב-Dashboard לפי daysUntil עולה — todayHoliday/tomorrowHoliday/nextHoliday/slice תמיד מוצגים בסדר נכון; build+lint ✅' },
+  { id: 'T169', cat: 'sprint31', name: 'BL-112: AppContext todayKey + visibilitychange — dashboardData מתעדכן אוטומטית כשהאפליקציה חוזרת לפוקוס אחרי חצות; build+lint ✅' },
+  { id: 'T170', cat: 'sprint31', name: 'BL-122: שגיאות Supabase auth מתורגמות לשפה ידידותית (rate limit / invalid email / כללי) — EN+HE; build+lint ✅' },
+  { id: 'T171', cat: 'sprint31', name: 'BL-120: כפתור "המשך בלי חשבון" בולט (h-12, border-2) בעמוד Landing — מסלול אנונימי ראשי; build+lint ✅' },
+  { id: 'T172', cat: 'sprint31', name: 'BL-124 (audit): ErrorBoundary ב-App.tsx קיים ומוגדר עם מסך עברי "משהו השתבש"; build+lint ✅' },
+  { id: 'T173', cat: 'sprint31', name: 'BL-117 (audit): authLoading blank-div guard ב-AppShell — מונע ריצוד auth; build+lint ✅' },
+  { id: 'T174', cat: 'sprint31', name: 'BL-115 (audit): AuthProvider עוטף AppProvider ב-App.tsx — auth resolves לפני app context; build+lint ✅' },
+  { id: 'T175', cat: 'sprint31', name: 'BL-116 (audit): כל מסכי app ב-lazy loading + Suspense ב-WithNav; build+lint ✅' },
+  { id: 'T176', cat: 'sprint31', name: 'BUG-mobile: auth error wrapper עם min-h למניעת layout jump; safe-area-inset-bottom ב-bottom spacer; leading-relaxed + break-words; build+lint ✅' },
+  { id: 'T177', cat: 'sprint31', name: 'BL-133: bottom spacer raised to max(5rem, safe-area+2rem) — clears Android Chrome/Samsung Internet ~56px browser bar; no clipping on CTA; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────

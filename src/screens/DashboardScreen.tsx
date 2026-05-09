@@ -33,13 +33,21 @@ export function DashboardScreen() {
   const hour = now.getHours()
   const greeting = hour < 12 ? t('greeting_morning') : hour < 17 ? t('greeting_afternoon') : t('greeting_evening')
 
-  const todayHoliday = dashboardData.upcomingHolidays.find(h =>
+  // BL-113: sort ascending by date at render time — defensive guarantee even if engine already sorts
+  const sortedUpcomingHolidays = useMemo(() =>
+    [...dashboardData.upcomingHolidays].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    ),
+    [dashboardData.upcomingHolidays]
+  )
+
+  const todayHoliday = sortedUpcomingHolidays.find(h =>
     differenceInDays(new Date(h.date), now) === 0
   )
-  const tomorrowHoliday = dashboardData.upcomingHolidays.find(h =>
+  const tomorrowHoliday = sortedUpcomingHolidays.find(h =>
     differenceInDays(new Date(h.date), now) === 1
   )
-  const nextHoliday = dashboardData.upcomingHolidays[0]
+  const nextHoliday = sortedUpcomingHolidays[0]
   const daysToNext = nextHoliday ? differenceInDays(new Date(nextHoliday.date), now) : null
 
   const hasTodayHighlights = (isPremium && dashboardData.todayBirthdays.length > 0) || !!todayHoliday
@@ -420,7 +428,7 @@ export function DashboardScreen() {
               </button>
             </div>
             <div className="space-y-2">
-              {dashboardData.upcomingHolidays.slice(0, 3).map((h, i) => (
+              {sortedUpcomingHolidays.slice(0, 3).map((h, i) => (
                 <HolidayCard key={h.id} holiday={h} compact staggerIndex={i} />
               ))}
             </div>

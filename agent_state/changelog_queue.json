@@ -2413,5 +2413,82 @@
     "action": "modified",
     "file": "src/App.tsx",
     "description": "ספרינט 29 Phase 0 — הוסף AuthProvider wrapper בין LanguageProvider ל-ThemeProvider; AppProvider כעת רץ בתוך AuthContext"
+  },
+  {
+    "timestamp": "2026-05-08T12:00:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/DashboardScreen.tsx",
+    "description": "BL-113: נוסף sortedUpcomingHolidays useMemo שממיין אירועים עולים לפי תאריך; כל 4 נקודות גישה עודכנו — todayHoliday, tomorrowHoliday, nextHoliday, render slice"
+  },
+  {
+    "timestamp": "2026-05-08T12:10:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/context/AppContext.tsx",
+    "description": "BL-112: נוסף useEffect עם מאזין visibilitychange; todayKey state מאלץ חישוב מחדש של dashboardData כשתאריך הלוח השנה משתנה (לאחר חצות); ניקוי listener נעשה ב-cleanup"
+  },
+  {
+    "timestamp": "2026-05-08T12:20:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/i18n/index.ts",
+    "description": "BL-122+BL-120: נוספו 3 מפתחות EN+HE — landing_cta_anonymous (המשך בלי חשבון), landing_login_error_rate_limit, landing_login_error_invalid_email"
+  },
+  {
+    "timestamp": "2026-05-08T12:30:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "BL-122: נוספה פונקציה localizeAuthError שממפה שגיאות Supabase גולמיות להודעות עברית ידידותיות למשתמש; לא מוצגות שגיאות אנגלית למשתמשי עברית"
+  },
+  {
+    "timestamp": "2026-05-08T12:35:00",
+    "agent": "Developer",
+    "action": "modified",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "BL-120: כפתור המשך בלי חשבון (h-12, border) הוחלף במקום קישור אל תציג שוב הזעיר; כפתור ההדגמה הוקטן; נתיב אנונימי הפך לCTA ראשי גלוי מעל הגלילה"
+  },
+  {
+    "timestamp": "2026-05-08T13:00:00",
+    "agent": "Reviewer",
+    "action": "modified",
+    "file": "agent_state/changelog_queue.json",
+    "description": "ספרינט 31 — Reviewer אישר: build ✅ lint ✅ RTL ✅ i18n EN+HE ✅ ניקוי listener ✅ אין רגרסיות"
+  },
+  {
+    "timestamp": "2026-05-08T21:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "תוקן BUG-mobile: הודעת שגיאה ב-auth מוצגת בתוך wrapper עם min-h קבוע — מונע קפיצת layout; leading-relaxed + break-words לגלישת שורות בטוחה; red-600 לניגוד טוב יותר"
+  },
+  {
+    "timestamp": "2026-05-08T21:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "תוקן BUG-mobile: bottom spacer עודכן ל-max(2.5rem, env(safe-area-inset-bottom) + 1rem) — כפתור Cancel אינו נחסם על ידי home indicator ב-iPhone X+"
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "BL-133: spacer תחתון הוגדל מ-max(2.5rem, safe-area+1rem) ל-max(5rem, safe-area+2rem) — מבטיח 80px מינימום כדי לפנות מקום מעל סרגל הניווט של דפדפן Android Chrome ו-Samsung Internet (~56px); אין שינוי ב-iOS"
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-133 נוסף לבאקלוג — Mobile browser bottom-bar overlap on landing screen; סטטוס: Done; ספרינט 31 stabilization"
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.csv",
+    "description": "BL-133 נוסף ל-BACKLOG.csv"
   }
 ]

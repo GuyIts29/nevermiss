@@ -48,6 +48,18 @@ export function LandingScreen() {
   const [loginEmail, setLoginEmail] = useState('')
   const [loginError, setLoginError] = useState('')
 
+  // BL-122: map raw Supabase error strings to localized user-facing messages
+  const localizeAuthError = (raw: string): string => {
+    const lower = raw.toLowerCase()
+    if (lower.includes('rate limit') || lower.includes('security purposes') || lower.includes('wait')) {
+      return t('landing_login_error_rate_limit')
+    }
+    if (lower.includes('invalid') || lower.includes('unable to validate') || lower.includes('not valid')) {
+      return t('landing_login_error_invalid_email')
+    }
+    return t('landing_login_error')
+  }
+
   // Authenticated users should not sit on landing — send them into the app
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -192,9 +204,13 @@ export function LandingScreen() {
               className="w-full h-12 px-4 rounded-xl border text-sm bg-[var(--color-surface)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:outline-none disabled:opacity-50"
               style={{ textAlign: 'left' }}
             />
-            {loginStep === 'error' && (
-              <p className="text-xs text-red-500 px-1">{loginError || t('landing_login_error')}</p>
-            )}
+            <div className="min-h-[1.25rem] px-1">
+              {loginStep === 'error' && (
+                <p className="text-xs leading-relaxed text-red-600 break-words">
+                  {loginError ? localizeAuthError(loginError) : t('landing_login_error')}
+                </p>
+              )}
+            </div>
             <button
               onClick={() => void handleSendLink()}
               disabled={isSending || !loginEmail.trim()}
@@ -226,26 +242,27 @@ export function LandingScreen() {
           </div>
         )}
 
+        {/* Continue without account — BL-120: first-class anonymous path */}
+        <button
+          onClick={handleDontShow}
+          className="w-full h-12 rounded-xl font-medium text-sm border-2 transition-opacity active:opacity-70"
+          style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)' }}
+        >
+          {t('landing_cta_anonymous')}
+        </button>
+
         {/* Demo — ghost */}
         <button
           onClick={handleDemo}
-          className="w-full h-12 rounded-xl font-semibold text-base transition-opacity active:opacity-70"
-          style={{ color: theme.primary }}
+          className="w-full py-2.5 rounded-xl font-medium text-sm transition-opacity active:opacity-70"
+          style={{ color: 'var(--color-text-muted)' }}
         >
           {t('landing_cta_demo')}
         </button>
       </div>
 
-      {/* Don't show again */}
-      <div className="flex justify-center pt-4 pb-10">
-        <button
-          onClick={handleDontShow}
-          className="text-xs underline underline-offset-2 transition-opacity active:opacity-60"
-          style={{ color: 'var(--color-text-muted)' }}
-        >
-          {t('landing_dont_show')}
-        </button>
-      </div>
+      {/* Bottom spacer — 5rem min clears Android browser chrome (~56px); safe-area covers iOS home indicator */}
+      <div style={{ height: 'max(5rem, calc(env(safe-area-inset-bottom) + 2rem))' }} />
     </div>
   )
 }
