@@ -261,8 +261,8 @@ export function LandingScreen() {
         </button>
       </div>
 
-      {/* Bottom spacer — accounts for safe-area-inset-bottom on notched devices */}
-      <div style={{ height: 'max(2.5rem, calc(env(safe-area-inset-bottom) + 1rem))' }} />
+      {/* Bottom spacer — 5rem min clears Android browser chrome (~56px); safe-area covers iOS home indicator */}
+      <div style={{ height: 'max(5rem, calc(env(safe-area-inset-bottom) + 2rem))' }} />
     </div>
   )
 }

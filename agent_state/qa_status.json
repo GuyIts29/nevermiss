@@ -815,5 +815,9 @@
   "T176": {
     "status": "✅",
     "notes": "BUG-mobile תוקן — הודעת שגיאה auth עם min-h wrapper; safe-area-inset-bottom ב-bottom spacer; leading-relaxed + break-words; build+lint ✅"
+  },
+  "T177": {
+    "status": "✅",
+    "notes": "BL-133 תוקן — bottom spacer הוגדל מ-max(2.5rem, safe-area+1rem) ל-max(5rem, safe-area+2rem); אזור CTA אינו נחסם על ידי סרגל דפדפן Android; build+lint ✅"
   }
 }

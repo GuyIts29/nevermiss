@@ -2469,5 +2469,26 @@
     "action": "fixed",
     "file": "src/screens/LandingScreen.tsx",
     "description": "תוקן BUG-mobile: bottom spacer עודכן ל-max(2.5rem, env(safe-area-inset-bottom) + 1rem) — כפתור Cancel אינו נחסם על ידי home indicator ב-iPhone X+"
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/LandingScreen.tsx",
+    "description": "BL-133: spacer תחתון הוגדל מ-max(2.5rem, safe-area+1rem) ל-max(5rem, safe-area+2rem) — מבטיח 80px מינימום כדי לפנות מקום מעל סרגל הניווט של דפדפן Android Chrome ו-Samsung Internet (~56px); אין שינוי ב-iOS"
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-133 נוסף לבאקלוג — Mobile browser bottom-bar overlap on landing screen; סטטוס: Done; ספרינט 31 stabilization"
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.csv",
+    "description": "BL-133 נוסף ל-BACKLOG.csv"
   }
 ]
