@@ -2490,5 +2490,26 @@
     "action": "modified",
     "file": "BACKLOG.csv",
     "description": "BL-133 נוסף ל-BACKLOG.csv"
+  },
+  {
+    "timestamp": "2026-05-09T01:00:00",
+    "agent": "Developer",
+    "action": "fixed",
+    "file": "src/screens/OnboardingScreen.tsx",
+    "description": "BL-134: paddingBottom של bottom section הוגדל מ-p-6 (24px) ל-max(5rem, safe-area+2rem) — כפתור CTA ראשי אינו נחסם על ידי סרגל דפדפן Android Chrome / Samsung Internet"
+  },
+  {
+    "timestamp": "2026-05-09T01:00:00",
+    "agent": "Documentation",
+    "action": "added",
+    "file": "BACKLOG.md",
+    "description": "BL-134 נוסף לבאקלוג — Onboarding screen CTA hidden behind Android browser chrome; סטטוס: Done"
+  },
+  {
+    "timestamp": "2026-05-09T01:00:00",
+    "agent": "Documentation",
+    "action": "modified",
+    "file": "BACKLOG.csv",
+    "description": "BL-134 נוסף ל-BACKLOG.csv"
   }
 ]

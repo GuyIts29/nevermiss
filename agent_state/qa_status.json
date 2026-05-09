@@ -819,5 +819,9 @@
   "T177": {
     "status": "✅",
     "notes": "BL-133 תוקן — bottom spacer הוגדל מ-max(2.5rem, safe-area+1rem) ל-max(5rem, safe-area+2rem); אזור CTA אינו נחסם על ידי סרגל דפדפן Android; build+lint ✅"
+  },
+  "T178": {
+    "status": "✅",
+    "notes": "BL-134 תוקן — OnboardingScreen bottom section p-6 הוחלף ב-px-6 pt-6 + paddingBottom max(5rem, safe-area+2rem); כפתור CTA ראשי גלוי במלואו מעל סרגל דפדפן Android; build+lint ✅"
   }
 }

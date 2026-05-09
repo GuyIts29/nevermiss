@@ -87,8 +87,8 @@ export function OnboardingScreen() {
         </p>
       </div>
 
-      {/* Bottom */}
-      <div className="p-6 space-y-4">
+      {/* Bottom — paddingBottom clears Android browser chrome (~56px); safe-area covers iOS home indicator */}
+      <div className="px-6 pt-6 space-y-4" style={{ paddingBottom: 'max(5rem, calc(env(safe-area-inset-bottom) + 2rem))' }}>
         {/* Progress dots */}
         <div className="flex justify-center gap-2 items-center">
           {[0, 1, 2, 3].map(i => (

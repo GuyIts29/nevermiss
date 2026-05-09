@@ -255,6 +255,7 @@ const TESTS = [
   { id: 'T175', cat: 'sprint31', name: 'BL-116 (audit): כל מסכי app ב-lazy loading + Suspense ב-WithNav; build+lint ✅' },
   { id: 'T176', cat: 'sprint31', name: 'BUG-mobile: auth error wrapper עם min-h למניעת layout jump; safe-area-inset-bottom ב-bottom spacer; leading-relaxed + break-words; build+lint ✅' },
   { id: 'T177', cat: 'sprint31', name: 'BL-133: bottom spacer raised to max(5rem, safe-area+2rem) — clears Android Chrome/Samsung Internet ~56px browser bar; no clipping on CTA; build+lint ✅' },
+  { id: 'T178', cat: 'sprint31', name: 'BL-134: OnboardingScreen bottom paddingBottom raised to max(5rem, safe-area+2rem) — primary CTA fully visible above Android browser chrome; build+lint ✅' },
 ]
 
 // ── Load statuses ─────────────────────────────────────────────────────────────
